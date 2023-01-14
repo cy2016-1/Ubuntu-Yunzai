@@ -1,0 +1,51 @@
+#!/bin/bash
+pushd ~/
+echo -e '\033[44;37m 注意 脚本会自动换源 如果卡住 请直接回车  \033[0m'
+sleep 2s
+echo -e '\033[44;37m 注意 脚本会自动换源 如果卡住 请直接回车 \033[0m'
+sleep 2s
+echo -e '\033[44;37m 注意 脚本会自动换源 如果卡住 请直接回车 \033[0m'
+sleep 2s
+sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list && apt update && apt upgrade -y
+echo -e '\033[44;37m 开始安装ubuntu \033[0m'
+sleep 2s
+echo -e '\033[44;37m 原项目地址(国光):https://github.com/sqlsec/termux-install-linux \033[0m'
+echo -e '\033[44;37m 中转仓库地址(白狐):https://gitee.com/baihu433/termux-install-linux \033[0m'
+echo
+sleep 3s
+echo -e '\033[44;37m 请允许存储与后台权 \033[0m'
+termux-setup-storage
+sleep 3s
+termux-wake-lock
+sleep 2s
+pkg install proot git python screenfetch -y 
+git clone https://gitee.com/baihu433/termux-install-linux.git 
+git clone https://gitee.com/sqlsec/termux-ubuntu.git
+mkdir -p $HOME/Termux-Linux/Ubuntu/ubuntu-fs
+proot --link2symlink tar -xf termux-ubuntu/ubuntu-rootfs-arm64.tar.xz -C $HOME/Termux-Linux/Ubuntu/ubuntu-fs --exclude="dev"||:
+rm -rf ~/termux-ubuntu
+mkdir -p $HOME/Termux-Linux/Ubuntu/binds
+cp termux-install-linux/ubuntu/start-ubuntu.sh $HOME/Termux-Linux/Ubuntu/
+termux-fix-shebang $HOME/Termux-Linux/Ubuntu/start-ubuntu.sh
+chmod +x $HOME/Termux-Linux/Ubuntu/start-ubuntu.sh
+rm $HOME/Termux-Linux/Ubuntu/ubuntu-fs/etc/apt/sources.list
+cp $HOME/termux-install-linux/ubuntu/sources.list $HOME/Termux-Linux/Ubuntu/ubuntu-fs/etc/apt/
+screenfetch -A Ubuntu -L
+echo -e '\033[44;37m 之后输入u即可启动ubuntu \033[0m'
+rm -rf $PREFIX/bin/u || echo ...
+echo echo 正在启动ubuntu > $PREFIX/bin/u 
+sed -i -e '1a echo 赞美国光' $PREFIX/bin/u 
+sed -i -e '2a cd ~/Termux-Linux/Ubuntu && ./start-ubuntu.sh' $PREFIX/bin/u 
+chmod 777 $PREFIX/bin/u 
+echo -e '\033[44;37m 之后输入s即可进入系统安装卸载界面 \033[0m'
+rm -rf $PREFIX/bin/s || echo ...
+echo 'echo 赞美国光' > $PREFIX/bin/s
+sed -i -e '1a cd termux-install-linux && python termux-linux-install.py'  $PREFIX/bin/s
+chmod 777 $PREFIX/bin/s
+echo '输入u启动Ubuntu' > ~/.baihu
+sed -i -e '1a 输入s进入系统安装卸载管理' ~/.baihu
+sed -i -e '2a 启动Yunzai-Bot 必须先启动ubuntu' ~/.baihu
+sed -i -e '3a 同时对Yunzai-Bot的一切操作 也需要启动ubuntu ' ~/.baihu
+echo 'cat ~/.baihu' > ~/.bashrc
+echo -e '\033[44;37m 您已启动ubuntu 无需再次启动 \033[0m'
+u
