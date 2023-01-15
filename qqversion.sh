@@ -1,7 +1,7 @@
 #!/bin/bash
 qq=$(whiptail \
 --title "白狐≧▽≦" \
---inputbox "请输入您的机器人qq号" \
+--inputbox "请输入您的机器人qq号 输完后回车" \
 10 60 \
 3>&1 1>&2 2>&3)
 
