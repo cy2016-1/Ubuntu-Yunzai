@@ -52,3 +52,5 @@ else
     mv bhyz /usr/bin
     chmod +x /usr/bin/bhyz
 fi
+
+echo -e "\033[33m 使用 bhyz 启动脚本 芜湖!!! \033[0m";]]
