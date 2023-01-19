@@ -16,11 +16,12 @@
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 
+
 手机请按照此教程安装Ubuntu18之后使用脚本
 
 注意:手机请不要在没有启动Ubuntu的情况下使用改脚本
 
-http://b23.tv/v1LyP77
+教程:http://b23.tv/v1LyP77
 ```
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
