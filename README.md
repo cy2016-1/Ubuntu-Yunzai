@@ -53,15 +53,17 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 
 ## 脚本的快捷命令
 
-1.启动ubuntu命令为 debian
+启动ubuntu命令为 debian [注意:只有手机需要启动Ubuntu 电脑不需要]
 
-2.启动Yunzai-Bot的命令为 yz
+1.启动Yunzai-Bot的命令为 yz
 
-3.查看Yunzai-Bot后台日志的命令为 yzlog
+2.查看Yunzai-Bot后台日志的命令为 yzlog
 
-4.重新配置Yunzai-Bot账户的命令为 yzlogin
+3.重新配置Yunzai-Bot账户的命令为 yzlogin
 
-5.停止Yunzai-Bit后台运行的命令为 yzstop
+4.停止Yunzai-Bit后台运行的命令为 yzstop
+
+5.打开白狐脚本的命令为 bhyz
 
 ### 下面的命令可以脱离脚本使用
 修复版本过低:
