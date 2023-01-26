@@ -25,7 +25,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 
 
-手机请按照此教程安装Ubuntu18之后使用脚本
+手机请按照此教程安装Ubuntu22.04之后使用脚本
 
 注意:手机请不要在没有启动Ubuntu的情况下使用该脚本
 
@@ -78,10 +78,13 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
 3. 白狐的QQ群:914418311
 
 #### 其他
-1. 最后给个star，你的支持是维护本项目的动力~~
+1. 最后给个star，你的支持是维护本项目的动力
+
 2. 图片素材来源于网络，仅供交流学习使用
+
 3. 严禁用于任何商业用途和非法行为
-4.白狐没有开通爱发电，所以欢迎进群打赏，喵~
+
+4.白狐没有开通爱发电，所以欢迎进群打赏
 #### 赞助列表(排名不分先后)
 | 名称 | 金额 |   
 |----|----|
@@ -90,4 +93,5 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
 |小伟|10元|
 |梦铃星柠|2.5元|
 |丶基控Q | 5.2元|
+
 感谢老板 喵~
