@@ -93,5 +93,8 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
 |小伟|10元|
 |梦铃星柠|2.5元|
 |丶基控Q | 5.2元|
-
+|猫耳傲娇小刻晴|3元|
+|晓彬残月|0.01元|
+|摸鱼梦|13.5元
+|舔|1.68元|
 感谢老板 喵~
