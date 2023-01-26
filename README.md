@@ -95,7 +95,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
 |丶基控Q | 5.2元|
 |猫耳傲娇小刻晴|3元|
 |摸鱼梦|13.5元|
-|舔|1.68元|
+|想白佬的第N天|1.68元|
 |胡桃快来吧！|5.4元|
 |晓彬残月|5.21元|
 |远走高飞|2.5元|
