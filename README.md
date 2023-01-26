@@ -88,8 +88,8 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
 #### 赞助列表(排名不分先后)
 | 名称 | 金额 |   
 |----|----|
-|受不了了| 5元  |
-|Armani|2元 |
+|受不了了|5元|
+|Armani|2元|
 |小伟|10元|
 |梦铃星柠|2.5元|
 |丶基控Q | 5.2元|
@@ -99,4 +99,5 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
 |胡桃快来吧！|5.4元|
 |晓彬残月|5.21元|
 |远走高飞|2.5元|
+|白狐|0.01元|
 感谢老板 喵~
