@@ -188,7 +188,7 @@ if [ $feedback = 0 ];then
         echo -e "\033[44m 更新软件 \033[0m";
         apt update
         apt upgrade -y
-        echo -e "\033[44m 更新完成 \033[0m";=
+        echo -e "\033[44m 更新完成 \033[0m";
         echo
 
         # 安装nodejs
