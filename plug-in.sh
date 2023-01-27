@@ -655,6 +655,7 @@ if [[ ${plugin} = 25 ]];then
   echo "正在安装插件，稍安勿躁～"
   echo "=================================="
   git clone --depth=1 https://gitee.com/TimeRainStarSky/TRSS-Plugin ./plugins/TRSS-Plugin
+  pnpm install -P
   echo;echo -e "\033[32m 安装完成 回车返回 \033[0m";read -p " "
  fi
 fi
