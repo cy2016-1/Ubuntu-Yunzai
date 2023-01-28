@@ -99,5 +99,6 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
 |胡桃快来吧！|5.4元|
 |晓彬残月|5.21元|
 |远走高飞|2.5元|
+|小白|2.1元|
 |白狐|0.01元|
 感谢老板 喵~
