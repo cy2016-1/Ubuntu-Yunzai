@@ -7,8 +7,7 @@
 
 3.可以安装并配置ffmpeg
 
-
-
+<hr>
 
 电脑直接使用下面的命令安装脚本
 
@@ -24,12 +23,11 @@ apt install curl -y
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 
+<hr>
 
 手机请按照此教程安装Ubuntu22.04之后使用脚本
 
 注意:手机请不要在没有启动Ubuntu的情况下使用该脚本
-
-
 
 教程:http://b23.tv/v1LyP77
 
@@ -40,16 +38,15 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 apt update && apt upgrade -y
 ```
 
-
 ```
 apt install curl -y
 ```
 
-
-
 ```
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
+
+<hr>
 
 ## 脚本的快捷命令
 
