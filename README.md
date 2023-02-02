@@ -72,7 +72,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
 
 1. [Yunzai](https://gitee.com/Le-niao/Yunzai-Bot)
 2. [Yunzai插件库](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-index)
-3. 白狐的QQ群:914418311
+3. 白狐的QQ号:1522099983
 
 #### 其他
 1. 最后给个star，你的支持是维护本项目的动力
