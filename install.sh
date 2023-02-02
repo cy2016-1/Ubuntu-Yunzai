@@ -38,7 +38,7 @@ if ! [ -x "$(command -v whiptail)" ]
     apt update
     apt install whiptail -y
 fi
-if [ -e  "/usr/bin/bhyzt" ];then
+if [ -e  "/usr/bin/bhyz" ];then
   rm /usr/bin/bhyz
   wget -O bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh >> log.txt 2>&1 &
   {
