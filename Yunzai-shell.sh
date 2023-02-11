@@ -3,34 +3,6 @@ pushd $HOME
 Ubuntuv=$(lsb_release -r | awk '{print $2}')
 architecture=$(uname -m)
 ver=1.2.1
-if [ ! -f "/usr/bin/bhyz" ]; then
-    wget -O bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh >> log.txt 2>&1 &
-    {
-       for ((i = 0 ; i <= 100 ; i+=1)); do
-          sleep 0.01s
-          echo $i
-       done
-    } | whiptail --gauge "检测到新版本 正在更新" 6 60 0
-    mv bhyz /usr/bin
-    chmod +x /usr/bin/bhyz
-    bhyz
-    rm log.txt
-fi
-version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
-if [ "$version" != "$ver" ]; then
-    rm -rf /usr/bin/bhyz
-    wget -O bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh >> log.txt 2>&1 &
-    {
-       for ((i = 0 ; i <= 100 ; i+=1)); do
-          sleep 0.01s
-          echo $i
-       done
-    } | whiptail --gauge "检测到新版本 正在更新" 6 60 0
-    mv bhyz /usr/bin
-    chmod +x /usr/bin/bhyz
-    bhyz
-    rm log.txt
-fi
 
 while true
 do
