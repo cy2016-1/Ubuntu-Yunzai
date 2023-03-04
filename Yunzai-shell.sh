@@ -1,6 +1,6 @@
->#!/bin/bash
+#!/bin/bash
 pushd $HOME
-ver=2.3.3
+ver=2.3.4
 echo > bh.log
 if [ ! -f "/usr/local/bin/bhyz" ]; then
     wget -O /usr/local/bin/bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh >> wget.log 2>&1
