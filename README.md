@@ -8,7 +8,11 @@
 电脑直接使用下面的命令安装脚本<br>
 ```
 apt update
+```
+```
 apt install curl -y
+```
+```
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 <hr>
@@ -18,7 +22,11 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 然后使用下面的命令<br>
 ```
 apt update
+```
+```
 apt install curl -y
+```
+```
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 <hr>
@@ -40,6 +48,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/edit/master/plug-in.sh)
 1. [Yunzai](https://gitee.com/Le-niao/Yunzai-Bot)
 2. [Yunzai插件库](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-index)
 3. 白狐的QQ号:1522099983 QQ群:705226976
+
 #### 其他
 1. 最后给个star，你的支持是维护本项目的动力<br>
 2. 图片素材来源于网络，仅供交流学习使用<br>
@@ -47,6 +56,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/edit/master/plug-in.sh)
 4.白狐没有开通爱发电，所以欢迎进群打赏<br>
 <hr>
 #### 赞助列表(排名不分先后)
+
 | 名称 | 金额 |   
 |----|----|
 |受不了了|5元|
