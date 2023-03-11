@@ -69,7 +69,7 @@ do
 pushd ${path}
 plugin=$(whiptail \
 --title "白狐-QQ群:705226976" \
---menu "35个插件" \
+--menu "36个插件" \
 23 50 15 \
 "A" "切换旧版菜单" \
 "1" "miao-plugin                    喵喵插件" \
