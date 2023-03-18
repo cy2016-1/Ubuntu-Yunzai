@@ -18,19 +18,10 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 
 <hr>
-手机请按照此教程安装Ubuntu22.04之后使用脚本<br>
-注意:手机请不要在没有启动Ubuntu的情况下使用该脚本<br>
-教程:http://b23.tv/v1LyP77<br>
-然后使用下面的命令<br>
+手机使用下面的命令<br>
 
 ```
-apt update
-```
-```
-apt install curl -y
-```
-```
-bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
+bash <(https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/start.sh)
 ```
 
 <hr>
