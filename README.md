@@ -37,7 +37,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/start.sh)
 ### 下面的命令可以脱离脚本使用:
 插件安装脚本:
 ```
-bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/edit/master/plug-in.sh)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
 ```
 #### 相关链接
 1. [Yunzai](https://gitee.com/Le-niao/Yunzai-Bot)
