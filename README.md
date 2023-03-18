@@ -19,9 +19,14 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 
 <hr>
 手机使用下面的命令<br>
-
 ```
-bash <(https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/start.sh)
+apt update
+```
+```
+apt install curl -y
+```
+```
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/start.sh)
 ```
 
 <hr>
