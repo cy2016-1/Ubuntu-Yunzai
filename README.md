@@ -63,12 +63,15 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
 ```
 <hr/>
+
 #### 相关链接
+
 1. [Yunzai](https://gitee.com/Le-niao/Yunzai-Bot)
 2. [Yunzai插件库](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-index)
 3. 白狐的QQ号:1522099983 QQ群:705226976
 
 #### 其他
+
 1. 最后给个star，你的支持是维护本项目的动力<br>
 2. 图片素材来源于网络，仅供交流学习使用<br>
 3. 严禁用于任何商业用途和非法行为<br>
