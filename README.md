@@ -1,11 +1,18 @@
-# Ubuntu-Yunzai
-## 介绍
-### Ubuntu一键安装Yunzai
+<h1 align="center">Ubuntu-Yunzai</h1>
+<6 align="center">QQ群:狐狸窝 705226976</h6>
+<hr/>
+<p>Ubuntu一键安装Yunzai<p>
 1.有插件安装脚本，方便安装插件<br>
 2.可以安装并配置python3.10.8和pip2.23.1和poetry<br>
 3.可以安装并配置ffmpeg<br>
 <hr>
 电脑直接使用下面的命令安装脚本<br>
+
+<ul>
+<li>有插件安装脚本，方便安装插件</li>
+<li>Milk</li>
+</ul>
+
 
 ```
 apt update
@@ -18,10 +25,24 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 
 <hr>
-手机使用下面的命令<br>
+手机使用下面的命令 手机在<br>
 
 ```
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/start.sh)
+```
+
+<em>如果你是从哔哩哔哩来的请使用下面的命令<em>
+
+```
+apt update
+```
+
+```
+apt install curl -y
+```
+
+```
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 
 <hr>
