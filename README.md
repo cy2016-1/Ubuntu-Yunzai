@@ -1,18 +1,16 @@
 <h1 align="center">Ubuntu-Yunzai</h1>
 <6 align="center">QQ群:狐狸窝 705226976</h6>
 <hr/>
-<p>Ubuntu一键安装Yunzai<p>
-1.有插件安装脚本，方便安装插件<br>
-2.可以安装并配置python3.10.8和pip2.23.1和poetry<br>
-3.可以安装并配置ffmpeg<br>
-<hr>
-电脑直接使用下面的命令安装脚本<br>
-
 <ul>
 <li>有插件安装脚本，方便安装插件</li>
-<li>Milk</li>
-</ul>
+<li>可以安装并配置python3.10和pip和poetry</li>
+<li>可以安装并配置ffmpeg</li>
+<li></li>
 
+</ul>
+<hr/>
+
+<>
 
 ```
 apt update
@@ -31,7 +29,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/start.sh)
 ```
 
-<em>如果你是从哔哩哔哩来的请使用下面的命令<em>
+<strong>如果你是从哔哩哔哩来的请使用下面的命令</strong>
 
 ```
 apt update
