@@ -1,16 +1,14 @@
 <h1 align="center">Ubuntu-Yunzai</h1>
-<6 align="center">QQ群:狐狸窝 705226976</h6>
+<h6 align="center">QQ群:狐狸窝 705226976</h6>
 <hr/>
 <ul>
 <li>有插件安装脚本，方便安装插件</li>
 <li>可以安装并配置python3.10和pip和poetry</li>
 <li>可以安装并配置ffmpeg</li>
-<li></li>
-
 </ul>
 <hr/>
-
-<>
+<h2 align="center">服务器或者电脑安装脚本</h2>
+<p>如果您的服务器或者电脑是ubuntu,请直接使用下面的命令</p>
 
 ```
 apt update
@@ -23,7 +21,8 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 
 <hr>
-手机使用下面的命令 手机在<br>
+<h2 align="center">手机安装脚本</h2>
+<p>手机请在下载并安装好<a href="https://f-droid.org/repo/com.termux_118.apk">termux</a>和<a href="https://f-droid.org/repo/com.termux.window_15.apk">Termux:Float</a>(链接可点击)之后，在应用内执行以下命令</p>
 
 ```
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/start.sh)
@@ -45,19 +44,25 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 
 <hr>
 ## 脚本的快捷命令<br>
-启动ubuntu命令为 debian 
+<p>启动ubuntu命令为 <strong>debian</strong>或者<strong>U</strong></p>
 [注意:只有手机需要启动Ubuntu 电脑不需要]
 
-1.启动Yunzai-Bot的命令为 yz <br>
-2.查看Yunzai-Bot后台日志的命令为 yzlog <br>
-3.重新配置Yunzai-Bot账户的命令为 yzlogin <br>
-4.停止Yunzai-Bit后台运行的命令为 yzstop <br>
-5.打开白狐脚本的命令为 bhyz <br>
+<ul>
+<li>启动Yunzai-Bot的命令为 <strong>yz</strong></li>
+<li>查看Yunzai-Bot后台日志的命令为 <strong>yzlog</strong></li>
+<li>重新配置Yunzai-Bot账户的命令为 <strong>yzlogin</strong></li>
+<li>停止Yunzai-Bit后台运行的命令为 <strong>yzstop</strong></li>
+<li>打开白狐脚本的命令为 <strong>bhyz</strong></li>
+</ul>
+<hr/>
+
 ### 下面的命令可以脱离脚本使用:
+
 插件安装脚本:
 ```
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
 ```
+<hr/>
 #### 相关链接
 1. [Yunzai](https://gitee.com/Le-niao/Yunzai-Bot)
 2. [Yunzai插件库](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-index)
@@ -67,7 +72,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
 1. 最后给个star，你的支持是维护本项目的动力<br>
 2. 图片素材来源于网络，仅供交流学习使用<br>
 3. 严禁用于任何商业用途和非法行为<br>
-4.白狐没有开通爱发电，所以欢迎进群打赏<br>
+4. 白狐没有开通爱发电，所以欢迎进群打赏<br>
 
 <hr>
 #### 赞助列表(排名不分先后)
