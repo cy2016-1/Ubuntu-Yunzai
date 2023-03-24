@@ -21,12 +21,6 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 
 <hr>
-<h2 align="center">手机安装脚本</h2>
-<p>手机请在下载并安装好<a href="https://f-droid.org/repo/com.termux_118.apk">termux</a>和<a href="https://f-droid.org/repo/com.termux.window_15.apk">Termux:Float</a>(链接可点击)之后，在应用内执行以下命令</p>
-
-```
-bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/start.sh)
-```
 
 <strong>如果你是从哔哩哔哩来的请使用下面的命令</strong>
 
