@@ -47,7 +47,7 @@ pkg install -y curl
 ```
 
 <hr>
-<strong>如果你自备了ubuntu容器或者系统 请使用以下命令</strong>
+## 三.如果你自备了ubuntu容器或者系统 请使用以下命令
 
 ```
 apt update
