@@ -62,9 +62,11 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 
 <hr>
+
 ## 脚本的快捷命令<br>
+
 <p>启动ubuntu命令为 <strong>debian</strong>或者<strong>U</strong></p>
-[注意:只有手机需要启动Ubuntu 电脑不需要]
+[注意:只有手机需要启动Ubuntu 电脑不需要] <br>
 
 <ul>
 <li>启动Yunzai-Bot的命令为 <strong>yz</strong></li>
