@@ -34,7 +34,7 @@ apt install -y curl
 >选择下载`arm64`版 然后使用下面的命令
 
 ```
-bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/blob/master/start.sh)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/start.sh)
 ```
 
 如果提示`No command curl found` 则使用下面的命令安装curl <br>
