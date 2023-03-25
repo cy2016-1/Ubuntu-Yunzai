@@ -30,6 +30,7 @@ apt install -y curl
 <hr>
 
 ## 二、手机搭建
+
 >[☞Termux下载地址](https://github.com/termux/termux-app/releases)
 >选择下载`arm64`版 然后使用下面的命令
 
@@ -47,6 +48,7 @@ pkg install -y curl
 ```
 
 <hr>
+
 ## 三.如果你自备了ubuntu容器或者系统 请使用以下命令
 
 ```
