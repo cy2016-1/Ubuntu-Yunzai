@@ -9,7 +9,7 @@
 <hr/>
 
 ## 一.服务器或者电脑安装脚本<br>
-如果您的服务器或者电脑是`ubuntu` 请直接使用下面的命令<br>
+>如果您的服务器或者电脑是`ubuntu` 请直接使用下面的命令<br>
 
 ```
 apt update
@@ -31,7 +31,7 @@ apt install -y curl
 
 ## 二、手机搭建
 
->[☞Termux下载地址](https://github.com/termux/termux-app/releases)
+>[☞Termux下载地址](https://github.com/termux/termux-app/releases)<br>
 >选择下载`arm64`版 然后使用下面的命令
 
 ```
@@ -69,7 +69,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 
 <p>启动ubuntu命令为 <strong>debian</strong>或者<strong>U</strong></p>
 [注意:只有手机需要启动Ubuntu 电脑不需要] <br>
-
+<br>
 <ul>
 <li>启动Yunzai-Bot的命令为 <strong>yz</strong></li>
 <li>查看Yunzai-Bot后台日志的命令为 <strong>yzlog</strong></li>
@@ -81,7 +81,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 
 ### 下面的命令可以脱离脚本使用:
 
-插件安装脚本:
+>插件安装脚本:
 ```
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
 ```
@@ -92,6 +92,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
 1. [Yunzai](https://gitee.com/Le-niao/Yunzai-Bot)
 2. [Yunzai插件库](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-index)
 3. 白狐的QQ号:1522099983 QQ群:705226976
+
 
 #### 其他
 
