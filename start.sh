@@ -1,4 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
+cd $HOME
 if [ ! -d /data/data/com.termux ];then
 echo
 echo -e "\033[31m非termux请使用这条命令\033[0m"
@@ -11,21 +12,16 @@ sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/ter
 sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
 apt update
 apt update
-until pkg install proot-distro
-do
-sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
-apt update
-pkg install proot-distro
-done
+apt install git proot-distro
+git https://gitee.com/baihu433/Ubuntu-Yunzai.git
+mv Ubuntu-Yunzai/ubuntu-aarch64-pd-v3.5.1.tar.xz ../usr/var/lib/proot-distro/dlcache
+rm -rf Ubuntu-Yunzai
+rm -rf Ubuntu-Yunzai
 if [ -d "../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/" ];then
 echo "检测到您已经安装ubuntu 即将为您启动"
 echo
-proot-distro login ubuntu
+proot-distro reset ubuntu
 fi
-until proot-distro install ubuntu
-do
-proot-distro install ubuntu
-done
 echo -e '\033[36m请允许存储与后台权\033[0m'
 sleep 1s
 termux-setup-storage

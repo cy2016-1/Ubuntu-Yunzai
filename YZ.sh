@@ -1,5 +1,5 @@
 #!/bin/bash
-if [[ -e .bh.log ]];then
+if [ -e .bh.log ];then
 exit
 fi
 sed -i 's/ports.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
@@ -7,7 +7,7 @@ apt update -y
 apt install eatmydata -y
 eatmydata apt install -y locales-all
 eatmydata apt install -y ^language-pack-zh
-eatmydata apt instal -y curl wget git whiptail lsb-release lsb-core
+eatmydata apt install -y curl wget git whiptail lsb-release
 wget -O /usr/local/bin/bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh >> wget.log 2>&1 &
 {
 for ((i = 0 ; i <= 100 ; i+=1))

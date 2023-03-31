@@ -1,5 +1,5 @@
 #!/bin/bash
-ver=3.0.1
+ver=3.0.3
 cd $HOME
 if ! grep -q "cat $HOME/.baihu" $HOME/.bashrc
 then
@@ -26,6 +26,7 @@ baihu=$(whiptail \
 "4" "附加安装" \
 "5" "帮助" \
 "6" "更新脚本" \
+"7" "更换仓库" \
 "0" "退出" \
 3>&1 1>&2 2>&3)
 
@@ -55,7 +56,7 @@ if [ $feedback = 0 ];then
           #启动
            if [[ ${admin} = 1 ]];then
               pushd ~/Yunzai-Bot
-              redis-server --daemonize yes --save 900 1 --save 300 10
+              redis-server --daemonize yes
               node app
            fi
            
@@ -67,7 +68,7 @@ if [ $feedback = 0 ];then
            
            if [[ ${admin} = 3 ]];then
              pushd ~/Yunzai-Bot
-             redis-server --save 900 1 --save 300 10 --daemonize yes
+             redis-server --daemonize yes
              pnpm run start
            fi
              
@@ -78,6 +79,7 @@ if [ $feedback = 0 ];then
            
            if [[ ${admin} = 5 ]];then
            pushd ~/Yunzai-Bot
+           rm $HOME/Yunzai-Bot/data/device.json
            pnpm run login
            fi
            
@@ -146,14 +148,15 @@ if [ $feedback = 0 ];then
            
            #redis报错
            if [[ ${admin} = 9 ]];then
-           apt-get autoremove redis -y
+           apt-get autoremove redis-server redis -y
+           rm -rf /usr/local/redis/
            apt install gcc g++ pkg-config make -y
-           wget -O redis.tar.gz http://download.redis.io/releases/redis-7.0.9.tar.gz
+           wget -O redis.tar.gz http://download.redis.io/redis-stable.tar.gz
            tar -zxvf redis.tar.gz
-           pushd redis-7.0.9
+           pushd redis-stable
            make -j$(cat /proc/cpuinfo | grep "processor" | wc -l) PREFIX=/usr/local/redis install
            pushd ../
-           rm /usr/bin/redis-server redis.tar.gz redis-7.0.9
+           rm /usr/bin/redis-server redis.tar.gz redis-stable
            ln -s /usr/local/redis/bin/redis-server /usr/bin/redis-server
            fi
            
@@ -292,7 +295,7 @@ if [ $feedback = 0 ];then
           bash <(curl -sL https://deb.nodesource.com/setup_16.x)
         fi
         apt remove nodejs -y
-        apt autoremove
+        apt autoremove -y
         apt update -y
         apt install -y nodejs
         done
@@ -302,8 +305,6 @@ if [ $feedback = 0 ];then
         npm config set registry http://registry.npm.taobao.org/
         npm install -g npm
         npm install -g pnpm
-        pnpm config set registry http://registry.npm.taobao.org/
-        pnpm install -g pnpm
         pnpm -v
         if [ $? -ne 0 ]
         then
@@ -316,7 +317,7 @@ if [ $feedback = 0 ];then
         
         # 安装并运行redis
         echo -e "\033[34m 安装redis \033[0m";
-        apt-get install redis -y
+        apt-get install redis-server -y
         redis-server --daemonize yes
         echo '安装redis完成';
         echo
@@ -358,18 +359,21 @@ if [ $feedback = 0 ];then
            echo '正在将启动写入启动命令'
            #启动
            echo echo 正在启动Yunzai-Bot > /usr/bin/yz
-           sed -i -e '1a redis-server --daemonize yes --save 900 1 --save 300 10 && cd ~/Yunzai-Bot && node app' /usr/bin/yz 
+           sed -i -e '1a redis-server --daemonize yes && cd ~/Yunzai-Bot && node app' /usr/bin/yz 
            chmod 777 /usr/bin/yz
            #日志
-           echo echo 正在打开Yunzai-Bot后台日志 > /usr/bin/yzlog
+           echo echo 正在启动Yunzai-Bot > /usr/bin/yzstart
+           sed -i -e '1a redis-server --daemonize yes && cd ~/Yunzai-Bot && pnpm run start' /usr/bin/yzstart
+           chmod 777 /usr/bin/yzstart
+           echo echo 打开Yunzai-Bot日志 > /usr/bin/yzlog
            sed -i -e '1a cd ~/Yunzai-Bot && pnpm run log' /usr/bin/yzlog 
            chmod 777 /usr/bin/yzlog
            #登录
-           echo echo 正在启动Yunzai-Bot登录配置 > /usr/bin/yzlogin
+           echo echo 启动Yunzai-Bot账号配置 > /usr/bin/yzlogin
            sed -i -e '1a cd ~/Yunzai-Bot && pnpm run login' /usr/bin/yzlogin
            chmod 777 /usr/bin/yzlogin
            #后台
-           echo echo 正在停止Yunzai-Bot后台运行 > /usr/bin/yzstop
+           echo echo 正在停止Yunzai-Bot运行 > /usr/bin/yzstop
            sed -i -e '1a cd ~/Yunzai-Bot && pnpm stop' /usr/bin/yzstop
            chmod 777 /usr/bin/yzstop
            pushd 

@@ -21,7 +21,7 @@ apt install curl -y
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 
-如果提示`No command curl found` 则使用下面的命令安装curl
+如果提示`bash curl : command not found`或者`bash curl : 为找到命令`则使用下面的命令安装curl
 
 ```
 apt install -y curl
@@ -119,5 +119,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
 |远走高飞|2.5元|
 |小白|2.1元|
 |鱼|6.66元|
+|无所谓，随便都行|2元|
+|冷风|1元|
 |白狐|0.01元|
 感谢老板 喵~
