@@ -176,6 +176,9 @@ echo -en "\033[35m请输入选项 \033[0m";read number
     if [ -d "/sdcard/Download" ];then
       sdpath=/sdcard/Download
     fi
+    if [ -d "/storage/emulated/0/Download" ];then
+      sdpath=/storage/emulated/0/Download
+    fi
     if [ -d "${sdpath}" ];then
     echo -e ${blue}目录不存在!${background}
     fi
@@ -228,6 +231,9 @@ echo -en "\033[35m请输入选项 \033[0m";read number
     fi
     if [ -d "/sdcard/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv" ];then
      sdpath=/sdcard/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv
+    fi
+    if [ -d "/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv" ];then
+     sdpath=/storage/emulated/0Android/data/com.tencent.mobileqq/Tencent/QQfile_recv
     fi
     if [ -d "${sdpath}" ];then
     echo -e ${blue}目录不存在!${background}
