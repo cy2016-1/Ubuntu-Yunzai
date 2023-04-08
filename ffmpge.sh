@@ -22,13 +22,15 @@ case $(arch) in
 esac
 curl -o ffmpeg-release-${ffmpeg}-static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-${ffmpeg}-static.tar.xz
 curl -o ffmpeg.tar.xz.md5 https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-${ffmpeg}-static.tar.xz.md5
-md5sum -c ffmpeg.tar.xz.md5 
-if [ $? -eq 0 ]
+if md5sum -c ffmpeg.tar.xz.md5
 then
 echo -e "\033[36m下载成功\033[0m"
 else
 echo -e "\033[31m下载失败033[0m"
 exit
+fi
+if ! [ -x "$(command -v xz-utils)" ];then
+apt install xz-utils -y
 fi
 xz -d ffmpeg-release-${ffmpeg}-static.tar.xz
 mkdir ffmpeg
