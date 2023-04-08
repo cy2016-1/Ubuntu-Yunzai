@@ -291,6 +291,10 @@ if [ $feedback = 0 ];then
               sed -i "6s/.*/platform: 5/g" $HOME/Yunzai-Bot/config/config/qq.yaml
               disembark
             fi
+
+            if [ version_low = 0 ];then
+             bhyz
+            fi
           fi
            
            if [[ ${admin} = 8 ]];then
