@@ -7,7 +7,6 @@ echo -en ${red}依赖安装失败 '\n'${blue}回车重新安装 ctrl+c退出${ba
 pip_mirrors
 fi
 }
-}
 green="\033[32m"
 blue="\033[36m"
 background="\033[0m"
