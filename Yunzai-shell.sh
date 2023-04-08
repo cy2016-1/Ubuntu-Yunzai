@@ -22,14 +22,22 @@ case "$1" in
   echo 正在启动Yunzai-Bot
   redis-server --daemonize yes
   cd ~/Yunzai-Bot
+  if pgrep node > /dev/null ; then
+  echo "Yunzai-Bot已启动"
+  else
   node app
+  fi
   read -p "回车返回"
   ;;
   -s | --start)
   echo 正在启动Yunzai-Bot
   redis-server --daemonize yes
   cd ~/Yunzai-Bot
+  if pgrep node > /dev/null ; then
+  echo "Yunzai-Bot已启动"
+  else
   pnpm run start
+  fi
   exit
   ;;
   -st | stop)
@@ -356,8 +364,6 @@ if [ $feedback = 0 ];then
            if [[ ${admin} = 11 ]];then
            bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
            fi
-         fi 
-           
            
            #返回安装脚本
            if [[ ${admin} = 0 ]];then
@@ -499,7 +505,6 @@ if [ $feedback = 0 ];then
        20 45 10 \
        "1" "安装python3.10和pip和poetry" \
        "2" "安装ffmpeg" \
-       "3" "安装ftp服务器" \
        3>&1 1>&2 2>&3)
        ctmd=$?
 
@@ -596,45 +601,7 @@ echo;echo -en "\033[32m 安装完成 回车返回\033[0m";read -p ""
        if [[ ${installing} = 2 ]];then
          bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/ffmpge.sh)
        fi
-    
-      if [[ ${installing} = 3 ]]
-        then
-        echo;echo -en "\033[36m 没写完\033[0m";read -p ""
-function ftpserver(){
-          #apt install vsftpd openssh-server -y
-          apt install vsftpd -y
-          file=/etc/vsftpd.conf
-          sed -i "s/#anonymous_enable=YES/anonymous_enable=NO/g" ${file} &>/dev/null
-          sed -i "s/#local_enable=NO/local_enable=YES/g" ${file} &>/dev/null
-          sed -i "s/#write_enable=NO/write_enable=YES/g" ${file} &>/dev/null
-          sed -i "s/anonymous_enable=YES/anonymous_enable=NO/g" ${file} &>/dev/null
-          sed -i "s/local_enable=NO/local_enable=YES/g" ${file} &>/dev/null
-          sed -i "s/write_enable=NO/write_enable=YES/g" ${file} &>/dev/null
-          sed -i "s/#anonymous_enable=NO/anonymous_enable=NO/g" ${file} &>/dev/null
-          sed -i "s/#local_enable=YES/local_enable=YES/g" ${file} &>/dev/null
-          sed -i "s/#write_enable=YES/write_enable=YES/g" ${file} &>/dev/null
-          sed -i "s/listen_ipv6=YES/listen_ipv6=NO/g" ${file} &>/dev/null
-          sed -i "s/listen=NO/listen=YES/g" ${file} &>/dev/null
-          sed -i "s/#listen_ipv6=YES/listen_ipv6=NO/g" ${file} &>/dev/null
-          sed -i "s/#listen=NO/listen=YES/g" ${file} &>/dev/null
-          ftpuser=$(whiptail \
-          --title "白狐≧▽≦" \
-          --inputbox "请输入您将要设置的ftp用户名 请勿设置为ftp" \
-          10 60 \
-          3>&1 1>&2 2>&3)
-          useradd -d /home/ftp -M ${ftpuser}
-          echo -e "\033[34m 请输入您将要设置的的ftp密码 \033[0m";
-          passwd ${ftpuser}
-          pushd /home
-          mkdir ftp
-          chown ${ftpuser} ftp
-          chgrp ${ftpuser} ftp 
-          sed -i "45i\ftpuser    ALL=(ALL:ALL) ALL " /etc/sudoers
-          sed -i s/ftpuser/${ftpuser}/g /etc/sudoers
-          ln -s /root /home/ftp/root
-}
-       fi
-     fi
+    fi
   
   if [[ ${baihu} = 5 ]]
    then
