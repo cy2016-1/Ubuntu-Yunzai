@@ -121,19 +121,6 @@ then
 " > .baihu
    echo cat $HOME/.baihu >> .bashrc
 fi
-function disembark()
-{
-if (whiptail --title "白狐≧▽≦"
---yes-button "前台启动"
---no-button "后台启动"  
---yesno "请问您的启动方式是什么呢？?" 
-10 60) 
-then
-cd $HOME/Yunzai-Bot && redis-server --daemonize yes && node app
-else
-cd $HOME/Yunzai-Bot && redis-server --daemonize yes && pnpm run start
-fi     
-}
 while true
 do
 baihu=$(whiptail \
@@ -223,8 +210,19 @@ if [ $feedback = 0 ];then
         
            #报错修复
           if [[ ${admin} = 7 ]];then
+            function disembark(){
+            if (whiptail --title "白狐≧▽≦"
+            --yes-button "前台启动"
+            --no-button "后台启动"  
+            --yesno "请问您的启动方式是什么呢？?" 
+            10 60) 
+            then
+            cd $HOME/Yunzai-Bot && redis-server --daemonize yes && node app
+            else
+            cd $HOME/Yunzai-Bot && redis-server --daemonize yes && pnpm run start
+            fi     
+            }
             pnpm install icqq@latest -w
-          
             version_low=$(whiptail \
             --title "白狐≧▽≦" \
             --menu "${ver}" \
@@ -236,9 +234,6 @@ if [ $feedback = 0 ];then
             "5" "错误码238" \
             "0" "退出" \
             3>&1 1>&2 2>&3)
-            
-            rm $HOME/Yunzai-Bot/data/${qq}_token
-            rm $HOME/Yunzai-Bot/data/device.json
 
             qq=$(whiptail \
             --title "白狐≧▽≦" \
@@ -251,6 +246,9 @@ if [ $feedback = 0 ];then
             --inputbox "请输入您的bot的QQ号的密码" \
             10 60  \
             3>&1 1>&2 2>&3)
+            
+            rm $HOME/Yunzai-Bot/data/${qq}_token
+            rm $HOME/Yunzai-Bot/data/device.json
             
             if [ version_low = 1 ];then
               sed -i "2s/.*/qq: ${qq}/g" $HOME/Yunzai-Bot/config/config/qq.yaml
