@@ -61,51 +61,17 @@ pushd ~/Yunzai-Bot
 pnpm install -P && pnpm install -P
 clear
 pushd $HOME
-git clone --depth=1 https://gitee.com/Ganyu256/chromium
-apt-get autoremove chromium-browser -y
-pushd chromium
-bash install.sh
-pushd $HOME
-rm -rf chromium
-rm -rf chromium
-pushd Yunzai-Bot
-pnpm install -P
+bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
 pnpm install puppeteer@19.0.0 -w
-echo echo 正在启动Yunzai-Bot > /usr/bin/yz
-sed -i -e '1a redis-server --daemonize yes --save 900 1 --save 300 10 && cd ~/Yunzai-Bot && node app' /usr/bin/yz 
-chmod 777 /usr/bin/yz
-echo echo 正在打开Yunzai-Bot后台日志 > /usr/bin/yzlog
-sed -i -e '1a cd ~/Yunzai-Bot && pnpm run log' /usr/bin/yzlog
-chmod 777 /usr/bin/yzlog
-echo echo 正在启动Yunzai-Bot登录配置 > /usr/bin/yzlogin
-sed -i -e '1a cd ~/Yunzai-Bot && pnpm run login' /usr/bin/yzlogin
-chmod 777 /usr/bin/yzlogin
-echo echo 正在停止Yunzai-Bot后台运行 > /usr/bin/yzstop
-sed -i -e '1a cd ~/Yunzai-Bot && pnpm stop' /usr/bin/yzstop
-chmod 777 /usr/bin/yzstop
-pushd $HOME
-echo
 if ! grep -q "cat $HOME/.baihu" $HOME/.bashrc
 then
     echo "
-  1.启动Yunzai-Bot的命令为 yz
-  2.查看Yunzai-Bot后台日志的命令为 yzlog
-  3.重新配置Yunzai-Bot账户的命令为 yzlogin
-  4.停止Yunzai-Bit后台运行的命令为 yzstop
-  5.打开白狐脚本的命令为 bhyz
-  6.注意:脚本完全免费,如果你是购买所得,请退款
-  7.脚本有任何问题都可以加入QQ群:705226976
+  1.打开白狐脚本的命令为 bhyz
+  2.查看白狐脚本帮助为 bhyz -h
+  3.注意:脚本完全免费,如果你是购买所得,请退款
+  4.脚本有任何问题都可以加入QQ群:705226976
 " > .baihu
    echo cat $HOME/.baihu >> .bashrc
 fi
-clear
-echo -e '\033[37m安装完成\033[0m'
-echo "1.启动Yunzai-Bot的命令为 yz"
-echo "2.查看Yunzai-Bot后台日志的命令为 yzlog"
-echo "3.重新配置Yunzai-Bot账户的命令为 yzlogin"
-echo "4.停止Yunzai-Bit后台运行的命令为 yzstop"
-echo "5.打开白狐脚本的命令为 bhyz"
-echo "6.注意:脚本完全免费,如果你是购买所得,请退款"
-echo "7.脚本有任何问题都可以加入QQ群:705226976"
 #创建日志文件
 echo >.bh.log

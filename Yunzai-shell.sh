@@ -62,7 +62,7 @@ case "$1" in
   exit
   ;;
 esac
-ver=3.5.7
+ver=3.5.8
 cd $HOME
 if [ ! -f "/usr/local/bin/bhyz" ]; then
     wget -O /usr/local/bin/bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh >> wget.log 2>&1
@@ -291,10 +291,6 @@ if [ $feedback = 0 ];then
               sed -i "6s/.*/platform: 5/g" $HOME/Yunzai-Bot/config/config/qq.yaml
               disembark
             fi
-
-            if [ version_low = 0 ];then
-             bhyz
-            fi
           fi
            
            if [[ ${admin} = 8 ]];then
@@ -425,30 +421,36 @@ if [ $feedback = 0 ];then
         
         #安装pnpm
         echo -e "\033[34m 开始安装pnpm  \033[0m";
-        npm config set registry http://registry.npm.taobao.org/
+        npm config set registry https://registry.npmmirror.com
         npm install -g npm
-        npm install -g pnpm
-        pnpm -v
-        if [ $? -ne 0 ]
+        if npm install pnpm -g --registry=https://registry.npmmirror.com
         then
-          echo -e "\033[34m 安装pnpm失败 请检查网络 \033[0m";
-          exit
+          echo -e "\033[32m 安装pnpm成功 \033[0m";
         else
-          echo -e "\033[34m 安装pnpm成功 \033[0m";
+          echo -e "\033[31m 安装pnpm失败 \033[0m";
+          exit
         fi
         echo
         
         # 安装并运行redis
         echo -e "\033[34m 安装redis \033[0m";
-        apt-get install redis -y
+        if apt-get install redis redis-server -y
+        then
+          echo -e "\033[32m 安装redis成功 \033[0m";
+        else
+          echo -e "\033[31m 安装redis失败 \033[0m";
+        fi
         redis-server --daemonize yes
-        echo '安装redis完成';
         echo
 
         # 安装chromium
         echo -e "\033[34m 安装chromium \033[0m";
-        apt install chromium-browser -y
-        echo '安装chromium完成';
+        if apt-get install chromium-browser -y
+        then
+          echo -e "\033[32m 安装chromium-browser成功 \033[0m";
+        else
+          echo -e "\033[31m 安装chromium-browser失败 \033[0m";
+        fi
         echo
         
         #安装中文字体
@@ -462,14 +464,12 @@ if [ $feedback = 0 ];then
         # 克隆项目
         echo -e "\033[34m 正在克隆Yunzai-Bot \033[0m";
         pushd ~/
-        git clone --depth=1 https://gitee.com/yoimiya-kokomi/Yunzai-Bot
-          if [ ! -d "~/Yunzai-Bot" ]
-            then
-              echo -e "\033[34m 克隆成功 \033[0m";
-            else
-              echo -e "\033[34m 克隆失败 请检查网络 \033[0m";
-              exit 0
-          fi
+        if git clone --depth=1 https://gitee.com/yoimiya-kokomi/Yunzai-Bot
+        then
+          echo -e "\033[32m 克隆成功 \033[0m";
+        else
+          echo -e "\033[31m 克隆失败 \033[0m";
+        fi
         echo
         
         #安装Yunzai依赖
@@ -525,18 +525,17 @@ apt purge python3.10 -y
 apt autoremove -y
 fi
 apt install software-properties-common -y
-echo -e "\n" | add-apt-repository ppa:deadsnakes/ppa
-apt update -y
 until apt install python3.10-full python3.10-venv -y
 do
 apt install software-properties-common -y
 echo -e "\n" | add-apt-repository ppa:deadsnakes/ppa
 apt install python3.10-full python3.10-venv -y
 done
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-if ! [ -e get-pip.py ];then
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-fi
+until curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+do
+echo -e "\033[31mget-pip.py文件下载失败 三秒后重新下载\033[0m"
+sleep 3s
+done
 if ! [ -x "$(command -v python3.10)" ];then
 echo -e "\033[31mPython3.10安装失败\033[0m"
 exit
@@ -568,10 +567,11 @@ if ! [ -x "$(command -v python3.10)" ];then
 echo -e "\033[31mPython3.10安装失败\033[0m"
 exit
 fi
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-if ! [ -e get-pip.py ];then
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-fi
+until curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+do
+echo -e "\033[31mget-pip.py文件下载失败 三秒后重新下载\033[0m"
+sleep 3s
+done
 python3.10 get-pip.py
 rm get-pip.py
 if ! [ -x "$(command -v pip)" ];then

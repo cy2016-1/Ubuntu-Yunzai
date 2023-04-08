@@ -1,14 +1,12 @@
 #!/bin/bash
 function pip_mirrors(){
 function py_install(){
-pip install --upgrade pip -i ${mirror}
-pip config set global.index-url ${mirror}
-pip config set global.index-url ${mirror}
-poetry install
-poetry install
-poetry run pip install --upgrade pip -i ${mirror}
-poetry run pip install -r requirements.txt -i ${mirror}
-poetry run pip install -r requirements.txt -i ${mirror}
+if ! poetry run pip install -r requirements.txt -i ${mirror}
+then
+echo -en ${red}依赖安装失败 '\n'${blue}回车重新安装 ctrl+c退出${background};read
+pip_mirrors
+fi
+}
 }
 green="\033[32m"
 blue="\033[36m"
@@ -63,7 +61,7 @@ case ${number} in
     py_install
   ;;
   8)
-    mirror=" "
+    mirror=https://pypi.org/simple
     py_install
   ;;
   *)
