@@ -62,7 +62,7 @@ case "$1" in
   exit
   ;;
 esac
-ver=3.6.0
+ver=3.6.1
 cd $HOME
 if [ ! -f "/usr/local/bin/bhyz" ]; then
     wget -O /usr/local/bin/bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh >> wget.log 2>&1
@@ -210,19 +210,9 @@ if [ $feedback = 0 ];then
         
            #报错修复
           if [[ ${admin} = 7 ]];then
-            function disembark(){
-            if (whiptail --title "白狐≧▽≦"
-            --yes-button "前台启动"
-            --no-button "后台启动"  
-            --yesno "请问您的启动方式是什么呢？?" 
-            10 60) 
-            then
-            cd $HOME/Yunzai-Bot && redis-server --daemonize yes && node app
-            else
-            cd $HOME/Yunzai-Bot && redis-server --daemonize yes && pnpm run start
-            fi     
-            }
+            cd Yunzai-Bot 
             pnpm install icqq@latest -w
+            cd ..
             version_low=$(whiptail \
             --title "白狐≧▽≦" \
             --menu "${ver}" \
@@ -254,21 +244,48 @@ if [ $feedback = 0 ];then
               sed -i "2s/.*/qq: ${qq}/g" $HOME/Yunzai-Bot/config/config/qq.yaml
               sed -i "4s/.*/pwd:  '${qqpass}'/g" $HOME/Yunzai-Bot/config/config/qq.yaml
               sed -i "6s/.*/platform: 5/g" $HOME/Yunzai-Bot/config/config/qq.yaml
-              disembark
+              if (whiptail --title "白狐≧▽≦"
+              --yes-button "前台启动"
+              --no-button "后台启动"  
+              --yesno "请问您的启动方式是什么呢？?" 
+              10 60) 
+              then
+                cd $HOME/Yunzai-Bot && redis-server --daemonize yes && node app
+              else
+                cd $HOME/Yunzai-Bot && redis-server --daemonize yes && pnpm run start
+              fi
             fi
             
             if [ version_low = 2 ];then
               sed -i "2s/.*/qq: ${qq}/g" $HOME/Yunzai-Bot/config/config/qq.yaml
               sed -i "4s/.*/pwd:  '${qqpass}'/g" $HOME/Yunzai-Bot/config/config/qq.yaml
               sed -i "6s/.*/platform: 4/g" $HOME/Yunzai-Bot/config/config/qq.yaml
-              disembark
+              if (whiptail --title "白狐≧▽≦"
+              --yes-button "前台启动"
+              --no-button "后台启动"  
+              --yesno "请问您的启动方式是什么呢？?" 
+              10 60) 
+              then
+                cd $HOME/Yunzai-Bot && redis-server --daemonize yes && node app
+              else
+                cd $HOME/Yunzai-Bot && redis-server --daemonize yes && pnpm run start
+              fi
             fi
             
             if [ version_low = 3 ];then
               sed -i "2s/.*/qq: ${qq}/g" $HOME/Yunzai-Bot/config/config/qq.yaml
               sed -i "4s/.*/pwd:  '${qqpass}'/g" $HOME/Yunzai-Bot/config/config/qq.yaml
               sed -i "6s/.*/platform: 3/g" $HOME/Yunzai-Bot/config/config/qq.yaml
-              disembark
+              if (whiptail --title "白狐≧▽≦"
+              --yes-button "前台启动"
+              --no-button "后台启动"  
+              --yesno "请问您的启动方式是什么呢？?" 
+              10 60) 
+              then
+                cd $HOME/Yunzai-Bot && redis-server --daemonize yes && node app
+              else
+                cd $HOME/Yunzai-Bot && redis-server --daemonize yes && pnpm run start
+              fi
             fi
             
             if [ version_low = 5 ];then
@@ -279,7 +296,16 @@ if [ $feedback = 0 ];then
               sleep 10s
               pnpm run stop
               sed -i "6s/.*/platform: 5/g" $HOME/Yunzai-Bot/config/config/qq.yaml
-              disembark
+              if (whiptail --title "白狐≧▽≦"
+              --yes-button "前台启动"
+              --no-button "后台启动"  
+              --yesno "请问您的启动方式是什么呢？?" 
+              10 60) 
+              then
+                cd $HOME/Yunzai-Bot && redis-server --daemonize yes && node app
+              else
+                cd $HOME/Yunzai-Bot && redis-server --daemonize yes && pnpm run start
+              fi
             fi
           fi
            
