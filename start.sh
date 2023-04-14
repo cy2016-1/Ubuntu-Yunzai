@@ -42,7 +42,7 @@ fi
 if ! [ -d "../usr/var/lib/proot-distro/dlcache" ];then
 mkdir -p ../usr/var/lib/proot-distro/dlcache
 fi
-case $(arch) in
+case $(uname -m) in
   arm64|aarch64)
     ubuntu=arm64
     ;;
@@ -62,7 +62,8 @@ mv ubuntu-${ubuntu}-pd-v3.5.1.tar.xz ../usr/var/lib/proot-distro/dlcache
 proot-distro install ubuntu
 wget -O YZ.sh https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/YZ.sh
 mv YZ.sh ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/
+mkdir ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/fox@bot
 echo "bash YZ.sh" >> ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/.bashrc
-ln -s ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root $HOME/root
+ln -s ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/fox@bot $HOME/fox@bot
 proot-distro login ubuntu
 echo "proot-distro login ubuntu" > .bashrc

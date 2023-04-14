@@ -480,6 +480,7 @@ if [ $feedback = 0 ];then
         # 克隆项目
         echo -e "\033[34m 正在克隆Yunzai-Bot \033[0m";
         pushd ~/
+        pnpm add puppeteer@latest -w
         if git clone --depth=1 https://gitee.com/yoimiya-kokomi/Yunzai-Bot
         then
           echo -e "\033[32m 克隆成功 \033[0m";
