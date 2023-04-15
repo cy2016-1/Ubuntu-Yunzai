@@ -62,7 +62,7 @@ case "$1" in
   exit
   ;;
 esac
-ver=3.6.3
+ver=3.6.4
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
