@@ -62,7 +62,7 @@ case "$1" in
   exit
   ;;
 esac
-ver=3.6.5
+ver=3.6.6
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -93,25 +93,12 @@ if [ "$version" != "$ver" ]; then
     "${Aword}" \
     10 50
     bhyz
-    else
-    whiptail --title "白狐≧▽≦" --msgbox \
-    "脚本已为最新" \
-    8 25
 fi
-if grep -q "705226976" $HOME/.baihu
-then
-  sed -i 
-    echo "s/cat $HOME/.baihu/ /g" $HOME/.bashrc
-  1.打开白狐脚本的命令为 bhyz
-  2.查看白狐脚本帮助为 bhyz -h
-" > .baihu
-   echo cat $HOME/.baihu >> .bashrc
-fi
-rm $HOME/.baihu /dev/null
+rm $HOME/.baihu > /dev/null
 if ! grep -q "cat $HOME/.baihu" $HOME/.bashrc
 then
     sed -i 
-    echo "s/cat $HOME/.baihu/ /g" $HOME/.bashrc
+    echo "
   1.打开白狐脚本的命令为 bhyz
   2.查看白狐脚本帮助为 bhyz -h
 " > .baihu
@@ -332,7 +319,7 @@ if [ $feedback = 0 ];then
                10 60
              fi
            fi
-           
+       
            if [[ ${admin} = 11 ]];then
            bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
            fi
@@ -345,17 +332,17 @@ if [ $feedback = 0 ];then
            whiptail --title "白狐≧▽≦" --msgbox "
            您好像还没有未安装云崽呢，快去安装吧!
            " 10 43        
-    fi
- fi
-  
+     fi
+   fi
+   
   #安装脚本
   if [[ ${baihu} = 2 ]]
     then
-    if [ -d "$HOME/Yunzai-Bot" ];then
-       whiptail --title "白狐≧▽≦" --msgbox "
-       您已安装云崽 禁止套娃
-       " 10 43
-     else
+      if [ -d "$HOME/Yunzai-Bot" ];then
+         whiptail --title "白狐≧▽≦" --msgbox "
+         您已安装云崽 禁止套娃
+         " 10 43
+      else
        # 更新软件源和软件
         echo -e "\033[34m 更新软件源 \033[0m";
         apt update -y
@@ -444,11 +431,8 @@ if [ $feedback = 0 ];then
         pushd ~/Yunzai-Bot
         pnpm install -P && pnpm install -P
         echo;echo -en "\033[32m 安装完成 回车返回\033[0m";
-        echo
-        exit
-        fi
-    fi
-  fi
+      fi
+   fi
   
   #调用插件脚本
   if [[ ${baihu} = 3 ]]
@@ -567,7 +551,7 @@ echo;echo -en "\033[32m 安装完成 回车返回\033[0m";read -p ""
        if [[ ${installing} = 2 ]];then
          bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/ffmpge.sh)
        fi
-    fi
+   fi
   
   if [[ ${baihu} = 5 ]]
    then
