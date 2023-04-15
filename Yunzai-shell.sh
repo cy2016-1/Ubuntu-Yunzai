@@ -62,7 +62,7 @@ case "$1" in
   exit
   ;;
 esac
-ver=3.6.1
+ver=3.6.2
 cd $HOME
 if [ ! -f "/usr/local/bin/bhyz" ]; then
     wget -O /usr/local/bin/bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh >> wget.log 2>&1
