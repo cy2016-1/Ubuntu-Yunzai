@@ -62,7 +62,7 @@ case "$1" in
   exit
   ;;
 esac
-ver=3.6.6
+ver=3.6.7
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -94,15 +94,21 @@ if [ "$version" != "$ver" ]; then
     10 50
     bhyz
 fi
-rm $HOME/.baihu > /dev/null
-if ! grep -q "cat $HOME/.baihu" $HOME/.bashrc
+if i grep -q "cat $HOME/.baihu" $HOME/.bashrc
 then
-    sed -i 
+  sed -i 's/cat $HOME/.baihu/ /g' $HOME/.bashrc
     echo "
   1.打开白狐脚本的命令为 bhyz
   2.查看白狐脚本帮助为 bhyz -h
 " > .baihu
-   echo cat $HOME/.baihu >> .bashrc
+   echo "cat $HOME/.baihu" >> .bashrc
+fi
+if grep -q "705226976" $HOME/.baihu
+then
+    echo "
+  1.打开白狐脚本的命令为 bhyz
+  2.查看白狐脚本帮助为 bhyz -h
+" > .baihu
 fi
 while true
 do
