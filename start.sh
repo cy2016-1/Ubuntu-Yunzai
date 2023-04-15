@@ -61,8 +61,7 @@ case $(uname -m) in
     exit
     ;;
 esac
-wget -O ubuntu-${ubuntu}-pd-v3.5.1.tar.xz https://ghproxy.com/https://github.com/termux/proot-distro/releases/download/v3.5.1/ubuntu-${ubuntu}-pd-v3.5.1.tar.xz
-mv ubuntu-${ubuntu}-pd-v3.5.1.tar.xz ../usr/var/lib/proot-distro/dlcache
+wget -O ../usr/var/lib/proot-distro/dlcache https://ghproxy.com/https://github.com/termux/proot-distro/releases/download/v3.5.1/ubuntu-${ubuntu}-pd-v3.5.1.tar.xz
 proot-distro install ubuntu
 wget -O YZ.sh https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/YZ.sh
 mv YZ.sh ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/
