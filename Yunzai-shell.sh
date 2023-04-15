@@ -33,7 +33,7 @@ case "$1" in
   echo 正在启动Yunzai-Bot
   redis-server --daemonize yes
   cd ~/Yunzai-Bot
-  if pgrep node > /dev/null ; then
+  if pgrep Yunzai-Bot > /dev/null ; then
   echo "Yunzai-Bot已启动"
   else
   pnpm run start
@@ -62,7 +62,7 @@ case "$1" in
   exit
   ;;
 esac
-ver=3.6.4
+ver=3.6.5
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -98,13 +98,22 @@ if [ "$version" != "$ver" ]; then
     "脚本已为最新" \
     8 25
 fi
-if ! grep -q "cat $HOME/.baihu" $HOME/.bashrc
+if grep -q "705226976" $HOME/.baihu
 then
-    echo "
+  sed -i 
+    echo "s/cat $HOME/.baihu/ /g" $HOME/.bashrc
   1.打开白狐脚本的命令为 bhyz
   2.查看白狐脚本帮助为 bhyz -h
-  3.注意:脚本完全免费,如果你是购买所得,请退款
-  4.脚本有任何问题都可以加入QQ群:705226976
+" > .baihu
+   echo cat $HOME/.baihu >> .bashrc
+fi
+rm $HOME/.baihu /dev/null
+if ! grep -q "cat $HOME/.baihu" $HOME/.bashrc
+then
+    sed -i 
+    echo "s/cat $HOME/.baihu/ /g" $HOME/.bashrc
+  1.打开白狐脚本的命令为 bhyz
+  2.查看白狐脚本帮助为 bhyz -h
 " > .baihu
    echo cat $HOME/.baihu >> .bashrc
 fi
@@ -149,6 +158,7 @@ if [ $feedback = 0 ];then
           #启动
            if [[ ${admin} = 1 ]];then
               pushd ~/Yunzai-Bot
+              pnpm run stop
               redis-server --daemonize yes 
               node app
            fi
@@ -162,7 +172,11 @@ if [ $feedback = 0 ];then
            if [[ ${admin} = 3 ]];then
              pushd ~/Yunzai-Bot
              redis-server --daemonize yes
+             if pgrep Yunzai-Bot > /dev/null ; then
+             echo "Yunzai-Bot已启动"
+             else
              pnpm run start
+             fi
            fi
              
            if [[ ${admin} = 4 ]];then
@@ -429,18 +443,7 @@ if [ $feedback = 0 ];then
         echo -e "\033[34m 安装依赖 \033[0m";
         pushd ~/Yunzai-Bot
         pnpm install -P && pnpm install -P
-        if (whiptail --title "白狐≧▽≦" --yesno "
-        云崽配置完成 
-        是否直接启动云崽
-        注意:如果使用密码登录
-        则密码默认不显示" \
-        15 60);then
-        pushd Yunzai-Bot
-        node app
-        if ! [ $? -ne 0 ];then
-          echo -e "\033[31m 启动失败 请截图并发给白狐\033[0m";
-          exit
-        fi
+        echo;echo -en "\033[32m 安装完成 回车返回\033[0m";
         echo
         exit
         fi
