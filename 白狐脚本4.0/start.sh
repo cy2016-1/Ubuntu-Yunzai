@@ -42,19 +42,15 @@ fi
 if ! [ -d "../usr/var/lib/proot-distro/dlcache" ];then
 mkdir -p ../usr/var/lib/proot-distro/dlcache
 fi
-case $(arch) in
-  aarch64|arm64)
-    chromium=arm64
+case $(uname -m) in
+  arm64|aarch64)
+    ubuntu=arm64
     ;;
   amd64|x86_64)
-    chromium=amd64
+    ubuntu=amd64
     ;;
-  arm|armel|armhf|armhfp|armv7|armv7l|armv7a|armv8l)
-    chromium=arm
-    ;;
-  386|i386|i686|x86)
-    echo -e "\033[31m暂不支持您的设备\033[0m"
-    exit
+  arm|armhf|armel)
+    ubuntu=arm
     ;;
   *)
     echo -e "\033[31m暂不支持您的设备\033[0m"

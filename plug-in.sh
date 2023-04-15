@@ -24,7 +24,7 @@ echo -e ${green}5.  ${blue}中科大${background}
 echo -e ${green}6.  ${blue}华为${background}
 echo -e ${green}7.  ${blue}腾讯${background}
 echo
-echo -e ${green}8.  ${blue}老子就不换" "你能咋滴${background}
+echo -e ${green}8.  ${blue}官方源${background}
 echo "#########################"
 echo -e ${green}QQ群:${blue}狐狸窝:705226976${background}
 echo "#########################"
