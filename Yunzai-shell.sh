@@ -142,7 +142,8 @@ if [ $feedback = 0 ];then
        "8" "修改主人QQ" \
        "9" "修复Redis服务器错误" \
        "10" "py服务器依赖和端口报错" \
-       "11" "修复puppeteer Chromium 启动失败" \
+       "11" "修复chromium启动失败" \
+       "12" "修复puppeteer chromium调用失败" \
        "0" "打开安装脚本" \
        3>&1 1>&2 2>&3 )
           #启动
@@ -215,10 +216,22 @@ if [ $feedback = 0 ];then
             old_equipment="platform: [0-5]"
             new_equipment="platform: ${equipment}"
             sed -i "s/$old_equipment/$new_equipment/g" $file
-            
-            
-            
-          
+            function imei(){
+              min=$1
+              max=$(($2-$min+1))
+              num=$(date +%s%N)
+              echo $(($num%$max+$min))
+            }
+            imeinumber=$(imei 100000000000000 999999999999999)
+            file=$HOME/Yunzai-Bot/data/device.json
+            sed -i '15s/.*/  \"imei\": \"imeinumber\"\,/g' ${file}
+            sed -i s/imeinumber/${imeinumber}/g ${file}
+            echo 
+            grep -n platform: $HOME/Yunzai-Bot/config/config/qq.yaml
+            echo
+            cat -n $HOME/Yunzai-Bot/data/device.json
+            echo
+            echo;echo -en "\033[32m 修复完成 回车返回\033[0m";read
           fi
            
            if [[ ${admin} = 8 ]];then
@@ -246,16 +259,27 @@ if [ $feedback = 0 ];then
            
            #redis报错
            if [[ ${admin} = 9 ]];then
-           apt-get autoremove redis-server redis -y
-           rm -rf /usr/local/redis/
-           apt install gcc g++ pkg-config make -y
-           wget -O redis.tar.gz http://download.redis.io/redis-stable.tar.gz
-           tar -zxvf redis.tar.gz
-           pushd redis-stable
-           make -j$(cat /proc/cpuinfo | grep "processor" | wc -l) PREFIX=/usr/local/redis install
-           pushd ../
-           rm /usr/bin/redis-server redis.tar.gz redis-stable
-           ln -s /usr/local/redis/bin/redis-server /usr/bin/redis-server
+           echo
+           echo redis修复暂时噶了
+           exit
+           cd ${home}/Yunzai-Bot
+           git pull
+           case $(uname -m) in
+             aarch64|arm64)
+               redis=arm64
+             ;;
+             amd64|x86_64)
+               redis=amd64
+             ;;
+             *)
+             echo -e "\033[31m暂不支持您的设备\033[0m"
+             exit
+             ;;
+           esac
+           curl -o redis-server.tar.gz
+           mkdir redis-server
+           cd redis-server
+           ln -s redis-server /usr/bin/redis-server
            fi
            
            #py报错
@@ -392,7 +416,7 @@ if [ $feedback = 0 ];then
         # 克隆项目
         echo -e "\033[34m 正在克隆Yunzai-Bot \033[0m";
         pushd ~/
-        pnpm add puppeteer@latest -w
+        pnpm install puppeteer@latest -w
         if git clone --depth=1 https://gitee.com/yoimiya-kokomi/Yunzai-Bot
         then
           echo -e "\033[32m 克隆成功 \033[0m";
