@@ -1,6 +1,7 @@
 #!/bin/bash
 function pip_mirrors(){
 function py_install(){
+poetry run pip install --upgrade pip -i ${mirror}
 if ! poetry run pip install -r requirements.txt -i ${mirror}
 then
 echo -en ${red}依赖安装失败 '\n'${blue}回车重新安装${background};read
