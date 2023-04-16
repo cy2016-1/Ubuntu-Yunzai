@@ -62,7 +62,7 @@ case "$1" in
   exit
   ;;
 esac
-ver=3.6.7
+ver=3.6.8
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -94,9 +94,10 @@ if [ "$version" != "$ver" ]; then
     10 50
     bhyz
 fi
-if i grep -q "cat $HOME/.baihu" $HOME/.bashrc
+sed -i 's/cat \/root\/.baihu/ /g' $HOME/.bashrc
+if ! grep -q "cat $HOME/.baihu" $HOME/.bashrc
 then
-  sed -i 's/cat $HOME/.baihu/ /g' $HOME/.bashrc
+  sed -i 's/cat $HOME\/.baihu/ /g' $HOME/.bashrc
     echo "
   1.打开白狐脚本的命令为 bhyz
   2.查看白狐脚本帮助为 bhyz -h
@@ -207,6 +208,7 @@ if [ $feedback = 0 ];then
           if [[ ${admin} = 7 ]];then
             cd Yunzai-Bot 
             git pull
+            rm node_modules/icqq
             pnpm install icqq@latest -w
             equipment=$(whiptail \
             --title "白狐≧▽≦" \
@@ -328,6 +330,13 @@ if [ $feedback = 0 ];then
        
            if [[ ${admin} = 11 ]];then
            bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
+           fi
+           
+           if [[ ${admin} = 11 ]];then
+           cd ${home}/Yunzai-Bot
+           pnpm install
+           pnpm install puppeteer@19.0.0 -w
+           cd ../
            fi
            
            #返回安装脚本
