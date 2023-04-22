@@ -62,7 +62,7 @@ case "$1" in
   exit
   ;;
 esac
-ver=3.7.0
+ver=3.7.1
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -240,6 +240,9 @@ if [ $feedback = 0 ];then
             echo
             cat -n data/device.json
             echo
+            pnpm install
+            pnpm update icqq@0.2.2 -w
+            pnpm add icqq@0.0.29 -w
             echo;echo -en "\033[32m 修复完成 回车返回\033[0m";read
           fi
            
