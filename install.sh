@@ -35,39 +35,57 @@ if ! [ -x "$(command -v whiptail)" ]
 fi
 
 if ! [ -e "/usr/local/bin/bhyz" ];then
-  rm -rf /usr/local/bin/bhyz
-  wget -O /usr/local/bin/bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh >> wget.log 2>&1 &
-  {
-     for ((i = 0 ; i <= 100 ; i+=1)); do
-        sleep 0.01s
-        echo $i
-     done
-  } | whiptail --gauge "未安装 正在安装" 6 60 0
-  if ! [ -e "/usr/local/bin/bhyz" ];then
-  whiptail --title "白狐≧▽≦" --msgbox \
-  "安装失败 请检查网络" \
-  8 25
-  exit
-  fi
-  chmod +x /usr/local/bin/bhyz
-  rm wget.log
-  bhyz
+    a=1
+    function install(){
+    curl -o bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh
+    mv bhyz /usr/local/bin/bhyz
+    chmod +x /usr/local/bin/bhyz
+    }
+    install > /dev/null 2>&1 &
+    {
+       until command -v bhyz
+        do
+          a=$(($a+1))
+          sleep 0.05s
+          echo ${a}
+        done
+    } | whiptail --gauge "检测到新版本 正在更新" 6 60 0
+    if ! [ -x "/usr/local/bin/bhyz" ];then
+    whiptail --title "白狐≧▽≦" --msgbox \
+    "安装失败 请检查网络" \
+    8 25
+    exit
+    fi
+    Aword=`curl -s https://api.vvhan.com/api/ian`
+    whiptail --title "白狐≧▽≦" --msgbox \
+    "${Aword}" \
+    10 50
+    bhyz
 else
-  rm -rf /usr/local/bin/bhyz
-  wget -O /usr/local/bin/bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh >> wget.log 2>&1 &
-  {
-     for ((i = 0 ; i <= 100 ; i+=1)); do
-        sleep 0.01s
-        echo $i
-     done
-  } | whiptail --gauge "已安装 正在更新" 6 60 0
-  if ! [ -e "/usr/local/bin/bhyz" ];then
-  whiptail --title "白狐≧▽≦" --msgbox \
-  "安装失败 请检查网络" \
-  8 25
-  exit
-  fi
-  chmod +x /usr/local/bin/bhyz
-  rm wget.log
-  bhyz
+    a=1
+    function install(){
+    curl -o bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh
+    mv bhyz /usr/local/bin/bhyz
+    chmod +x /usr/local/bin/bhyz
+    }
+    install > /dev/null 2>&1 &
+    {
+       until command -v bhyz
+        do
+          a=$(($a+1))
+          sleep 0.05s
+          echo ${a}
+        done
+    } | whiptail --gauge "检测到新版本 正在更新" 6 60 0
+    if ! [ -x "/usr/local/bin/bhyz" ];then
+    whiptail --title "白狐≧▽≦" --msgbox \
+    "安装失败 请检查网络" \
+    8 25
+    exit
+    fi
+    Aword=`curl -s https://api.vvhan.com/api/ian`
+    whiptail --title "白狐≧▽≦" --msgbox \
+    "${Aword}" \
+    10 50
+    bhyz
 fi
