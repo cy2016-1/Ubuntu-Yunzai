@@ -674,17 +674,16 @@ number=$(whiptail \
 "30" "expand-plugin                  扩展插件" \
 "31" "XiaoXuePlugin                  小雪插件" \
 "32" "Icepray                        冰祈插件" \
-"33" "xiuxian-emulator-plugin        绝云间修仙" \
-"34" "Tlon-Sky                       光遇插件" \
-"35" "hs-qiqi-plugin                 枫叶插件" \
-"36" "call_of_seven_saints           七圣召唤插件" \
-"37" "QQGuild-Plugin                 QQ频道插件" \
-"38" "xiaoyue-plugin                 小月插件" \
-"39" "FanSky_Qs                      繁星插件" \
-"40" "phi-plugin                     phigros辅助插件" \
-"41" "ap-plugin                      ap绘图插件" \
-"42" "sanyi-plugin                   三一插件" \
-"43" "chatgpt-plugin                 聊天插件" \
+"33" "Tlon-Sky                       光遇插件" \
+"34" "hs-qiqi-plugin                 枫叶插件" \
+"35" "call_of_seven_saints           七圣召唤插件" \
+"36" "QQGuild-Plugin                 QQ频道插件" \
+"37" "xiaoyue-plugin                 小月插件" \
+"38" "FanSky_Qs                      繁星插件" \
+"39" "phi-plugin                     phigros辅助插件" \
+"40" "ap-plugin                      ap绘图插件" \
+"41" "sanyi-plugin                   三一插件" \
+"42" "chatgpt-plugin                 聊天插件" \
 3>&1 1>&2 2>&3)
 feedback=$?
 if [ $feedback = 0 ];then
