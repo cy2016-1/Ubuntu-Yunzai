@@ -62,7 +62,7 @@ case "$1" in
   exit
   ;;
 esac
-ver=3.7.1
+ver=3.7.2
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -209,7 +209,8 @@ if [ $feedback = 0 ];then
             cd Yunzai-Bot 
             git pull
             rm node_modules/icqq
-            pnpm install icqq@latest -w
+            pnpm install
+            pnpm update icqq@latest -w
             equipment=$(whiptail \
             --title "白狐≧▽≦" \
             --menu "请选择登录设备" \
@@ -240,9 +241,6 @@ if [ $feedback = 0 ];then
             echo
             cat -n data/device.json
             echo
-            pnpm install
-            pnpm update icqq@0.2.2 -w
-            pnpm add icqq@0.0.29 -w
             echo;echo -en "\033[32m 修复完成 回车返回\033[0m";read
           fi
            
