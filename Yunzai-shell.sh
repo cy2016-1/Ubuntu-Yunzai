@@ -62,7 +62,7 @@ case "$1" in
   exit
   ;;
 esac
-ver=3.7.4
+ver=3.7.5
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -209,22 +209,25 @@ if [ $feedback = 0 ];then
             cd Yunzai-Bot 
             git pull
             rm node_modules/icqq
+            rm -rf data/device.json
             pnpm install
             pnpm update icqq@latest -w
-            equipment=$(whiptail \
-            --title "白狐≧▽≦" \
-            --menu "请选择登录设备" \
-            17 35 7 \
-            "1" "安卓手机" \
-            "2" "aPad" \
-            "3" "安卓手表" \
-            "4" "MacOS" \
-            "5" "iPad" \
-            3>&1 1>&2 2>&3 )
-            new="platform: ${equipment}"
+            
+            #equipment=$(whiptail \
+            #--title "白狐≧▽≦" \
+            #--menu "请选择登录设备" \
+            #17 35 7 \
+            #"1" "安卓手机" \
+            #"2" "aPad" \
+            #"3" "安卓手表" \
+            #"4" "MacOS" \
+            #"5" "iPad" \
+            #3>&1 1>&2 2>&3 )
+            new="platform: 6"
             file="$HOME/Yunzai-Bot/config/config/qq.yaml"
-            old_equipment="platform: [0-5]"
-            new_equipment="platform: ${equipment}"
+            grep platform ${file}
+            old_equipment=`grep platform ${file}`
+            new_equipment="platform: 6"
             sed -i "s/$old_equipment/$new_equipment/g" $file
             function imei(){
               min=$1
@@ -232,15 +235,15 @@ if [ $feedback = 0 ];then
               num=$(date +%s%N)
               echo $(($num%$max+$min))
             }
-            imeinumber=$(imei 100000000000000 999999999999999)
-            file=$HOME/Yunzai-Bot/data/device.json
-            sed -i '15s/.*/  \"imei\": \"imeinumber\"\,/g' ${file}
-            sed -i s/imeinumber/${imeinumber}/g ${file}
-            echo 
-            grep "platform:" config/config/qq.yaml
-            echo
-            cat -n data/device.json
-            echo
+            #imeinumber=$(imei 100000000000000 999999999999999)
+            #file=$HOME/Yunzai-Bot/data/device.json
+            #sed -i '15s/.*/  \"imei\": \"imeinumber\"\,/g' ${file}
+            #sed -i s/imeinumber/${imeinumber}/g ${file}
+            #echo 
+            #grep "platform:" config/config/qq.yaml
+            #echo
+            #cat -n data/device.json
+            #echo
             echo;echo -en "\033[32m 修复完成 回车返回\033[0m";read
           fi
            

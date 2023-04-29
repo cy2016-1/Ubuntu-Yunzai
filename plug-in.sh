@@ -941,11 +941,11 @@ case ${number} in
        cd ../../
        ;;
      esac
+     }
+     choose_page
    else
      exit
    fi
-     }
-     choose_page
      ;;   
    12)
      Name=闲心插件
