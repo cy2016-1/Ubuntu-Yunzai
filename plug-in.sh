@@ -1,167 +1,97 @@
-#!/bin/bash
-function pip_mirrors(){
-function py_install(){
-poetry run pip install --upgrade pip -i ${mirror}
-if ! poetry run pip install -r requirements.txt -i ${mirror}
-then
-echo -en ${red}依赖安装失败 '\n'${blue}回车重新安装 ctrl+c退出${background};read
-pip_mirrors
-fi
-}
-green="\033[32m"
-blue="\033[36m"
-background="\033[0m"
-white="\033[37m"
-echo 
-echo
-echo -e ${white}"#####"${green}白狐-Yunzai-Bot${white}"#####"${background}
-echo -e ${blue}请输入要选择的pip镜像源${background}
-echo "#########################"
-echo -e ${green}1.  ${blue}清华${background}
-echo -e ${green}2.  ${blue}北外${background}
-echo -e ${green}3.  ${blue}阿里${background}
-echo -e ${green}4.  ${blue}豆瓣${background}
-echo -e ${green}5.  ${blue}中科大${background}
-echo -e ${green}6.  ${blue}华为${background}
-echo -e ${green}7.  ${blue}腾讯${background}
-echo
-echo -e ${green}8.  ${blue}官方源${background}
-echo "#########################"
-echo -e ${green}QQ群:${blue}狐狸窝:705226976${background}
-echo "#########################"
-echo
-echo -en ${green}请输入您的选项: ${background};read number
-case ${number} in
-  1)
-    mirror=https://pypi.tuna.tsinghua.edu.cn/simple
-    py_install
-  ;;
-  2)
-    mirror=https://mirrors.bfsu.edu.cn/pypi/web/simple
-    py_install
-  ;;
-  3)
-    mirror=http://mirrors.aliyun.com/pypi/simple/
-    py_install
-  ;;
-  4)
-    mirror=http://pypi.douban.com/simple/
-    py_install
-  ;;
-  5)
-    mirror=https://pypi.mirrors.ustc.edu.cn/simple/
-    py_install
-  ;;
-  6)
-    mirror=https://repo.huaweicloud.com/repository/pypi/simple
-    py_install
-  ;;
-  7)
-    mirror=https://mirrors.cloud.tencent.com/pypi/simple/
-    py_install
-  ;;
-  8)
-    mirror=https://pypi.org/simple
-    py_install
-  ;;
-  *)
-    echo;echo -en "\033[31m输入错误\033[0m";read
-  ;;
-esac
-}
-function Linux_js_file_management(){
+#!/bin/env bash
+function delete_js(){
 if [ -e js.log ];then
 rm js.log
 fi
 clear
 a=0
-green="\033[32m"
-blue="\033[34m"
-background="\033[0m"
 echo
 echo "#######################"
-for file in $(ls ${path}/plugins/example)
+for file in $(ls plugins/example)
 do
 a=$(($a+1))
-echo -e ${green}${a}". "${blue}${file}${background}
+echo -e ${green}${a}". "${cyan}${file}${background}
 done
 echo
-echo -e ${green}0.${blue}返回${background}
+echo -e ${green}0.${cyan}返回${background}
 echo "#######################"
 a=0
-echo -en "\033[32m请输入您要删除的插件序号: \033[0m";read -p "" Number
-if [ "$Number" = 0 ];then
-baihu_whiptail
-exit
-fi
-if [[ "$Number" =~ ^[0-9]+$ ]]; then
-  ls ${path}/plugins/example > js.log
+echo -en ${cyan}请输入您要删除的插件序号${background};read Number
+if [ "${Number}" = 0 ];then
+mian
+else
+if [[ "${Number}" =~ ^[0-9]+$ ]]; then
+  ls plugins/example > js.log
   content=`sed -n "${Number}p" js.log`
-  if [ ${path}/plugins/example/${content} = ${path}/plugins/example/ ]
+  if [ "plugins/example/${content}" = "plugins/example/" ]
     then
-      echo;echo -en "\033[31m输入错误\033[0m";echo
+      echo;echo -en ${red}输入错误${background}
       exit
   fi
-  rm -rf ${path}/plugins/example/${content}
-  rm -rf ${path}/plugins/example/${content} &>/dev/null
-  if [ -e ${path}/plugins/example/${content} ]
+  rm -rf plugins/example/${content}
+  rm -rf plugins/example/${content} &>/dev/null
+  if [ -e plugins/example/${content} ]
     then
-      echo;echo -en "\033[31m 删除失败 回车返回\033[0m";read -p ""
+      echo;echo -en ${red}删除失败 回车返回${background};read
     else
-      echo;echo -en "\033[36m 删除完成 回车返回\033[0m";read -p ""
+      echo;echo -en ${green}删除完成 回车返回${background};read
   fi
 else
-  echo;echo -en "\033[31m 输入错误 回车返回\033[0m";read -p ""
+  echo;echo -en ${red}输入错误 回车返回${background};read
+fi # if [[ "${Number}" =~ ^[0-9]+$ ]]; then
+fi # if [ "${Number}" = 0 ];then
+if [ -e js.log ];then
+rm js.log
 fi
-}
-function Linux_git_file_management(){
+} #delete_js
+#########################################################
+function delete_git(){
+if [ -e js.log ];then
+rm js.log
+fi
 clear
 a=0
-green="\033[32m"
-blue="\033[36m"
-background="\033[0m"
 echo
 echo "#######################"
-for file in $(ls -I example -I bin -I other -I system ${path}/plugins)
+for file in $(ls -I example -I bin -I other -I system plugins)
 do
 a=$(($a+1))
-echo -e ${green}${a}". "${blue}${file}${background}
+echo -e ${green}${a}". "${cyan}${file}${background}
 done
 echo
-echo -e ${green}0.${blue}返回${background}
+echo -e ${green}0.${cyan}返回${background}
 echo "#######################"
 a=0
-echo -en "\033[32m 请输入您要删除的插件的序号: \033[0m";read -p "" Number
-if [ "$Number" = 0 ];then
-baihu_whiptail
-exit
-fi
-if [[ "$Number" =~ ^[0-9]+$ ]]; then
-  ls -I example -I bin -I other -I system ${path}/plugins > plugin_record.txt
-  content=`sed -n "${Number}p" plugin_record.txt`
-  if [ ${path}/plugins/${content} = ${path}/plugins/ ]
+echo -en ${cyan}请输入您要删除的插件序号${background};read Number
+if [ "${Number}" = 0 ];then
+mian
+else
+if [[ "${Number}" =~ ^[0-9]+$ ]]; then
+  ls -I example -I bin -I other -I system plugins > git.log
+  content=`sed -n "${Number}p" git.log`
+  if [ "plugins/${content}" = "plugins/" ] || [ -d "plugins/${content}" = "plugins/" ]
     then
-      echo;echo -en "\033[31m输入错误\033[0m";echo
-      exit
-  fi
-  if [ ${path}/plugins/${content} = ${path}/plugins/genshin ]
-    then
-      echo;echo -en "\033[31m禁止删除该插件\033[0m";echo
+      echo;echo -en ${red}输入错误${background}
       exit
   fi
   rm -rf plugins/${content}
   rm -rf plugins/${content} &>/dev/null
   if [ -d plugins/${content} ]
     then
-      echo;echo -en "\033[31m 删除失败 回车返回\033[0m";read -p ""
+      echo;echo -en ${red}删除失败 回车返回${background};read
     else
-      echo;echo -en "\033[36m 删除完成 回车返回\033[0m";read -p ""
+      echo;echo -en ${green}删除完成 回车返回${background};read
   fi
 else
-  echo;echo -en "\033[31m 输入错误 回车返回\033[0m";read -p ""
+  echo;echo -en ${red}输入错误 回车返回${background};read
+fi # if [[ "${Number}" =~ ^[0-9]+$ ]]; then
+fi # if [ "${Number}" = 0 ];then
+if [ -e js.log ];then
+rm js.log
 fi
-}
-function Linux_js_install(){
+} #delete_git
+#########################################################
+function js_plugin(){
 if [ -e js.log ];then
 rm js.log
 fi
@@ -343,6 +273,61 @@ echo -en "\033[35m请输入选项 \033[0m";read number
           exit
         fi
         cp ${sdpath}/${content} ${path}/plugins/example/
+       if [ -f "plugins/example/${content}" ];then
+         echo;echo -en "\033[36m 安装完成 回车返回\033[0m";read
+       else
+         echo;echo -en "\033[36m 安装失败 回车返回\033[0m";read
+       fi
+     else
+       echo;echo -en "\033[31m 输入错误 回车返回\033[0m";read
+     fi
+   fi
+    cd ../../
+     ;;
+   3)
+    if [ -d "/media/sd/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv" ];then
+      sdpath=/media/sd/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv
+    fi
+    if [ -d "/sdcard/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv" ];then
+     sdpath=/sdcard/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv
+    fi
+    if [ -d "/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv" ];then
+     sdpath=/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv
+    fi
+    if [ -d "${sdpath}" ];then
+    echo -e ${blue}目录不存在!${background}
+    fi
+   clear
+   a=0
+   green="\033[32m"
+   blue="\033[36m"
+   background="\033[0m"
+   echo
+   echo "#######################"
+   for file in $(ls ${sdpath})
+   do
+   if [[ ${file} = *.js ]];then
+   a=$(($a+1))
+   echo -e ${green}${a}". "${blue}${file}${background}
+   echo ${file} >> js.log
+   fi
+   done
+   echo
+   echo -e ${green}0.${blue}返回${background}
+   echo "#######################"
+   a=0
+   echo -en "\033[32m 请输入您要安装的插件的序号: \033[0m";read -p "" Number
+   if [ "$Number" = 0 ];then
+       baihu_whiptail
+     else
+     if [[ "$Number" =~ ^[0-9]+$ ]];then
+       content=`sed -n "${Number}p" js.log`
+        if [ "${sdpath}/${content}" = "${sdpath}" ]
+          then
+          echo;echo -en "\033[31m输入错误\033[0m";echo
+          exit
+        fi
+        cp ${sdpath}/${content} ${path}/plugins/example/
        if [ -f "${path}/plugins/example/${content}" ];then
         echo;echo -en "\033[36m 安装完成 回车返回\033[0m";read
        else
@@ -359,13 +344,61 @@ echo -en "\033[35m请输入选项 \033[0m";read number
      ;;
    esac
 }
-function Linux(){
-function baihu_whiptail(){
-if [ -f "${path}/plugins/example/js.log" ];then
-rm ${path}/plugins/example/js.log
-fi
-cd ${path}
-baihu=$(whiptail \
+#########################################################
+function git_pull_plugins(){
+clear
+echo
+echo -e ${yellow}正在更新${background}
+function git_pull(){
+ if ! git pull;then
+   echo
+     echo -en ${red} 更新失败 ${cyan} 是否重试${yellow} [Y/n]${background};read num
+     case $num in
+       Y|y)
+         git_pull
+         ;;
+       n|N)
+         echo
+         echo -e ${blue}跳过${background}
+         sleep 0.8s
+         ;;
+      esac
+ fi
+} #git_pull
+for file in $(ls -I example -I bin -I other -I system -I genshin plugins)
+do
+  if [ -d plugins/${file} ];then
+   echo
+   echo -e ${yellow}正在更新${file}${background}
+   cd plugins/${file}
+   function git_pull(){
+   if ! git pull;then
+   echo
+   echo -en ${red}${file} 更新失败 ${cyan} 是否重试${yellow} [Y/n]${background};read num
+   case $num in
+   Y|y)
+     git_pull
+     ;;
+   n|N)
+     echo
+     echo -e ${blue}跳过${background}
+     sleep 0.5s
+     ;;
+   esac
+    fi
+    } #git_pull
+    git_pull
+    cd ../../
+  fi
+done
+echo
+echo -en ${blue}执行完成${green} 回车返回${background};read
+}
+#########################################################
+function main(){
+function dialog_whiptail_page(){
+clear
+number=$(${dialog_whiptail} \
 --title "白狐" \
 --menu "白狐的QQ群:705226976" \
 20 40 10 \
@@ -374,252 +407,283 @@ baihu=$(whiptail \
 "3" "更新git插件" \
 "4" "删除git插件" \
 "5" "删除js插件" \
-"6" "修复py依赖和端口报错" \
-"7" "py切换本地与远程服务" \
-"8" "修改锅巴端口" \
-"9" "使用文字版菜单" \
+"6" "插件配置" \
+"7" "切换bot" \
 "0" "退出" \
 3>&1 1>&2 2>&3)
 feedback=$?
-if [ $feedback = 0 ];then
-  case $baihu in
-    1)
-      whiptail_plugins
-      ;;
-    2)
-      Linux_js_install
-      ;;
-    3)
-      echo
-      echo -e "\033[33m正在更新Yunzai\033[0m"
-      cd ${path}
-      git pull
-      cd ../
-      echo -e "\033[33mYunzai更新完成\033[0m"
-      for file in $(ls -I example -I bin -I other -I system -I genshin ${path}/plugins)
-      do
-        if [ -d ${path}/plugins/${file} ];then
-          echo
-          echo -e "\033[33m正在更新${file}\033[0m"
-          cd ${path}/plugins/${file}
-          git pull
-          cd ../../
-          echo -e "\033[33m${file}更新完成\033[0m"
-        fi
-      done
-      echo;echo -en "\033[32m全部更新完成 回车返回\033[0m";read -p ""
-      ;;
-    4)
-      Linux_git_file_management
-      ;;
-    5)
-      Linux_js_file_management
-      ;;
-    6)
-     if [ -d "plugins/py-plugin" ]
-       then
-         cd plugins/py-plugin
-         pip_mirrors
-         poetry install 
-         poetry install
-         function py_(){
-         min=$1
-         max=$(($2-$min+1))
-         num=$(date +%s%N)
-         echo $(($num%$max+$min))
-         }
-         pyport=$(py_ 40000 60000)
-         if [ -e "${path}plugins/py-plugin/config.yaml" ]
-            then
-               sed -i "15s/.*/port: ${pyport}/g" ${path}/plugins/py-plugin/config.yaml
-               echo;echo -en "\033[36m 执行完成 回车返回\033[0m";read
-            else
-               cp ${path}/plugins/py-plugin/config_default.yaml ${path}/plugins/py-plugin/config.yaml
-               sed -i "15s/.*/port: ${pyport}/g" ${path}/plugins/py-plugin/config.yaml
-               echo;echo -en "\033[36m 执行完成 回车返回\033[0m";read
-         fi
-         pushd ../../
-       else
-         echo -e "\033[33m 未安装py插件 回车返回 \033[0m";read
-     fi
-     ;;
-    7)
-     if [ -d "plugins/py-plugin" ]
-     then
-       if [ -e "${path}/plugins/py-plugin/config.yaml" ]
-          then
-            if grep -q "host: 159.75.113.47" ${path}/plugins/py-plugin/config.yaml
-              then
-                sed -i "s/host: 159.75.113.47/host: 127.0.0.1/g" ${path}/plugins/py-plugin/config.yaml
-                echo;echo -en "\033[36m 已切换为本地服务器 请安装/更新依赖 回车继续\033[0m";read
-                echo
-                cd ${path}/plugins/py-plugin
-                pip_mirrors
-                cd ../../
-                echo;echo -en "\033[36m 执行完成 回车返回\033[0m";read
-              else
-                sed -i "s/host: 127.0.0.1/host: 159.75.113.47/g" ${path}/plugins/py-plugin/config.yaml
-                echo;echo -en "\033[36m 已切换为远程服务器 回车返回\033[0m";read -p ""
-            fi
-          else
-            if grep -q "host: 159.75.113.47" ${path}/plugins/py-plugin/config.yaml
-              then
-                cp ${path}/plugins/py-plugin/config_default.yaml ${path}/plugins/py-plugin/config.yaml
-                sed -i "s/host: 159.75.113.47/host: 127.0.0.1/g" ${path}/plugins/py-plugin/config.yaml
-                echo;echo -en "\033[36m 已切换为本地服务器 请安装/更新依赖 回车继续\033[0m";
-                echo
-                cd ${path}/plugins/py-plugin
-                pip_mirrors
-                cd ../../
-                echo;echo -en "\033[36m 执行完成 回车返回\033[0m";read
-              else
-                cp ${path}/plugins/py-plugin/config_default.yaml ${path}/plugins/py-plugin/config.yaml
-                sed -i "s/host: 127.0.0.1/host: 159.75.113.47/g" ${path}/plugins/py-plugin/config.yaml
-                echo;echo -en "\033[36m 已切换为远程服务器 回车返回\033[0m";read -p ""
-            fi
-       fi
-     else
-         echo -e "\033[33m 未安装py插件 回车返回 \033[0m";read
-     fi
-      ;;
-    8)
-     if [ -e "plugins/Guoba-Plugin/config/application.yaml" ]
-       then
-         echo -en "\033[32m 请输入更改之后的端口号[] \033[0m"; read -p "" gbport
-           if [[ "${gbport}" =~ ^[0-9]+$ ]]; then
-             sed -i "s/.*port.*/  port: ${gbport}/g" plugins/Guoba-Plugin/config/application.yaml
-	         echo;echo -en "\033[36m 更改完成 回车返回\033[0m";read
-	       fi
-       else
-         echo -en "\033[31m 文件不存在,请确认是否安装锅巴并启动过一次 \033[0m";
-         exit
-     fi
-     ;;
-    9)
-      Other_Linux
-      ;;
-    0)
-      exit
-      ;;
-  esac
-else
+if [ ! ${feedback} = 0 ];then
+exit
+fi
+clear
+}  #dialog_whiptail_page
+function echo_page(){
+clear
+echo
+echo
+echo -e ${white}"#####"${green}白狐${white}"#####"${background}
+echo -e ${green}1.  ${cyan}安装git插件${background}
+echo -e ${green}2.  ${cyan}安装js插件${background}
+echo -e ${green}3.  ${cyan}更新git插件${background}
+echo -e ${green}4.  ${cyan}删除git插件${background}
+echo -e ${green}5.  ${cyan}删除js插件${background}
+echo -e ${green}6.  ${cyan}插件配置${background}
+echo
+echo -e ${green}0.  ${cyan}退出${background}
+echo "#########################"
+echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
+echo "#########################"
+echo
+echo -en ${green}请输入您的选项: ${background};read number
+}  #echo_page
+choose_page
+  case $number in
+  1)
+    cd ${path}
+    git_plugin
+    cd ${path}
+    ;;
+  2)
+    cd ${path}
+    js_plugin
+    cd ${path}
+    ;;
+  3)
+    cd ${path}
+    git_pull_plugins
+    cd ${path}
+    ;;
+  4)
+    cd ${path}
+    delete_git
+    cd ${path}
+    ;;
+  5)
+    cd ${path}
+    delete_js
+    cd ${path}
+    ;;
+  6)
+    echo 还没写
+    ;;
+  7)
+    robot_path
+    ;;
+  0)
     exit
-fi
-}
-function Yunzai(){
-if [ -d "/root/Yunzai-Bot" ];then
-path="/root/Yunzai-Bot"
-elif [ -d "/home/Yunzai-Bot" ];then
-path="/home/Yunzai-Bot"
-elif [ -d "/home/lighthouse/ubuntu/Yunzai-Bot" ];then
-path="/home/lighthouse/ubuntu/Yunzai-Bot"
-elif [ -d "/home/lighthouse/centos/Yunzai-Bot" ];then
-path="/home/lighthouse/centos/Yunzai-Bot"
-elif [ -d "/home/lighthouse/debian/Yunzai-Bot" ];then
-path="/home/lighthouse/debian/Yunzai-Bot"
-elif [ -d "/home/lighthouse/debian/Yunzai-Bot" ];then
-path="/home/lighthouse/debian/Yunzai-Bot"
-elif [ -d "/root/TRSS_Yunzai/Yunzai" ];then
-path="/root/TRSS_Yunzai/Yunzai"
-elif [ -d "Yunzai-Bot" ];then
-path="./Yunzai-Bot"
-elif [ -d "plugins" ];then
-path="."
+    ;;
+  esac
+}  #main
+#########################################################
+function py_server(){
+function server_host(){
+  sed -i "s/host: 127.0.0.1/host: 159.75.113.47/g" plugins/py-plugin/config.yaml
+  pyport=(grep port plugins/py-plugin/config.yaml)
+  sed -i "s/${pyport}/port: 50053/g" plugins/py-plugin/config.yaml
+  echo;echo -en ${cyan}已切换为远程服务器 ${green}回车返回${background};read
+} #server_host
+function local_host(){
+  sed -i "s/host: 159.75.113.47/host: 127.0.0.1/g" plugins/py-plugin/config.yaml
+  sed -i "s/port: 50053/port: 50052/g" plugins/py-plugin/config.yaml
+  echo;echo -en ${cyan}已切换为本地服务器 ${yellow}请安装/更新依赖 ${green}回车继续${background};read
+  echo
+  cd plugins/py-plugin
+  pip_mirrors
+  cd ../../
+  echo;echo -en ${cyan}执行完成 ${green}回车返回${background};read
+} #local_host
+if [ -d "plugins/py-plugin" ]
+then
+  if [ -e "plugins/py-plugin/config.yaml" ]
+    then
+      if grep -q "host: 159.75.113.47" plugins/py-plugin/config.yaml
+        then
+          local_host
+        else
+          server_host
+      fi
+    else
+      if grep -q "host: 159.75.113.47" plugins/py-plugin/config_default.yaml
+        then
+          cp plugins/py-plugin/config_default.yaml plugins/py-plugin/config.yaml
+          local_host
+        else
+          cp plugins/py-plugin/config_default.yaml plugins/py-plugin/config.yaml
+          server_host
+      fi
+  fi
 else
-whiptail --title "白狐≧▽≦" --msgbox "
-您还没有安装云崽 禁止安装插件
-" 10 43
-exit
+    echo -en ${red}未安装py插件 ${green}回车返回${background};read
 fi
-}
-function Miaozai(){
-if [ -d "/root/Miao-Yunzai" ];then
-path="/root/Miao-Yunzai"
-elif [ -d "/home/Miao-Yunzai" ];then
-path="/home/Miao-Yunzai"
-elif [ -d "/home/lighthouse/ubuntu/Miao-Yunzai" ];then
-path="/home/lighthouse/ubuntu/Miao-Yunzai"
-elif [ -d "/home/lighthouse/centos/Miao-Yunzai" ];then
-path="/home/lighthouse/centos/Miao-Yunzai"
-elif [ -d "/home/lighthouse/debian/Miao-Yunzai" ];then
-path="/home/lighthouse/debian/Miao-Yunzai"
-elif [ -d "/home/lighthouse/debian/Miao-Yunzai" ];then
-path="/home/lighthouse/debian/Miao-Yunzai"
-elif [ -d "/root/TRSS_Yunzai/Yunzai" ];then
-path="/root/TRSS_Yunzai/Yunzai"
-elif [ -d "Miao-Yunzai" ];then
-path="./Miao-Yunzai"
-elif [ -d "plugins" ];then
-path="."
-else
-whiptail --title "白狐≧▽≦" --msgbox "
-您还没有安装喵崽 禁止安装插件
-" 10 43
-exit
-fi
-}
-if (whiptail --title "白狐≧▽≦" \
-    --yes-button "云崽" \
-    --no-button "喵崽" \
-    --yesno "请选择您要管理的对象" \
-    10 60) 
-  then
-     Yunzai
-  else
-     Miaozai
-fi
-function whiptail_install_plugins(){
-green="\033[32m"
-blue="\033[36m"
-background="\033[0m"
-if [ -d ${path}/plugins/${Plugin} ]
+} #py_server
+#########################################################
+function install_git_plugin(){
+function dialog_whiptail_page(){
+if [ -d plugins/${Plugin} ]
   then
     clear
-    if (whiptail --title "白狐-Yunzai-Bot-Plugin" \
+    if (${dialog_whiptail} --title "白狐i-Bot-Plugin" \
        --yesno "        您已安装${Name}，是否删除" \
        10 48);then
-         echo -e "\033[36m 正在删除${Name} \033[0m";
-         rm -rf ${path}/plugins/${Plugin}
-         rm -rf ${path}/plugins/${Plugin} &>/dev/null
-       if [ -d ${path}/plugins/${Plugin} ]
+         echo -e ${green}正在删除${Name}${background}
+         rm -rf plugins/${Plugin}
+         rm -rf plugins/${Plugin} &>/dev/null
+       if [ -d plugins/${Plugin} ]
          then
-           echo;echo -en "\033[32m 删除失败 回车返回\033[0m";read -p ""
+           echo;echo -en ${red}删除失败 回车返回${background};read
          else
-           echo;echo -en "\033[32m 删除完成 回车返回\033[0m";read -p ""
+           echo;echo -en ${green}删除完成 回车返回${background};read
        fi
     fi
   else
     clear
-    if (whiptail \
-    --title "白狐Yunzai-Bot-Plugin" \
+    if (${dialog_whiptail} \
+    --title "白狐-Bot-Plugin" \
     --yes-button "安装" \
     --no-button "返回" \
     --yesno "确认要安装这个插件吗？\n插件名: ${Name} \n插件URL: ${Git}" \
     10 60)
     then
-    echo
+    clear
     echo
     echo "=================================="
     echo 正在安装${Name}，稍安勿躁～
     echo "=================================="
     echo
     git clone --depth=1 ${Git} ./plugins/${Plugin}
-      if [ -d ${path}/plugins/${Plugin} ]
+      if [ -d plugins/${Plugin} ]
         then
           echo -e "\033[36m正在处理依赖\033[0m"
-          cd ${path}/plugins/${Plugin}
+          cd plugins/${Plugin}
           pnpm install -P
           cd ../../ 
-          echo;echo -en "\033[32m安装完成 回车返回\033[0m";read -p ""
+          echo;echo -en ${green}安装完成 回车返回${background}read
       else
-          echo;echo -en "\033[31m安装失败 回车返回\033[0m";read -p ""
+          echo;echo -en ${red}安装失败 回车返回${background}read
       fi
     fi
 fi
+} #dialog_whiptail_page
+function echo_page(){
+if [ -d plugins/${Plugin} ]
+  then
+    echo -e ${green}${Name}已经安装 是否删除 ${cyan}[N/y]${background}
+        read -p "" num
+     case $num in
+       N)
+         echo -en ${cyan}取消 回车返回${background};read
+         ;;
+       y)
+         rm -rf plugins/${Plugin}
+         rm -rf plugins/${Plugin} &>/dev/null
+         if [ -d plugins/${Plugin} ]
+           then
+             echo;echo -en ${red}删除失败 回车返回${background};read
+           else
+             echo;echo -en ${cyan} 删除完成 回车返回${background};read
+         fi
+         ;;
+       *)
+         echo -en ${cyan}取消 回车返回${background};read
+         ;;
+     esac
+  else
+    clear
+    echo -e ${green}建议到插件地址查看使用方法'\n'${blue}${Git}${background}
+    echo
+    echo -en ${cyan}回车继续${background};read
+    echo "=================================="
+    echo 正在安装${Name}，稍安勿躁～
+    echo "=================================="
+    git clone --depth=1 ${Git} ./plugins/${Plugin}
+    if [ -d plugins/${Plugin} ]
+    then
+      echo -e ${cyan}正在处理依赖${background}
+      cd plugins/${Plugin}
+      pnpm install -P
+      cd ../../ 
+      echo;echo -en ${green}安装完成 回车返回${background};read
+    else
+      echo;echo -en ${red}安装失败 回车返回${background};read
+    fi
+fi
+} #echo_page
+choose_page
+} #install_git_plugin
+#########################################################
+function pip_mirrors(){
+function py_install(){
+poetry run pip install --upgrade pip -i ${mirror}
+if ! poetry run pip install -r requirements.txt -i ${mirror}
+then
+echo -en ${red}依赖安装失败 '\n'${blue}回车重新安装${background};read
+pip_mirrors
+fi
 }
+echo 
+echo
+echo -e ${white}"#####"${green}白狐-py-plugin${white}"#####"${background}
+echo -e ${blue}请输入要选择的pip镜像源${background}
+echo "#########################"
+echo -e ${green}1.  ${cyan}清华源${background}
+echo -e ${green}2.  ${cyan}北外源${background}
+echo -e ${green}3.  ${cyan}阿里源${background}
+echo -e ${green}4.  ${cyan}豆瓣源${background}
+echo -e ${green}5.  ${cyan}中科大${background}
+echo -e ${green}6.  ${cyan}华为源${background}
+echo -e ${green}7.  ${cyan}腾讯源${background}
+echo
+echo -e ${green}8.  ${cyan}官方源${background}
+echo "#########################"
+echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
+echo "#########################"
+echo
+echo -en ${green}请输入您的选项: ${background};read number
+case ${number} in
+  1)
+    mirror=https://pypi.tuna.tsinghua.edu.cn/simple
+    py_install
+  ;;
+  2)
+    mirror=https://mirrors.bfsu.edu.cn/pypi/web/simple
+    py_install
+  ;;
+  3)
+    mirror=http://mirrors.aliyun.com/pypi/simple/
+    py_install
+  ;;
+  4)
+    mirror=http://pypi.douban.com/simple/
+    py_install
+  ;;
+  5)
+    mirror=https://pypi.mirrors.ustc.edu.cn/simple/
+    py_install
+  ;;
+  6)
+    mirror=https://repo.huaweicloud.com/repository/pypi/simple
+    py_install
+  ;;
+  7)
+    mirror=https://mirrors.cloud.tencent.com/pypi/simple/
+    py_install
+  ;;
+  8)
+    mirror=https://pypi.org/simple
+    py_install
+  ;;
+  *)
+    echo;echo -en ${red}输入错误 ${cyan}默认使用清华源${background}
+    mirror=https://pypi.tuna.tsinghua.edu.cn/simple
+    py_install
+  ;;
+esac
+}
+#########################################################
 function ghproxy_agency(){
-if (whiptail \
---title "白狐Yunzai-Bot-Plugin" \
+function dialog_whiptail_page(){
+if (${dialog_whiptail} \
+--title "白狐-Bot-Plugin" \
 --yes-button "启用" \
 --no-button "关闭" \
 --yesno "${Name}位于github 是否启用ghproxy镜像站？\n中国大陆用户建议启用" \
@@ -629,19 +693,32 @@ then
 else
     ghproxy=" "
 fi
-}
-function whiptail_plugins(){
-if [ ! -d ./node_modules/axios ];then
-echo -e "\033[36m正在安装绝大多数插件的依赖: axios\033[0m"
-pnpm install 
-pnpm install axios -w
-fi
-cd ${path}
-number=$(whiptail \
+} #dialog_whiptail_page
+function echo_page(){
+echo -en ${green}${Name}该项目库位于github 是否启用ghproxy镜像站 ${cyan}[Y/n] ${background}
+read -p "" num
+        case $num in
+     Y|y)
+       ghproxy="https://ghproxy.com/"
+       ;;
+     n|N)
+       ghproxy=" "
+       ;;
+     *)
+       echo -e ${red}请正确输入 ${cyan}回车返回${background};read
+       ;;
+  esac
+} #echo_page
+choose_page
+} #ghproxy_agency
+#########################################################
+function git_plugin(){
+function dialog_whiptail_page(){
+clear
+number=$(${dialog_whiptail} \
 --title "白狐-QQ群:705226976" \
---menu "37个插件" \
-25 55 18 \
-"0" "返回" \
+--menu "选择一个您喜欢的插件吧!" \
+25 60 18 \
 "1" "miao-plugin                    喵喵插件" \
 "2" "xiaoyao-cvs-plugin             逍遥图鉴" \
 "3" "Guoba-Plugin                   锅巴插件" \
@@ -686,1041 +763,572 @@ number=$(whiptail \
 "42" "chatgpt-plugin                 聊天插件" \
 3>&1 1>&2 2>&3)
 feedback=$?
-if [ $feedback = 0 ];then
-  if [[ ${number} = 0 ]]
-  then
-  exit 0
-  fi
-else
-    exit
+if [ ! ${feedback} = 0 ];then
+main
 fi
-case $number in
+clear
+} #dialog_whiptail_page
+function echo_page(){
+clear
+echo
+echo
+echo -e ${white}"#######"${green}白狐-Plug-In${white}"#######"${background}
+echo -e ${green_red}1.  ${cyan}miao-plugin"               "喵喵插件${background}
+echo -e ${green_red}2.  ${cyan}xiaoyao-cvs-plugin"        "逍遥图鉴${background}
+echo -e ${green_red}3.  ${cyan}Guoba-Plugin"              "锅巴插件${background}
+echo -e ${green_red}4.  ${cyan}zhi-plugin"                "白纸插件${background}
+echo -e ${green_red}5.  ${cyan}xitian-plugin"             "戏天插件${background}
+echo -e ${green_red}6.  ${cyan}Akasha-Terminal-plugin"    "虚空插件${background}
+echo -e ${green_red}7.  ${cyan}Xiuxian-Plugin-Box"        "修仙插件${background}
+echo -e ${green_red}8.  ${cyan}Yenai-Plugin"              "椰奶插件${background}
+echo -e ${green_red}9.  ${cyan}xiaofei-plugin"            "小飞插件${background}
+echo -e ${green_red}10. ${cyan}earth-k-plugin"           "土块插件${background}
+echo -e ${green_red}11. ${cyan}py-plugin"                "py插件${background}
+echo -e ${green_red}12. ${cyan}xianxin-plugin"           "闲心插件${background}
+echo -e ${green_red}13. ${cyan}lin-plugin"               "麟插件${background}
+echo -e ${green_red}14. ${cyan}l-plugin"                 "L插件${background}
+echo -e ${green_red}15. ${cyan}qianyu-plugin"            "千羽插件${background}
+echo -e ${green_red}16. ${cyan}yunzai-c-v-plugin"        "清凉图插件${background}
+echo -e ${green_red}17. ${cyan}flower-plugin"            "抽卡插件${background}
+echo -e ${green_red}18. ${cyan}auto-plugin"              "自动化插件${background}
+echo -e ${green_red}19. ${cyan}recreation-plugin"        "娱乐插件${background}
+echo -e ${green_red}20. ${cyan}suiyue-plugin"            "碎月插件${background}
+echo -e ${green_red}21. ${cyan}windoge-plugin"           "风歌插件${background}
+echo -e ${green_red}22. ${cyan}Atlas"                    "原神图鉴${background}
+echo -e ${green_red}23. ${cyan}zhishui-plugin"           "止水插件${background}
+echo -e ${green_red}24. ${cyan}TRSS-Plugin"              "trss插件${background}
+echo -e ${green_red}25. ${cyan}Jinmaocuicuisha"          "脆脆鲨插件${background}
+echo -e ${green_red}26. ${cyan}alemon-plugin"            "半柠檬插件${background}
+echo -e ${green_red}27. ${cyan}liulian-plugin"           "榴莲插件${background}
+echo -e ${green_red}28. ${cyan}xiaoye-plugin"            "小叶插件${background}
+echo -e ${green_red}29. ${cyan}rconsole-plugin"          "R插件${background}
+echo -e ${green_red}30. ${cyan}expand-plugin"            "扩展插件${background}
+echo -e ${green_red}31. ${cyan}XiaoXuePlugin"            "小雪插件${background}
+echo -e ${green_red}32. ${cyan}Icepray"                  "冰祈插件${background}
+echo -e ${green_red}33. ${cyan}Tlon-Sky"                 "光遇插件${background}
+echo -e ${green_red}34. ${cyan}hs-qiqi-plugin"           "枫叶插件${background}
+echo -e ${green_red}35. ${cyan}call_of_seven_saints"     "七圣召唤插件${background}
+echo -e ${green_red}36. ${cyan}QQGuild-Plugin"           "QQ频道插件${background}
+echo -e ${green_red}37. ${cyan}xiaoyue-plugin"           "小月插件${background}
+echo -e ${green_red}38. ${cyan}FanSky_Qs"                "fans插件${background}
+echo -e ${green_red}39. ${cyan}phi-plugin"               "phigros辅助插件${background}
+echo -e ${green_red}40. ${cyan}ap-plugin"                "AI绘图插件${background}
+echo -e ${green_red}41. ${cyan}sanyi-plugin"             "三一插件${background}
+echo -e ${green_red}42. ${cyan}chatgpt-plugin"           "聊天插件${background}
+echo 
+echo -e ${green}0. ${cyan}返回${background}
+echo "#####################################"
+echo -e ${yellow}tip:序号为${red}红色${yellow}表示未安装'\n'序号为${green}绿色${green}表示已安装 ${background}
+echo
+echo -en ${cyan}请输入您需要安装插件的序号:${background};read -p " " number
+} #echo_page
+choose_page
+
+case ${number} in
    1)
      Name=喵喵插件 #插件中文名字
      Plugin=miao-plugin #插件名
      Git=https://gitee.com/yoimiya-kokomi/miao-plugin.git #仓库链接
-     whiptail_install_plugins #调用安装
+     install_git_plugin #调用安装
      ;;
    2)
      Name=逍遥图鉴
      Plugin=xiaoyao-cvs-plugin
      Git=https://gitee.com/Ctrlcvs/xiaoyao-cvs-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    3)
      Name=锅巴插件
      Plugin=Guoba-Plugin
      Git=https://gitee.com/guoba-yunzai/guoba-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    4)
      Name=白纸插件
      Plugin=zhi-plugin
      Git=https://gitee.com/headmastertan/zhi-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    5)
      Name=戏天插件
      Plugin=xitian-plugin
      Git=https://gitee.com/XiTianGame/xitian-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    6)
      Name=虚空插件
      Plugin=akasha-terminal-plugin
      Git=https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    7)
      Name=修仙插件
      Plugin=xiuxian-plugin
      Git=https://gitee.com/three-point-of-water/xiuxian-plugin
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    8)
      Name=椰奶插件
      Plugin=yenai-plugin
      Git=https://gitee.com/yeyang52/yenai-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    9)
      Name=小飞插件
      Plugin=xiaofei-plugin
      Git=https://gitee.com/xfdown/xiaofei-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    10)
      Name=土块插件
      Plugin=earth-k-plugin
      Git=https://gitee.com/SmallK111407/earth-k-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    11)
-     if [ "$(uname)" == "Linux" ]
-     then
-       if ! [ -x "$(command -v poetry)" ]
-         then
-           echo -en "\033[31m 你还没有安装poetry呢 回车退出 \033[0m";read -p ""
-           exit
-       fi
-       Name=py插件
-       Plugin=py-plugin
-       Git=https://gitee.com/realhuhu/py-plugin.git
-       green="\033[32m"
-       blue="\033[36m"
-       background="\033[0m"
-       if [ -d ${path}/plugins/${Plugin} ]
-         then
-           clear
-           if (whiptail --title "白狐-Yunzai-Bot-plugin" \
-             --yesno "        您已安装${Name}，是否删除" \
-             10 48);then
-             echo -e "\033[36m 正在删除${Name} \033[0m";
-               rm -rf ${path}/plugins/${Plugin}
-               rm -rf ${path}/plugins/${Plugin} &>/dev/null
-             if [ -d ${path}/plugins/${Plugin} ]
-             then
-               echo;echo -en "\033[32m 删除失败 回车返回\033[0m";read -p ""
-             else
-               echo;echo -en "\033[32m 删除完成 回车返回\033[0m";read -p ""
-             fi
-           fi
-       else
-       clear
-       echo
-       echo
-       echo -e ${green}建议到插件地址查看使用方法'\n'${blue}${Git}${background}
-       echo
-       sleep 2s
-       echo "=================================="
-       echo 正在安装${Name}，稍安勿躁～
-       echo "=================================="
-       echo
-       git clone --depth=1 ${Git} ./plugins/${Plugin}
-          if [ -d ${path}/plugins/${Plugin} ]
-            then
-              echo -e "\033[36m正在处理依赖\033[0m"
-              pnpm install --filter=py-plugin
-              echo -en ${green}${Name}是否使用用py远程服务器 ${blue}使用[y]不使用[n] 默认为n:${background};read -p "" num
-           case $num in
-             y)
-               cp ${path}/plugins/py-plugin/config_default.yaml ${path}/plugins/py-plugin/config.yaml
-               sed -i "s/host: 127.0.0.1/host: 159.75.113.47/g" ${path}/plugins/py-plugin/config.yaml
-               echo;echo -en "\033[36m已切换为远程服务器\033[0m"
-               ;;
-             n)
-               cd ${path}/plugins/py-plugin
-               pip_mirrors
-               cd ../../
-               ;;
-             *)
-               echo -e "\033[31m请正确输入\033[0m"
-               exit
-               ;;
-             esac
-              echo;echo -en "\033[32m安装完成 回车返回\033[0m";read -p ""
-          else
-              echo;echo -en "\033[31m安装失败 回车返回\033[0m";read -p ""
-          fi
-       fi
-     else
-     echo -e "\033[31m 非Linux系统 本脚本无法安装py插件 \033[0m"
-     exit 
+     if ! [ -x "$(command -v pip)" ];then
+       echo -e ${cyan}检测到未安装pip${background}
+       exit
+     fi 
+     if ! [ -x "$(command -v poetry)" ];then
+       echo -e ${cyan}检测到未安装poetry${background}
+       exit
      fi
-     ;;
+     Name=py插件
+     Plugin=py-plugin
+     Git=https://gitee.com/realhuhu/py-plugin.git
+     install_git_plugin
+   if [ ! -d plugins/py-plugin ];then
+     exit
+   else
+     function dialog_whiptail_page(){
+     if (${dialog_whiptail} \
+     --title "白狐-Bot-Plugin" \
+     --yes-button "本地" \
+     --no-button "远程" \
+     --yesno "请选择py运算的服务器" \
+     10 60)
+     then
+       cd plugins/py-plugin
+       pip_mirrors
+       cd ../../
+     else
+       py_server
+     fi  
+     }
+     function echo_page(){
+     echo -en ${green}是否启用py远程服务器 ${cyan}[N/y] ${background}
+     read -p "" num
+        case $num in
+     Y|y)
+       py_server
+       ;;
+     n|N)
+       cd plugins/py-plugin
+       pip_mirrors
+       cd ../../
+       ;;
+     *)
+       if ! [ -x "$(command -v pip)" ];then
+       echo -e ${cyan}检测到未安装pip${background}
+       exit
+       fi 
+       if ! [ -x "$(command -v poetry)" ];then
+       echo -e ${cyan}检测到未安装poetry${background}
+       exit
+       fi
+       cd plugins/py-plugin
+       pip_mirrors
+       cd ../../
+       ;;
+     esac
+   fi
+     }
+     choose_page
+     ;;   
    12)
      Name=闲心插件
      Plugin=xianxin-plugin
      Git=https://gitee.com/xianxincoder/xianxin-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    13)
      Name=麟插件
      Plugin=lin-plugin
      Git=https://gitee.com/go-farther-and-farther/lin-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    14)
      Name=L插件
      Plugin=l-plugin
      ghproxy_agency
      Git=${ghproxy}https://github.com/liuly0322/l-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    15)
      Name=千羽插件
      Plugin=qianyu-plugin
      Git=https://gitee.com/think-first-sxs/qianyu-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    16)
      Name=清凉图插件
      Plugin=yunzai-c-v-plugin
      Git=https://gitee.com/xwy231321/yunzai-c-v-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    17)
      Name=抽卡插件
      Plugin=flower-plugin
      Git=https://gitee.com/Nwflower/flower-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    18)
      Name=自动化插件
      Plugin=auto-plugin
      Git=https://gitee.com/Nwflower/auto-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    19)
      Name=娱乐插件
      Plugin=recreation-plugin
      Git=https://gitee.com/zzyAJohn/recreation-plugin
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    20)
      Name=碎月插件
      Plugin=suiyue
      Git=https://gitee.com/Acceleratorsky/suiyue.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    21)
      Name=风歌插件
      Plugin=windoge-plugin
      ghproxy_agency
      Git=${ghproxy}https://github.com/gxy12345/windoge-plugin
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    22)
      Name=Atlas[图鉴]
      Plugin=Atlas
      Git=https://gitee.com/Nwflower/atlas
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    23)
      Name=止水插件
      Plugin=zhishui-plugin
      Git=https://gitee.com/fjcq/zhishui-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    24)
      Name=trss插件
      Plugin=TRSS-Plugin
      Git=https://gitee.com/TimeRainStarSky/TRSS-Plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    25)
      Name=脆脆鲨插件
      Plugin=Jinmaocuicuisha-plugin
      Git=https://gitee.com/JMCCS/jinmaocuicuisha.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    26)
-     echo -e "\033[31m半柠檬插件仓库暂时关闭 无法安装\033[0m"
+     echo -e ${red}半柠檬插件仓库暂时关闭 无法安装${background}
      exit
      Name=半柠檬插件
      Plugin=alemon-plugin
      Git=https://gitee.com/ningmengchongshui/alemon-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    27)
      Name=榴莲插件
      Plugin=liulian-plugin
      Git=https://gitee.com/huifeidemangguomao/liulian-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    28)
      Name=小叶插件
      Plugin=xiaoye-plugin
      Git=https://gitee.com/xiaoye12123/xiaoye-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    29)
      Name=R插件
      Plugin=rconsole-plugin
      Git=https://gitee.com/kyrzy0416/rconsole-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    30)
      Name=扩展插件
      Plugin=expand-plugin
      Git=https://gitee.com/SmallK111407/expand-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    31)
      Name=小雪插件
      Plugin=XiaoXuePlugin
      Git=https://gitee.com/XueWerY/XiaoXuePlugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    32)
      Name=冰祈插件
      Plugin=Icepray
      Git=https://gitee.com/koinori/Icepray.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
    33)
-     Name=绝云间修仙
-     Plugin=xiuxian-emulator
-     Git=https://gitee.com/hutao222/DDZS-XIUXIAN-V1.2.4/.git
-     whiptail_install_plugins
-     ;;
-   34)
      Name=光遇插件
      Plugin=Tlon-Sky
      Git=https://gitee.com/Tloml-Starry/Tlon-Sky.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
-   35)
+   34)
      Name=枫叶插件
      Plugin=hs-qiqi-plugin
      Git=https://gitee.com/kesally/hs-qiqi-cv-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
-   36)
+   35)
      Name=七圣召唤插件
      Plugin=call_of_seven_saints
      Git=https://gitee.com/huangshx2001/call_of_seven_saints.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
-   37)
+   36)
      Name=QQ频道插件
      Plugin=QQGuild-Plugin
      ghproxy_agency
      Git=${ghproxy}https://github.com/2y8e9h22/QQGuild-Plugin
-     whiptail_install_plugins
+     install_git_plugin
      ;;
-   38)
+   37)
      Name=小月插件
      Plugin=xiaoyue-plugin
      Git=https://gitee.com/yunxiyuan/xiaoyue-plugin.git
-     whiptail_install_plugins
+     install_git_plugin
      ;;
-   39)
+   38)
      Name=fans插件
      Plugin=FanSky_Qs
      Git=https://gitee.com/FanSky_Qs/FanSky_Qs.git
-     whiptail_install_plugins
-   ;;
-   40)
+     install_git_plugin
+     ;;
+   39)
      Name=phigros辅助插件
      Plugin=phi-plugin
      ghproxy_agency
      Git=${ghproxy}https://github.com/Catrong/phi-plugin.git
-     whiptail_install_plugins
-   ;;
-   41)
+     install_git_plugin
+     ;;
+   40)
      Name=ap绘图插件
      Plugin=ap-plugin
      Git=https://gitee.com/yhArcadia/ap-plugin.git
-     whiptail_install_plugins
-   ;;
-   42)
+     install_git_plugin
+     ;;
+   41)
      Name=三一插件
      Plugin=sanyi-plugin
      Git=https://gitee.com/ThreeYi/sanyi-plugin.git
-     whiptail_install_plugins
-   ;;
-   43)
+     install_git_plugin
+     ;;
+   42)
      Nam=聊天插件
      Plugin=chatgpt-plugin
      ghproxy_agency
      Git=${ghproxy}https://github.com/ikechan8370/chatgpt-plugin.git
-     whiptail_install_plugins
-   ;;
+     install_git_plugin
+     ;;
    0)
      echo
      baihu_whiptail
      ;;
  esac
+} #git_plugin
+#########################################################
+function robot_path(){
+function dialog_whiptail_page(){
+number=$(${dialog_whiptail} \
+--title "白狐 QQ群:705226976" \
+--menu "请选择您要为哪一个bot管理插件" \
+20 40 10 \
+"1" "Yunzai-Bot" \
+"2" "Miao-Yunzai" \
+"3" "yunzai-bot-lite" \
+"4" "TRSS-Yunzai" \
+"0" "退出" \
+3>&1 1>&2 2>&3)
 }
-function main()
-{
-    while true
-    do
-        baihu_whiptail
-        main
-    done
-}
-main
-}
-function Other_Linux(){
-if [ -d plugins ]
-then
-path="."
-else
-echo -e "\033[31m 未在此目录下找到Yunzai-Bot的插件文件夹\033[0m"
-echo -e "\033[31m 请进入Yunzai-Bot根目录之后 使用本脚本\033[0m"
-exit
-fi
-function baibu()
-{
-green="\033[32m"
-blue="\033[36m"
-background="\033[0m"
-white="\033[37m"
-echo 
+function echo_page(){
+echo
 echo
 echo -e ${white}"#####"${green}白狐-Yunzai-Bot${white}"#####"${background}
-echo -e ${green}1.  ${blue}安装git插件${background}
-echo -e ${green}2.  ${blue}安装js插件${background}
-echo -e ${green}3.  ${blue}更新git插件${background}
-echo -e ${green}4.  ${blue}删除git插件${background}
-echo -e ${green}5.  ${blue}删除js插件${background}
-echo -e ${green}6.  ${blue}修复py依赖和端口报错${background}
-echo -e ${green}7.  ${blue}py切换远程与远程${background}
-echo -e ${green}8.  ${blue}修改锅巴端口${background}
-echo 
-echo -e ${green}0.  ${blue}退出${background}
+echo -e ${blue}请选择您要为哪一个bot管理插件${background}
 echo "#########################"
-echo -e ${green}QQ群:${blue}狐狸窝:705226976${background}
+echo -e ${green}1.  ${cyan}Yunzai-Bot${background}
+echo -e ${green}2.  ${cyan}Miao-Yunzai${background}
+echo -e ${green}3.  ${cyan}yunzai-bot-lite${background}
+echo -e ${green}4.  ${cyan}TRSS-Yunzai${background}
+echo -e ${green}0.  ${cyan}退出${background}
+echo "#########################"
+echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
 echo "#########################"
 echo
 echo -en ${green}请输入您的选项: ${background};read number
+clear
+}
+choose_page
 case ${number} in
-    1)
-      Other_Linux_pulgins
-      ;;
-    2)
-      Linux_js_install
-      ;;
-    3)
-      echo
-      echo -e "\033[33m正在更新Yunzai\033[0m"
-      cd ${path}
-      git pull
-      cd ../
-      echo -e "\033[33mYunzai更新完成\033[0m"
-      for file in $(ls -I example -I bin -I other -I system -I genshin plugins)
-      do
-        if [ -d ${path}/plugins/${file} ];then
-          echo
-          echo -e "\033[33m正在更新${file}\033[0m"
-          cd ${path}/plugins/${file}
-          git pull
-          cd ../../
-          echo -e "\033[33m${file}更新完成\033[0m"
-        fi
-      done
-      echo;echo -en "\033[32m全部更新完成 回车返回\033[0m";read -p ""
-      ;;
-    4)
-      Linux_git_file_management
-      ;;
-    5)
-      Linux_js_file_management
-      ;;
-    6)
-     if [ -d "plugins/py-plugin" ]
-       then
-         cd plugins/py-plugin
-         pip_mirrors
-         poetry install 
-         poetry install
-         function py_(){
-         min=$1
-         max=$(($2-$min+1))
-         num=$(date +%s%N)
-         echo $(($num%$max+$min))
-         }
-         pyport=$(py_ 40000 60000)
-         if [ -e "${path}plugins/py-plugin/config.yaml" ]
-            then
-               sed -i "15s/.*/port: ${pyport}/g" ${path}/plugins/py-plugin/config.yaml
-               echo;echo -en "\033[36m 执行完成 回车返回\033[0m";read
-            else
-               cp ${path}/plugins/py-plugin/config_default.yaml ${path}/plugins/py-plugin/config.yaml
-               sed -i "15s/.*/port: ${pyport}/g" ${path}/plugins/py-plugin/config.yaml
-               echo;echo -en "\033[36m 执行完成 回车返回\033[0m";read
-         fi
-         cd ../../
-       else
-         echo -e "\033[33m 未安装py插件 回车返回 \033[0m";read
-     fi
-     ;;
-    7)
-     if [ -d "plugins/py-plugin" ]
-     then
-       if [ -e "${path}/plugins/py-plugin/config.yaml" ]
-          then
-            if grep -q "host: 159.75.113.47" ${path}/plugins/py-plugin/config.yaml
-              then
-                sed -i "s/host: 159.75.113.47/host: 127.0.0.1/g" ${path}/plugins/py-plugin/config.yaml
-                sed -i "s/port: 50053/port: 50052/g" ${path}/plugins/py-plugin/config.yaml
-                echo;echo -en "\033[36m 已切换为本地服务器 请安装/更新依赖 回车继续\033[0m";read
-                sleep 2s
-                echo
-                cd ${path}/plugins/py-plugin
-                pip_mirrors
-                cd ../../
-                echo;echo -en "\033[36m 执行完成 回车返回\033[0m";read
-              else
-                sed -i "s/host: 127.0.0.1/host: 159.75.113.47/g" ${path}/plugins/py-plugin/config.yaml
-                pyport=(grep port ${path}/plugins/py-plugin/config.yaml)
-                sed -i "s/${pyport}/port: 50053/g" ${path}/plugins/py-plugin/config.yaml
-                echo;echo -en "\033[36m 已切换为远程服务器 回车返回\033[0m";read -p ""
-            fi
-       else
-         if grep -q "host: 159.75.113.47" ${path}/plugins/py-plugin/config_default.yaml
-           then
-             cp ${path}/plugins/py-plugin/config_default.yaml ${path}/plugins/py-plugin/config.yaml
-             sed -i "s/host: 159.75.113.47/host: 127.0.0.1/g" ${path}/plugins/py-plugin/config.yaml
-             sed -i "s/port: 50053/port: 50052/g" ${path}/plugins/py-plugin/config.yaml
-             echo;echo -en "\033[36m 已切换为本地服务器 请安装/更新依赖 回车继续\033[0m";read
-             sleep 2s
-             echo
-             cd ${path}/plugins/py-plugin
-             pip_mirrors
-             cd ../../
-             echo;echo -en "\033[36m 执行完成 回车返回\033[0m";read
-           else
-             cp ${path}/plugins/py-plugin/config_default.yaml ${path}/plugins/py-plugin/config.yaml
-             sed -i "s/host: 127.0.0.1/host: 159.75.113.47/g" ${path}/plugins/py-plugin/config.yaml
-             sed -i "s/port: 50052/port: 50053/g" ${path}/plugins/py-plugin/config.yaml
-             echo;echo -en "\033[36m 已切换为远程服务器 回车返回\033[0m";read -p ""
-         fi
-       fi
-     else
-         echo -en "\033[33m 未安装py插件 回车返回 \033[0m";read
-     fi
-     ;;
-    8)
-     if [ -e "plugins/Guoba-Plugin/config/application.yaml" ]
-       then
-         echo -en "\033[32m 请输入更改之后的端口号[] \033[0m"; read -p "" gbport
-           if [[ "${gbport}" =~ ^[0-9]+$ ]]; then
-             sed -i "s/.*port.*/  port: ${gbport}/g" plugins/Guoba-Plugin/config/application.yaml
-	         echo;echo -en "\033[36m 更改完成 回车返回\033[0m";read
-	       fi
-       else
-         echo -e "\033[31m 文件不存在,请确认是否安装锅巴并启动过一次 \033[0m";
-         exit
-     fi
-     ;;
-    0)
-      exit
-      ;;
-  esac
+1)
+name=Yunzai-Bot
+;;
+2)
+name=Miao-Yunzai
+;;
+3)
+name=yunzai-bot-lite
+;;
+4)
+name=TRSS-Yunzai
+;;
+0)
+exit
+;;
+*)
+echo
+echo -e ${red}输入错误${background}
+exit
+;;
+esac
+if [ -d "/root/${name}" ];then
+path="/root/${name}"
+elif [ -d "/root/fox@bot/${name}" ];then
+path="/root/fox@bot/${name}"
+elif [ -d "/home/lighthouse/ubuntu/${name}" ];then
+path="/home/lighthouse/ubuntu/${name}"
+elif [ -d "/home/lighthouse/centos/${name}" ];then
+path="/home/lighthouse/centos/${name}"
+elif [ -d "/home/lighthouse/debian/${name}" ];then
+path="/home/lighthouse/debian/${name}"
+elif [ -d "/home/lighthouse/debian/${name}" ];then
+path="/home/lighthouse/debian/${name}"
+elif [ -d "/root/TRSS_AllBot/${name}" ];then
+path="/root/TRSS_AllBot/${name}"
+elif [ -d "plugins" ];then
+path="."
+else
+function dialog_whiptail_page(){
+${dialog_whiptail} --title "白狐≧▽≦" --msgbox "自动判断路径失败 请进入${name}目录后 使用本脚本" 10 43
+exit
 }
-#插件:Plugin 插件git链接:Git 插件名字:Name
-function install_plugins(){
-green="\033[32m"
-blue="\033[36m"
-background="\033[0m"
-if [ -d plugins/${Plugin} ]
-  then
-    echo -e ${green}${Name}已经安装 是否删除 ${blue}删除[y]取消[n]:${background}
-        read -p "" num
-     case $num in
-       y)
-         rm -rf plugins/${Plugin}
-         rm -rf plugins/${Plugin} &>/dev/null
-         if [ -d plugins/${Plugin} ]
-           then
-             echo;echo -en "\033[32m 删除失败 回车返回\033[0m";read -p ""
-           else
-             echo;echo -en "\033[32m 删除完成 回车返回\033[0m";read -p ""
-         fi
-         ;;
-       n)
-         echo -e "\033[36m 取消\033[0m"
-         sleep 2s
-         ;;
-       *)
-         echo -e "\033[31m请正确输入 \033[36m回车返回\033[0m" read -p ""
-         ;;
-     esac
-  else
-    echo -e ${green}建议到插件地址查看使用方法'\n'${blue}${Git}${background}
-    sleep 2s
-    echo "=================================="
-    echo 正在安装${Name}，稍安勿躁～
-    echo "=================================="
-    git clone --depth=1 ${Git} ./plugins/${Plugin}
-    if [ -d plugins/${Plugin} ]
-    then
-      echo -e "\033[36m正在处理依赖\033[0m"
-      cd plugins/${Plugin}
-      pnpm install -P
-      cd ../../ 
-      echo;echo -en "\033[32m安装完成 回车返回\033[0m";read -p ""
-    else
-      echo;echo -en "\033[31m安装失败 回车返回\033[0m";read -p ""
-    fi
+function echo_page(){
+echo
+echo -e ${red}未在此目录下找到${name}的插件文件夹${background}
+echo -e ${red}请进入 ${name}目录 之后使用本脚本${background}
+exit
+}
+choose_page
+fi
+cd ${path}
+}
+function choose_page(){
+if [ ${page} = dialog_whiptail_page ];then
+dialog_whiptail_page
+elif [ ${page} = echo_page ];then
+echo_page
 fi
 }
-function ghproxy_agency_Other_Linux(){
-green="\033[32m"
-blue="\033[36m"
-background="\033[0m"
-echo -en ${green}${Name}该项目库位于github 是否启用ghproxy镜像站 ${blue}启用[y]取消[n]: ${background}
-read -p "" num
-        case $num in
-     y)
-       ghproxy="https://ghproxy.com/"
-       ;;
-     n)
-       ghproxy=" "
-       ;;
-     *)
-       echo -e "\033[31m请正确输入 \033[36m回车返回\033[0m";read -p ""
-       ;;
-  esac
-}
-function Other_Linux_pulgins()
-{
-if [ ! -d ./node_modules/axios ];then
-echo -e "\033[36m正在安装绝大多数插件的依赖: axios\033[0m"
-pnpm install 
-pnpm install axios -w
+function apt_install(){
+if ! [ -x "$(command -v whiptail)" ];then
+    echo -e ${cyan}检测到未安装whiptail 开始安装${background}
+    apt update -y
+    apt install whiptail -y
 fi
+if ! [ -x "$(command -v git)" ];then
+    echo -e ${cyan}检测到未安装git 开始安装${background}
+    apt update -y
+    apt install git -y
+fi
+if ! [ -x "$(command -v curl)" ];then
+    echo -e ${cyan}检测到未安装curl 开始安装${background}
+    apt update -y
+    apt install curl -y
+fi
+}
+function yum_install(){
+if [ -x "$(command -v whiptail)" ];then
+    dialog_whiptail=whiptail
+elif [ -x "$(command -v dialog)" ];then
+    dialog_whiptail=dialog
+else
+    echo -e ${red}检测到未安装dialog或者whiptail 开始安装dialog${background}
+    yum update -y
+    yum install dialog -y
+fi
+if ! [ -x "$(command -v git)" ];then
+    echo -e ${cyan}检测到未安装git 开始安装${background}
+    yum update -y
+    yum install curl -y
+fi
+if ! [ -x "$(command -v curl)" ];then
+    echo -e ${cyan}检测到未安装curl 开始安装${background}
+    yum update -y
+    yum install curl -y
+fi
+}
+function pacman_install(){
+if [ -x "$(command -v whiptail)" ];then
+    dialog_whiptail=whiptail
+elif [ -x "$(command -v dialog)" ];then
+    dialog_whiptail=dialog
+else
+    echo -e ${red}检测到未安装dialog或者whiptail 开始安装dialog${background}
+    pacman -Sy dialog --noconfirm
+fi
+if ! [ -x "$(command -v git)" ];then
+    echo -e ${cyan}检测到未安装git 开始安装${background}
+    pacman -Sy git --noconfirm
+fi
+if ! [ -x "$(command -v curl)" ];then
+    echo -e ${cyan}检测到未安装curl 开始安装${background}
+    pacman -Sy curl --noconfirm
+fi
+}
+red="\033[31m"
 green="\033[32m"
-blue="\033[36m"
-background="\033[0m"
+yellow="\033[33m"
+blue="\033[34m"
+purple="\033[35m"
+cyan="\033[36m"
 white="\033[37m"
-echo
-echo
-echo -e ${white}"#######"${green}白狐-Yunzai-Bot-Plug-In${white}"#######"${background}
-echo -e ${green}1.  ${blue}miao-plugin"               "喵喵插件${background}
-echo -e ${green}2.  ${blue}xiaoyao-cvs-plugin"        "逍遥图鉴${background}
-echo -e ${green}3.  ${blue}Guoba-Plugin"              "锅巴插件${background}
-echo -e ${green}4.  ${blue}zhi-plugin"                "白纸插件${background}
-echo -e ${green}5.  ${blue}xitian-plugin"             "戏天插件${background}
-echo -e ${green}6.  ${blue}Akasha-Terminal-plugin"    "虚空插件${background}
-echo -e ${green}7.  ${blue}Xiuxian-Plugin-Box"        "修仙插件${background}
-echo -e ${green}8.  ${blue}Yenai-Plugin"              "椰奶插件${background}
-echo -e ${green}9.  ${blue}xiaofei-plugin"            "小飞插件${background}
-echo -e ${green}10. ${blue}earth-k-plugin"           "土块插件${background}
-echo -e ${green}11. ${blue}py-plugin"                "py插件${background}
-echo -e ${green}12. ${blue}xianxin-plugin"           "闲心插件${background}
-echo -e ${green}13. ${blue}lin-plugin"               "麟插件${background}
-echo -e ${green}14. ${blue}l-plugin"                 "L插件${background}
-echo -e ${green}15. ${blue}qianyu-plugin"            "千羽插件${background}
-echo -e ${green}16. ${blue}yunzai-c-v-plugin"        "清凉图插件${background}
-echo -e ${green}17. ${blue}flower-plugin"            "抽卡插件${background}
-echo -e ${green}18. ${blue}auto-plugin"              "自动化插件${background}
-echo -e ${green}19. ${blue}recreation-plugin"        "娱乐插件${background}
-echo -e ${green}20. ${blue}suiyue-plugin"            "碎月插件${background}
-echo -e ${green}21. ${blue}windoge-plugin"           "风歌插件${background}
-echo -e ${green}22. ${blue}Atlas"                    "原神图鉴${background}
-echo -e ${green}23. ${blue}zhishui-plugin"           "止水插件${background}
-echo -e ${green}24. ${blue}TRSS-Plugin"              "trss插件${background}
-echo -e ${green}25. ${blue}Jinmaocuicuisha"          "脆脆鲨插件${background}
-echo -e ${green}26. ${blue}alemon-plugin"            "半柠檬插件${background}
-echo -e ${green}27. ${blue}liulian-plugin"           "榴莲插件${background}
-echo -e ${green}28. ${blue}xiaoye-plugin"            "小叶插件${background}
-echo -e ${green}29. ${blue}rconsole-plugin"          "R插件${background}
-echo -e ${green}30. ${blue}expand-plugin"            "扩展插件${background}
-echo -e ${green}31. ${blue}XiaoXuePlugin"            "小雪插件${background}
-echo -e ${green}32. ${blue}Icepray"                  "冰祈插件${background}
-echo -e ${green}33. ${blue}xiuxian-emulator-plugin"  "绝云间修仙${background}
-echo -e ${green}34. ${blue}Tlon-Sky"                 "光遇插件${background}
-echo -e ${green}35. ${blue}hs-qiqi-plugin"           "枫叶插件${background}
-echo -e ${green}36. ${blue}call_of_seven_saints"     "七圣召唤插件${background}
-echo -e ${green}37. ${blue}QQGuild-Plugin"           "QQ频道插件${background}
-echo -e ${green}38. ${blue}xiaoyue-plugin"           "小月插件${background}
-echo -e ${green}39. ${blue}FanSky_Qs"                "fans插件${background}
-echo -e ${green}40. ${blue}phi-plugin"               "phigros辅助插件${background}
-echo -e ${green}41. ${blue}ap-plugin"                "ap绘图插件${background}
-echo -e ${green}42. ${blue}sanyi-plugin"             "三一插件${background}
-echo -e ${green}43. ${blue}chatgpt-plugin"           "聊天插件${background}
-echo 
-echo -e ${green}0. ${blue}返回${background}
-echo "#####################################"
-echo;echo -en "\033[32m请输入您需要安装插件的序号:\033[0m";read -p "" number
- case $number in
-   1)
-     Name=喵喵插件 #插件中文名字
-     Plugin=miao-plugin #插件名
-     Git=https://gitee.com/yoimiya-kokomi/miao-plugin.git #仓库链接
-     install_plugins #调用安装
-     ;;
-   2)
-     Name=逍遥图鉴
-     Plugin=xiaoyao-cvs-plugin
-     Git=https://gitee.com/Ctrlcvs/xiaoyao-cvs-plugin.git
-     install_plugins
-     ;;
-   3)
-     Name=锅巴插件
-     Plugin=Guoba-Plugin
-     Git=https://gitee.com/guoba-yunzai/guoba-plugin.git
-     install_plugins
-     ;;
-   4)
-     Name=白纸插件
-     Plugin=zhi-plugin
-     Git=https://gitee.com/headmastertan/zhi-plugin.git
-     install_plugins
-     ;;
-   5)
-     Name=戏天插件
-     Plugin=xitian-plugin
-     Git=https://gitee.com/XiTianGame/xitian-plugin.git
-     install_plugins
-     ;;
-   6)
-     Name=虚空插件
-     Plugin=akasha-terminal-plugin
-     Git=https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git
-     install_plugins
-     ;;
-   7)
-     Name=修仙插件
-     Plugin=xiuxian-plugin
-     Git=https://gitee.com/three-point-of-water/xiuxian-plugin
-     install_plugins
-     ;;
-   8)
-     Name=椰奶插件
-     Plugin=yenai-plugin
-     Git=https://gitee.com/yeyang52/yenai-plugin.git
-     install_plugins
-     ;;
-   9)
-     Name=小飞插件
-     Plugin=xiaofei-plugin
-     Git=https://gitee.com/xfdown/xiaofei-plugin.git
-     install_plugins
-     ;;
-   10)
-     Name=土块插件
-     Plugin=earth-k-plugin
-     Git=https://gitee.com/SmallK111407/earth-k-plugin.git
-     install_plugins
-     ;;
-   11)
-     if [ "$(uname)" == "Linux" ]
-     then
-       if ! [ -x "$(command -v poetry)" ]
-         then
-           echo -en "\033[31m 你还没有安装poetry呢 回车退出 \033[0m";read -p ""
-           exit
-       fi
-       Name=py插件
-       Plugin=py-plugin
-       Git=https://gitee.com/realhuhu/py-plugin.git
-       green="\033[32m"
-       blue="\033[36m"
-       background="\033[0m"
-       if [ -d plugins/${Plugin} ]
-         then
-           clear
-           echo -e ${green}${Name}已经安装 是否删除 ${blue}删除[y]取消[n]:${background}
-           read -p "" num
-           case $num in
-             y)
-               rm -rf plugins/${Plugin}
-               rm -rf plugins/${Plugin} &>/dev/null
-               if [ -d plugins/${Plugin} ]
-                 then
-                  echo;echo -en "\033[32m 删除失败 回车返回\033[0m";read -p ""
-                 else
-                  echo;echo -en "\033[32m 删除完成 回车返回\033[0m";read -p ""
-               fi
-               ;;
-             n)
-               echo -e "\033[3m请正确输入 \033[36m回车返回\033[0m";read -p ""
-               ;;
-             *)
-               echo -e "\033[31m请正确输入 \033[36m回车返回\033[0m"; read -p ""
-             ;;
-           esac
-       else
-       clear
-       echo
-       echo
-       echo -e ${green}建议到插件地址查看使用方法'\n'${blue}${Git}${background}
-       echo
-       sleep 2s
-       echo "=================================="
-       echo 正在安装${Name}，稍安勿躁～
-       echo "=================================="
-       echo
-       git clone --depth=1 ${Git} ./plugins/${Plugin}
-          if [ -d ${path}/plugins/${Plugin} ]
-            then
-              echo -e "\033[36m正在处理依赖\033[0m"
-              cd plugins/${Plugin}
-              pnpm install --filter=py-plugin
-              echo -en ${green}${Name}是否使用用py远程服务器 ${blue}使用[y]不使用[n] 默认为n:${background}
-           read -p "" num
-           case $num in
-             y)
-               cp ${path}/plugins/py-plugin/config_default.yaml ${path}/plugins/py-plugin/config.yaml
-               sed -i "s/host: 127.0.0.1/host: 159.75.113.47/g" ${path}/plugins/py-plugin/config.yaml
-               echo;echo -en "\033[36m已切换为远程服务器\033[0m"
-               ;;
-             n)
-               cd ${path}/plugins/py-plugin
-               pip_mirrors
-               cd ../../
-               ;;
-             *)
-               echo -e "\033[31m请正确输入\033[0m"
-               exit
-               ;;
-             esac
-              echo;echo -en "\033[32m安装完成 回车返回\033[0m";read -p ""
-          else
-              echo;echo -en "\033[31m安装失败 回车返回\033[0m";read -p ""
-          fi
-       fi
-     else
-     echo -e "\033[31m 非Linux系统 本脚本无法安装py插件 \033[0m"
-     exit 0
-     fi
-     ;;
-   12)
-     Name=闲心插件
-     Plugin=xianxin-plugin
-     Git=https://gitee.com/xianxincoder/xianxin-plugin.git
-     install_plugins
-     ;;
-   13)
-     Name=麟插件
-     Plugin=lin-plugin
-     Git=https://gitee.com/go-farther-and-farther/lin-plugin.git
-     install_plugins
-     ;;
-   14)
-     Name=L插件
-     Plugin=l-plugin
-     ghproxy_agency_Other_Linux
-     Git=${ghproxy}https://github.com/liuly0322/l-plugin.git
-     install_plugins
-     ;;
-   15)
-     Name=千羽插件
-     Plugin=qianyu-plugin
-     Git=https://gitee.com/think-first-sxs/qianyu-plugin.git
-     install_plugins
-     ;;
-   16)
-     Name=清凉图插件
-     Plugin=yunzai-c-v-plugin
-     Git=https://gitee.com/xwy231321/yunzai-c-v-plugin.git
-     install_plugins
-     ;;
-   17)
-     Name=抽卡插件
-     Plugin=flower-plugin
-     Git=https://gitee.com/Nwflower/flower-plugin.git
-     install_plugins
-     ;;
-   18)
-     Name=自动化插件
-     Plugin=auto-plugin
-     Git=https://gitee.com/Nwflower/auto-plugin.git
-     install_plugins
-     ;;
-   19)
-     Name=娱乐插件
-     Plugin=recreation-plugin
-     Git=https://gitee.com/zzyAJohn/recreation-plugin
-     install_plugins
-     ;;
-   20)
-     Name=碎月插件
-     Plugin=suiyue
-     Git=https://gitee.com/Acceleratorsky/suiyue.git
-     install_plugins
-     ;;
-   21)
-     Name=风歌插件
-     Plugin=windoge-plugin
-     ghproxy_agency_Other_Linux
-     Git=${ghproxy}https://github.com/gxy12345/windoge-plugin
-     install_plugins
-     ;;
-   22)
-     Name=Atlas[图鉴]
-     Plugin=Atlas
-     Git=https://gitee.com/Nwflower/atlas
-     install_plugins
-     ;;
-   23)
-     Name=止水插件
-     Plugin=zhishui-plugin
-     Git=https://gitee.com/fjcq/zhishui-plugin.git
-     install_plugins
-     ;;
-   24)
-     Name=trss插件
-     Plugin=TRSS-Plugin
-     Git=https://gitee.com/TimeRainStarSky/TRSS-Plugin.git
-     install_plugins
-     ;;
-   25)
-     Name=脆脆鲨插件
-     Plugin=Jinmaocuicuisha-plugin
-     Git=https://gitee.com/JMCCS/jinmaocuicuisha.git
-     install_plugins
-     ;;
-   26)
-     Name=半柠檬插件
-     Plugin=alemon-plugin
-     Git=https://gitee.com/ningmengchongshui/alemon-plugin.git
-     install_plugins
-     ;;
-   27)
-     Name=榴莲插件
-     Plugin=liulian-plugin
-     Git=https://gitee.com/huifeidemangguomao/liulian-plugin.git
-     install_plugins
-     ;;
-   28)
-     Name=小叶插件
-     Plugin=xiaoye-plugin
-     Git=https://gitee.com/xiaoye12123/xiaoye-plugin.git
-     install_plugins
-     ;;
-   29)
-     Name=R插件
-     Plugin=rconsole-plugin
-     Git=https://gitee.com/kyrzy0416/rconsole-plugin.git
-     install_plugins
-     ;;
-   30)
-     Name=扩展插件
-     Plugin=expand-plugin
-     Git=https://gitee.com/SmallK111407/expand-plugin.git
-     install_plugins
-     ;;
-   31)
-     Name=小雪插件
-     Plugin=XiaoXuePlugin
-     Git=https://gitee.com/XueWerY/XiaoXuePlugin.git
-     install_plugins
-     ;;
-   32)
-     Name=冰祈插件
-     Plugin=Icepray
-     Git=https://gitee.com/koinori/Icepray.git
-     install_plugins
-     ;;
-   33)
-     Name=绝云间修仙
-     Plugin=xiuxian-emulator
-     Git=https://gitee.com/hutao222/DDZS-XIUXIAN-V1.2.4/.git
-     install_plugins
-     ;;
-   34)
-     Name=光遇插件
-     Plugin=Tlon-Sky
-     Git=https://gitee.com/Tloml-Starry/Tlon-Sky.git
-     install_plugins
-     ;;
-   35)
-     Name=枫叶插件
-     Plugin=hs-qiqi-plugin
-     Git=https://gitee.com/kesally/hs-qiqi-cv-plugin.git
-     install_plugins
-     ;;
-   36)
-     Name=七圣召唤插件
-     Plugin=call_of_seven_saints
-     Git=https://gitee.com/huangshx2001/call_of_seven_saints.git
-     install_plugins
-     ;;
-   37)
-     Name=QQ频道插件
-     Plugin=QQGuild-Plugin
-     ghproxy_agency_Other_Linux
-     Git=${ghproxy}https://github.com/2y8e9h22/QQGuild-Plugin.git
-     install_plugins
-     ;;
-   38)
-     Name=小月插件
-     Plugin=xiaoyue-plugin
-     Git=https://gitee.com/yunxiyuan/xiaoyue-plugin.git
-     install_plugins
-     ;;
-   39)
-     Name=fans插件
-     Plugin=FanSky_Qs
-     Git=https://gitee.com/FanSky_Qs/FanSky_Qs.git
-     ghproxy_agency_Other_Linux
-     install_plugins
-   ;;
-   40)
-     Name=phigros辅助插件
-     Plugin=phi-plugin
-     ghproxy_agency_Other_Linux
-     Git=${ghproxy}https://github.com/Catrong/phi-plugin.git
-     install_plugins
-   ;;
-   41)
-     Name=ap绘图插件
-     Plugin=ap-plugin
-     Git=https://gitee.com/yhArcadia/ap-plugin.git
-     install_plugins
-   ;;
-   42)
-     Name=三一插件
-     Plugin=sanyi-plugin
-     Git=https://gitee.com/ThreeYi/sanyi-plugin.git
-     install_plugins
-   ;;
-   43)
-     Nam=聊天插件
-     Plugin=chatgpt-plugin
-     ghproxy_agency_Other_Linux
-     Git=${ghproxy}https://github.com/ikechan8370/chatgpt-plugin.git
-     install_plugins
-   ;;
-   esac
-}
+background="\033[0m"
+if grep -q -s -i -E "debian|ubuntu" /etc/issue;then > /dev/null
+    apt_install
+    page=dialog_whiptail_page
+    dialog_whiptail=whiptail
+    robot_path
+    main
+elif grep -q -s -i -E "centos|red hat|redhat|Kernel" /etc/issue;then > /dev/null
+    yum_install
+    page=dialog_whiptail_page
+    robot_path
+    main
+elif grep -q -s -i -E "arch|manjaro" /etc/issue;then > /dev/null
+    pacman_install
+    page=dialog_whiptail_page
+    robot_path
+    main
+else
+    page=echo_page
+    robot_path
+    main
+fi
 function mainbak()
 {
-    while true
-    do
-        baibu
-        mainbak
-    done
+   while true
+   do
+       main
+       mainbak
+   done
 }
 mainbak
-}
-function debian(){
-if ! [ -x "$(command -v whiptail)" ];then
-    echo -e "\033[36m检测到未安装whiptail 开始安装 \033[0m";
-    apt update -y
-    apt install whiptail -y
-fi
-if ! [ -x "$(command -v git)" ];then
-    echo -e "\033[36m检测到未安装git 开始安装 \033[0m";
-    apt update -y
-    apt install git -y
-fi
-if ! [ -x "$(command -v curl)" ];then
-    echo -e "\033[36m检测到未安装curl 开始安装 \033[0m";
-    apt update -y
-    apt install curl -y
-fi
-}
-
-function ubuntu(){
-if ! [ -x "$(command -v whiptail)" ];then
-    echo -e "\033[36m检测到未安装whiptail 开始安装 \033[0m";
-    apt update -y
-    apt install whiptail -y
-fi
-if ! [ -x "$(command -v git)" ];then
-    echo -e "\033[36m检测到未安装git 开始安装 \033[0m";
-    apt update -y
-    apt install git -y
-fi
-if ! [ -x "$(command -v curl)" ];then
-    echo -e "\033[36m检测到未安装curl 开始安装 \033[0m";
-    apt update -y
-    apt install curl -y
-fi
-}
-if grep -q -E -i "debian" /etc/issue; then > /dev/null
-    debian
-    Linux
-elif grep -q -E -i "ubuntu" /etc/issue; then > /dev/null
-    ubuntu
-    Linux
-else
-    Other_Linux
-fi

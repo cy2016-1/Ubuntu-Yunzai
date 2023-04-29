@@ -62,7 +62,7 @@ case "$1" in
   exit
   ;;
 esac
-ver=3.7.2
+ver=3.7.3
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -333,7 +333,7 @@ if [ $feedback = 0 ];then
            bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
            fi
            
-           if [[ ${admin} = 11 ]];then
+           if [[ ${admin} = 12 ]];then
            cd ${home}/Yunzai-Bot
            pnpm install
            pnpm install puppeteer@19.0.0 -w
