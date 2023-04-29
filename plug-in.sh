@@ -898,9 +898,8 @@ case ${number} in
      Plugin=py-plugin
      Git=https://gitee.com/realhuhu/py-plugin.git
      install_git_plugin
-   if [ ! -d plugins/py-plugin ];then
-     exit
-   else
+   if [ -d plugins/py-plugin ]
+   then
      function dialog_whiptail_page(){
      if (${dialog_whiptail} \
      --title "白狐-Bot-Plugin" \
@@ -920,10 +919,10 @@ case ${number} in
      echo -en ${green}是否启用py远程服务器 ${cyan}[N/y] ${background}
      read -p "" num
         case $num in
-     Y|y)
+     y|Y)
        py_server
        ;;
-     n|N)
+     N|n)
        cd plugins/py-plugin
        pip_mirrors
        cd ../../
@@ -942,6 +941,8 @@ case ${number} in
        cd ../../
        ;;
      esac
+   else
+     exit
    fi
      }
      choose_page
