@@ -62,7 +62,7 @@ case "$1" in
   exit
   ;;
 esac
-ver=3.7.3
+ver=3.7.4
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -272,7 +272,7 @@ if [ $feedback = 0 ];then
            echo
            echo redis修复暂时噶了
            exit
-           cd ${home}/Yunzai-Bot
+           cd ~/Yunzai-Bot
            git pull
            case $(uname -m) in
              aarch64|arm64)
@@ -334,7 +334,7 @@ if [ $feedback = 0 ];then
            fi
            
            if [[ ${admin} = 12 ]];then
-           cd ${home}/Yunzai-Bot
+           cd ~/Yunzai-Bot
            pnpm install
            pnpm install puppeteer@19.0.0 -w
            cd ../
