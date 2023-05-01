@@ -116,7 +116,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/ffmpge.sh)
 |冷风|1元|
 |慕言|19.05元|
 |小云睡大觉|15元|
-|好心人|10元|
+|好耶|10元|
 |刻晴|6元|
 |白狐|0.01元|
 感谢老板 喵~
