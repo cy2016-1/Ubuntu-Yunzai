@@ -69,7 +69,7 @@ else
 if [[ "${Number}" =~ ^[0-9]+$ ]]; then
   ls -I example -I bin -I other -I system plugins > git.log
   content=`sed -n "${Number}p" git.log`
-  if [ "plugins/${content}" = "plugins/" ] || [ -d "plugins/${content}" = "plugins/" ]
+  if [ "plugins/${content}" == "plugins/" ] && [ "plugins/${content}" == "plugins/genshin" ]
     then
       echo;echo -en ${red}输入错误${background}
       exit
@@ -327,7 +327,7 @@ echo -en "\033[35m请输入选项 \033[0m";read number
           echo;echo -en "\033[31m输入错误\033[0m";echo
           exit
         fi
-        cp ${sdpath}/${content} ${path}/plugins/example/
+        cp ${sdpath}/${content} plugins/example/
        if [ -f "${path}/plugins/example/${content}" ];then
         echo;echo -en "\033[36m 安装完成 回车返回\033[0m";read
        else
@@ -619,6 +619,7 @@ then
 echo -en ${red}依赖安装失败 '\n'${blue}回车重新安装${background};read
 pip_mirrors
 fi
+poetry install
 }
 echo 
 echo
