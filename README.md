@@ -94,7 +94,9 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/ffmpge.sh)
 
 <hr>
 #### 赞助列表(排名不分先后)
+
 >说明:赞助之后，找不到人的，均使用`好心人`代替<br>同时，请备注您希望出现在赞助名单上的名字的名字
+
 | 名称 | 金额 |
 |----|----|
 |受不了了|5元|远走高飞|2.5元|
