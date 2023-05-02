@@ -1,5 +1,5 @@
 #!/bin/env bash
-if ! grep -q -s -i -E "icqq"。package.json;then > /dev/null
+if ! grep -q -s -i -E "icqq" package.json;then > /dev/null
     echo -e "\033[31m" 请进入 "\033[33m"云崽/喵崽/TRSS崽 "\033[31m"目录之后运行本脚本"\033[0m"
 exit 0
 fi
