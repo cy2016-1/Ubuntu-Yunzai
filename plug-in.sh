@@ -645,9 +645,9 @@ if [ -d plugins/${Plugin} ]
           cd plugins/${Plugin}
           pnpm install -P
           cd ../../ 
-          echo;echo -en ${green}安装完成 回车返回${background}read
+          echo;echo -en ${green}安装完成 回车返回${background};read
       else
-          echo;echo -en ${red}安装失败 回车返回${background}read
+          echo;echo -en ${red}安装失败 回车返回${background};read
       fi
     fi
 fi
@@ -850,6 +850,8 @@ number=$(${dialog_whiptail} \
 "40" "ap-plugin                      ap绘图插件" \
 "41" "sanyi-plugin                   三一插件" \
 "42" "chatgpt-plugin                 聊天插件" \
+"43" "y-tian-plugin                  阴天插件" \
+"44" "xianyu-plugin                  咸鱼插件" \
 3>&1 1>&2 2>&3)
 feedback=$?
 if [ ! ${feedback} = 0 ];then
@@ -904,6 +906,8 @@ echo -e ${green_red}39. ${cyan}phi-plugin"               "phigros辅助插件${b
 echo -e ${green_red}40. ${cyan}ap-plugin"                "AI绘图插件${background}
 echo -e ${green_red}41. ${cyan}sanyi-plugin"             "三一插件${background}
 echo -e ${green_red}42. ${cyan}chatgpt-plugin"           "聊天插件${background}
+echo -e ${green_red}43. ${cyan}y-tian-plugin"            "阴天插件${background}
+echo -e ${green_red}44. ${cyan}xianyu-plugin"            "咸鱼插件${background}
 echo 
 echo -e ${green}0. ${cyan}返回${background}
 echo "#####################################"
@@ -1227,6 +1231,18 @@ case ${number} in
      Plugin=chatgpt-plugin
      ghproxy_agency
      Git=${ghproxy}https://github.com/ikechan8370/chatgpt-plugin.git
+     install_git_plugin
+     ;;
+   43)
+     Nam=阴天插件
+     Plugin=y-tian-plugin
+     Git=https://gitee.com/wan13877501248/y-tian-plugin.git
+     install_git_plugin
+     ;;
+   43)
+     Nam=咸鱼插件
+     Plugin=xianyu-plugin
+     Git=https://gitee.com/suancaixianyu/xianyu-plugin.git
      install_git_plugin
      ;;
    0)
