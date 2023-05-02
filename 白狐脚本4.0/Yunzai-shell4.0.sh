@@ -154,7 +154,7 @@ echo -e ${yellow}正在使用pnpm安装依赖${background}
 cd ./fox@bot/${name}
 pnpm install -P && pnpm install
 icqq_local=`grep icqq package.json`
-icqq_latest=`curl -sL https://raw.github.com/icqqjs/icqq/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
+icqq_latest=`curl -sL https://raw.kgithub.com/icqqjs/icqq/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
 sed -i 's/${icqq_local}/"icqq": "^${icqq_latest}",/g' package.json
 rm node_modules/puppeteer node_modules/icqq
 pnpm install puppeteer@19.0.0 icqq@latest -w
@@ -257,14 +257,14 @@ ErrorRepair=$(whiptail \
 20 30 12 \
 "1" "修复chromium启动失败" \
 "2" "修复chromium调用失败" \
-"3" "修改${name}主人QQ" \
+"3" "修改${name}主人qq" \
 "4" "管理${name}插件" \
 "5" "${name}无法登录" \
 "6" "前台启动${name}" \
 "7" "备份${name}数据" \
 "8" "清楚${name}数据" \
 "9" "${name}报错修复" \
-"10" "白狐脚本帮助" \
+"10" "帮助[实时更新]" \
 "0" "返回" \
 3>&1 1>&2 2>&3)
 
@@ -286,7 +286,7 @@ baihu=$(whiptail \
 --menu "${ver}" \
 20 45 12 \
 "1" "打开${name}窗口" \
-"2" "后台启动${name}" \
+"2" "${name}后台启动" \
 "3" "停止${name}运行" \
 "4" "管理${name}插件" \
 "5" "${name}无法登录" \
@@ -294,7 +294,7 @@ baihu=$(whiptail \
 "7" "备份${name}数据" \
 "8" "清楚${name}数据" \
 "9" "${name}报错修复" \
-"10" "白狐脚本帮助" \
+"10" "帮助[实时更新]" \
 "0" "返回" \
 3>&1 1>&2 2>&3)
 if ! $? neq 0 then
