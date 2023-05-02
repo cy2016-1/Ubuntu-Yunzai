@@ -1244,7 +1244,7 @@ case ${number} in
    45)
      Nam=星穹铁道插件
      Plugin=StarRail-plugin
-     Git=https://github.com/hewang1an/StarRail-plugin.git
+     Git=https://gitee.com/hewang1an/StarRail-plugin.git
      install_git_plugin
      ;;
    
