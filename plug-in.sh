@@ -395,6 +395,48 @@ echo
 echo -en ${blue}执行完成${green} 回车返回${background};read
 }
 #########################################################
+function py_server(){
+function server_host(){
+  sed -i "s/host: 127.0.0.1/host: 159.75.113.47/g" plugins/py-plugin/config.yaml
+  pyport=(grep port plugins/py-plugin/config.yaml)
+  sed -i "s/${pyport}/port: 50053/g" plugins/py-plugin/config.yaml
+  echo;echo -en ${cyan}已切换为远程服务器 ${green}回车返回${background};read
+} #server_host
+function local_host(){
+  sed -i "s/host: 159.75.113.47/host: 127.0.0.1/g" plugins/py-plugin/config.yaml
+  sed -i "s/port: 50053/port: 50052/g" plugins/py-plugin/config.yaml
+  echo;echo -en ${cyan}已切换为本地服务器 ${yellow}请安装/更新依赖 ${green}回车继续${background};read
+  echo
+  cd plugins/py-plugin
+  pip_mirrors
+  cd ../../
+  echo;echo -en ${cyan}执行完成 ${green}回车返回${background};read
+} #local_host
+if [ -d "plugins/py-plugin" ]
+then
+  if [ -e "plugins/py-plugin/config.yaml" ]
+    then
+      if grep -q "host: 159.75.113.47" plugins/py-plugin/config.yaml
+        then
+          local_host
+        else
+          server_host
+      fi
+    else
+      if grep -q "host: 159.75.113.47" plugins/py-plugin/config_default.yaml
+        then
+          cp plugins/py-plugin/config_default.yaml plugins/py-plugin/config.yaml
+          local_host
+        else
+          cp plugins/py-plugin/config_default.yaml plugins/py-plugin/config.yaml
+          server_host
+      fi
+  fi
+else
+    echo -en ${red}未安装py插件 ${green}回车返回${background};read
+fi
+} #py_server
+#########################################################
 function plugin_set(){
 function dialog_whiptail_page(){
 clear
@@ -418,7 +460,8 @@ echo
 echo
 echo -e ${white}"#####"${green}白狐${white}"#####"${background}
 echo -e ${green}1.  ${cyan}设置锅巴端口${background}
-echo -e ${green}2.  ${cyan}设置py端口${background}
+echo -e ${green}2.  ${cyan}设置锅巴域名${background}
+echo -e ${green}3.  ${cyan}设置py端口${background}
 echo
 echo -e ${green}0.  ${cyan}退出${background}
 echo "#########################"
@@ -431,15 +474,47 @@ choose_page
 case $number in
   1)
     cd ${path}
-    if [ -e plugins/Guoba-Plugin/config/application.yaml ]; then
-    
-    
-      else
-        echo -e ${red}错误 请确认锅巴已安装 并且 只是启动过一次${background}
+    if [ -d plugins/Guoba-Plugin ];then
+      if [ -e plugins/Guoba-Plugin/config/application.yaml ]; then
+          echo -e ${cyan}请输入您更改之后的端口${background};read number
+          port=`grep port plugins/Guoba-Plugin/config/application.yaml`
+          sed -i "s/${port}/  port: ${number}/g" plugins/Guoba-Plugin/config/application.yaml
+          echo -en ${blue}执行完成${green} 回车返回${background};read  
+        else
+          mkdir -p plugins/Guoba-Plugin/config/
+          cp -f plugins/Guoba-Plugin/defSet/application.yaml plugins/Guoba-Plugin/config/application.yaml
+          echo -e ${cyan}请输入您更改之后的端口${background};read number
+          port=`grep port plugins/Guoba-Plugin/config/application.yaml`
+          sed -i "s/${port}/  port: ${number}/g" plugins/Guoba-Plugin/config/application.yaml
+          echo -en ${blue}执行完成${green} 回车返回${background};read
+      fi
+      else 
+        echo -e ${red}错误 请确认锅巴已安装${background}
     fi
     cd ${path}
     ;;
   2)
+    cd ${path}
+    if [ -d plugins/Guoba-Plugin ];then
+      if [ -e plugins/Guoba-Plugin/config/application.yaml ]; then
+          echo -e ${cyan}请输入您更改之后的域名${background};read url
+          host=`grep host plugins/Guoba-Plugin/config/application.yaml`
+          sed -i "s/${host}/  host: ${url}/g" plugins/Guoba-Plugin/config/application.yaml
+          echo -en ${blue}执行完成${green} 回车返回${background};read
+        else
+          mkdir -p plugins/Guoba-Plugin/config/
+          cp -f plugins/Guoba-Plugin/defSet/application.yaml plugins/Guoba-Plugin/config/application.yaml
+          echo -e ${cyan}请输入您更改之后的端口${background};read url
+          host=`grep host plugins/Guoba-Plugin/config/application.yaml`
+          sed -i "s/${host}/  host: ${url}/g" plugins/Guoba-Plugin/config/application.yaml
+          echo -en ${blue}执行完成${green} 回车返回${background};read
+      fi
+      else 
+        echo -e ${red}错误 请确认锅巴已安装${background}
+    fi
+    cd ${path}
+    ;;
+  3)
     cd ${path}
     py_server
     cd ${path}
@@ -448,10 +523,6 @@ case $number in
     exit
     ;;
 esac
-
-
-
-
 }
 #########################################################
 function main(){
@@ -523,7 +594,7 @@ choose_page
     cd ${path}
     ;;
   6)
-    echo 还没写
+    
     ;;
   7)
     robot_path
@@ -533,48 +604,6 @@ choose_page
     ;;
   esac
 }  #main
-#########################################################
-function py_server(){
-function server_host(){
-  sed -i "s/host: 127.0.0.1/host: 159.75.113.47/g" plugins/py-plugin/config.yaml
-  pyport=(grep port plugins/py-plugin/config.yaml)
-  sed -i "s/${pyport}/port: 50053/g" plugins/py-plugin/config.yaml
-  echo;echo -en ${cyan}已切换为远程服务器 ${green}回车返回${background};read
-} #server_host
-function local_host(){
-  sed -i "s/host: 159.75.113.47/host: 127.0.0.1/g" plugins/py-plugin/config.yaml
-  sed -i "s/port: 50053/port: 50052/g" plugins/py-plugin/config.yaml
-  echo;echo -en ${cyan}已切换为本地服务器 ${yellow}请安装/更新依赖 ${green}回车继续${background};read
-  echo
-  cd plugins/py-plugin
-  pip_mirrors
-  cd ../../
-  echo;echo -en ${cyan}执行完成 ${green}回车返回${background};read
-} #local_host
-if [ -d "plugins/py-plugin" ]
-then
-  if [ -e "plugins/py-plugin/config.yaml" ]
-    then
-      if grep -q "host: 159.75.113.47" plugins/py-plugin/config.yaml
-        then
-          local_host
-        else
-          server_host
-      fi
-    else
-      if grep -q "host: 159.75.113.47" plugins/py-plugin/config_default.yaml
-        then
-          cp plugins/py-plugin/config_default.yaml plugins/py-plugin/config.yaml
-          local_host
-        else
-          cp plugins/py-plugin/config_default.yaml plugins/py-plugin/config.yaml
-          server_host
-      fi
-  fi
-else
-    echo -en ${red}未安装py插件 ${green}回车返回${background};read
-fi
-} #py_server
 #########################################################
 function install_git_plugin(){
 function dialog_whiptail_page(){
