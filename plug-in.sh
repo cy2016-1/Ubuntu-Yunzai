@@ -852,6 +852,7 @@ number=$(${dialog_whiptail} \
 "42" "chatgpt-plugin                 聊天插件" \
 "43" "y-tian-plugin                  阴天插件" \
 "44" "xianyu-plugin                  咸鱼插件" \
+"45" "StarRail-plugin                星穹铁道插件" \
 3>&1 1>&2 2>&3)
 feedback=$?
 if [ ! ${feedback} = 0 ];then
@@ -908,6 +909,7 @@ echo -e ${green_red}41. ${cyan}sanyi-plugin"             "三一插件${backgrou
 echo -e ${green_red}42. ${cyan}chatgpt-plugin"           "聊天插件${background}
 echo -e ${green_red}43. ${cyan}y-tian-plugin"            "阴天插件${background}
 echo -e ${green_red}44. ${cyan}xianyu-plugin"            "咸鱼插件${background}
+echo -e ${green_red}45. ${cyan}StarRail-plugin"          "星穹铁道插件${background}
 echo 
 echo -e ${green}0. ${cyan}返回${background}
 echo "#####################################"
@@ -1239,12 +1241,13 @@ case ${number} in
      Git=https://gitee.com/wan13877501248/y-tian-plugin.git
      install_git_plugin
      ;;
-   43)
-     Nam=咸鱼插件
-     Plugin=xianyu-plugin
-     Git=https://gitee.com/suancaixianyu/xianyu-plugin.git
+   45)
+     Nam=星穹铁道插件
+     Plugin=StarRail-plugin
+     Git=https://github.com/hewang1an/StarRail-plugin.git
      install_git_plugin
      ;;
+   
    0)
      echo
      baihu_whiptail
