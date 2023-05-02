@@ -44,10 +44,10 @@ mkdir -p ../usr/var/lib/proot-distro/dlcache
 fi
 case $(uname -m) in
   aarch64|arm64)
-    ubuntu=arm64
+    ubuntu=aarch64
     ;;
   amd64|x86_64)
-    ubuntu=amd64
+    ubuntu=x86_64
     ;;
   arm|armel|armhf|armhfp|armv7|armv7l|armv7a|armv8l)
     ubuntu=arm

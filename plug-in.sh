@@ -395,6 +395,65 @@ echo
 echo -en ${blue}执行完成${green} 回车返回${background};read
 }
 #########################################################
+function plugin_set(){
+function dialog_whiptail_page(){
+clear
+number=$(${dialog_whiptail} \
+--title "白狐" \
+--menu "白狐的QQ群:705226976" \
+20 40 10 \
+"1" "设置锅巴端口" \
+"2" "设置py端口" \
+"0" "退出" \
+3>&1 1>&2 2>&3)
+feedback=$?
+if [ ! ${feedback} = 0 ];then
+exit
+fi
+clear
+}  #dialog_whiptail_page
+function echo_page(){
+clear
+echo
+echo
+echo -e ${white}"#####"${green}白狐${white}"#####"${background}
+echo -e ${green}1.  ${cyan}设置锅巴端口${background}
+echo -e ${green}2.  ${cyan}设置py端口${background}
+echo
+echo -e ${green}0.  ${cyan}退出${background}
+echo "#########################"
+echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
+echo "#########################"
+echo
+echo -en ${green}请输入您的选项: ${background};read number
+}  #echo_page
+choose_page
+case $number in
+  1)
+    cd ${path}
+    if [ -e plugins/Guoba-Plugin/config/application.yaml ]; then
+    
+    
+      else
+        echo -e ${red}错误 请确认锅巴已安装 并且 只是启动过一次${background}
+    fi
+    cd ${path}
+    ;;
+  2)
+    cd ${path}
+    py_server
+    cd ${path}
+    ;;
+  0)
+    exit
+    ;;
+esac
+
+
+
+
+}
+#########################################################
 function main(){
 function dialog_whiptail_page(){
 clear
