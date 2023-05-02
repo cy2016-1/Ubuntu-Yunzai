@@ -1289,7 +1289,11 @@ clear
 choose_page
 case ${number} in
 1)
-name=Yunzai-Bot
+if [ -d /root/TRSS_AllBot ];then
+  name=Yunzai
+else
+  name=Yunzai-Bot
+fi
 ;;
 2)
 name=Miao-Yunzai
@@ -1321,6 +1325,8 @@ elif [ -d "/home/lighthouse/debian/${name}" ];then
 path="/home/lighthouse/debian/${name}"
 elif [ -d "/home/lighthouse/debian/${name}" ];then
 path="/home/lighthouse/debian/${name}"
+elif [ -d "/root/TRSS_AllBot/${name}" ];then
+path="/root/TRSS_AllBot/${name}"
 elif [ -d "/root/TRSS_AllBot/${name}" ];then
 path="/root/TRSS_AllBot/${name}"
 elif [ -d "plugins" ];then
