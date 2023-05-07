@@ -28,11 +28,14 @@ if test -z "${icqq_latest}";then
         fi
     fi
 fi
-echo -e ${green} - ${cyan}最新版本为 ${blue}${icqq_latest}${background}
-sed -i "s/${icqq_local}/\"icqq\": \"^${icqq_latest}\",/g" package.json
-pnpm uninstall icqq
-pnpm install icqq@latest -w
-pnpm install -P && pnpm install
+if ! [ ${icqq_latest} = "0.3.2" ];then
+  if [ "${icqq_local}" != "${icqq_latest}" ];then
+    sed -i "s/\"icqq\": \"^${icqq_local}\",/\"icqq\": \"^${icqq_latest}\",/g" package.json
+  fi
+fi
+rm node_modules/puppeteer node_modules/icqq
+pnpm install puppeteer@19.0.0 icqq@0.3.1 -w
+echo
 function device(){
 echo -e ${green}"#####"${cyan}白狐-Yunzai-Bot${green}"#####"${background}
 echo -e ${cyan}请选择您的登陆设备${background}

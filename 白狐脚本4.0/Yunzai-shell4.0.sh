@@ -40,130 +40,122 @@ if [ "$version" != "$ver" ]; then
 fi
 #########################################################
 function install(){
-if ! apt install -y ^language-pack-zh fonts-wqy-microhei fonts-wqy-zenhei redis redis-server tmux
-then
-  echo -e ${red} 依赖安装失败 ${background}
-  exit
-fi
-echo
-
-if ! apt install -y chromium-browser
-then
-  echo -e ${red} 依赖安装失败 ${background}
-  exit
-fi
-echo
-
-case $(uname -m) in
-  aarch64|arm64)
-    node=arm64
-    ;;
-  amd64|x86_64)
-    node=x64
-    ;;
-  arm|armel|armhf|armhfp|armv7|armv7l|armv7a|armv8l)
-    node=armv7l
-    ;;
-  386|i386|i686|x86)
-    echo -e "\033[31m暂不支持您的设备\033[0m"
-    exit
-    ;;
-  *)
-    echo -e "\033[31m暂不支持您的设备\033[0m"
-    exit
-    ;;
-esac
-if ! [ -x "$(command -v gzip)" ]
-    then
-    echo -e ${yellow}检测到未安装gzip 开始安装${background}
-    apt update
-    apt install gzip -y
-    echo
-fi
-awk '{print $2}' /etc/issue > log
-if grep -q 22.10 log ;then > /dev/null
-NodeVersion1=v18.x
-NodeVersion2=v18.16.0
-elif grep -q 22.04 log ;then
-NodeVersion1=v18.x
-NodeVersion2=v18.16.0
-elif grep -q 18.04 log ;then
-NodeVersion1=v17.x
-NodeVersion2=v17.9.0
-else
-NodeVersion1=v17.x
-NodeVersion2=v17.9.0
-fi
-echo -e ${yellow}正在下载Node.js 请稍等${background}
-if ! curl -o node.tar.gz https://cdn.npmmirror.com/binaries/node/latest-${NodeVersion1}/node-${NodeVersion2}-linux-${node}.tar.gz
+echo -e ${yellow}正在更新软件源${background}
+if ! apt-get -y update
   then
-    echo -e ${red} Node.js下载失败失败 ${background}
+    echo -e ${red}更新软件源失败${background}
     exit
 fi
 echo
 
-mkdir -p /usr/local/lib/nodejs
-echo -e ${yellow}正在解压Node.js 请稍等${background}
-if ! tar -xzf node.tar.gz -C /usr/local/lib/nodejs && node.tar.gz
-then
-    echo -e ${red} Node.js下载解压失败 ${background}
-    exit
+if ! [ -x "$(command -v fonts-wqy-microhei)" ] && [ -x "$(command -v fonts-wqy-zenhei)" ];then
+    echo -e ${yellow}安装中文字体${background}
+    if ! apt install -y fonts-wqy-microhei fonts-wqy-zenhei
+      then
+        echo -e ${red}安装中文字体失败${background}
+        exit
+    fi
 fi
 echo
 
-echo "# Nodejs
-DISTRO=${node}
-export PATH=/usr/local/lib/nodejs/node-${NodeVersion2}-linux-${DISTRO}/lib/node_modules:$PATH" > ~/.profile
-source ~/.profile
-
-file=/usr/local/lib/nodejs/node-${NodeVersion2}-linux-${node}/lib/node_modules
-#npm
-ln -sf ${file}/npm/bin/npm-cli.js /usr/local/bin/npm
-#pnpm
-#pm2
-ln -sf ${file}/pm2/bin/pm2 /usr/local/bin/pnpm
-
-file=/usr/local/lib/node_modules/
-ln -sf ${file}/node /usr/local/bin/node
-ln -sf ${file}/npm /usr/local/bin/npm
-
-echo -e ${yellow}正在使用npm安装pnpm 更新提示不用管${background}
-npm config set registry https://registry.npmmirror.com
-if ! npm install -g pnpm && ln -sf ${file}/pnpm/bin/pnpm.cjs /usr/local/bin/pnpm
-then
-  echo -e ${red} pnpm安装失败 ${background}
-  exit
+if ! [ -x "$(command -v redis-server)" ];then
+    echo -e ${yellow}安装redis数据库${background}
+    if ! apt install -y redis redis-server
+      then
+        echo -e ${red}安装redis数据库失败${background}
+        exit
+    fi
 fi
 echo
 
-echo -e ${yellow}正在使用npm安装依赖pm2${background}
-if ! npm install -g pm2 && ln -sf ${file}/pm2/bin/pm2 /usr/local/bin/pm2
-then
-  echo -e ${red} pm2安装失败 ${background}
-  exit
+if ! [ -x "$(command -v chromium-browser)" ];then
+    echo -e ${yellow}安装chromium浏览器${background}
+    if ! apt install -y chromium-browser
+      then
+        echo -e ${red}安装chromium浏览器失败${background}
+        exit
+    fi
 fi
+echo
 
-echo -e ${yellow}正在使用npm安装依赖cnpm${background}
-if ! npm install -g pm2 && ln -sf ${file}/pm2/bin/pm2 /usr/local/bin/pm2
+
+
+function nodejs_install(){
+if awk '{print $2}' /etc/issue | grep -q -E 22.*
 then
-  echo -e ${red} pm2安装失败 ${background}
-  exit
+  echo -e ${yellow}安装nodejs${background}
+  rm /etc/apt/sources.list.d/nodesource.list > /dev/null 2>&1
+  bash <(curl -sL https://deb.nodesource.com/setup_18.x)
+else
+  echo -e ${yellow}安装nodejs${background}
+  rm /etc/apt/sources.list.d/nodesource.list > /dev/null 2>&1
+  rm setup_17.x
+  curl -O https://deb.nodesource.com/setup_17.x
+  sed -i "s/sleep 20/sleep 2/g" setup_17.x
+  sed -i "s/Continuing in 20 seconds .../Continuing in 2 seconds .../g" setup_17.x
+  bash setup_17.x
+  rm setup_17.x > /dev/null 2>&1
 fi
+apt autoremove -y nodejs
+apt update -y
+apt install -y nodejs
+echo
+} #nodejs_install
+Nodsjs_Version=$(node -v | cut -d '.' -f1)
+if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Version" == "v18" || "$Nodsjs_Version" == "v19" || "$Nodsjs_Version" == "v20" ]];then
+  echo -e ${yellow}安装nodejs和npm${background}
+  until nodejs_install
+  do
+    nodejs_install
+  done
+fi
+echo
+
+
+if ! [ -x "$(command -v pnpm)" ];then
+    echo -e ${yellow}正在使用npm安装pnpm${background}
+    npm config set registry https://registry.npmmirror.com
+    if ! npm install -g pnpm
+      then
+        echo -e ${red}pnpm安装失败${background}
+        exit
+    fi
+fi
+echo
 
 echo -e ${yellow}正在使用pnpm安装依赖${background}
 cd ./fox@bot/${name}
 pnpm install -P && pnpm install
-icqq_local=`grep icqq package.json`
-icqq_latest=`curl -sL https://raw.kgithub.com/icqqjs/icqq/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
-sed -i 's/${icqq_local}/"icqq": "^${icqq_latest}",/g' package.json
+icqq_local=`grep icqq package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g' | sed 's/\^//g'`
+icqq_latest=`curl -sL https://raw.github.com/icqqjs/icqq/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
+if test -z "${icqq_latest}";then
+  icqq_latest=`curl -sL https://ghproxy.com/https://raw.github.com/icqqjs/icqq/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
+    if test -z "${icqq_latest}";then 
+      icqq_latest=`curl -sL https://gitee.com/baihu433/icqq/raw/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
+        if test -z "${icqq_latest}";then 
+          echo -e ${red}请检查网络${background}
+          exit
+        fi
+    fi
+fi
+if ! [ ${icqq_latest} = "0.3.2" ];then
+  if [ "${icqq_local}" != "${icqq_latest}" ];then
+    sed -i "s/\"icqq\": \"^${icqq_local}\",/\"icqq\": \"^${icqq_latest}\",/g" package.json
+  fi
+fi
 rm node_modules/puppeteer node_modules/icqq
-pnpm install puppeteer@19.0.0 icqq@latest -w
+pnpm install puppeteer@19.0.0 icqq@0.3.1 -w
 echo
 
-echo -e ${yellow}正在安装ffmpeg${background}
-bash <(curl -sL https://gitee.com/baihu433/ffmpeg/raw/master/ffmpeg.sh)
+if ! [ -x "$(command -v ffmpeg)" ];then
+    echo -e ${yellow}正在安装ffmpeg${background}
+    if ! bash <(curl -sL https://gitee.com/baihu433/ffmpeg/raw/master/ffmpeg.sh)
+      then
+        echo -e ${red}ffmpeg安装失败${background}
+        exit
+    fi
+fi
 echo
-echo > $HOME/.baihu.log
 } #install
 #########################################################
 function install_Yunzai_Bot(){
@@ -190,9 +182,7 @@ if ! [ -d fox@bot/${name} ];then
        fi     
   fi
 fi
-if [ ! -e .baihu.log ];then
 install
-fi
 } #install_Yunzai_Bot
 #########################################################
 function install_Miao_Yunzai(){
@@ -220,9 +210,7 @@ if ! [ -d fox@bot/${name} ];then
        fi     
   fi
 fi
-if [ ! -e .baihu.log ];then
 install
-fi
 } #install_Miao_Yunzai
 ######################################################### 
 
@@ -248,35 +236,74 @@ fi
 } #install_Miao_Plugin
 #########################################################
 function help(){
-echo ${cyan} 正在咕咕 回车返回${background};read
+echo ${cyan} 正在咕咕 回车返回${background}
+echo -e ${green}tmux使用教程${background}
+echo -e ${green}如果要退出窗口 请使用 ${yellow} CTRL + b d ${background}
+echo -e ${green}如果要切换窗口 请使用 ${yellow} CTRL + b s ${background}
 }
 function error(){
 ErrorRepair=$(whiptail \
 --title "白狐≧▽≦" \
 --menu "${ver}" \
-20 30 12 \
+20 45 15 \
 "1" "修复chromium启动失败" \
 "2" "修复chromium调用失败" \
 "3" "修改${name}主人qq" \
-"4" "管理${name}插件" \
-"5" "${name}无法登录" \
-"6" "前台启动${name}" \
-"7" "备份${name}数据" \
-"8" "清楚${name}数据" \
-"9" "${name}报错修复" \
-"10" "帮助[实时更新]" \
+"4" "修改登录设备" \
 "0" "返回" \
 3>&1 1>&2 2>&3)
-
-
-
-
-
-)
-
-
-
-
+case ErrorRepair in
+1)
+bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
+;;
+2)
+pnpm install
+rm node_modules/puppeteer
+pnpm install puppeteer@19.0.0 -w
+;;
+3)
+qq=$(whiptail \
+--title "白狐≧▽≦" \
+--inputbox "请输入您要更改后的主人qq号" \
+10 60 \
+3>&1 1>&2 2>&3)
+if [[ ${qq} =~ ^[0-9]+$ ]]; then
+  if [ ${qq} -gt 9999 ]; then
+    sed -i '7s/.*/'" - $qq"'/' $HOME/Yunzai-Bot/config/config/other.yaml
+    whiptail --title "白狐≧▽≦" --msgbox \
+    "主人QQ已更改为${qq}" \
+    10 60
+  else
+    echo -e ${red}请输入正确的QQ!${background}
+    exit
+  fi
+else
+    echo -e ${red}请输入正确的QQ号${background}
+    exit
+  fi
+fi
+;;
+4)
+pushd ~/Yunzai-Bot
+equipment=$(whiptail \
+--title "白狐≧▽≦" \
+--menu "请选择登录设备" \
+17 35 7 \
+"1" "安卓手机" \
+"2" "aPad" \
+"3" "安卓手表" \
+"4" "MacOS" \
+"5" "iPad" \
+"6" "old_Android" \
+3>&1 1>&2 2>&3)
+new="platform: ${equipment}"
+file="$HOME/Yunzai-Bot/config/config/qq.yaml"
+old_equipment="platform: [0-5]"
+new_equipment="platform: ${equipment}"
+sed -i "s/$old_equipment/$new_equipment/g" $file
+rm $HOME/Yunzai-Bot/data/device.json
+;;
+esac
 }
 function main(){
 path=fox@bot/${name}
@@ -286,11 +313,11 @@ baihu=$(whiptail \
 --menu "${ver}" \
 20 45 12 \
 "1" "打开${name}窗口" \
-"2" "${name}后台启动" \
+"2" "后台启动${name}" \
 "3" "停止${name}运行" \
 "4" "管理${name}插件" \
 "5" "${name}无法登录" \
-"6" "${name}前台启动" \
+"6" "前台启动${name}" \
 "7" "备份${name}数据" \
 "8" "清楚${name}数据" \
 "9" "${name}报错修复" \
@@ -302,28 +329,35 @@ return
 fi
 case ${baihu} in 
 1)
-
+pnpm
 ;;
 2)
-
+cd /root/fox@bot/${name}
+pnpm run start
+echo -e ${cyan}回车返回${background};read
 ;;
 3)
-
+tmux kill-session -t ${name}
+cd ~/fox@bot/${name} && pnpm stop && cd
+echo
+echo -e ${cyan}执行完成 回车返回${background};read
 ;;
 4)
-
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
 ;;
 5)
-
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
 ;;
 6)
-
+cd ~/fox@bot/${name} && node app
+echo
+echo -e ${cyan}回车返回${background};read
 ;;
 7)
-
+echo -e ${cyan}还没写 回车返回${background};read
 ;;
 8)
-
+echo -e ${cyan}还没写 回车返回${background};read
 ;;
 9)
 error
