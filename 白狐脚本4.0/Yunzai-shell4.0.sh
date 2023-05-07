@@ -41,40 +41,36 @@ fi
 #########################################################
 function install(){
 echo -e ${yellow}正在更新软件源${background}
-if ! apt-get -y update
-  then
-    echo -e ${red}更新软件源失败${background}
-    exit
-fi
+until apt-get -y update
+do
+echo -e ${red}软件源更新失败 ${green}正在重试${background}
+done
 echo
 
 if ! [ -x "$(command -v fonts-wqy-microhei)" ] && [ -x "$(command -v fonts-wqy-zenhei)" ];then
     echo -e ${yellow}安装中文字体${background}
-    if ! apt install -y fonts-wqy-microhei fonts-wqy-zenhei
-      then
-        echo -e ${red}安装中文字体失败${background}
-        exit
-    fi
+    until apt install -y fonts-wqy-microhei fonts-wqy-zenhei
+    do
+      echo -e ${red}中文字体安装失败 ${green}正在重试${background}
+    done
 fi
 echo
 
 if ! [ -x "$(command -v redis-server)" ];then
     echo -e ${yellow}安装redis数据库${background}
-    if ! apt install -y redis redis-server
-      then
-        echo -e ${red}安装redis数据库失败${background}
-        exit
-    fi
+    until apt install -y redis redis-server
+    do
+      echo -e ${red}redis数据库安装失败 ${green}正在重试${background}
+    done
 fi
 echo
 
 if ! [ -x "$(command -v chromium-browser)" ];then
     echo -e ${yellow}安装chromium浏览器${background}
-    if ! apt install -y chromium-browser
-      then
-        echo -e ${red}安装chromium浏览器失败${background}
-        exit
-    fi
+    until apt install -y chromium-browser
+    do
+       echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
+    done
 fi
 echo
 
@@ -106,7 +102,7 @@ if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Ver
   echo -e ${yellow}安装nodejs和npm${background}
   until nodejs_install
   do
-    nodejs_install
+    echo -e ${red}NodeJS和npm安装失败 ${green}正在重试${background}
   done
 fi
 echo
@@ -115,11 +111,10 @@ echo
 if ! [ -x "$(command -v pnpm)" ];then
     echo -e ${yellow}正在使用npm安装pnpm${background}
     npm config set registry https://registry.npmmirror.com
-    if ! npm install -g pnpm
-      then
-        echo -e ${red}pnpm安装失败${background}
-        exit
-    fi
+    until npm install -g pnpm
+    do
+      echo -e ${red}pnpm安装失败 ${green}正在重试${background}
+    done
 fi
 echo
 
@@ -149,11 +144,10 @@ echo
 
 if ! [ -x "$(command -v ffmpeg)" ];then
     echo -e ${yellow}正在安装ffmpeg${background}
-    if ! bash <(curl -sL https://gitee.com/baihu433/ffmpeg/raw/master/ffmpeg.sh)
-      then
-        echo -e ${red}ffmpeg安装失败${background}
-        exit
-    fi
+    until bash <(curl -sL https://gitee.com/baihu433/ffmpeg/raw/master/ffmpeg.sh)
+    do
+        echo -e ${red}ffmpeg安装失败 ${cyan}正在重试${background}
+    done
 fi
 echo
 } #install
@@ -240,6 +234,7 @@ echo ${cyan} 正在咕咕 回车返回${background}
 echo -e ${green}tmux使用教程${background}
 echo -e ${green}如果要退出窗口 请使用 ${yellow} CTRL + b d ${background}
 echo -e ${green}如果要切换窗口 请使用 ${yellow} CTRL + b s ${background}
+read
 }
 function error(){
 ErrorRepair=$(whiptail \
