@@ -10,7 +10,7 @@ background="\033[0m"
 echo
 echo
 echo -e ${white}"#####"${green}白狐-Yunzai-Bot${white}"#####"${background}
-echo -e ${blue}请选择您要为哪一个bot管理插件${background}
+echo -e ${blue}请选择您的bot${background}
 echo "#########################"
 echo -e ${green}1.  ${cyan}Yunzai-Bot${background}
 echo -e ${green}2.  ${cyan}Miao-Yunzai${background}
@@ -101,8 +101,8 @@ if ! [ ${icqq_latest} = "0.3.2" ];then
     sed -i "s/\"icqq\": \"^${icqq_local}\",/\"icqq\": \"^${icqq_latest}\",/g" package.json
   fi
 fi
-rm node_modules/puppeteer node_modules/icqq
-pnpm install puppeteer@19.0.0 icqq@0.3.1 -w
+pnpm uninstall icqq
+pnpm install icqq@0.3.1 -w
 echo
 function device(){
 echo -e ${green}"#####"${cyan}白狐-Yunzai-Bot${green}"#####"${background}
