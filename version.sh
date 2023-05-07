@@ -136,6 +136,7 @@ echo -e ${green}2. ${cyan}错误码:${red}235${background}
 echo -e ${green}3. ${cyan}错误码:${red}237${background}
 echo -e ${green}4. ${cyan}错误码:${red}238${background}
 echo -e ${green}5. ${cyan}仅更改登录端口(设备)${background}
+echo -e ${green}5. ${cyan}仅降级icqq版本${background}
 echo ${green}"#########################"${background}
 echo -e ${green}QQ群:狐狸窝:${cyan}705226976${background}
 echo -e ${green}注意:${cyan}手表协议和Macos协议都无法戳一戳,因为本身这两种设备都不支持.${background}
@@ -159,6 +160,9 @@ device
 4)
 echo -en ${cyan}错误码:${red}238'\n'${cayn}建议命令换手表协议后再换回iPad协议[全部用密码]'\n'回车继续${background};read
 device
+;;
+5)
+echo
 ;;
 esac
 pnpm run login
