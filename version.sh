@@ -134,11 +134,11 @@ echo -e ${green}1. ${cyan}错误码:${red}45${background}
 echo -e ${green}2. ${cyan}错误码:${red}235${background}
 echo -e ${green}3. ${cyan}错误码:${red}237${background}
 echo -e ${green}4. ${cyan}错误码:${red}238${background}
-echo -e ${green}5. ${cyan}仅更改登录端口(设备)${background}
+echo -e ${green}5. ${cyan}仅更改登录端口\(设备\)${background}
 echo -e ${green}6. ${cyan}仅降级icqq版本${background}
 echo ${green}"#########################"${background}
 echo -e ${green}QQ群:狐狸窝:${cyan}705226976${background}
-echo -e ${green}注意:${cyan}手表协议和Macos协议都无法戳一戳,因为本身这两种设备都不支持.${background}
+echo -e ${green}注意:${cyan}手表协议和Macos协议都无法戳一戳"\n"因为本身这两种设备都不支持.${background}
 echo ${green}"#########################"${background}
 echo -en ${green}请输入您的选项:${background} ;read number
 case number in
@@ -163,7 +163,7 @@ device
 5)
 device
 ;;
-5)
+6)
 echo
 ;;
 esac
