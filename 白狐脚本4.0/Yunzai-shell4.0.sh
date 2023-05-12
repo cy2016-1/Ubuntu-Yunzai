@@ -161,10 +161,10 @@ if ! [ -d fox@bot/${name} ];then
              echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
              exit
            fi
-       fi     
+       fi
+       install
   fi
 fi
-install
 } #install_Yunzai_Bot
 #########################################################
 function install_Miao_Yunzai(){
@@ -189,10 +189,10 @@ if ! [ -d fox@bot/${name} ];then
              exit
            fi
          install_Miao_Plugin
-       fi     
+       fi
+     install
   fi
 fi
-install
 } #install_Miao_Yunzai
 ######################################################### 
 
