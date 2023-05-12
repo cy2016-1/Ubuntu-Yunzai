@@ -6,6 +6,7 @@
 #then
 #   Git=github
 #fi
+function cs{
 ver=4.0
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -38,6 +39,7 @@ if [ "$version" != "$ver" ]; then
     10 50
     bhyz
 fi
+}
 #########################################################
 function install(){
 echo -e ${yellow}正在更新软件源${background}
@@ -74,8 +76,6 @@ if ! [ -x "$(command -v chromium-browser)" ];then
 fi
 echo
 
-
-
 function nodejs_install(){
 if awk '{print $2}' /etc/issue | grep -q -E 22.*
 then
@@ -85,12 +85,7 @@ then
 else
   echo -e ${yellow}安装nodejs${background}
   rm /etc/apt/sources.list.d/nodesource.list > /dev/null 2>&1
-  rm setup_17.x
-  curl -O https://deb.nodesource.com/setup_17.x
-  sed -i "s/sleep 20/sleep 2/g" setup_17.x
-  sed -i "s/Continuing in 20 seconds .../Continuing in 2 seconds .../g" setup_17.x
-  bash setup_17.x
-  rm setup_17.x > /dev/null 2>&1
+  curl -sL https://deb.nodesource.com/setup_17.x | sed "s/sleep 20/sleep 2/g" | sed "s/Continuing in 20 seconds .../Continuing in 2 seconds .../g" | bash
 fi
 apt autoremove -y nodejs
 apt update -y
@@ -98,7 +93,7 @@ apt install -y nodejs
 echo
 } #nodejs_install
 Nodsjs_Version=$(node -v | cut -d '.' -f1)
-if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Version" == "v18" || "$Nodsjs_Version" == "v19" || "$Nodsjs_Version" == "v20" ]];then
+if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Version" == "v18" || "$Nodsjs_Version" == "v19" || "$Nodsjs_Version" == "v20" ]] && ! [ -x "$(command -v npm)" ];;then
   echo -e ${yellow}安装nodejs和npm${background}
   until nodejs_install
   do
@@ -106,7 +101,6 @@ if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Ver
   done
 fi
 echo
-
 
 if ! [ -x "$(command -v pnpm)" ];then
     echo -e ${yellow}正在使用npm安装pnpm${background}
@@ -118,28 +112,22 @@ if ! [ -x "$(command -v pnpm)" ];then
 fi
 echo
 
+if ! [ -x "$(command -v pm2)" ];then
+    echo -e ${yellow}正在使用npm安装pm2${background}
+    npm config set registry https://registry.npmmirror.com
+    until npm install -g pm2
+    do
+      echo -e ${red}pm2安装失败 ${green}正在重试${background}
+    done
+fi
+
 echo -e ${yellow}正在使用pnpm安装依赖${background}
 cd ./fox@bot/${name}
-pnpm install -P && pnpm install
-icqq_local=`grep icqq package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g' | sed 's/\^//g'`
-icqq_latest=`curl -sL https://raw.github.com/icqqjs/icqq/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
-if test -z "${icqq_latest}";then
-  icqq_latest=`curl -sL https://ghproxy.com/https://raw.github.com/icqqjs/icqq/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
-    if test -z "${icqq_latest}";then 
-      icqq_latest=`curl -sL https://gitee.com/baihu433/icqq/raw/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
-        if test -z "${icqq_latest}";then 
-          echo -e ${red}请检查网络${background}
-          exit
-        fi
-    fi
-fi
-if ! [ ${icqq_latest} = "0.3.2" ];then
-  if [ "${icqq_local}" != "${icqq_latest}" ];then
-    sed -i "s/\"icqq\": \"^${icqq_local}\",/\"icqq\": \"^${icqq_latest}\",/g" package.json
-  fi
-fi
-rm node_modules/puppeteer node_modules/icqq
-pnpm install puppeteer@19.0.0 icqq@0.3.1 -w
+until echo Y | pnpm install && echo Y | pnpm install
+do
+echo -e ${red}依赖安装失败 ${green}正在重试${background}
+pnpm setup
+done
 echo
 
 if ! [ -x "$(command -v ffmpeg)" ];then
@@ -231,9 +219,6 @@ fi
 #########################################################
 function help(){
 echo ${cyan} 正在咕咕 回车返回${background}
-echo -e ${green}tmux使用教程${background}
-echo -e ${green}如果要退出窗口 请使用 ${yellow} CTRL + b d ${background}
-echo -e ${green}如果要切换窗口 请使用 ${yellow} CTRL + b s ${background}
 read
 }
 function error(){
@@ -253,8 +238,9 @@ bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
 ;;
 2)
 pnpm install
-rm node_modules/puppeteer
+pnpm uninstall puppeteer
 pnpm install puppeteer@19.0.0 -w
+node ./node_modules/puppeteer/install.js
 ;;
 3)
 qq=$(whiptail \
@@ -307,16 +293,15 @@ baihu=$(whiptail \
 --title "白狐≧▽≦" \
 --menu "${ver}" \
 20 45 12 \
-"1" "打开${name}窗口" \
+"1" "打开${name}日志" \
 "2" "后台启动${name}" \
 "3" "停止${name}运行" \
 "4" "管理${name}插件" \
-"5" "${name}无法登录" \
-"6" "前台启动${name}" \
-"7" "备份${name}数据" \
-"8" "清楚${name}数据" \
-"9" "${name}报错修复" \
-"10" "帮助[实时更新]" \
+"5" "${name}重新登陆" \
+"6" "${name}无法登录" \
+"7" "前台启动${name}" \
+"8" "${name}报错修复" \
+"9" "帮助[实时更新]" \
 "0" "返回" \
 3>&1 1>&2 2>&3)
 if ! $? neq 0 then
@@ -324,40 +309,75 @@ return
 fi
 case ${baihu} in 
 1)
-pnpm
-;;
-2)
-cd /root/fox@bot/${name}
-pnpm run start
+cd ~/fox@bot/${name}
+pnpm run log
+echo
 echo -e ${cyan}回车返回${background};read
 ;;
+2)
+Redis=$(redis-cli ping)
+if ! [ "${Redis}" = "PONG" ]; then
+ redis-server --daemonize yes &
+ echo
+fi
+cd ~/fox@bot/${name}
+pnpm run start
+echo -en ${yellow}${name}启动完成 ${green}是否打开日志 ${cyan}[Y/n] ${background}
+read -p "" num
+        case $num in
+     Y|y)
+       cd ~/fox@bot/${name}
+       pnpm run log
+       echo
+       echo -e ${cyan}回车返回${background};read
+       ;;
+     n|N)
+       echo -e ${cyan}回车返回${background};read
+       ;;
+     *)
+       echo -e ${cyan}回车返回${background};read
+       ;;
+  esac
+;;
 3)
-tmux kill-session -t ${name}
-cd ~/fox@bot/${name} && pnpm stop && cd
+cd ~/fox@bot/${name}
+pnpm stop
 echo
-echo -e ${cyan}执行完成 回车返回${background};read
+echo -e ${cyan}回车返回${background};read
 ;;
 4)
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
 ;;
 5)
-bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
-;;
-6)
-cd ~/fox@bot/${name} && node app
+Redis=$(redis-cli ping)
+if ! [ "${Redis}" = "PONG" ]; then
+ redis-server --daemonize yes &
+ echo
+fi
+cd ~/fox@bot/${name}
+pnpm run login
 echo
 echo -e ${cyan}回车返回${background};read
 ;;
+6)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
+;;
 7)
-echo -e ${cyan}还没写 回车返回${background};read
+Redis=$(redis-cli ping)
+if ! [ "${Redis}" = "PONG" ]; then
+ redis-server --daemonize yes &
+ echo
+fi
+cd ~/fox@bot/${name}
+pnpm run stop
+node app
+echo
+echo -e ${cyan}回车返回${background};read
 ;;
 8)
-echo -e ${cyan}还没写 回车返回${background};read
-;;
-9)
 error
 ;;
-10)
+9)
 help
 ;;
 0)

@@ -794,7 +794,7 @@ read -p "" num
        ghproxy=" "
        ;;
      *)
-       echo -e ${red}请正确输入 ${cyan}回车返回${background};read
+       ghproxy="https://ghproxy.com/"
        ;;
   esac
 } #echo_page

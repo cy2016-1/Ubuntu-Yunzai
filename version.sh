@@ -22,7 +22,6 @@ echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
 echo "#########################"
 echo
 echo -en ${green}请输入您的选项: ${background};read number
-clear
 case ${number} in
 1)
 if [ -d /root/TRSS_AllBot ];then
@@ -82,7 +81,7 @@ echo -e ${red} - ${cyan}您的 ${yellow}云崽/喵崽/TRSS崽 ${cyan}应该至�
 exit
 fi
 pnpm install -P && pnpm install
-icqq_local=`grep icqq package.json`
+icqq_local=`grep icqq package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g' | sed 's/\^//g'`
 #这边实在是想不出来怎么写了，希望各位大佬看到后不要喷，同时，也希望各位大佬提出您们宝贵的意见
 echo -e ${green} - ${cyan} 正在获取icqq最新版本${background}
 icqq_latest=`curl -sL https://raw.github.com/icqqjs/icqq/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
@@ -95,25 +94,23 @@ if test -z "${icqq_latest}";then
         fi
     fi
 fi
-if ! [ ${icqq_latest} = "0.3.2" ];then
-  if [ "${icqq_local}" != "${icqq_latest}" ];then
-    sed -i "s/\"icqq\": \"^${icqq_local}\",/\"icqq\": \"^${icqq_latest}\",/g" package.json
-  fi
+if ! "${icqq_local}" == "${icqq_latest}" ;then
+sed -i "s/${icqq_local}/${icqq_latest}/g" package.json
 fi
 pnpm uninstall icqq
-pnpm install icqq@0.3.1 -w
+pnpm install icqq@latest -w
 echo
 function device(){
 echo -e ${green}"#####"${cyan}白狐-Yunzai-Bot${green}"#####"${background}
 echo -e ${cyan}请选择您的登陆设备${background}
-echo ${green}"#########################"${background}
+echo -e ${green}"#########################"${background}
 echo -e ${green}1. ${cyan}安卓手机${background}
 echo -e ${green}2. ${cyan}aPad${background}
 echo -e ${green}3. ${cyan}安卓手表${background}
 echo -e ${green}4. ${cyan}MacOS${background}
 echo -e ${green}5. ${cyan}iPad${background}
 echo -e ${green}6. ${cyan}old_Android${background}
-echo ${green}"#########################"${background}
+echo -e ${green}"#########################"${background}
 echo -e ${green}QQ群:狐狸窝:${cyan}705226976${background}
 echo ${green}"#########################"${background}
 echo -en ${green}请输入您的选项:${background} ;read number
@@ -129,17 +126,17 @@ rm data/icqq > /dev/null
 echo
 echo -e ${green}"#####"${cyan}白狐-Yunzai-Bot${green}"#####"${background}
 echo -e ${cyan}请选择您的报错类型${background}
-echo ${green}"#########################"${background}
+echo -e ${green}"#########################"${background}
 echo -e ${green}1. ${cyan}错误码:${red}45${background}
 echo -e ${green}2. ${cyan}错误码:${red}235${background}
 echo -e ${green}3. ${cyan}错误码:${red}237${background}
 echo -e ${green}4. ${cyan}错误码:${red}238${background}
 echo -e ${green}5. ${cyan}仅更改登录端口\(设备\)${background}
 echo -e ${green}6. ${cyan}仅降级icqq版本${background}
-echo ${green}"#########################"${background}
+echo -e ${green}"#########################"${background}
 echo -e ${green}QQ群:狐狸窝:${cyan}705226976${background}
 echo -e ${green}注意:${cyan}手表协议和Macos协议都无法戳一戳"\n"因为本身这两种设备都不支持.${background}
-echo ${green}"#########################"${background}
+echo -e ${green}"#########################"${background}
 echo -en ${green}请输入您的选项:${background} ;read number
 case number in
 1)
@@ -164,7 +161,9 @@ device
 device
 ;;
 6)
-echo
+pnpm uninstall icqq
+echo -en ${green}请输入您指定的icqq版本:${background} ;read IcqqVersion
+pnpm install icqq@${IcqqVersion}
 ;;
 esac
 pnpm run login
