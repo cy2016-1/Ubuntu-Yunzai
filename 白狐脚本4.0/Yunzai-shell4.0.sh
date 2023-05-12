@@ -295,8 +295,6 @@ rm $HOME/Yunzai-Bot/data/device.json
 esac
 }
 function main(){
-path=fox@bot/${name}
-cd ${path}
 baihu=$(whiptail \
 --title "白狐≧▽≦" \
 --menu "${ver}" \
@@ -394,15 +392,6 @@ help
 return
 ;;
 esac
-function mainbak()
-{
-   while true
-   do
-       main
-       mainbak
-   done
-}
-mainbak
 }
 #########################################################
 function install_bot(){
