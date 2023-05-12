@@ -406,7 +406,7 @@ Number=$(whiptail \
 --title "白狐 QQ群:705226976" \
 --menu "请选择bot" \
 20 40 10 \
-"1" "Le-Yunzai" \
+"1" "Yunzai[icqq版]" \
 "2" "Miao-Yunzai" \
 "3" "TRSS-Yunzai" \
 "4" "yunzai-bot-lite" \
@@ -427,7 +427,6 @@ GiteeMP=https://gitee.com/yoimiya-kokomi/miao-plugin.git
 GithubMZ=https://github.com/yoimiya-kokomi/Miao-Yunzai.git
 GithubMP=https://github.com/yoimiya-kokomi/miao-plugin.git
 install_Miao_Yunzai
-install_Miao_Plugin
 ;;
 3)
 whiptail --title "白狐≧▽≦" --msgbox "
