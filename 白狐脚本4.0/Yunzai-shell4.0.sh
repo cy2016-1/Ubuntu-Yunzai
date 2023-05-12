@@ -164,6 +164,8 @@ if ! [ -d fox@bot/${name} ];then
        fi
        install
   fi
+else
+main
 fi
 } #install_Yunzai_Bot
 #########################################################
@@ -192,6 +194,8 @@ if ! [ -d fox@bot/${name} ];then
        fi
      install
   fi
+else
+main
 fi
 } #install_Miao_Yunzai
 ######################################################### 
@@ -409,13 +413,15 @@ Number=$(whiptail \
 "5" "alemon-bot" \
 "0" "退出" \
 3>&1 1>&2 2>&3)
+if ! $? neq 0 ;then
+return
+fi
 case ${Number} in
 1)
 name=Yunzai-Bot
 Gitee=https://gitee.com/yoimiya-kokomi/Yunzai-Bot.git
 #GithubYZ=https://github.com/yoimiya-kokomi/Yunzai-Bot.git
 install_Yunzai_Bot
-main
 ;;
 2)
 name=Miao-Yunzai
@@ -425,7 +431,6 @@ GithubMZ=https://github.com/yoimiya-kokomi/Miao-Yunzai.git
 GithubMP=https://github.com/yoimiya-kokomi/miao-plugin.git
 install_Miao_Yunzai
 install_Miao_Plugin
-main
 ;;
 3)
 whiptail --title "白狐≧▽≦" --msgbox "
@@ -443,14 +448,12 @@ name=Yunzai-Bot-Lite
 Gitee=https://gitee.com/Nwflower/yunzai-bot-lite.git
 Github=https://github.com/Nwflower/yunzai-bot-lite.git
 install_Yunzai_Bot
-main
 ;;
 5)
 name=Alemon-Bot
 Gitee=https://gitee.com/ningmengchongshui/alemon-bot.git
 Github=https://github.com/ningmengchongshui/alemon-bot.git
 install_Yunzai_Bot
-main
 ;;
 0)
 exit
