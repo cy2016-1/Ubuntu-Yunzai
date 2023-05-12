@@ -463,3 +463,12 @@ exit
 ;;
 esac
 }
+function mainbak()
+{
+   while true
+   do
+       install_bot
+       mainbak
+   done
+}
+mainbak
