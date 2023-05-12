@@ -93,7 +93,7 @@ apt install -y nodejs
 echo
 } #nodejs_install
 Nodsjs_Version=$(node -v | cut -d '.' -f1)
-if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Version" == "v18" || "$Nodsjs_Version" == "v19" || "$Nodsjs_Version" == "v20" ]] && ! [ -x "$(command -v npm)" ];;then
+if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Version" == "v18" || "$Nodsjs_Version" == "v19" || "$Nodsjs_Version" == "v20" ]] && ! [ -x "$(command -v npm)" ];then
   echo -e ${yellow}安装nodejs和npm${background}
   until nodejs_install
   do
