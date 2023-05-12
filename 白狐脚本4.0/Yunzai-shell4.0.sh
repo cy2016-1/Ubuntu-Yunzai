@@ -42,6 +42,7 @@ fi
 }
 #########################################################
 function install(){
+echo
 echo -e ${yellow}正在更新软件源${background}
 until apt-get -y update
 do

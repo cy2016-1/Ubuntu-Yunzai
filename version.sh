@@ -73,10 +73,12 @@ echo -e ${red}请进入 ${name}目录 之后使用本脚本${background}
 fi
 cd ${path}
 if ! grep -q -s -i -E "icqq" package.json;then > /dev/null
+echo
 echo -e ${red} - ${cyan}请进入 ${yellow}云崽/喵崽/TRSS崽 ${cyan}目录之后运行本脚本${background}
 exit
 fi
 if ! [ -e config/config/qq.yaml ];then
+echo
 echo -e ${red} - ${cyan}您的 ${yellow}云崽/喵崽/TRSS崽 ${cyan}应该至少启动过一次${background}
 exit
 fi
@@ -97,7 +99,7 @@ fi
 if ! "${icqq_local}" == "${icqq_latest}" ;then
 sed -i "s/${icqq_local}/${icqq_latest}/g" package.json
 fi
-pnpm uninstall icqq
+echo "Y" | pnpm uninstall icqq
 pnpm install icqq@latest -w
 echo
 function device(){
@@ -115,13 +117,13 @@ echo -e ${green}QQ群:狐狸窝:${cyan}705226976${background}
 echo ${green}"#########################"${background}
 echo -en ${green}请输入您的选项:${background} ;read number
 new="platform: ${number}"
-file="$HOME/Yunzai-Bot/config/config/qq.yaml"
+file=config/config/qq.yaml
 grep platform ${file}
 old_equipment=`grep platform ${file}`
 new_equipment="platform: 6"
 sed -i "s/${old_equipment}/${new_equipment}/g" $file
 rm data/device.json > /dev/null
-rm data/icqq > /dev/null
+rm -rf data/icqq > /dev/null
 }
 echo
 echo -e ${green}"#####"${cyan}白狐-Yunzai-Bot${green}"#####"${background}
@@ -166,5 +168,4 @@ echo -en ${green}请输入您指定的icqq版本:${background} ;read IcqqVersion
 pnpm install icqq@${IcqqVersion}
 ;;
 esac
-pnpm run login
-echo ${green}执行完成 ${cyan}回车退出${background};read
+echo -en ${green}执行完成 ${cyan}回车退出${background};read
