@@ -6,7 +6,7 @@
 #then
 #   Git=github
 #fi
-function cs{
+function cs(){
 ver=4.0
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
