@@ -303,7 +303,7 @@ baihu=$(whiptail \
 "9" "帮助[实时更新]" \
 "0" "返回" \
 3>&1 1>&2 2>&3)
-if ! $? neq 0 then
+if ! $? neq 0 ;then
 return
 fi
 case ${baihu} in 
