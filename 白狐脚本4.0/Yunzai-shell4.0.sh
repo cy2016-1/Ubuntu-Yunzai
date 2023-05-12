@@ -261,7 +261,6 @@ if [[ ${qq} =~ ^[0-9]+$ ]]; then
 else
     echo -e ${red}请输入正确的QQ号${background}
     exit
-  fi
 fi
 ;;
 4)
