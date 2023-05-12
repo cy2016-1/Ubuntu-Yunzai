@@ -236,6 +236,11 @@ ErrorRepair=$(whiptail \
 "4" "修改登录设备" \
 "0" "返回" \
 3>&1 1>&2 2>&3)
+feedback=$?
+if ! [ $feedback = 0 ]
+then
+return
+fi
 case ErrorRepair in
 1)
 bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
@@ -307,7 +312,9 @@ baihu=$(whiptail \
 "9" "帮助[实时更新]" \
 "0" "返回" \
 3>&1 1>&2 2>&3)
-if ! $? neq 0 ;then
+feedback=$?
+if ! [ $feedback = 0 ]
+then
 return
 fi
 case ${baihu} in 
@@ -456,12 +463,3 @@ exit
 ;;
 esac
 }
-function mainbak()
-{
-   while true
-   do
-       install_bot
-       mainbak
-   done
-}
-mainbak
