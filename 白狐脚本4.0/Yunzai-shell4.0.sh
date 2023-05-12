@@ -323,7 +323,7 @@ cd ~/fox@bot/${name}
 pnpm run start
 echo -en ${yellow}${name}启动完成 ${green}是否打开日志 ${cyan}[Y/n] ${background}
 read -p "" num
-        case $num in
+      case $num in
      Y|y)
        cd ~/fox@bot/${name}
        pnpm run log
@@ -336,7 +336,7 @@ read -p "" num
      *)
        echo -e ${cyan}回车返回${background};read
        ;;
-  esac
+       esac
 ;;
 3)
 cd ~/fox@bot/${name}
@@ -382,6 +382,7 @@ help
 0)
 return
 ;;
+esac
 }
 #########################################################
 function install_bot(){

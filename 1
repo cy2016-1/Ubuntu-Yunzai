@@ -1,0 +1,100 @@
+ 
+function main(){
+path=fox@bot/${name}
+cd ${path}
+baihu=$(whiptail \
+--title "白狐≧▽≦" \
+--menu "${ver}" \
+20 45 12 \
+"1" "打开${name}日志" \
+"2" "后台启动${name}" \
+"3" "停止${name}运行" \
+"4" "管理${name}插件" \
+"5" "${name}重新登陆" \
+"6" "${name}无法登录" \
+"7" "前台启动${name}" \
+"8" "${name}报错修复" \
+"9" "帮助[实时更新]" \
+"0" "返回" \
+3>&1 1>&2 2>&3)
+if ! $? neq 0 ;then
+return
+fi
+case ${baihu} in 
+1)
+cd ~/fox@bot/${name}
+pnpm run log
+echo
+echo -e ${cyan}回车返回${background};read
+;;
+2)
+Redis=$(redis-cli ping)
+if ! [ "${Redis}" = "PONG" ]; then
+ redis-server --daemonize yes &
+ echo
+fi
+cd ~/fox@bot/${name}
+pnpm run start
+echo -en ${yellow}${name}启动完成 ${green}是否打开日志 ${cyan}[Y/n] ${background}
+read -p "" num
+        case $num in
+     Y|y)
+       cd ~/fox@bot/${name}
+       pnpm run log
+       echo
+       echo -e ${cyan}回车返回${background};read
+       ;;
+     n|N)
+       echo -e ${cyan}回车返回${background};read
+       ;;
+     *)
+       echo -e ${cyan}回车返回${background};read
+       ;;
+  esac
+;;
+3)
+cd ~/fox@bot/${name}
+pnpm stop
+echo
+echo -e ${cyan}回车返回${background};read
+;;
+4)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
+;;
+5)
+Redis=$(redis-cli ping)
+if ! [ "${Redis}" = "PONG" ]; then
+ redis-server --daemonize yes &
+ echo
+fi
+cd ~/fox@bot/${name}
+pnpm run login
+echo
+echo -e ${cyan}回车返回${background};read
+;;
+6)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
+;;
+7)
+Redis=$(redis-cli ping)
+if ! [ "${Redis}" = "PONG" ]; then
+ redis-server --daemonize yes &
+ echo
+fi
+cd ~/fox@bot/${name}
+pnpm run stop
+node app
+echo
+echo -e ${cyan}回车返回${background};read
+;;
+8)
+error
+;;
+9)
+help
+;;
+0)
+return
+;;
+}
+
