@@ -147,7 +147,7 @@ echo -e ${green}QQ群:狐狸窝:${cyan}705226976${background}
 echo -e ${green}注意:${cyan}手表协议和Macos协议都无法戳一戳"\n"因为本身这两种设备都不支持.${background}
 echo -e ${white}"#########################"${background}
 echo -en ${green}请输入您的选项:${background} ;read number
-case number in
+case $number in
 1)
 echo -e ${cyan}错误码:${red}45'\n'${cayn}建议使用${yellow}MacOS或${yellow}iPad或${yellow}old_Android'\n'回车继续${background};read
 device
