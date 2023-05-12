@@ -413,9 +413,6 @@ Number=$(whiptail \
 "5" "alemon-bot" \
 "0" "退出" \
 3>&1 1>&2 2>&3)
-if ! $? neq 0 ;then
-return
-fi
 case ${Number} in
 1)
 name=Yunzai-Bot
