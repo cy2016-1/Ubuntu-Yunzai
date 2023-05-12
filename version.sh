@@ -98,11 +98,16 @@ if test -z "${icqq_latest}";then
 fi
 echo -e ${yellow} - ${green}icqq最新版本为 ${cyan}${icqq_latest} ${background}
 echo -e ${yellow} - ${green}本地icqq版本为 ${red}${icqq_local} ${background}
-if ! [ "${icqq_local}" == "${icqq_latest}" ];then
+if [ "${icqq_local}" == "${icqq_latest}" ]
+then
+echo
+echo -e ${yellow} - ${green}icqq已为最新${cyan}${icqq_latest} ${background}
+else
+echo -e ${yellow} - ${green}正在更新icqq${cyan}${icqq_latest} ${background}
 sed -i "s/${icqq_local}/${icqq_latest}/g" package.json
-fi
 echo "Y" | pnpm uninstall icqq
 echo "Y" | pnpm install icqq@latest -w
+fi
 echo
 function device(){
 echo -e ${white}"#####"${cyan}白狐-Yunzai-Bot${white}"#####"${background}
