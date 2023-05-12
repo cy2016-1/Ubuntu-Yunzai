@@ -222,7 +222,7 @@ fi
 } #install_Miao_Plugin
 #########################################################
 function help(){
-echo ${cyan} 正在咕咕 回车返回${background}
+echo -en ${cyan} 正在咕咕 回车返回${background}
 read
 }
 function error(){
@@ -322,7 +322,7 @@ case ${baihu} in
 cd ~/fox@bot/${name}
 pnpm run log
 echo
-echo -e ${cyan}回车返回${background};read
+echo -en ${cyan}回车返回${background};read
 ;;
 2)
 Redis=$(redis-cli ping)
@@ -332,20 +332,20 @@ if ! [ "${Redis}" = "PONG" ]; then
 fi
 cd ~/fox@bot/${name}
 pnpm run start
-echo -en ${yellow}${name}启动完成 ${green}是否打开日志 ${cyan}[Y/n] ${background}
+echo -e ${yellow}${name}启动完成 ${green}是否打开日志 ${cyan}[Y/n] ${background}
 read -p "" num
       case $num in
      Y|y)
        cd ~/fox@bot/${name}
        pnpm run log
        echo
-       echo -e ${cyan}回车返回${background};read
+       echo -en ${cyan}回车返回${background};read
        ;;
      n|N)
-       echo -e ${cyan}回车返回${background};read
+       echo -en ${cyan}回车返回${background};read
        ;;
      *)
-       echo -e ${cyan}回车返回${background};read
+       echo -en ${cyan}回车返回${background};read
        ;;
        esac
 ;;
@@ -353,7 +353,7 @@ read -p "" num
 cd ~/fox@bot/${name}
 pnpm stop
 echo
-echo -e ${cyan}回车返回${background};read
+echo -en ${cyan}回车返回${background};read
 ;;
 4)
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
@@ -367,7 +367,7 @@ fi
 cd ~/fox@bot/${name}
 pnpm run login
 echo
-echo -e ${cyan}回车返回${background};read
+echo -en ${cyan}回车返回${background};read
 ;;
 6)
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
@@ -382,7 +382,7 @@ cd ~/fox@bot/${name}
 pnpm run stop
 node app
 echo
-echo -e ${cyan}回车返回${background};read
+echo -en ${cyan}回车返回${background};read
 ;;
 8)
 error
@@ -394,6 +394,15 @@ help
 return
 ;;
 esac
+function mainbak()
+{
+   while true
+   do
+       main
+       mainbak
+   done
+}
+mainbak
 }
 #########################################################
 function install_bot(){
