@@ -167,7 +167,7 @@ device
 6)
 echo "Y" | pnpm uninstall icqq
 echo -en ${green}请输入您指定的icqq版本:${background} ;read IcqqVersion
-echo "Y" | pnpm install icqq@${IcqqVersion}
+echo "Y" | pnpm install icqq@${IcqqVersion} -w
 ;;
 *)
 echo -en ${red}输入错误${background} ;read
