@@ -82,7 +82,6 @@ echo
 echo -e ${red} - ${cyan}您的 ${yellow}云崽/喵崽/TRSS崽 ${cyan}应该至少启动过一次${background}
 exit
 fi
-echo "Y" | pnpm install -P && echo "Y" | pnpm install
 icqq_local=`grep icqq package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g' | sed 's/\^//g'`
 #这边实在是想不出来怎么写了，希望各位大佬看到后不要喷，同时，也希望各位大佬提出您们宝贵的意见
 echo -e ${green} - ${cyan} 正在获取icqq最新版本${background}
@@ -148,21 +147,25 @@ echo -e ${green}注意:${cyan}手表协议和Macos协议都无法戳一戳"\n"�
 echo -e ${white}"#########################"${background}
 echo -en ${green}请输入您的选项:${background} ;read number
 case $number in
-1)
+1|45)
 echo -e ${cyan}错误码:${red}45'\n'${cayn}建议使用${yellow}MacOS或${yellow}iPad或${yellow}old_Android'\n'回车继续${background};read
+echo "Y" | pnpm install -P && echo "Y" | pnpm install
 device
 ;;
-2)
+2|235)
 echo -en ${cyan}错误码:${red}235'\n'${cayn}建议先使用手表协议然后扫码登录'\n'回车继续${background};read
+echo "Y" | pnpm install -P && echo "Y" | pnpm install
 device
 ;;
-3)
+3|237)
+echo "Y" | pnpm install -P && echo "Y" | pnpm install
 echo "Y" | pnpm uninstall icqq
 pnpm install icqq@0.2.3 -w
 echo -en ${cyan}错误码:${red}237'\n'${cayn}建议使用iPad协议登录'\n'回车继续${background};read
 device
 ;;
-4)
+4|238)
+echo "Y" | pnpm install -P && echo "Y" | pnpm install
 echo -en ${cyan}错误码:${red}238'\n'${cayn}建议命令换手表协议后再换回iPad协议[全部用密码]'\n'回车继续${background};read
 device
 ;;
@@ -170,6 +173,7 @@ device
 device
 ;;
 6)
+echo "Y" | pnpm install -P && echo "Y" | pnpm install
 echo "Y" | pnpm uninstall icqq
 echo -en ${green}请输入您指定的icqq版本:${background} ;read IcqqVersion
 echo "Y" | pnpm install icqq@${IcqqVersion} -w
