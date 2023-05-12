@@ -82,7 +82,7 @@ echo
 echo -e ${red} - ${cyan}您的 ${yellow}云崽/喵崽/TRSS崽 ${cyan}应该至少启动过一次${background}
 exit
 fi
-pnpm install -P && pnpm install
+echo "Y" | pnpm install -P && echo "Y" | pnpm install
 icqq_local=`grep icqq package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g' | sed 's/\^//g'`
 #这边实在是想不出来怎么写了，希望各位大佬看到后不要喷，同时，也希望各位大佬提出您们宝贵的意见
 echo -e ${green} - ${cyan} 正在获取icqq最新版本${background}
@@ -96,6 +96,8 @@ if test -z "${icqq_latest}";then
         fi
     fi
 fi
+echo -e ${yellow} - ${green}icqq最新版本为 ${cyan}${icqq_latest} ${background}
+echo -e ${yellow} - ${green}本地icqq版本为 ${red}${icqq_local} ${background}
 if ! [ "${icqq_local}" == "${icqq_latest}" ];then
 sed -i "s/${icqq_local}/${icqq_latest}/g" package.json
 fi
@@ -166,6 +168,10 @@ device
 echo "Y" | pnpm uninstall icqq
 echo -en ${green}请输入您指定的icqq版本:${background} ;read IcqqVersion
 echo "Y" | pnpm install icqq@${IcqqVersion}
+;;
+*)
+echo -en ${red}输入错误${background} ;read
+exit
 ;;
 esac
 echo -en ${green}执行完成 ${cyan}回车退出${background};read
