@@ -11,7 +11,7 @@ mv fox@bot .fox@bot
 rm -rf fox@bot > /dev/null
 fi
 if [ -d ~/Yunzai-Bot ];then
-if [ -d ~/fox@bot ];then
+if [ ! -d ~/.fox@bot ];then
 mkdir .fox@bot
 fi
 mv ~/Yunzai-Bot ~/.fox@bot/Yunzai-Bot
