@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/evn bash
 #if ping -c 1 baidu.com &> /dev/null
 #then
 #   Git=gitee
