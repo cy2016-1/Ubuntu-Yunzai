@@ -18,12 +18,12 @@ if [ -d ~/Yunzai-Bot ];then
     mv ~/Yunzai-Bot ~/.fox@bot/Yunzai-Bot
     ln -sf ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
 fi
-  
+
 if [ -e .baihu ];then
   rm .baihu
   sed -i "s/cat \/root\/.baihu//g" .bashrc
 fi
-ver=4.4.5.4
+ver=4.4.5.5
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -132,19 +132,9 @@ if ! [ -x "$(command -v pnpm)" ];then
 fi
 echo
 
-if ! [ -x "$(command -v pm2)" ];then
-    echo -e ${yellow}正在使用pnpm安装pm2${background}
-    pnpm config set registry https://registry.npmmirror.com
-    until pnpm install -g pm2
-    do
-      echo -e ${red}pm2安装失败 ${green}正在重试${background}
-      pnpm setup
-      source ~/.bashrc
-    done
-fi
-
 echo -e ${yellow}正在使用pnpm安装依赖${background}
 cd ./.fox@bot/${name}
+pnpm config set registry https://registry.npmmirror.com
 until echo "Y" | pnpm install -P && echo "Y" | pnpm install
 do
 echo -e ${red}依赖安装失败 ${green}正在重试${background}
