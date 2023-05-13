@@ -269,7 +269,7 @@ echo -en "\033[35m请输入选项 \033[0m";read number
        content=`sed -n "${Number}p" js.log`
         if [ "${sdpath}/${content}" = "${sdpath}" ]
           then
-          echo;echo -en "\033[31m输入错误\033[0m";echo
+          echo;echo -e "\033[31m输入错误\033[0m"
           exit
         fi
         cp ${sdpath}/${content} ${path}/plugins/example/

@@ -6,7 +6,7 @@
 #then
 #   Git=github
 #fi
-ver=4.1
+ver=4.2
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -80,13 +80,14 @@ if awk '{print $2}' /etc/issue | grep -q -E 22.*
 then
   echo -e ${yellow}安装nodejs${background}
   rm /etc/apt/sources.list.d/nodesource.list > /dev/null 2>&1
-  bash <(curl -sL https://deb.nodesource.com/setup_18.x)
+  curl https://deb.nodesource.com/setup_18.x | bash
 else
   echo -e ${yellow}安装nodejs${background}
   rm /etc/apt/sources.list.d/nodesource.list > /dev/null 2>&1
-  curl -sL https://deb.nodesource.com/setup_17.x | sed "s/sleep 20/sleep 2/g" | sed "s/Continuing in 20 seconds .../Continuing in 2 seconds .../g" | bash
+  curl https://deb.nodesource.com/setup_16.x | bash # | sed "s/sleep 20/sleep 2/g" | sed "s/Continuing in 20 seconds .../Continuing in 2 seconds .../g" | bash
 fi
 apt autoremove -y nodejs
+curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee /usr/share/keyrings/nodesource.gpg >/dev/null
 apt update -y
 apt install -y nodejs
 echo
