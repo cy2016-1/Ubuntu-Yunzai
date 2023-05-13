@@ -7,6 +7,9 @@
 #   Git=github
 #fi
 if [ -d ~/Yunzai-Bot ];then
+if ! [ -d ~/fox@bot ];then
+mkdir fox@bot
+fi
 mv ~/Yunzai-Bot ~/fox@bot/Yunzai-Bot
 fi
 ver=4.4.1
