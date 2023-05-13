@@ -13,7 +13,7 @@ fi
 
 if ! [ -L ~/Yunzai-Bot ];then
   if [ ! -d ~/.fox@bot ];then
-    mkdir .fox@bot
+    mkdir ~/.fox@bot
   fi
     mv ~/Yunzai-Bot ~/.fox@bot/Yunzai-Bot
     ln -sf ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
@@ -23,7 +23,7 @@ if [ -e .baihu ];then
   rm .baihu
   sed -i "s/cat \/root\/.baihu//g" .bashrc
 fi
-ver=4.4.5.6
+ver=4.4.5.7
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -212,6 +212,7 @@ if ! [ -d ~/.fox@bot/${name} ];then
        main
   fi
 else
+bot_path
 main
 fi
 } #install_Yunzai_Bot
@@ -244,6 +245,7 @@ if ! [ -d ~/.fox@bot/${name} ];then
      main
   fi
 else
+bot_path
 main
 fi
 } #install_Miao_Yunzai
@@ -486,6 +488,16 @@ echo -e ${yellow}是否删除${red}${name}${cyan}[N/y] ${background};read -p "" 
 return
 ;;
 esac
+}
+#########################################################
+function bot_path(){
+if ! [ -L ~/${name} ];then
+  if [ ! -d ~/.fox@bot ];then
+    mkdir ~/.fox@bot
+  fi
+    mv ~/${name} ~/.fox@bot/${name}
+    ln -sf ~/.fox@bot/${name} ~/${name}
+fi
 }
 #########################################################
 function install_bot(){
