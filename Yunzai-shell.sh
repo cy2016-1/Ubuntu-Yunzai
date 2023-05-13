@@ -419,8 +419,11 @@ echo -e ${yellow}是否删除${red}${name}${cyan}[N/y] ${background};read -p "" 
       case $num in
      Y|y)
        echo -e ${red}3${background}
+       sleep 1
        echo -e ${red}2${background}
+       sleep 1
        echo -e ${red}1${background}
+       sleep 1
        echo -e ${red}正在删除${name}${background}
        rm -rf ~/${name} > /dev/null
        rm -rf ~/${name} > /dev/null

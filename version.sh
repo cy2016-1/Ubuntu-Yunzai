@@ -96,14 +96,17 @@ echo -e ${green} - ${cyan} 正在获取icqq最新版本${background}
         fi
     fi
 #fi
+echo
 echo -e ${yellow} - ${green}icqq最新版本为 ${cyan}${icqq_latest} ${background}
 echo -e ${yellow} - ${green}本地icqq版本为 ${red}${icqq_local} ${background}
 if [ "${icqq_local}" == "${icqq_latest}" ]
 then
 echo
 echo -e ${yellow} - ${green}icqq已为最新${cyan}${icqq_latest} ${background}
+echo
 else
-echo -e ${yellow} - ${green}正在更新icqq${cyan}${icqq_latest} ${background}
+echo
+echo -e ${yellow} - ${green}正在更新icqq${cyan}${background}
 sed -i "s/${icqq_local}/${icqq_latest}/g" package.json
 echo "Y" | pnpm uninstall icqq
 echo "Y" | pnpm install icqq@latest -w
