@@ -6,7 +6,7 @@
 #then
 #   Git=github
 #fi
-ver=4.2
+ver=4.3
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -228,7 +228,7 @@ function error(){
 ErrorRepair=$(whiptail \
 --title "白狐≧▽≦" \
 --menu "${ver}" \
-20 45 15 \
+20 40 10 \
 "1" "修复chromium启动失败" \
 "2" "修复chromium调用失败" \
 "3" "修改${name}主人qq" \
@@ -240,7 +240,7 @@ if ! [ $feedback = 0 ]
 then
 return
 fi
-case ErrorRepair in
+case ${ErrorRepair} in
 1)
 bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
 ;;
@@ -272,7 +272,7 @@ else
 fi
 ;;
 4)
-pushd ~/Yunzai-Bot
+cd ~/fox@bot/${name}
 equipment=$(whiptail \
 --title "白狐≧▽≦" \
 --menu "请选择登录设备" \
@@ -288,8 +288,8 @@ new="platform: ${equipment}"
 file="$HOME/Yunzai-Bot/config/config/qq.yaml"
 old_equipment="platform: [0-5]"
 new_equipment="platform: ${equipment}"
-sed -i "s/$old_equipment/$new_equipment/g" $file
-rm $HOME/Yunzai-Bot/data/device.json
+sed -i "s/${old_equipment}/${new_equipment}/g" ${file}
+rm ~/fox@bot/${name}data/device.json
 ;;
 esac
 }
