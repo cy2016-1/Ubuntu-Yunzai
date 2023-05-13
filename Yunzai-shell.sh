@@ -23,7 +23,7 @@ if [ -e .baihu ];then
   rm .baihu
   sed -i "s/cat \/root\/.baihu//g" .bashrc
 fi
-ver=4.4.5.3
+ver=4.4.5.4
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
