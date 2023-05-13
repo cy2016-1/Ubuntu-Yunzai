@@ -8,21 +8,20 @@
 #fi
 if [ -d ~/fox@bot ];then
 mv fox@bot .fox@bot
+rm -rf fox@bot > /dev/null
 fi
 if [ -d ~/Yunzai-Bot ];then
-if ! [ -d ~/.fox@bot ];then
+if [ -d ~/fox@bot ];then
 mkdir .fox@bot
 fi
 mv ~/Yunzai-Bot ~/.fox@bot/Yunzai-Bot
-fi
-if ! [ -d ~/Yunzai-Bot ];then
-ln -s ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
+ln -sf ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
 fi
 if [ -e .baihu ];then
 rm .baihu
 sed -i "s/cat \/root\/.baihu//g" .bashrc
 fi
-ver=4.4.4
+ver=4.4.5
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -162,7 +161,7 @@ echo
 } #install
 #########################################################
 function install_Yunzai_Bot(){
-if ! [ -d .fox@bot/${name} ];then
+if ! [ -d ~/.fox@bot/${name} ];then
   if (whiptail --title "白狐" \
      --yes-button "安装" \
      --no-button "返回" \
@@ -192,7 +191,7 @@ fi
 } #install_Yunzai_Bot
 #########################################################
 function install_Miao_Yunzai(){
-if ! [ -d .fox@bot/${name} ];then
+if ! [ -d ~/.fox@bot/${name} ];then
   if (whiptail --title "白狐" \
      --yes-button "安装" \
      --no-button "返回" \
