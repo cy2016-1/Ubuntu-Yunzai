@@ -7,21 +7,23 @@
 #   Git=github
 #fi
 if [ -d ~/fox@bot ];then
-mv fox@bot .fox@bot
-rm -rf fox@bot > /dev/null
+  mv fox@bot .fox@bot
+  rm -rf fox@bot > /dev/null
 fi
+
 if [ -d ~/Yunzai-Bot ];then
-if [ ! -d ~/.fox@bot ];then
-mkdir .fox@bot
+  if [ ! -d ~/.fox@bot ];then
+    mkdir .fox@bot
+  fi
+    mv ~/Yunzai-Bot ~/.fox@bot/Yunzai-Bot
+    ln -sf ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
 fi
-mv ~/Yunzai-Bot ~/.fox@bot/Yunzai-Bot
-ln -sf ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
-fi
+  
 if [ -e .baihu ];then
-rm .baihu
-sed -i "s/cat \/root\/.baihu//g" .bashrc
+  rm .baihu
+  sed -i "s/cat \/root\/.baihu//g" .bashrc
 fi
-ver=4.4.5
+ver=4.4.5.1
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -181,9 +183,10 @@ if ! [ -d ~/.fox@bot/${name} ];then
              echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
              exit
            fi
-           ln -s ~/.fox@bot/${name} ~/${name}
        fi
+       ln -s ~/.fox@bot/${name} ~/${name}
        install
+       main
   fi
 else
 main
@@ -202,19 +205,20 @@ if ! [ -d ~/.fox@bot/${name} ];then
        --no-button "Github" \
        --yesno "请选择${name}的下载服务器\n国内用户建议选择Gitee" 10 50)
          then
-           if ! git clone --depth=1 ${GiteeMZ} ./.fox@bot/${name};then
+           if ! git clone --depth=1 ${GiteeMZ} ~/.fox@bot/${name};then
              echo -e ${red} 克隆失败 ${cyan}试试Github ${background}
              exit
            fi
          else
-           if ! git clone --depth=1 ${GithubMZ} ./.fox@bot/${name};then
+           if ! git clone --depth=1 ${GithubMZ} ~/.fox@bot/${name};then
              echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
              exit
            fi
-         ln -s ~/.fox@bot/${name} ~/${name}
-         install_Miao_Plugin
        fi
+     ln -s ~/.fox@bot/${name} ~/${name}
+     install_Miao_Plugin
      install
+     main
   fi
 else
 main
@@ -229,13 +233,13 @@ if (whiptail --title "白狐" \
 --no-button "Github" \
 --yesno "请选择${name}的下载服务器\n国内用户建议选择Gitee" 10 50)
   then
-    if ! git clone --depth=1 ${GiteeMP} ./.fox@bot/${name}/plugins/miao-plugin
+    if ! git clone --depth=1 ${GiteeMP} ~/.fox@bot/${name}/plugins/miao-plugin
     then
       echo -e ${red} 克隆失败 ${cyan}试试Github ${background}
       exit
     fi
   else
-    if ! git clone --depth=1 ${GithubMP} ./.fox@bot/${name}/plugins/miao-plugin
+    if ! git clone --depth=1 ${GithubMP} ~/.fox@bot/${name}/plugins/miao-plugin
     then
       echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
       exit
@@ -467,6 +471,7 @@ name=Yunzai-Bot
 Gitee=https://gitee.com/yoimiya-kokomi/Yunzai-Bot.git
 #GithubYZ=https://github.com/yoimiya-kokomi/Yunzai-Bot.git
 install_Yunzai_Bot
+
 ;;
 2)
 name=Miao-Yunzai
