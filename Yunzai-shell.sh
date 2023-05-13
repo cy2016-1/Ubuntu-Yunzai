@@ -6,7 +6,10 @@
 #then
 #   Git=github
 #fi
-ver=4.4
+if [ -d ~/Yunzai-Bot ];then
+mv ~/Yunzai-Bot ~/fox@bot/Yunzai-Bot
+fi
+ver=4.4.1
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
