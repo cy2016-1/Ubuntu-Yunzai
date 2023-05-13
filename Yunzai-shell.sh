@@ -11,7 +11,7 @@ if [ -d ~/fox@bot ];then
   rm -rf fox@bot > /dev/null
 fi
 
-if [ -d ~/Yunzai-Bot ];then
+if ! [ -L ~/Yunzai-Bot ];then
   if [ ! -d ~/.fox@bot ];then
     mkdir .fox@bot
   fi
@@ -23,7 +23,7 @@ if [ -e .baihu ];then
   rm .baihu
   sed -i "s/cat \/root\/.baihu//g" .bashrc
 fi
-ver=4.4.5.5
+ver=4.4.5.6
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -283,6 +283,7 @@ ErrorRepair=$(whiptail \
 "2" "修复chromium调用失败" \
 "3" "修改${name}主人qq" \
 "4" "修改登录设备" \
+"5" "修复redis数据库" \
 "0" "返回" \
 3>&1 1>&2 2>&3)
 feedback=$?
@@ -293,12 +294,14 @@ fi
 case ${ErrorRepair} in
 1)
 bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
+echo -e ${green}回车返回${background};read
 ;;
 2)
 pnpm install
 pnpm uninstall puppeteer
 pnpm install puppeteer@19.0.0 -w
 node ./node_modules/puppeteer/install.js
+echo -e ${green}回车返回${background};read
 ;;
 3)
 qq=$(whiptail \
@@ -320,6 +323,7 @@ else
     echo -e ${red}请输入正确的QQ号${background}
     exit
 fi
+echo -e ${green}回车返回${background};read
 ;;
 4)
 cd ~/.fox@bot/${name}
@@ -345,6 +349,12 @@ old_equipment="platform: [0-5]"
 new_equipment="platform: ${equipment}"
 sed -i "s/${old_equipment}/${new_equipment}/g" ${file}
 rm ~/.fox@bot/${name}/data/device.json
+echo -e ${green}回车返回${background};read
+;;
+5)
+apt autoremove -y redis redis-server
+apt install -y redis redis-server
+echo -e ${green}回车返回${background};read
 ;;
 esac
 }
@@ -415,7 +425,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
 5)
 Redis=$(redis-cli ping)
 if ! [ "${Redis}" = "PONG" ]; then
- redis-server --daemonize yes &
+ redis-server &
  echo
 fi
 cd ~/${name}
