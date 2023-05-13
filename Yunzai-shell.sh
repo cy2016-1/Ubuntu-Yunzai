@@ -12,7 +12,7 @@ mkdir fox@bot
 fi
 mv ~/Yunzai-Bot ~/fox@bot/Yunzai-Bot
 fi
-ver=4.4.1
+ver=4.4.2
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -119,9 +119,8 @@ fi
 echo
 
 if ! [ -x "$(command -v pm2)" ];then
-    echo -e ${yellow}正在使用npm安装pm2${background}
-    npm config set registry https://registry.npmmirror.com
-    until npm install -g pm2
+    echo -e ${yellow}正在使用pnpm安装pm2${background}
+    until pnpm install -g pm2
     do
       echo -e ${red}pm2安装失败 ${green}正在重试${background}
     done
