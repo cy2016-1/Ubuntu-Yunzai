@@ -425,7 +425,7 @@ echo -en ${cyan} 正在咕咕 回车返回${background}
 help
 ;;
 11)
-echo -e ${yellow}是否删除${red}${name}${cyan}[N/y] ${background};read -p num
+echo -e ${yellow}是否删除${red}${name}${cyan}[N/y] ${background};read -p "" num
       case $num in
      Y|y)
        echo -e ${red}3${background}
