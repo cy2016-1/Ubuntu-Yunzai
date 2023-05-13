@@ -23,7 +23,7 @@ if [ -e .baihu ];then
   rm .baihu
   sed -i "s/cat \/root\/.baihu//g" .bashrc
 fi
-ver=4.4.5.1
+ver=4.4.5.3
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -174,12 +174,12 @@ if ! [ -d ~/.fox@bot/${name} ];then
        --no-button "Github" \
        --yesno "请选择${name}的下载服务器\n国内用户建议选择Gitee" 10 50)
          then
-           if ! git clone --depth=1 ${Gitee} ./.fox@bot/${name};then
+           if ! git clone --depth=1 ${Gitee} ~/.fox@bot/${name};then
              echo -e ${red} 克隆失败 ${cyan}试试Github ${background}
              exit
            fi
          else
-           if ! git clone --depth=1 ${Github} ./.fox@bot/${name};then
+           if ! git clone --depth=1 ${Github} ~/.fox@bot/${name};then
              echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
              exit
            fi
@@ -425,10 +425,26 @@ echo -en ${cyan} 正在咕咕 回车返回${background}
 help
 ;;
 11)
-rm -rf ~/${name} > /dev/null
-rm -rf ~/${name} > /dev/null
-rm -rf ~/.fox@bot/${name} > /dev/null
-rm -rf ~/.fox@bot/${name} > /dev/null
+echo -e ${yellow}是否删除${red}${name}${cyan}[N/y] ${background};read -p num
+      case $num in
+     Y|y)
+       echo -e ${red}3${background}
+       echo -e ${red}2${background}
+       echo -e ${red}1${background}
+       echo -e ${red}正在删除${name}${background}
+       rm -rf ~/${name} > /dev/null
+       rm -rf ~/${name} > /dev/null
+       rm -rf ~/.fox@bot/${name} > /dev/null
+       rm -rf ~/.fox@bot/${name} > /dev/null
+       echo -en ${cyan}删除完成 回车返回${background}
+       ;;
+     n|N)
+       echo -en ${cyan}回车返回${background};read
+       ;;
+     *)
+       echo -en ${red}输入错误${cyan}回车返回${background};read
+       ;;
+       esac
 ;;
 0)
 return
