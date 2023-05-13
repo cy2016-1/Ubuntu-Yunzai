@@ -602,7 +602,7 @@ choose_page
     cd ${path}
     ;;
   6)
-    
+    plugin_set
     ;;
   7)
     robot_path

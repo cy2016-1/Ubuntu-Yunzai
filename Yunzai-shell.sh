@@ -116,7 +116,7 @@ echo
 function nvm_nodejs_install(){
 curl https://ghproxy.com/https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | sed 's/https:\/\/ghproxy.com\/https:\/\/raw.githubusercontent.com/https:\/\/raw.githubusercontent.com/' | bash
 source ~/.bashrc
-export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node/
+export NVM_NODEJS_ORG_MIRROR=https://mirrors.ustc.edu.cn/node/
 if awk '{print $2}' /etc/issue | grep -q -E 22.*
 then
   nvm install --lts
@@ -256,7 +256,7 @@ function install_Miao_Plugin(){
 if (whiptail --title "白狐" \
 --yes-button "Gitee" \
 --no-button "Github" \
---yesno "请选择${name}的下载服务器\n国内用户建议选择Gitee" 10 50)
+--yesno "请选择的miao-plugin下载服务器\n国内用户建议选择Gitee" 10 50)
   then
     if ! git clone --depth=1 ${GiteeMP} ~/.fox@bot/${name}/plugins/miao-plugin
     then
