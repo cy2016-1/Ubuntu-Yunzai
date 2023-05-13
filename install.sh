@@ -49,7 +49,7 @@ if ! [ -e "/usr/local/bin/bhyz" ];then
           sleep 0.05s
           echo ${a}
         done
-    } | whiptail --gauge "检测到新版本 正在更新" 6 60 0
+    } | whiptail --gauge "正在安装" 6 60 0
     if ! [ -x "/usr/local/bin/bhyz" ];then
     whiptail --title "白狐≧▽≦" --msgbox \
     "安装失败 请检查网络" \
@@ -76,7 +76,7 @@ else
           sleep 0.05s
           echo ${a}
         done
-    } | whiptail --gauge "检测到新版本 正在更新" 6 60 0
+    } | whiptail --gauge "正在安装" 6 60 0
     if ! [ -x "/usr/local/bin/bhyz" ];then
     whiptail --title "白狐≧▽≦" --msgbox \
     "安装失败 请检查网络" \

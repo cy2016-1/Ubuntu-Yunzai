@@ -43,29 +43,28 @@ if ! [ -d "../usr/var/lib/proot-distro/dlcache" ];then
 mkdir -p ../usr/var/lib/proot-distro/dlcache
 fi
 case $(uname -m) in
-  aarch64|arm64)
+  arm64|aarch64)
     ubuntu=aarch64
     ;;
   amd64|x86_64)
     ubuntu=x86_64
     ;;
-  arm|armel|armhf|armhfp|armv7|armv7l|armv7a|armv8l)
+  arm|armhf|armel)
     ubuntu=arm
-    ;;
-  386|i386|i686|x86)
-    echo -e "\033[31m暂不支持您的设备\033[0m"
-    exit
     ;;
   *)
     echo -e "\033[31m暂不支持您的设备\033[0m"
     exit
     ;;
 esac
-wget -O ../usr/var/lib/proot-distro/dlcache https://ghproxy.com/https://github.com/termux/proot-distro/releases/download/v3.5.1/ubuntu-${ubuntu}-pd-v3.5.1.tar.xz
+wget -O ubuntu-${ubuntu}-pd-v3.5.1.tar.xz https://ghproxy.com/https://github.com/termux/proot-distro/releases/download/v3.5.1/ubuntu-${ubuntu}-pd-v3.5.1.tar.xz
+curl -o https://ghproxy.com/https://ghproxy.com/https://github.com/termux/proot-distro/releases/download/v3.5.1/ubuntu-${ubuntu}-pd-v3.5.1.tar.xz
+mv ubuntu-${ubuntu}-pd-v3.5.1.tar.xz ../usr/var/lib/proot-distro/dlcache
 proot-distro install ubuntu
 wget -O YZ.sh https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/YZ.sh
 mv YZ.sh ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/
+mkdir ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/fox@bot
 echo "bash YZ.sh" >> ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/.bashrc
-ln -s ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root $HOME/root
-proot-distro login ubuntu
+ln -s ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/fox@bot $HOME/fox@bot
 echo "proot-distro login ubuntu" > .bashrc
+proot-distro login ubuntu

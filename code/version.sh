@@ -72,7 +72,7 @@ echo -e ${red}未在此目录下找到${name}的配置文件${background}
 echo -e ${red}请进入 ${name}目录 之后使用本脚本${background}
 fi
 cd ${path}
-if ! grep -q -s -i -E "icqq" package.json;then > /dev/null
+if ! grep -q "icqq" package.json;then > /dev/null
 echo
 echo -e ${red} - ${cyan}请进入 ${yellow}云崽/喵崽/TRSS崽 ${cyan}目录之后运行本脚本${background}
 exit
@@ -84,6 +84,7 @@ exit
 fi
 icqq_local=`grep icqq package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g' | sed 's/\^//g'`
 #这边实在是想不出来怎么写了，希望各位大佬看到后不要喷，同时，也希望各位大佬提出您们宝贵的意见
+echo
 echo -e ${green} - ${cyan} 正在获取icqq最新版本${background}
 icqq_latest=`curl -sL https://raw.github.com/icqqjs/icqq/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
 if test -z "${icqq_latest}";then
