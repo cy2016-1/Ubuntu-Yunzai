@@ -95,7 +95,7 @@ if ! [ -x "$(command -v chromium-browser)" ];then
     echo
 fi
 
-function nodejs_install(){
+function setup_nodejs_install(){
 if awk '{print $2}' /etc/issue | grep -q -E 22.*
 then
   echo -e ${yellow}安装nodejs${background}
@@ -112,10 +112,34 @@ apt update -y
 apt install -y nodejs
 echo
 } #nodejs_install
+
+function nvm_nodejs_install(){
+curl https://ghproxy.com/https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | sed 's/https:\/\/ghproxy.com\/https:\/\/raw.githubusercontent.com/https:\/\/raw.githubusercontent.com/' | bash
+source ~/.bashrc
+export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node/
+if awk '{print $2}' /etc/issue | grep -q -E 22.*
+then
+  nvm install --lts
+else
+  nvm install 16.19.0
+fi
+source ~/.bashrc
+echo
+}
+
 Nodsjs_Version=$(node -v | cut -d '.' -f1)
 if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Version" == "v18" || "$Nodsjs_Version" == "v19" || "$Nodsjs_Version" == "v20" ]] && ! [ -x "$(command -v npm)" ];then
+  if (whiptail --title "白狐" \
+   --yes-button "nvm" \
+   --no-button "setup" \
+   --yesno "请选择nodejs安装方式 \n国内用户建议使用nvm脚本安装 \n国际用户建议使用setup脚本安装" 10 50)
+   then
+     nodejs_install=setup_nodejs_install
+   else
+     nodejs_install=nvm_nodejs_install
+  fi
   echo -e ${yellow}安装nodejs和npm${background}
-  until nodejs_install
+  until ${nodejs_install}
   do
     echo -e ${red}NodeJS和npm安装失败 ${green}正在重试${background}
   done
@@ -129,11 +153,20 @@ if ! [ -x "$(command -v pnpm)" ];then
     do
       echo -e ${red}pnpm安装失败 ${green}正在重试${background}
     done
+    echo
 fi
-echo
+
+if ! [ -x "$(command -v pm2)" ];then
+    echo -e ${yellow}正在使用npm安装pnpm${background}
+    until npm install -g pm2
+    do
+      echo -e ${red}pm2安装失败 ${green}正在重试${background}
+    done
+    echo
+fi
 
 echo -e ${yellow}正在使用pnpm安装依赖${background}
-cd ./.fox@bot/${name}
+cd ~/.fox@bot/${name}
 pnpm config set registry https://registry.npmmirror.com
 until echo "Y" | pnpm install -P && echo "Y" | pnpm install
 do
@@ -148,8 +181,8 @@ if ! [ -x "$(command -v ffmpeg)" ];then
     do
         echo -e ${red}ffmpeg安装失败 ${cyan}正在重试${background}
     done
+    echo
 fi
-echo
 } #install
 #########################################################
 function install_Yunzai_Bot(){
@@ -174,7 +207,7 @@ if ! [ -d ~/.fox@bot/${name} ];then
              exit
            fi
        fi
-       ln -s ~/.fox@bot/${name} ~/${name}
+       ln -sf ~/.fox@bot/${name} ~/${name}
        install
        main
   fi
@@ -205,7 +238,7 @@ if ! [ -d ~/.fox@bot/${name} ];then
              exit
            fi
        fi
-     ln -s ~/.fox@bot/${name} ~/${name}
+     ln -sf ~/.fox@bot/${name} ~/${name}
      install_Miao_Plugin
      install
      main

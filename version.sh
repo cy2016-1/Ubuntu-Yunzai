@@ -50,8 +50,8 @@ exit
 esac
 if [ -d "/root/${name}" ];then
 path="/root/${name}"
-elif [ -d "/root/fox@bot/${name}" ];then
-path="/root/fox@bot/${name}"
+elif [ -d "/root/.fox@bot/${name}" ];then
+path="/root/.fox@bot/${name}"
 elif [ -d "/home/lighthouse/ubuntu/${name}" ];then
 path="/home/lighthouse/ubuntu/${name}"
 elif [ -d "/home/lighthouse/centos/${name}" ];then
