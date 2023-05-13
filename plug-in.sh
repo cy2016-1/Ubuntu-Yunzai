@@ -349,13 +349,17 @@ function git_pull_plugins(){
 clear
 echo
 echo -e ${yellow}正在更新${background}
+cd ${path}
 function git_pull(){
  if ! git pull;then
    echo
-     echo -en ${red} 更新失败 ${cyan} 是否重试${yellow} [Y/n]${background};read num
-     case $num in
+     echo -en ${red} 更新失败 ${cyan} 是否${retry}强制更新${yellow} [Y/n]${background};read yn
+     case $yn in
        Y|y)
+         git fetch --all
+         git reset --hard origin/master
          git_pull
+         retry="重新尝试"
          ;;
        n|N)
          echo
@@ -374,9 +378,13 @@ do
    function git_pull(){
    if ! git pull;then
    echo
-   echo -en ${red}${file} 更新失败 ${cyan} 是否重试${yellow} [Y/n]${background};read num
-   case $num in
+   echo -en ${red}${file} 更新失败 ${cyan} 是否${retry}强制更新${yellow} [Y/n]${background};read yn
+   case $yn in
    Y|y)
+     git fetch --all
+     git reset --hard origin/master
+     git_pull
+     retry="重新尝试"
      git_pull
      ;;
    n|N)

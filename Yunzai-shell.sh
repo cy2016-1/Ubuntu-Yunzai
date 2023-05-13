@@ -15,7 +15,7 @@ fi
 if [ -e .baihu ];then
 rm .baihu
 fi
-ver=4.4.3
+ver=4.4.3.1
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -444,7 +444,7 @@ Number=$(whiptail \
 feedback=$?
 if ! [ $feedback = 0 ]
 then
-return
+exit
 fi
 case ${Number} in
 1)
