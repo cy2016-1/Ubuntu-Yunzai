@@ -83,11 +83,11 @@ echo -e ${red} - ${cyan}您的 ${yellow}云崽/喵崽/TRSS崽 ${cyan}应该至�
 exit
 fi
 icqq_local=`grep icqq package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g' | sed 's/\^//g'`
-=这边实在是想不出来怎么写了，希望各位大佬看到后不要喷，同时，也希望各位大佬提出您们宝贵的意见
+#这边实在是想不出来怎么写了，希望各位大佬看到后不要喷，同时，也希望各位大佬提出您们宝贵的意见
 echo
 echo -e ${green} - ${cyan} 正在获取icqq最新版本${background}
-=icqq_latest=`curl -sL https://raw.github.com/icqqjs/icqq/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
-=if test -z "${icqq_latest}";then
+#icqq_latest=`curl -sL https://raw.github.com/icqqjs/icqq/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
+#if test -z "${icqq_latest}";then
   icqq_latest=`curl -sL https://ghproxy.com/https://raw.github.com/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
     if test -z "${icqq_latest}";then 
       icqq_latest=`curl -sL https://gitee.com/baihu433/icqq/raw/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
@@ -95,7 +95,7 @@ echo -e ${green} - ${cyan} 正在获取icqq最新版本${background}
           echo -e "\033[31m" 请检查网络"\033[0m"
         fi
     fi
-=fi
+#fi
 echo
 echo -e ${yellow} - ${green}icqq最新版本为 ${cyan}${icqq_latest} ${background}
 echo -e ${yellow} - ${green}本地icqq版本为 ${red}${icqq_local} ${background}
