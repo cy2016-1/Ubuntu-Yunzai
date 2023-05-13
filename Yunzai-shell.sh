@@ -6,7 +6,7 @@
 #then
 #   Git=github
 #fi
-ver=4.3
+ver=4.4
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -284,12 +284,17 @@ equipment=$(whiptail \
 "5" "iPad" \
 "6" "old_Android" \
 3>&1 1>&2 2>&3)
+feedback=$?
+if ! [ $feedback = 0 ]
+then
+return
+fi
 new="platform: ${equipment}"
-file="$HOME/Yunzai-Bot/config/config/qq.yaml"
+file="~/fox@bot/${name}/config/config/qq.yaml"
 old_equipment="platform: [0-5]"
 new_equipment="platform: ${equipment}"
 sed -i "s/${old_equipment}/${new_equipment}/g" ${file}
-rm ~/fox@bot/${name}data/device.json
+rm ~/fox@bot/${name}/data/device.json
 ;;
 esac
 }
@@ -417,6 +422,11 @@ Number=$(whiptail \
 "5" "alemon-bot" \
 "0" "退出" \
 3>&1 1>&2 2>&3)
+feedback=$?
+if ! [ $feedback = 0 ]
+then
+return
+fi
 case ${Number} in
 1)
 name=Yunzai-Bot
