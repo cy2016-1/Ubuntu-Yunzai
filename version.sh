@@ -1,4 +1,4 @@
-#!/bin/bash
+=!/bin/bash
 red="\033[31m"
 green="\033[32m"
 yellow="\033[33m"
@@ -9,17 +9,17 @@ white="\033[37m"
 background="\033[0m"
 echo
 echo
-echo -e ${white}"#####"${green}白狐-Yunzai-Bot${white}"#####"${background}
+echo -e ${white}"====="${green}白狐-Yunzai-Bot${white}"====="${background}
 echo -e ${blue}请选择您的bot${background}
-echo "#########################"
+echo "========================="
 echo -e ${green}1.  ${cyan}Yunzai-Bot${background}
 echo -e ${green}2.  ${cyan}Miao-Yunzai${background}
 echo -e ${green}3.  ${cyan}yunzai-bot-lite${background}
 echo -e ${green}4.  ${cyan}TRSS-Yunzai${background}
 echo -e ${green}0.  ${cyan}退出${background}
-echo "#########################"
+echo "========================="
 echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
-echo "#########################"
+echo "========================="
 echo
 echo -en ${green}请输入您的选项: ${background};read number
 case ${number} in
@@ -83,11 +83,11 @@ echo -e ${red} - ${cyan}您的 ${yellow}云崽/喵崽/TRSS崽 ${cyan}应该至�
 exit
 fi
 icqq_local=`grep icqq package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g' | sed 's/\^//g'`
-#这边实在是想不出来怎么写了，希望各位大佬看到后不要喷，同时，也希望各位大佬提出您们宝贵的意见
+=这边实在是想不出来怎么写了，希望各位大佬看到后不要喷，同时，也希望各位大佬提出您们宝贵的意见
 echo
 echo -e ${green} - ${cyan} 正在获取icqq最新版本${background}
-#icqq_latest=`curl -sL https://raw.github.com/icqqjs/icqq/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
-#if test -z "${icqq_latest}";then
+=icqq_latest=`curl -sL https://raw.github.com/icqqjs/icqq/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
+=if test -z "${icqq_latest}";then
   icqq_latest=`curl -sL https://ghproxy.com/https://raw.github.com/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
     if test -z "${icqq_latest}";then 
       icqq_latest=`curl -sL https://gitee.com/baihu433/icqq/raw/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
@@ -95,7 +95,7 @@ echo -e ${green} - ${cyan} 正在获取icqq最新版本${background}
           echo -e "\033[31m" 请检查网络"\033[0m"
         fi
     fi
-#fi
+=fi
 echo
 echo -e ${yellow} - ${green}icqq最新版本为 ${cyan}${icqq_latest} ${background}
 echo -e ${yellow} - ${green}本地icqq版本为 ${red}${icqq_local} ${background}
@@ -113,18 +113,18 @@ echo "Y" | pnpm install icqq@latest -w
 fi
 echo
 function device(){
-echo -e ${white}"#####"${cyan}白狐-Yunzai-Bot${white}"#####"${background}
+echo -e ${white}"====="${cyan}白狐-Yunzai-Bot${white}"====="${background}
 echo -e ${cyan}请选择您的登陆设备${background}
-echo -e ${white}"#########################"${background}
+echo -e ${white}"========================="${background}
 echo -e ${green}1. ${cyan}安卓手机${background}
 echo -e ${green}2. ${cyan}aPad${background}
 echo -e ${green}3. ${cyan}安卓手表${background}
 echo -e ${green}4. ${cyan}MacOS${background}
 echo -e ${green}5. ${cyan}iPad${background}
 echo -e ${green}6. ${cyan}old_Android${background}
-echo -e ${white}"#########################"${background}
+echo -e ${white}"========================="${background}
 echo -e ${green}QQ群:狐狸窝:${cyan}705226976${background}
-echo ${white}"#########################"${background}
+echo ${white}"========================="${background}
 echo -en ${green}请输入您的选项:${background} ;read number
 new="platform: ${number}"
 file=config/config/qq.yaml
@@ -136,19 +136,19 @@ rm data/device.json > /dev/null
 rm -rf data/icqq > /dev/null
 }
 echo
-echo -e ${white}"#####"${cyan}白狐-Yunzai-Bot${white}"#####"${background}
+echo -e ${white}"====="${cyan}白狐-Yunzai-Bot${white}"====="${background}
 echo -e ${cyan}请选择您的报错类型${background}
-echo -e ${white}"#########################"${background}
+echo -e ${white}"========================="${background}
 echo -e ${green}1. ${cyan}错误码:${red}45${background}
 echo -e ${green}2. ${cyan}错误码:${red}235${background}
 echo -e ${green}3. ${cyan}错误码:${red}237${background}
 echo -e ${green}4. ${cyan}错误码:${red}238${background}
 echo -e ${green}5. ${cyan}仅更改登录端口\(设备\)${background}
 echo -e ${green}6. ${cyan}仅降级icqq版本${background}
-echo -e ${white}"#########################"${background}
+echo -e ${white}"========================="${background}
 echo -e ${green}QQ群:狐狸窝:${cyan}705226976${background}
 echo -e ${green}注意:${cyan}手表协议和Macos协议都无法戳一戳"\n"因为本身这两种设备都不支持.${background}
-echo -e ${white}"#########################"${background}
+echo -e ${white}"========================="${background}
 echo -en ${green}请输入您的选项:${background} ;read number
 case $number in
 1|45)
