@@ -6,16 +6,23 @@
 #then
 #   Git=github
 #fi
-if [ -d ~/Yunzai-Bot ];then
-if ! [ -d ~/fox@bot ];then
-mkdir fox@bot
+if [ -d ~/fox@bot ];then
+mv fox@bot .fox@bot
 fi
-mv ~/Yunzai-Bot ~/fox@bot/Yunzai-Bot
+if [ -d ~/Yunzai-Bot ];then
+if ! [ -d ~/.fox@bot ];then
+mkdir .fox@bot
+fi
+mv ~/Yunzai-Bot ~/.fox@bot/Yunzai-Bot
+fi
+if ! [ -d ~/Yunzai-Bot ];then
+ln -s ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
 fi
 if [ -e .baihu ];then
 rm .baihu
+sed -i "s/cat \/root\/.baihu//g" .bashrc
 fi
-ver=4.4.3.1
+ver=4.4.4
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -136,7 +143,7 @@ if ! [ -x "$(command -v pm2)" ];then
 fi
 
 echo -e ${yellow}正在使用pnpm安装依赖${background}
-cd ./fox@bot/${name}
+cd ./.fox@bot/${name}
 until echo "Y" | pnpm install -P && echo "Y" | pnpm install
 do
 echo -e ${red}依赖安装失败 ${green}正在重试${background}
@@ -155,7 +162,7 @@ echo
 } #install
 #########################################################
 function install_Yunzai_Bot(){
-if ! [ -d fox@bot/${name} ];then
+if ! [ -d .fox@bot/${name} ];then
   if (whiptail --title "白狐" \
      --yes-button "安装" \
      --no-button "返回" \
@@ -166,15 +173,16 @@ if ! [ -d fox@bot/${name} ];then
        --no-button "Github" \
        --yesno "请选择${name}的下载服务器\n国内用户建议选择Gitee" 10 50)
          then
-           if ! git clone --depth=1 ${Gitee} ./fox@bot/${name};then
+           if ! git clone --depth=1 ${Gitee} ./.fox@bot/${name};then
              echo -e ${red} 克隆失败 ${cyan}试试Github ${background}
              exit
            fi
          else
-           if ! git clone --depth=1 ${Github} ./fox@bot/${name};then
+           if ! git clone --depth=1 ${Github} ./.fox@bot/${name};then
              echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
              exit
            fi
+           ln -s ~/.fox@bot/${name} ~/${name}
        fi
        install
   fi
@@ -184,7 +192,7 @@ fi
 } #install_Yunzai_Bot
 #########################################################
 function install_Miao_Yunzai(){
-if ! [ -d fox@bot/${name} ];then
+if ! [ -d .fox@bot/${name} ];then
   if (whiptail --title "白狐" \
      --yes-button "安装" \
      --no-button "返回" \
@@ -195,15 +203,16 @@ if ! [ -d fox@bot/${name} ];then
        --no-button "Github" \
        --yesno "请选择${name}的下载服务器\n国内用户建议选择Gitee" 10 50)
          then
-           if ! git clone --depth=1 ${GiteeMZ} ./fox@bot/${name};then
+           if ! git clone --depth=1 ${GiteeMZ} ./.fox@bot/${name};then
              echo -e ${red} 克隆失败 ${cyan}试试Github ${background}
              exit
            fi
          else
-           if ! git clone --depth=1 ${GithubMZ} ./fox@bot/${name};then
+           if ! git clone --depth=1 ${GithubMZ} ./.fox@bot/${name};then
              echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
              exit
            fi
+         ln -s ~/.fox@bot/${name} ~/${name}
          install_Miao_Plugin
        fi
      install
@@ -221,13 +230,13 @@ if (whiptail --title "白狐" \
 --no-button "Github" \
 --yesno "请选择${name}的下载服务器\n国内用户建议选择Gitee" 10 50)
   then
-    if ! git clone --depth=1 ${GiteeMP} ./fox@bot/${name}/plugins/miao-plugin
+    if ! git clone --depth=1 ${GiteeMP} ./.fox@bot/${name}/plugins/miao-plugin
     then
       echo -e ${red} 克隆失败 ${cyan}试试Github ${background}
       exit
     fi
   else
-    if ! git clone --depth=1 ${GithubMP} ./fox@bot/${name}/plugins/miao-plugin
+    if ! git clone --depth=1 ${GithubMP} ./.fox@bot/${name}/plugins/miao-plugin
     then
       echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
       exit
@@ -287,7 +296,7 @@ else
 fi
 ;;
 4)
-cd ~/fox@bot/${name}
+cd ~/.fox@bot/${name}
 equipment=$(whiptail \
 --title "白狐≧▽≦" \
 --menu "请选择登录设备" \
@@ -305,11 +314,11 @@ then
 return
 fi
 new="platform: ${equipment}"
-file="~/fox@bot/${name}/config/config/qq.yaml"
+file="~/.fox@bot/${name}/config/config/qq.yaml"
 old_equipment="platform: [0-5]"
 new_equipment="platform: ${equipment}"
 sed -i "s/${old_equipment}/${new_equipment}/g" ${file}
-rm ~/fox@bot/${name}/data/device.json
+rm ~/.fox@bot/${name}/data/device.json
 ;;
 esac
 }
@@ -328,6 +337,7 @@ baihu=$(whiptail \
 "8" "${name}报错修复" \
 "9" "白狐脚本附件安装" \
 "10" "帮助[实时更新]" \
+"11" "卸崽! 删除${name}" \
 "0" "返回" \
 3>&1 1>&2 2>&3)
 feedback=$?
@@ -337,24 +347,24 @@ return
 fi
 case ${baihu} in 
 1)
-cd ~/fox@bot/${name}
-pnpm run log
+cd ~/${name}
+pnpm log
 echo
 echo -en ${cyan}回车返回${background};read
 ;;
 2)
 Redis=$(redis-cli ping)
 if ! [ "${Redis}" = "PONG" ]; then
- redis-server --daemonize yes &
+ redis-server &
  echo
 fi
-cd ~/fox@bot/${name}
-pnpm run start
+cd ~/${name}
+pnpm start
 echo -e ${yellow}${name}启动完成 ${green}是否打开日志 ${cyan}[Y/n] ${background}
 read -p "" num
       case $num in
      Y|y)
-       cd ~/fox@bot/${name}
+       cd ~/.fox@bot/${name}
        pnpm run log
        echo
        echo -en ${cyan}回车返回${background};read
@@ -368,7 +378,7 @@ read -p "" num
        esac
 ;;
 3)
-cd ~/fox@bot/${name}
+cd ~/${name}
 pnpm stop
 echo
 echo -en ${cyan}回车返回${background};read
@@ -382,8 +392,8 @@ if ! [ "${Redis}" = "PONG" ]; then
  redis-server --daemonize yes &
  echo
 fi
-cd ~/fox@bot/${name}
-pnpm run login
+cd ~/${name}
+pnpm login
 echo
 echo -en ${cyan}回车返回${background};read
 ;;
@@ -396,8 +406,8 @@ if ! [ "${Redis}" = "PONG" ]; then
  redis-server --daemonize yes &
  echo
 fi
-cd ~/fox@bot/${name}
-pnpm run stop
+cd ~/${name}
+pnpm stop
 node app
 echo
 echo -en ${cyan}回车返回${background};read
@@ -411,6 +421,12 @@ echo -en ${cyan} 正在咕咕 回车返回${background}
 10)
 help
 ;;
+11)
+rm -rf ~/${name} > /dev/null
+rm -rf ~/${name} > /dev/null
+rm -rf ~/.fox@bot/${name} > /dev/null
+rm -rf ~/.fox@bot/${name} > /dev/null
+;;
 0)
 return
 ;;
@@ -419,8 +435,8 @@ esac
 #########################################################
 function install_bot(){
 cd ~
-if ! [ -d fox@bot ];then
-mkdir fox@bot
+if ! [ -d .fox@bot ];then
+mkdir .fox@bot
 fi
 red="\033[31m"
 green="\033[32m"
