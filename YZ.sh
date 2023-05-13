@@ -25,5 +25,3 @@ exit
 fi
 chmod +x /usr/local/bin/bhyz 
 rm wget.log
-#创建日志文件
-echo >.bh.log

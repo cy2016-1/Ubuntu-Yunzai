@@ -12,7 +12,10 @@ mkdir fox@bot
 fi
 mv ~/Yunzai-Bot ~/fox@bot/Yunzai-Bot
 fi
-ver=4.4.2
+if [ -e .baihu ];then
+rm .baihu
+fi
+ver=4.4.3
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -56,10 +59,13 @@ echo
 
 if ! [ -x "$(command -v fonts-wqy-microhei)" ] && [ -x "$(command -v fonts-wqy-zenhei)" ];then
     echo -e ${yellow}安装中文字体${background}
-    until apt install -y fonts-wqy-microhei fonts-wqy-zenhei
+    until apt install -y fonts-wqy-microhei fonts-wqy-zenhei  language-pack-zh*
     do
       echo -e ${red}中文字体安装失败 ${green}正在重试${background}
     done
+    echo "LANG=\"zh_CN.UTF-8\"
+    export LANG">>/etc/profile
+    source /etc/profile
     echo
 fi
 
@@ -120,18 +126,22 @@ echo
 
 if ! [ -x "$(command -v pm2)" ];then
     echo -e ${yellow}正在使用pnpm安装pm2${background}
+    pnpm config set registry https://registry.npmmirror.com
     until pnpm install -g pm2
     do
       echo -e ${red}pm2安装失败 ${green}正在重试${background}
+      pnpm setup
+      source ~/.bashrc
     done
 fi
 
 echo -e ${yellow}正在使用pnpm安装依赖${background}
 cd ./fox@bot/${name}
-until echo "Y" | pnpm install && echo "Y" | pnpm install
+until echo "Y" | pnpm install -P && echo "Y" | pnpm install
 do
 echo -e ${red}依赖安装失败 ${green}正在重试${background}
 pnpm setup
+source ~/.bashrc
 done
 
 if ! [ -x "$(command -v ffmpeg)" ];then
@@ -316,7 +326,8 @@ baihu=$(whiptail \
 "6" "${name}无法登录" \
 "7" "前台启动${name}" \
 "8" "${name}报错修复" \
-"9" "帮助[实时更新]" \
+"9" "白狐脚本附件安装" \
+"10" "帮助[实时更新]" \
 "0" "返回" \
 3>&1 1>&2 2>&3)
 feedback=$?
@@ -395,6 +406,9 @@ echo -en ${cyan}回车返回${background};read
 error
 ;;
 9)
+echo -en ${cyan} 正在咕咕 回车返回${background}
+;;
+10)
 help
 ;;
 0)
