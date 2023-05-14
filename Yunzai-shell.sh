@@ -23,7 +23,7 @@ if [ -e .baihu ];then
   rm .baihu
   sed -i "s/cat \/root\/.baihu//g" .bashrc
 fi
-ver=4.4.5.8
+ver=4.4.5.9
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -299,6 +299,7 @@ bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
 echo -e ${green}回车返回${background};read
 ;;
 2)
+cd ${name}
 pnpm install
 pnpm uninstall puppeteer
 pnpm install puppeteer@19.0.0 -w
