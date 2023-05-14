@@ -17,11 +17,6 @@ export LANG">>/etc/profile
 source /etc/profile
 eatmydata apt install -y curl git whiptail lsb-release
 curl -o /usr/local/bin/bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh
-if ! [ -e "/usr/local/bin/bhyz" ];then
-whiptail --title "白狐≧▽≦" --msgbox \
-"安装失败 请检查网络" \
-8 25
-exit
-fi
-chmod +x /usr/local/bin/bhyz 
-rm wget.log
+chmod +x /usr/local/bin/bhyz
+rm wget.log > /dev/null 2>&1
+bhyz

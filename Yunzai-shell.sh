@@ -23,7 +23,7 @@ if [ -e .baihu ];then
   rm .baihu
   sed -i "s/cat \/root\/.baihu//g" .bashrc
 fi
-ver=4.4.6.0
+ver=4.4.6.1
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -59,9 +59,15 @@ fi
 function install(){
 echo
 echo -e ${yellow}正在更新软件源${background}
+a=0
 until apt-get -y update
 do
-echo -e ${red}软件源更新失败 ${green}正在重试${background}
+  echo -e ${red}软件源更新失败 ${green}正在重试${background}
+  a=$(($a+1))
+  if [ "${a}" == "3" ];then
+    echo -e ${red}错误次数过多 退出${background}
+    exit
+  fi
 done
 echo
 
@@ -116,6 +122,7 @@ echo
 function nvm_nodejs_install(){
 curl https://ghproxy.com/https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | sed 's/https:\/\/ghproxy.com\/https:\/\/raw.githubusercontent.com/https:\/\/raw.githubusercontent.com/' | bash
 source ~/.bashrc
+source ~/.bashrc
 export NVM_NODEJS_ORG_MIRROR=https://mirrors.ustc.edu.cn/node/
 if awk '{print $2}' /etc/issue | grep -q -E 22.*
 then
@@ -139,19 +146,31 @@ if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Ver
      nodejs_install=nvm_nodejs_install
   fi
   echo -e ${yellow}安装nodejs和npm${background}
+  a=0
   until ${nodejs_install}
   do
     echo -e ${red}NodeJS和npm安装失败 ${green}正在重试${background}
+    a=$(($a+1))
+    if [ "${a}" == "3" ];then
+      echo -e ${red}错误次数过多 退出${background}
+      exit
+    fi
   done
   echo
 fi
 
 if ! [ -x "$(command -v pnpm)" ];then
     echo -e ${yellow}正在使用npm安装pnpm${background}
+    a=0
     npm config set registry https://registry.npmmirror.com
     until npm install -g pnpm
     do
       echo -e ${red}pnpm安装失败 ${green}正在重试${background}
+      a=$(($a+1))
+      if [ "${a}" == "3" ];then
+        echo -e ${red}错误次数过多 退出${background}
+        exit
+      fi
     done
     echo
 fi
@@ -165,14 +184,20 @@ fi
 #    echo
 #fi
 
+a=0
 echo -e ${yellow}正在使用pnpm安装依赖${background}
 cd ~/.fox@bot/${name}
 pnpm config set registry https://registry.npmmirror.com
 until echo "Y" | pnpm install -P && echo "Y" | pnpm install
 do
-echo -e ${red}依赖安装失败 ${green}正在重试${background}
-pnpm setup
-source ~/.bashrc
+  echo -e ${red}依赖安装失败 ${green}正在重试${background}
+  pnpm setup
+  source ~/.bashrc
+  a=$(($a+1))
+  if [ "${a}" == "3" ];then
+    echo -e ${red}错误次数过多 退出${background}
+    exit 
+  fi
 done
 
 if ! [ -x "$(command -v ffmpeg)" ];then

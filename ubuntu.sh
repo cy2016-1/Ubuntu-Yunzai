@@ -11,7 +11,10 @@ folder=ubuntu
 if [ -d "${folder}" ]; then
 	first=1
 fi
-tarball="ubuntu-rootfs.tar.xz"
+if [ -d ubuntu ];then
+echo -e '\033[33mubuntu已安装\033[0m'
+exit
+fi
 sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
 sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
 sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
@@ -22,6 +25,7 @@ sleep 1s
 echo -e '\033[33m卡住直接回车\033[0m'
 sleep 1s
 pkg install openssl-tool proot -y
+tarball="ubuntu-rootfs.tar.xz"
 if [ "${first}" != 1 ];then
 		echo "下载rootfs，可能需要一段时间，取决于您的互联网速度."
 		case `dpkg --print-architecture` in
@@ -95,6 +99,7 @@ rm ${tarball}
 curl -o YZ.sh https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/YZ.sh
 mv YZ.sh ~/ubuntu/root/YZ.sh
 mkdir ~/ubuntu/root/.fox@bot
-ln -s ~/ubuntu/root/.fox@bot $HOME/fox@bot
+ln -sf ~/ubuntu/root/.fox@bot $HOME/fox@bot
+echo "bash YZ.sh" >> ~/ubuntu/root/.fox@bot
 echo "./${bin}" > .bashrc
 ./${bin}
