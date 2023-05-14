@@ -22,7 +22,7 @@ apt update
 apt install curl -y
 ```
 ```
-sh <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 
 <hr>
@@ -33,7 +33,7 @@ sh <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 >选择下载`arm64`版 然后使用下面的命令
 
 ```
-sh <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/ubuntu.sh)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/ubuntu.sh)
 ```
 
 如果提示`No command curl found` 则使用下面的命令安装curl <br>
@@ -58,7 +58,7 @@ apt install curl -y
 ```
 
 ```
-sh <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 
 <hr>
@@ -71,7 +71,7 @@ bhyz
 ```
 >脚本打不开的修复命令
 ```
-sh <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 >删除白狐脚本的命令
 ```
@@ -82,15 +82,15 @@ rm /usr/local/bin/bhyz
 
 >插件安装脚本:
 ```
-sh <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
 ```
 >ffmpeg安装脚本
 ```
-sh <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/ffmpge.sh)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/ffmpge.sh)
 ```
 >token 失效 无法登录
 ```
-sh <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
 ```
 
 
