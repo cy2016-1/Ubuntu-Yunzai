@@ -321,11 +321,14 @@ fi
 case ${ErrorRepair} in
 1)
 bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
+cd ~/.fox@bot/${name}
+chromium_path=$(grep chromium_path: config/config/bot.yaml)
+sed -i "s/${chromium_path}/chromium_path: \/usr\/bin\/chromium-browser/g" config/config/bot.yaml
 echo -e ${green}回车返回${background};read
 ;;
 2)
-cd ${name}
-pnpm install
+cd ~/.fox@bot/${name}
+echo "Y" | pnpm install
 pnpm uninstall puppeteer
 pnpm install puppeteer@19.0.0 -w
 node ./node_modules/puppeteer/install.js
