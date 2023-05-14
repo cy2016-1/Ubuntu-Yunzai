@@ -74,5 +74,9 @@ echo "nameserver 114.114.114.114" > ~/ubuntu/etc/resolv.conf
 termux-fix-shebang ${bin}
 chmod +x ${bin}
 rm ${tarball}
+curl -o YZ.sh https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/YZ.sh
+mv YZ.sh ~/ubuntu/root/YZ.sh
+mkdir ~/ubuntu/root/.fox@bot
+ln -s ~/ubuntu/root/.fox@bot $HOME/fox@bot
 echo "./${bin}" > .bashrc
 ./${bin}

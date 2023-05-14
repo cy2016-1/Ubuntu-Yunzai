@@ -33,7 +33,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 >选择下载`arm64`版 然后使用下面的命令
 
 ```
-bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/start.sh)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/ubuntu.sh)
 ```
 
 如果提示`No command curl found` 则使用下面的命令安装curl <br>

@@ -15,7 +15,7 @@ eatmydata apt install -y ^language-pack-zh
 echo "LANG=\"zh_CN.UTF-8\"
 export LANG">>/etc/profile
 source /etc/profile
-eatmydata apt install -y curl wget git whiptail lsb-release
+eatmydata apt install -y curl git whiptail lsb-release
 curl -o /usr/local/bin/bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh
 if ! [ -e "/usr/local/bin/bhyz" ];then
 whiptail --title "白狐≧▽≦" --msgbox \
