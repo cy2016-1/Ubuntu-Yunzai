@@ -1,4 +1,4 @@
-=!/bin/bash
+#!/bin/bash
 red="\033[31m"
 green="\033[32m"
 yellow="\033[33m"
@@ -124,7 +124,7 @@ echo -e ${green}5. ${cyan}iPad${background}
 echo -e ${green}6. ${cyan}old_Android${background}
 echo -e ${white}"========================="${background}
 echo -e ${green}QQ群:狐狸窝:${cyan}705226976${background}
-echo ${white}"========================="${background}
+echo -e ${white}"========================="${background}
 echo -en ${green}请输入您的选项:${background} ;read number
 new="platform: ${number}"
 file=config/config/qq.yaml
@@ -132,8 +132,8 @@ grep platform ${file}
 old_equipment=`grep platform ${file}`
 new_equipment="platform: 6"
 sed -i "s/${old_equipment}/${new_equipment}/g" $file
-rm data/device.json > /dev/null
-rm -rf data/icqq > /dev/null
+rm data/device.json > /dev/null 2>&1
+rm -rf data/icqq > /dev/null 2>&1
 }
 echo
 echo -e ${white}"====="${cyan}白狐-Yunzai-Bot${white}"====="${background}
