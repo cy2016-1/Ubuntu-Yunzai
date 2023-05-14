@@ -23,7 +23,7 @@ if [ -e .baihu ];then
   rm .baihu
   sed -i "s/cat \/root\/.baihu//g" .bashrc
 fi
-ver=4.4.6.1
+ver=4.4.6.2
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -128,7 +128,7 @@ if awk '{print $2}' /etc/issue | grep -q -E 22.*
 then
   nvm install --lts
 else
-  nvm install 16.19.0
+  nvm install 16.20.0
 fi
 source ~/.bashrc
 echo
@@ -412,7 +412,7 @@ fi
 case ${baihu} in 
 1)
 cd ~/${name}
-pnpm log
+pnpm run log
 echo
 echo -en ${cyan}回车返回${background};read
 ;;
@@ -423,7 +423,7 @@ if ! [ "${Redis}" = "PONG" ]; then
  echo
 fi
 cd ~/${name}
-pnpm start
+pnpm run start
 echo -e ${yellow}${name}启动完成 ${green}是否打开日志 ${cyan}[Y/n] ${background}
 read -p "" num
       case $num in
@@ -457,7 +457,7 @@ if ! [ "${Redis}" = "PONG" ]; then
  echo
 fi
 cd ~/${name}
-pnpm login
+pnpm run login
 echo
 echo -en ${cyan}回车返回${background};read
 ;;
@@ -471,7 +471,7 @@ if ! [ "${Redis}" = "PONG" ]; then
  echo
 fi
 cd ~/${name}
-pnpm stop
+pnpm run stop
 node app
 echo
 echo -en ${cyan}回车返回${background};read
