@@ -19,11 +19,7 @@ if [ -d Yunzai-Bot ];then
       ln -sf ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
   fi
 fi
-if [ -e .baihu ];then
-  rm .baihu
-  sed -i "s/cat \/root\/.baihu//g" .bashrc
-fi
-ver=4.4.6.2
+ver=4.4.7.0
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -71,15 +67,16 @@ do
 done
 echo
 
-if ! [ -x "$(command -v fonts-wqy-microhei)" ] && [ -x "$(command -v fonts-wqy-zenhei)" ];then
+if ! [ -x "$(command -v locales-all)" ];then
     echo -e ${yellow}安装中文字体${background}
-    until apt install -y fonts-wqy-microhei fonts-wqy-zenhei  language-pack-zh*
+    until apt install -y fonts-wqy* language-pack-zh* locales-all
     do
       echo -e ${red}中文字体安装失败 ${green}正在重试${background}
     done
     echo "LANG=\"zh_CN.UTF-8\"
     export LANG">>/etc/profile
     source /etc/profile
+    fc-cache -fv
     echo
 fi
 
