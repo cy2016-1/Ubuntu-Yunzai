@@ -28,7 +28,7 @@ apt update && apt upgrade
 sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
 apt update && apt upgrade
 pkg install openssl-tool pulseaudio proot -y
-rootfs.tar.xz="ubuntu-rootfs.tar.xz"
+rootfs="ubuntu-rootfs.tar.xz"
 if [ "${first}" != 1 ];then
 		echo "下载rootfs，可能需要一段时间，取决于您的互联网速度."
 		case `dpkg --print-architecture` in
@@ -49,13 +49,17 @@ if [ "${first}" != 1 ];then
     tail -n 1 | grep -o 'title="[^"]*"' | \
     awk -F'"' '{print $2}' )
     
-    curl -o ${rootfs.tar.xz} https://mirrors.bfsu.edu.cn/lxc-images/images/ubuntu/jammy/amd64/default/${date}/rootfs.tar.xz
+    if ! curl -o ${rootfs} https://mirrors.bfsu.edu.cn/lxc-images/images/ubuntu/jammy/amd64/default/${date}/rootfs
+      then
+      echo "下载失败 请检查网络!!"
+      exit 1
+    fi
     
 	path=$(pwd)
 	mkdir -p "${folder}"
 	cd "${folder}"
 	echo "开始解压rootfs"
-	proot --link2symlink tar -xJf ${path}/${rootfs.tar.xz}||:
+	proot --link2symlink tar -xJf ${path}/${rootfs}||:
 	cd "${path}"
 fi
 
@@ -105,7 +109,7 @@ rm ~/ubuntu/etc/resolv.conf > /dev/null
 echo "nameserver 114.114.114.114" > ~/ubuntu/etc/resolv.conf
 termux-fix-shebang ${bin}
 chmod +x ${bin}
-rm ${rootfs.tar.xz}
+rm ${rootfs}
 curl -o YZ.sh https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/YZ.sh
 mv YZ.sh ~/ubuntu/root/YZ.sh
 mkdir ~/ubuntu/root/.fox@bot
