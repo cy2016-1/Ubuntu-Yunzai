@@ -15,39 +15,50 @@ if [ -d ubuntu ];then
 echo -e '\033[33mubuntu已安装\033[0m'
 exit
 fi
-sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
-sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
-sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
 echo -e '\033[33m卡住直接回车\033[0m'
 sleep 1s
 echo -e '\033[33m卡住直接回车\033[0m'
 sleep 1s 
 echo -e '\033[33m卡住直接回车\033[0m'
 sleep 1s
-pkg install openssl-tool proot -y
-tarball="ubuntu-rootfs.tar.xz"
+sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
+apt update && apt upgrade
+sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
+apt update && apt upgrade
+sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
+apt update && apt upgrade
+pkg install openssl-tool pulseaudio proot -y
+rootfs.tar.xz="ubuntu-rootfs.tar.xz"
 if [ "${first}" != 1 ];then
 		echo "下载rootfs，可能需要一段时间，取决于您的互联网速度."
 		case `dpkg --print-architecture` in
 		arm64|aarch64)
-		  curl -o ${tarball} https://mirrors.bfsu.edu.cn/lxc-images/images/ubuntu/jammy/arm64/cloud/20230512_12:41/rootfs.tar.xz
+		  frame=arm64
 		  ;;
 		arm|armhf|armel)
-		  curl -o ${tarball} https://mirrors.bfsu.edu.cn/lxc-images/images/ubuntu/jammy/armhf/cloud/20230512_13:43/rootfs.tar.xz
+		  frame=armhf
 		  ;;
 		amd64|x86_64)
-		  curl -o ${tarball} https://mirrors.bfsu.edu.cn/lxc-images/images/ubuntu/jammy/amd64/cloud/20230512_10:35/rootfs.tar.xz
+		  frame=amd64
 		  ;;
 		*)
 			echo "您的设备框架为$(dpkg --print-architecture),快让白狐做适配!!"; exit 1 ;;
 		esac
-	cur=`pwd`
+    date=$(curl https://mirrors.bfsu.edu.cn/lxc-images/images/ubuntu/jammy//default/ | \
+    grep 'class="link"><a href=' | \
+    tail -n 1 | grep -o 'title="[^"]*"' | \
+    awk -F'"' '{print $2}' )
+    
+    curl -o ${rootfs.tar.xz} https://mirrors.bfsu.edu.cn/lxc-images/images/ubuntu/jammy/amd64/default/${date}/rootfs.tar.xz
+    
+	path=$(pwd)
 	mkdir -p "${folder}"
 	cd "${folder}"
 	echo "开始解压rootfs"
-	proot --link2symlink tar -xJf ${cur}/${tarball}||:
-	cd "${cur}"
+	proot --link2symlink tar -xJf ${path}/${rootfs.tar.xz}||:
+	cd "${path}"
 fi
+
 bin=start-ubuntu.sh
 cat > ${bin} <<- EOM
 #!/bin/bash
@@ -76,7 +87,6 @@ else
     \${command} -c "\${com}"
 fi
 EOM
-pkg install pulseaudio -y
 if grep -q "anonymous" ~/../usr/etc/pulse/default.pa;then
     echo "模块已存在"
 else
@@ -91,11 +101,11 @@ echo "1077:x:1077:
 20462:x:20462:
 50462:x:50462:" >>ubuntu/etc/group
 sed -i "s/ports.ubuntu.com/mirrors.bfsu.edu.cn/g" ~/ubuntu/etc/apt/sources.list
-rm ~/ubuntu/etc/resolv.conf
+rm ~/ubuntu/etc/resolv.conf > /dev/null
 echo "nameserver 114.114.114.114" > ~/ubuntu/etc/resolv.conf
 termux-fix-shebang ${bin}
 chmod +x ${bin}
-rm ${tarball}
+rm ${rootfs.tar.xz}
 curl -o YZ.sh https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/YZ.sh
 mv YZ.sh ~/ubuntu/root/YZ.sh
 mkdir ~/ubuntu/root/.fox@bot
