@@ -31,7 +31,7 @@ pkg install openssl-tool pulseaudio proot -y
 rootfs="ubuntu-rootfs.tar.xz"
 if [ "${first}" != 1 ];then
 		echo "下载rootfs，可能需要一段时间，取决于您的互联网速度."
-		case `dpkg --print-architecture` in
+		case $(uname -m) in
 		arm64|aarch64)
 		  frame=arm64
 		  ;;
@@ -44,12 +44,14 @@ if [ "${first}" != 1 ];then
 		*)
 			echo "您的设备框架为$(dpkg --print-architecture),快让白狐做适配!!"; exit 1 ;;
 		esac
-    date=$(curl https://mirrors.bfsu.edu.cn/lxc-images/images/ubuntu/jammy//default/ | \
+		
+    date=$(curl https://mirrors.bfsu.edu.cn/lxc-images/images/ubuntu/jammy/${frame}/default/ | \
     grep 'class="link"><a href=' | \
-    tail -n 1 | grep -o 'title="[^"]*"' | \
+    tail -n 1 | \
+    grep -o 'title="[^"]*"' | \
     awk -F'"' '{print $2}' )
-    
-    if ! curl -o ${rootfs} https://mirrors.bfsu.edu.cn/lxc-images/images/ubuntu/jammy/amd64/default/${date}/rootfs
+      
+    if ! curl -o ${rootfs} https://mirrors.bfsu.edu.cn/lxc-images/images/ubuntu/jammy/${frame}/default/${date}/rootfs.tar.xz
       then
       echo "下载失败 请检查网络!!"
       exit 1
