@@ -19,7 +19,7 @@ if [ -d Yunzai-Bot ];then
       ln -sf ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
   fi
 fi
-ver=4.4.7.0
+ver=4.4.7.1
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -67,16 +67,17 @@ do
 done
 echo
 
-if ! [ -x "$(command -v locales-all)" ];then
+chinesescript="$(whereis locales | awk '{print $2}')/install-language-pack"
+if ! [ -x "${chinesescript}" ];then
     echo -e ${yellow}安装中文字体${background}
     until apt install -y fonts-wqy* language-pack-zh* locales-all
     do
       echo -e ${red}中文字体安装失败 ${green}正在重试${background}
     done
+    #fc-cache -fv
     echo "LANG=\"zh_CN.UTF-8\"
     export LANG">>/etc/profile
     source /etc/profile
-    fc-cache -fv
     echo
 fi
 
@@ -110,16 +111,19 @@ else
   curl https://deb.nodesource.com/setup_16.x | bash # | sed "s/sleep 20/sleep 2/g" | sed "s/Continuing in 20 seconds .../Continuing in 2 seconds .../g" | bash
 fi
 apt autoremove -y nodejs
-curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee /usr/share/keyrings/nodesource.gpg >/dev/null
+curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee /usr/share/keyrings/nodesource.gpg > /dev/null
 apt update -y
 apt install -y nodejs
 echo
 } #nodejs_install
 
 function nvm_nodejs_install(){
-curl https://ghproxy.com/https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | sed 's/https:\/\/ghproxy.com\/https:\/\/raw.githubusercontent.com/https:\/\/raw.githubusercontent.com/' | bash
+rm -rf $HOME/.nvm > /dev/null
+echo -e ${yellow}正在安装nvm 这需要一些时间'\n'${cyan}[如果中途没有任何输出 那是在处理安装 请耐心等待]${background}
+curl https://ghproxy.com/https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | sed "s/https:\/\/raw.githubusercontent.com/https:\/\/ghproxy.com\/https:\/\/raw.githubusercontent.com/g" | bash
 source ~/.bashrc
 source ~/.bashrc
+echo "NVM_NODEJS_ORG_MIRROR=https://mirrors.ustc.edu.cn/node/" >> ~/.bashrc
 export NVM_NODEJS_ORG_MIRROR=https://mirrors.ustc.edu.cn/node/
 if awk '{print $2}' /etc/issue | grep -q -E 22.*
 then
@@ -138,9 +142,9 @@ if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Ver
    --no-button "setup" \
    --yesno "请选择nodejs安装方式 \n国内用户建议使用nvm脚本安装 \n国际用户建议使用setup脚本安装" 10 50)
    then
-     nodejs_install=setup_nodejs_install
-   else
      nodejs_install=nvm_nodejs_install
+   else
+     nodejs_install=setup_nodejs_install
   fi
   echo -e ${yellow}安装nodejs和npm${background}
   a=0

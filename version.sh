@@ -10,13 +10,13 @@ background="\033[0m"
 echo
 echo
 echo -e ${white}"====="${green}白狐-Yunzai-Bot${white}"====="${background}
-echo -e ${blue}请选择您的bot${background}
+ ${blue}请选择您的bot${background}
 echo "========================="
-echo -e ${green}1.  ${cyan}Yunzai-Bot${background}
-echo -e ${green}2.  ${cyan}Miao-Yunzai${background}
-echo -e ${green}3.  ${cyan}yunzai-bot-lite${background}
-echo -e ${green}4.  ${cyan}TRSS-Yunzai${background}
-echo -e ${green}0.  ${cyan}退出${background}
+echo -e  ${green}1.  ${cyan}Yunzai-Bot${background}
+echo -e  ${green}2.  ${cyan}Miao-Yunzai${background}
+echo -e  ${green}3.  ${cyan}yunzai-bot-lite${background}
+echo -e  ${green}4.  ${cyan}TRSS-Yunzai${background}
+echo -e  ${green}0.  ${cyan}退出${background}
 echo "========================="
 echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
 echo "========================="
