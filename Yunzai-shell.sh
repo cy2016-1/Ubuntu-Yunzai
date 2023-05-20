@@ -19,7 +19,7 @@ if [ -d Yunzai-Bot ];then
       ln -sf ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
   fi
 fi
-ver=4.4.7.1
+ver=4.4.7.2
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -50,6 +50,7 @@ if [ "$version" != "$ver" ]; then
     "${Aword}" \
     10 50
     bhyz
+    exit
 fi
 #########################################################
 function install(){
