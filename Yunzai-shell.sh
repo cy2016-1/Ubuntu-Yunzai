@@ -19,7 +19,7 @@ if [ -d Yunzai-Bot ];then
       ln -sf ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
   fi
 fi
-ver=4.4.7.2
+ver=4.4.7.4
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -109,7 +109,8 @@ then
 else
   echo -e ${yellow}安装nodejs${background}
   rm /etc/apt/sources.list.d/nodesource.list > /dev/null 2>&1
-  curl https://deb.nodesource.com/setup_16.x | bash # | sed "s/sleep 20/sleep 2/g" | sed "s/Continuing in 20 seconds .../Continuing in 2 seconds .../g" | bash
+  curl https://deb.nodesource.com/setup_16.x | bash 
+  # | sed "s/sleep 20/sleep 2/g" | sed "s/Continuing in 20 seconds .../Continuing in 2 seconds .../g" | bash
 fi
 apt autoremove -y nodejs
 curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee /usr/share/keyrings/nodesource.gpg > /dev/null
@@ -121,11 +122,12 @@ echo
 function nvm_nodejs_install(){
 rm -rf $HOME/.nvm > /dev/null
 echo -e ${yellow}正在安装nvm 这需要一些时间'\n'${cyan}[如果中途没有任何输出 那是在处理安装 请耐心等待]${background}
-curl https://ghproxy.com/https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | sed "s/https:\/\/raw.githubusercontent.com/https:\/\/ghproxy.com\/https:\/\/raw.githubusercontent.com/g" | bash
-source ~/.bashrc
-source ~/.bashrc
-echo "NVM_NODEJS_ORG_MIRROR=https://mirrors.ustc.edu.cn/node/" >> ~/.bashrc
-export NVM_NODEJS_ORG_MIRROR=https://mirrors.ustc.edu.cn/node/
+curl https://ghproxy.com/https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | sed "s/https:\/\/raw.githubusercontent.com/https:\/\/ghproxy.com\/https:\/\/raw.githubusercontent.com/g" | sed "s/https:\/\/github.com/https:\/\/ghproxy.com\/https:\/\/github.com/g" | bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node/
+echo "export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node/" >> ~/.bashrc
 if awk '{print $2}' /etc/issue | grep -q -E 22.*
 then
   nvm install --lts
@@ -160,6 +162,7 @@ if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Ver
   done
   echo
 fi
+
 
 if ! [ -x "$(command -v pnpm)" ];then
     echo -e ${yellow}正在使用npm安装pnpm${background}
