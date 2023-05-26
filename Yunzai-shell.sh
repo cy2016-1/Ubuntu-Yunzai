@@ -19,7 +19,7 @@ if [ -d Yunzai-Bot ];then
       ln -sf ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
   fi
 fi
-ver=4.4.7.4
+ver=4.4.7.5
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -207,9 +207,40 @@ done
 
 if ! [ -x "$(command -v ffmpeg)" ];then
     echo -e ${yellow}正在安装ffmpeg${background}
-    until bash <(curl -sL https://gitee.com/baihu433/ffmpeg/raw/master/ffmpeg.sh)
+  if ! [ -x "$(command -v unzip)" ] && ! [ -x "$(command -v aria2)" ];then
+    echo -e ${yellow}安装unzip和aria2c${background}
+    until apt install -y unzip aria2
+    do
+      echo -e ${red}unzip或者aria2c安装失败 ${green}正在重试${background}
+    done
+    echo
+  fi
+  case $(uname -m) in
+  aarch64|arm64)
+    ffmpeg=arm64
+    ;;
+  amd64|x86_64)
+    ffmpeg=amd64
+    ;;
+  armel)
+    ffmpeg=armel
+    ;;
+  armhf|arm)
+    ffmpeg=arm
+    ;;
+  *)
+    echo -e ${red}暂不支持您的设备'\n'您的框架为$(uname -m) 快让白狐做适配!!${background}
+    #echo -e ${red}暂不支持您的设备'\n'跳过${background}
+    ;;
+  esac
+    until aria2c https://gitee.com/baihu433/ffmpeg/releases/download/ffmpeg-${ffmpeg}/ffmpeg-${ffmpeg}.zip
     do
         echo -e ${red}ffmpeg安装失败 ${cyan}正在重试${background}
+        a=$(($a+1))
+        if [ "${a}" == "3" ];then
+          echo -e ${red}错误次数过多 退出${background}
+          exit 
+        fi
     done
     echo
 fi
