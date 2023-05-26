@@ -19,7 +19,7 @@ if [ -d Yunzai-Bot ];then
       ln -sf ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
   fi
 fi
-ver=4.4.7.5
+ver=4.4.7.6
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -206,7 +206,7 @@ do
 done
 
 if ! [ -x "$(command -v ffmpeg)" ];then
-    echo -e ${yellow}正在安装ffmpeg${background}
+  echo -e ${yellow}正在安装ffmpeg${background}
   if ! [ -x "$(command -v unzip)" ] && ! [ -x "$(command -v aria2)" ];then
     echo -e ${yellow}安装unzip和aria2c${background}
     until apt install -y unzip aria2
@@ -229,8 +229,8 @@ if ! [ -x "$(command -v ffmpeg)" ];then
     ffmpeg=arm
     ;;
   *)
-    echo -e ${red}暂不支持您的设备'\n'您的框架为$(uname -m) 快让白狐做适配!!${background}
-    #echo -e ${red}暂不支持您的设备'\n'跳过${background}
+    echo -e ${red}暂不支持您的设备'\n'您的框架为$(uname -m) 快让截图白狐做适配!!${background}
+    read  #echo -e ${red}暂不支持您的设备'\n'跳过${background}
     ;;
   esac
     until aria2c https://gitee.com/baihu433/ffmpeg/releases/download/ffmpeg-${ffmpeg}/ffmpeg-${ffmpeg}.zip
@@ -242,6 +242,16 @@ if ! [ -x "$(command -v ffmpeg)" ];then
           exit 
         fi
     done
+    echo -e ${yellow}正在解压ffmpeg和ffprobe${background}
+    unzip ffmpeg-${ffmpeg}.zip
+    rm -rf ffmpeg-${ffmpeg}.zip > /dev/null
+    rm -rf ffmpeg-${ffmpeg}.zip > /dev/null
+    mv -f ffmpeg-${ffmpeg}/ffmpeg /usr/local/bin/ffmpeg
+    mv -f ffmpeg-${ffmpeg}/ffprobe /usr/local/bin/ffprobe
+    chmod +x /usr/local/bin/ffmpeg
+    chmod +x /usr/local/bin/ffprobe
+    rm -rf ffmpeg-${ffmpeg} > /dev/null
+    rm -rf ffmpeg-${ffmpeg} > /dev/null
     echo
 fi
 } #install
@@ -585,8 +595,9 @@ Number=$(whiptail \
 "1" "Yunzai[icqq版]" \
 "2" "Miao-Yunzai" \
 "3" "TRSS-Yunzai" \
-"4" "yunzai-bot-lite" \
-"5" "alemon-bot" \
+"4" "Yunzai-Bot-Llite" \
+"5" "Alemon-Bot" \
+"6" "白狐脚本附件安装" \
 "0" "退出" \
 3>&1 1>&2 2>&3)
 feedback=$?
@@ -632,6 +643,75 @@ name=Alemon-Bot
 Gitee=https://gitee.com/ningmengchongshui/alemon-bot.git
 Github=https://github.com/ningmengchongshui/alemon-bot.git
 install_Yunzai_Bot
+;;
+6)
+Number=$(whiptail \
+--title "白狐 QQ群:705226976" \
+--menu "请选择bot" \
+20 40 10 \
+"1" "安装ffmpeg" \
+"0" "退出" \
+3>&1 1>&2 2>&3)
+feedback=$?
+if ! [ $feedback = 0 ]
+then
+exit
+fi
+case ${Number} in
+1)
+echo -e ${yellow}正在安装ffmpeg${background}
+if ! [ -x "$(command -v unzip)" ] && ! [ -x "$(command -v aria2)" ];then
+  echo -e ${yellow}安装unzip和aria2c${background}
+  until apt install -y unzip aria2
+  do
+    echo -e ${red}unzip或者aria2c安装失败 ${green}正在重试${background}
+  done
+  echo
+fi
+case $(uname -m) in
+  aarch64|arm64)
+  ffmpeg=arm64
+  ;;
+  amd64|x86_64)
+  ffmpeg=amd64
+  ;;
+  armel)
+  ffmpeg=armel
+  ;;
+  armhf|arm)
+  ffmpeg=arm
+  ;;
+  *)
+  echo -e ${red}暂不支持您的设备'\n'您的框架为$(uname -m) 快让截图白狐做适配!!${background}
+  read
+  #echo -e ${red}暂不支持您的设备'\n'跳过${background}
+  ;;
+  esac
+  until aria2c https://gitee.com/baihu433/ffmpeg/releases/download/ffmpeg-${ffmpeg}/ffmpeg-${ffmpeg}.zip
+  do
+    echo -e ${red}ffmpeg安装失败 ${cyan}正在重试${background}
+    a=$(($a+1))
+    if [ "${a}" == "3" ];then
+      echo -e ${red}错误次数过多 退出${background}
+      exit 
+    fi
+  done
+  echo -e ${yellow}正在解压ffmpeg和ffprobe${background}
+  unzip ffmpeg-${ffmpeg}.zip
+  rm -rf ffmpeg-${ffmpeg}.zip > /dev/null
+  rm -rf ffmpeg-${ffmpeg}.zip > /dev/null
+  mv -f ffmpeg-${ffmpeg}/ffmpeg /usr/local/bin/ffmpeg
+  mv -f ffmpeg-${ffmpeg}/ffprobe /usr/local/bin/ffprobe
+  chmod +x /usr/local/bin/ffmpeg
+  chmod +x /usr/local/bin/ffprobe
+  rm -rf ffmpeg-${ffmpeg} > /dev/null
+  rm -rf ffmpeg-${ffmpeg} > /dev/null
+  echo
+;;
+0)
+echo
+;;
+esac
 ;;
 0)
 exit
