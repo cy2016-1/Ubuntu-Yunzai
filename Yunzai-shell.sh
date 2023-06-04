@@ -19,7 +19,7 @@ if [ -d Yunzai-Bot ];then
       ln -sf ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
   fi
 fi
-ver=4.4.7.6
+ver=4.4.7.8
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -168,7 +168,9 @@ if ! [ -x "$(command -v pnpm)" ];then
     echo -e ${yellow}正在使用npm安装pnpm${background}
     a=0
     npm config set registry https://registry.npmmirror.com
-    until npm install -g pnpm
+    npm config set registry https://registry.npmmirror.com
+    npm install -g npm@latest
+    until npm install -g pnpm@latest
     do
       echo -e ${red}pnpm安装失败 ${green}正在重试${background}
       a=$(($a+1))
@@ -193,6 +195,7 @@ a=0
 echo -e ${yellow}正在使用pnpm安装依赖${background}
 cd ~/.fox@bot/${name}
 pnpm config set registry https://registry.npmmirror.com
+pnpm config set registry https://registry.npmmirror.com
 until echo "Y" | pnpm install -P && echo "Y" | pnpm install
 do
   echo -e ${red}依赖安装失败 ${green}正在重试${background}
@@ -206,15 +209,7 @@ do
 done
 
 if ! [ -x "$(command -v ffmpeg)" ];then
-  echo -e ${yellow}正在安装ffmpeg${background}
-  if ! [ -x "$(command -v unzip)" ] && ! [ -x "$(command -v aria2)" ];then
-    echo -e ${yellow}安装unzip和aria2c${background}
-    until apt install -y unzip aria2
-    do
-      echo -e ${red}unzip或者aria2c安装失败 ${green}正在重试${background}
-    done
-    echo
-  fi
+echo -e ${yellow}正在安装ffmpeg${background}
   case $(uname -m) in
   aarch64|arm64)
     ffmpeg=arm64
@@ -225,33 +220,29 @@ if ! [ -x "$(command -v ffmpeg)" ];then
   armel)
     ffmpeg=armel
     ;;
-  armhf|arm)
-    ffmpeg=arm
+  armhf)
+    ffmpeg=armhf
+    ;;
+  i686)
+    ffmpeg=i686
     ;;
   *)
-    echo -e ${red}暂不支持您的设备'\n'您的框架为$(uname -m) 快让截图白狐做适配!!${background}
-    read  #echo -e ${red}暂不支持您的设备'\n'跳过${background}
+  echo -e "\033[33m您的框架为\033[31m $(uname -m)\033[33m 快截图 让白狐做适配!!\033[0m"
+  exit
     ;;
-  esac
-    until aria2c https://gitee.com/baihu433/ffmpeg/releases/download/ffmpeg-${ffmpeg}/ffmpeg-${ffmpeg}.zip
-    do
-        echo -e ${red}ffmpeg安装失败 ${cyan}正在重试${background}
-        a=$(($a+1))
-        if [ "${a}" == "3" ];then
-          echo -e ${red}错误次数过多 退出${background}
-          exit 
-        fi
-    done
-    echo -e ${yellow}正在解压ffmpeg和ffprobe${background}
-    unzip ffmpeg-${ffmpeg}.zip
-    rm -rf ffmpeg-${ffmpeg}.zip > /dev/null
-    rm -rf ffmpeg-${ffmpeg}.zip > /dev/null
-    mv -f ffmpeg-${ffmpeg}/ffmpeg /usr/local/bin/ffmpeg
-    mv -f ffmpeg-${ffmpeg}/ffprobe /usr/local/bin/ffprobe
-    chmod +x /usr/local/bin/ffmpeg
-    chmod +x /usr/local/bin/ffprobe
-    rm -rf ffmpeg-${ffmpeg} > /dev/null
-    rm -rf ffmpeg-${ffmpeg} > /dev/null
+esac
+curl -o static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-${ffmpeg}-static.tar.xz
+if ! [ -x "$(command -v unar)" ];then
+apt install -y unar
+fi
+echo -e "\033[33m正在解压\033[0m"
+unar -o static -q static.tar.xz
+mv -f static/$(ls static)/ffmpeg /usr/local/bin/ffmpeg
+mv -f static/$(ls static)/ffprobe /usr/local/bin/ffprobe
+mv -f static/$(ls static)/qt-faststart /usr/local/bin/qt-faststart
+chmod +x /usr/local/bin/ffmpeg /usr/local/bin/ffprobe /usr/local/bin/qt-faststart
+rm -rf static.tar.xz static > /dev/null
+rm -rf static.tar.xz static > /dev/null
     echo
 fi
 } #install
@@ -660,52 +651,39 @@ fi
 case ${Number} in
 1)
 echo -e ${yellow}正在安装ffmpeg${background}
-if ! [ -x "$(command -v unzip)" ] && ! [ -x "$(command -v aria2)" ];then
-  echo -e ${yellow}安装unzip和aria2c${background}
-  until apt install -y unzip aria2
-  do
-    echo -e ${red}unzip或者aria2c安装失败 ${green}正在重试${background}
-  done
-  echo
-fi
 case $(uname -m) in
   aarch64|arm64)
-  ffmpeg=arm64
-  ;;
+    ffmpeg=arm64
+    ;;
   amd64|x86_64)
-  ffmpeg=amd64
-  ;;
+    ffmpeg=amd64
+    ;;
   armel)
-  ffmpeg=armel
-  ;;
-  armhf|arm)
-  ffmpeg=arm
-  ;;
+    ffmpeg=armel
+    ;;
+  armhf)
+    ffmpeg=armhf
+    ;;
+  i686)
+    ffmpeg=i686
+    ;;
   *)
-  echo -e ${red}暂不支持您的设备'\n'您的框架为$(uname -m) 快让截图白狐做适配!!${background}
-  read
-  #echo -e ${red}暂不支持您的设备'\n'跳过${background}
-  ;;
-  esac
-  until aria2c https://gitee.com/baihu433/ffmpeg/releases/download/ffmpeg-${ffmpeg}/ffmpeg-${ffmpeg}.zip
-  do
-    echo -e ${red}ffmpeg安装失败 ${cyan}正在重试${background}
-    a=$(($a+1))
-    if [ "${a}" == "3" ];then
-      echo -e ${red}错误次数过多 退出${background}
-      exit 
-    fi
-  done
-  echo -e ${yellow}正在解压ffmpeg和ffprobe${background}
-  unzip ffmpeg-${ffmpeg}.zip
-  rm -rf ffmpeg-${ffmpeg}.zip > /dev/null
-  rm -rf ffmpeg-${ffmpeg}.zip > /dev/null
-  mv -f ffmpeg-${ffmpeg}/ffmpeg /usr/local/bin/ffmpeg
-  mv -f ffmpeg-${ffmpeg}/ffprobe /usr/local/bin/ffprobe
-  chmod +x /usr/local/bin/ffmpeg
-  chmod +x /usr/local/bin/ffprobe
-  rm -rf ffmpeg-${ffmpeg} > /dev/null
-  rm -rf ffmpeg-${ffmpeg} > /dev/null
+  echo -e "\033[33m您的框架为\033[31m $(uname -m)\033[33m 快截图 让白狐做适配!!\033[0m"
+  exit
+    ;;
+esac
+curl -o static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-${ffmpeg}-static.tar.xz
+if ! [ -x "$(command -v unar)" ];then
+apt install -y unar
+fi
+echo -e "\033[33m正在解压\033[0m"
+unar -o static -q static.tar.xz
+mv -f static/$(ls static)/ffmpeg /usr/local/bin/ffmpeg
+mv -f static/$(ls static)/ffprobe /usr/local/bin/ffprobe
+mv -f static/$(ls static)/qt-faststart /usr/local/bin/qt-faststart
+chmod +x /usr/local/bin/ffmpeg /usr/local/bin/ffprobe /usr/local/bin/qt-faststart
+rm -rf static.tar.xz static > /dev/null
+rm -rf static.tar.xz static > /dev/null
   echo
 ;;
 0)
