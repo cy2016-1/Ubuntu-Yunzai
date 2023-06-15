@@ -6,7 +6,7 @@
 #then
 #   Git=github
 #fi
-ver=4.4.8.3
+ver=4.4.8.4
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -38,11 +38,10 @@ if [ "$version" != "$ver" ]; then
     8 25
     exit
     fi
-    update_log=$(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/update.log)
-    
+    update_log=$(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/update.log) 
     echo -e ${update_log}
     echo
-    echo ${yellow}回车继续${background}
+    echo ${yellow}回车继续${background};read
     bhyz
     exit
 fi
