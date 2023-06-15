@@ -16,6 +16,7 @@ echo -e  ${green}1.  ${cyan}Yunzai-Bot${background}
 echo -e  ${green}2.  ${cyan}Miao-Yunzai${background}
 echo -e  ${green}3.  ${cyan}yunzai-bot-lite${background}
 echo -e  ${green}4.  ${cyan}TRSS-Yunzai${background}
+echo -e  ${green}5.  ${cyan}Yxy-Bot${background}
 echo -e  ${green}0.  ${cyan}退出${background}
 echo "========================="
 echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
@@ -38,6 +39,9 @@ name=yunzai-bot-lite
 ;;
 4)
 name=TRSS-Yunzai
+;;
+5)
+name=yxybot
 ;;
 0)
 exit
@@ -74,12 +78,12 @@ fi
 cd ${path}
 if ! grep -q "icqq" package.json;then > /dev/null
 echo
-echo -e ${red} - ${cyan}请进入 ${yellow}云崽/喵崽/TRSS崽 ${cyan}目录之后运行本脚本${background}
+echo -e ${red} - ${cyan}请进入 ${yellow}云崽/喵崽/TRSS崽/Yxy崽 ${cyan}目录之后运行本脚本${background}
 exit
 fi
 if ! [ -e config/config/qq.yaml ];then
 echo
-echo -e ${red} - ${cyan}您的 ${yellow}云崽/喵崽/TRSS崽 ${cyan}应该至少启动过一次${background}
+echo -e ${red} - ${cyan}您的 ${yellow}云崽/喵崽/TRSS崽/Yxy崽 ${cyan}应该至少启动过一次${background}
 exit
 fi
 icqq_local=`grep icqq package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g' | sed 's/\^//g'`
@@ -113,6 +117,7 @@ echo "Y" | pnpm install icqq@latest -w
 fi
 echo
 function device(){
+echo
 echo -e ${white}"====="${cyan}白狐-Yunzai-Bot${white}"====="${background}
 echo -e ${cyan}请选择您的登陆设备${background}
 echo -e ${white}"========================="${background}
@@ -144,7 +149,8 @@ echo -e ${green}2. ${cyan}错误码:${red}235${background}
 echo -e ${green}3. ${cyan}错误码:${red}237${background}
 echo -e ${green}4. ${cyan}错误码:${red}238${background}
 echo -e ${green}5. ${cyan}仅更改登录端口\(设备\)${background}
-echo -e ${green}6. ${cyan}仅降级icqq版本${background}
+echo -e ${green}6. ${cyan}升级icqq版本为最新${background}
+echo -e ${green}7. ${cyan}降级icqq版本为指定版本${background}
 echo -e ${white}"========================="${background}
 echo -e ${green}QQ群:狐狸窝:${cyan}705226976${background}
 echo -e ${green}注意:${cyan}手表协议和Macos协议都无法戳一戳"\n"因为本身这两种设备都不支持.${background}
@@ -153,23 +159,18 @@ echo -en ${green}请输入您的选项:${background} ;read number
 case $number in
 1|45)
 echo -e ${cyan}错误码:${red}45'\n'${cayn}建议使用${yellow}MacOS或${yellow}iPad或${yellow}old_Android'\n'回车继续${background};read
-echo "Y" | pnpm install -P && echo "Y" | pnpm install
 device
 ;;
 2|235)
 echo -en ${cyan}错误码:${red}235'\n'${cayn}建议先使用手表协议然后扫码登录'\n'回车继续${background};read
-echo "Y" | pnpm install -P && echo "Y" | pnpm install
 device
 ;;
 3|237)
-echo "Y" | pnpm install -P && echo "Y" | pnpm install
 echo "Y" | pnpm uninstall icqq
-pnpm install icqq@0.2.3 -w
 echo -en ${cyan}错误码:${red}237'\n'${cayn}建议使用iPad协议登录'\n'回车继续${background};read
 device
 ;;
 4|238)
-echo "Y" | pnpm install -P && echo "Y" | pnpm install
 echo -en ${cyan}错误码:${red}238'\n'${cayn}建议命令换手表协议后再换回iPad协议[全部用密码]'\n'回车继续${background};read
 device
 ;;
@@ -177,7 +178,10 @@ device
 device
 ;;
 6)
-echo "Y" | pnpm install -P && echo "Y" | pnpm install
+echo "Y" | pnpm uninstall icqq
+echo "Y" | pnpm install icqq@latest -w
+;;
+7)
 echo "Y" | pnpm uninstall icqq
 echo -en ${green}请输入您指定的icqq版本:${background} ;read IcqqVersion
 echo "Y" | pnpm install icqq@${IcqqVersion} -w

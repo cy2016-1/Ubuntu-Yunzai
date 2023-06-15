@@ -696,6 +696,7 @@ if [ -d plugins/${Plugin} ]
     then
       echo -e ${cyan}正在处理依赖${background}
       cd plugins/${Plugin}
+      pnpm install --registry=https://registry.npmmirror.com
       pnpm install -P
       cd ../../ 
       echo;echo -en ${green}安装完成 回车返回${background};read
@@ -809,11 +810,18 @@ read -p "" num
 choose_page
 } #ghproxy_agency
 #########################################################
+#for plugin_file in $(ls plugins)
+#do
+#plugin=$(echo ${plugin_file} | sed 's/\-/\_/g')
+#export ${plugin}_green_red=green 
+#export ${plugin}=\[已安装\]
+#done
+#########################################################
 function git_plugin(){
 function dialog_whiptail_page(){
 clear
 number=$(${dialog_whiptail} \
---title "白狐-QQ群:705226976" \
+whiptail --title "白狐-QQ群:705226976" \
 --menu "选择一个您喜欢的插件吧!" \
 25 60 18 \
 "1" "miao-plugin                    喵喵插件" \
@@ -861,6 +869,10 @@ number=$(${dialog_whiptail} \
 "43" "y-tian-plugin                  阴天插件" \
 "44" "xianyu-plugin                  咸鱼插件" \
 "45" "StarRail-plugin                星穹铁道插件" \
+"46" "panel-plugin                   面板图插件" \
+"47" "hanhan-plugin                  憨憨插件" \
+"48" "avocado-plugin                 鳄梨插件" \
+"49" "cunyx-plugin                   寸幼萱插件" \
 3>&1 1>&2 2>&3)
 feedback=$?
 if [ ! ${feedback} = 0 ];then
@@ -918,10 +930,14 @@ echo -e ${green_red}42. ${cyan}chatgpt-plugin"           "聊天插件${backgrou
 echo -e ${green_red}43. ${cyan}y-tian-plugin"            "阴天插件${background}
 echo -e ${green_red}44. ${cyan}xianyu-plugin"            "咸鱼插件${background}
 echo -e ${green_red}45. ${cyan}StarRail-plugin"          "星穹铁道插件${background}
+echo -e ${green_red}46. ${cyan}panel-plugin"             "面板图插件${background}
+echo -e ${green_red}47. ${cyan}hanhan-plugin"            "憨憨插件${background}
+echo -e ${green_red}48. ${cyan}avocado-plugin"           "鳄梨插件${background}
+echo -e ${green_red}49. ${cyan}cunyx-plugin"             "寸幼萱插件${background}
 echo 
 echo -e ${green}0. ${cyan}返回${background}
 echo "#####################################"
-echo -e ${yellow}tip:序号为${red}红色${yellow}表示未安装'\n'序号为${green}绿色${green}表示已安装 ${background}
+#echo -e ${yellow}tip:序号为${red}白色${yellow}表示未安装'\n'序号为${green}绿色${green}表示已安装 ${background}
 echo
 echo -en ${cyan}请输入您需要安装插件的序号:${background};read -p " " number
 } #echo_page
@@ -1255,7 +1271,30 @@ case ${number} in
      Git=https://gitee.com/hewang1an/StarRail-plugin.git
      install_git_plugin
      ;;
-   
+   46)
+     Nam=面板图插件
+     Plugin=panel-plugin
+     Git=https://gitee.com/yunzai-panel/panel-plugin.git
+     install_git_plugin
+     ;;
+   47)
+     Nam=憨憨插件
+     Plugin=hanhan-plugin
+     Git=https://gitee.com/han-hanz/hanhan-plugin.git
+     install_git_plugin
+     ;;
+   48)
+     Nam=鳄梨插件
+     Plugin=avocado-plugin
+     Git=https://gitee.com/sean_l/avocado-plugin.git
+     install_git_plugin
+     ;;
+   49)
+     Nam=寸幼萱插件
+     Plugin=cunyx-plugin
+     Git=https://gitee.com/cunyx/cunyx-plugin.git
+     install_git_plugin
+     ;;
    0)
      echo
      baihu_whiptail
@@ -1273,6 +1312,8 @@ number=$(${dialog_whiptail} \
 "2" "Miao-Yunzai" \
 "3" "yunzai-bot-lite" \
 "4" "TRSS-Yunzai" \
+"5" "Yxy-Bot" \
+"6" "切换文字版菜单" \
 "0" "退出" \
 3>&1 1>&2 2>&3)
 }
@@ -1286,6 +1327,7 @@ echo -e ${green}1.  ${cyan}Yunzai-Bot${background}
 echo -e ${green}2.  ${cyan}Miao-Yunzai${background}
 echo -e ${green}3.  ${cyan}yunzai-bot-lite${background}
 echo -e ${green}4.  ${cyan}TRSS-Yunzai${background}
+echo -e ${green}5.  ${cyan}Yxy-Bot${background}
 echo -e ${green}0.  ${cyan}退出${background}
 echo "#########################"
 echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
@@ -1311,6 +1353,14 @@ name=yunzai-bot-lite
 ;;
 4)
 name=TRSS-Yunzai
+;;
+5)
+name=yxybot
+;;
+6)
+page=echo_page
+robot_path
+main
 ;;
 0)
 exit
@@ -1407,6 +1457,7 @@ elif [ -x "$(command -v dialog)" ];then
 else
     echo -e ${red}检测到未安装dialog或者whiptail 开始安装dialog${background}
     pacman -Sy dialog --noconfirm
+    dialog_whiptail=dialog
 fi
 if ! [ -x "$(command -v git)" ];then
     echo -e ${cyan}检测到未安装git 开始安装${background}

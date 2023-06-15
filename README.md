@@ -3,7 +3,6 @@
 <hr/>
 <ul>
 <li>有插件安装脚本，方便安装插件</li>
-<li>可以安装并配置python3.10和pip和poetry</li>
 <li>可以安装并配置ffmpeg</li>
 </ul>
 <hr/>

@@ -19,7 +19,7 @@ if [ -d Yunzai-Bot ];then
       ln -sf ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
   fi
 fi
-ver=4.4.7.8
+ver=4.4.8.0
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -45,11 +45,10 @@ if [ "$version" != "$ver" ]; then
     8 25
     exit
     fi
-    Aword=`curl -s https://api.vvhan.com/api/ian`
-    whiptail --title "白狐≧▽≦" --msgbox \
-    "${Aword}" \
-    10 50
-    bhyz
+    update_log=$(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/update.log)
+    #Aword=`curl -s https://api.vvhan.com/api/ian`
+    echo ${update_log}
+    echo ${yellow}回车继续${background}
     exit
 fi
 #########################################################
@@ -118,7 +117,6 @@ apt update -y
 apt install -y nodejs
 echo
 } #nodejs_install
-
 function nvm_nodejs_install(){
 rm -rf $HOME/.nvm > /dev/null
 echo -e ${yellow}正在安装nvm 这需要一些时间'\n'${cyan}[如果中途没有任何输出 那是在处理安装 请耐心等待]${background}
@@ -128,7 +126,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node/
 echo "export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node/" >> ~/.bashrc
-if awk '{print $2}' /etc/issue | grep -q -E 22.*
+if awk '{print $2}' /etc/issue | grep -q -E 22.* || grep -q -E 23.*
 then
   nvm install --lts
 else
@@ -138,14 +136,49 @@ source ~/.bashrc
 echo
 }
 
+function binaries_nodejs_install(){
+case $(uname -m) in
+x86_64|amd64)
+node=x64
+;;
+arm64|aarch64|armv8*)
+node=arm64
+;;
+armv7l|armhf|armv7*)
+node=armv7l
+;;
+*)
+echo ${red}不受支持的框架 自动切换为setup脚本${background}
+setup_nodejs_install
+return
+#echo ${red}您的框架为${yellow}$(uname -m)${red},快让白狐做适配.${background}
+esac
+if awk '{print $2}' /etc/issue | grep -q -E 22.* || grep -q -E 23.*
+then
+  curl -o node.tar.xz https://cdn.npmmirror.com/binaries/node/latest-v18.x/node-v18.16.0-linux-${node}.tar.xz
+else
+  curl -o node.tar.xz https://cdn.npmmirror.com/binaries/node/latest-v16.x/node-v16.20.0-linux-${node}.tar.xz
+fi
+if ! [ -x "$(command -v unar)" ];then
+apt install -y unar
+fi
+echo ${yellow}正在解压二进制文件压缩包${background}
+unar -q node.tar.xz -o node
+rm -rf /usr/local/node > /dev/null
+mkdir /usr/local/node
+mv -f node/node* /usr/local/node
+echo 'PATH=$PATH:/usr/local/node/bin' >> .bashrc
+PATH=$PATH:/usr/local/node/bin
+}
+
 Nodsjs_Version=$(node -v | cut -d '.' -f1)
 if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Version" == "v18" || "$Nodsjs_Version" == "v19" || "$Nodsjs_Version" == "v20" ]] && ! [ -x "$(command -v npm)" ];then
   if (whiptail --title "白狐" \
-   --yes-button "nvm" \
+   --yes-button "二进制文件" \
    --no-button "setup" \
-   --yesno "请选择nodejs安装方式 \n国内用户建议使用nvm脚本安装 \n国际用户建议使用setup脚本安装" 10 50)
+   --yesno "请选择nodejs安装方式 \n国内用户建议使用二进制文件安装 \n国际用户建议使用setup脚本安装" 10 50)
    then
-     nodejs_install=nvm_nodejs_install
+     nodejs_install=binaries_nodejs_install
    else
      nodejs_install=setup_nodejs_install
   fi
@@ -207,6 +240,10 @@ do
     exit 
   fi
 done
+
+if [ ! -d ~/.fox@bot/${name}/node_modules/icqq ];then
+pnpm install -w icqq@latest
+fi
 
 if ! [ -x "$(command -v ffmpeg)" ];then
 echo -e ${yellow}正在安装ffmpeg${background}
@@ -429,7 +466,7 @@ esac
 function main(){
 baihu=$(whiptail \
 --title "白狐≧▽≦" \
---menu "${ver}" \
+--menu "${ver},注意:第一次启动,请使用前台启动" \
 20 45 12 \
 "1" "打开${name}日志" \
 "2" "后台启动${name}" \
