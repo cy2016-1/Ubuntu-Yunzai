@@ -32,12 +32,19 @@ if [ "$version" != "$ver" ]; then
     # 8 25
     #exit
     # fi
-    #update_log=$(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/update.log)
-    #Aword=`curl -s https://api.vvhan.com/api/ian`
-    #echo ${update_log}
-    #echo ${yellow}回车继续${background}
+    if [ -x "/usr/local/bin/bhyz" ];then
+    whiptail --title "白狐≧▽≦" --msgbox \
+    "安装成功 祝您使用愉快!" \
+    8 25
+    exit
+    fi
+    update_log=$(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/update.log)
+    
+    echo -e ${update_log}
+    echo
+    echo ${yellow}回车继续${background}
     bhyz
-    #exit
+    exit
 fi
 #########################################################
 function install(){
@@ -84,6 +91,44 @@ if ! [ -x "$(command -v chromium-browser)" ];then
     do
        echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
     done
+    echo
+fi
+
+if ! [ -x "$(command -v ffmpeg)" ];then
+echo -e ${yellow}正在安装ffmpeg${background}
+  case $(uname -m) in
+  aarch64|arm64)
+    ffmpeg=arm64
+    ;;
+  amd64|x86_64)
+    ffmpeg=amd64
+    ;;
+  armel)
+    ffmpeg=armel
+    ;;
+  armhf)
+    ffmpeg=armhf
+    ;;
+  i686)
+    ffmpeg=i686
+    ;;
+  *)
+  echo -e "\033[33m您的框架为\033[31m $(uname -m)\033[33m 快截图 让白狐做适配!!\033[0m"
+  exit
+    ;;
+esac
+curl -o static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-${ffmpeg}-static.tar.xz
+if ! [ -x "$(command -v unar)" ];then
+apt install -y unar
+fi
+echo -e "\033[33m正在解压\033[0m"
+unar -o static -q static.tar.xz
+mv -f static/$(ls static)/ffmpeg /usr/local/bin/ffmpeg
+mv -f static/$(ls static)/ffprobe /usr/local/bin/ffprobe
+mv -f static/$(ls static)/qt-faststart /usr/local/bin/qt-faststart
+chmod +x /usr/local/bin/ffmpeg /usr/local/bin/ffprobe /usr/local/bin/qt-faststart
+rm -rf static.tar.xz static > /dev/null
+rm -rf static.tar.xz static > /dev/null
     echo
 fi
 
@@ -185,7 +230,6 @@ if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Ver
   echo
 fi
 
-
 if ! [ -x "$(command -v pnpm)" ];then
     echo -e ${yellow}正在使用npm安装pnpm${background}
     a=0
@@ -234,43 +278,7 @@ if [ ! -d ~/.fox@bot/${name}/node_modules/icqq ];then
 pnpm install -w icqq@latest
 fi
 
-if ! [ -x "$(command -v ffmpeg)" ];then
-echo -e ${yellow}正在安装ffmpeg${background}
-  case $(uname -m) in
-  aarch64|arm64)
-    ffmpeg=arm64
-    ;;
-  amd64|x86_64)
-    ffmpeg=amd64
-    ;;
-  armel)
-    ffmpeg=armel
-    ;;
-  armhf)
-    ffmpeg=armhf
-    ;;
-  i686)
-    ffmpeg=i686
-    ;;
-  *)
-  echo -e "\033[33m您的框架为\033[31m $(uname -m)\033[33m 快截图 让白狐做适配!!\033[0m"
-  exit
-    ;;
-esac
-curl -o static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-${ffmpeg}-static.tar.xz
-if ! [ -x "$(command -v unar)" ];then
-apt install -y unar
-fi
-echo -e "\033[33m正在解压\033[0m"
-unar -o static -q static.tar.xz
-mv -f static/$(ls static)/ffmpeg /usr/local/bin/ffmpeg
-mv -f static/$(ls static)/ffprobe /usr/local/bin/ffprobe
-mv -f static/$(ls static)/qt-faststart /usr/local/bin/qt-faststart
-chmod +x /usr/local/bin/ffmpeg /usr/local/bin/ffprobe /usr/local/bin/qt-faststart
-rm -rf static.tar.xz static > /dev/null
-rm -rf static.tar.xz static > /dev/null
-    echo
-fi
+echo -en ${yellow}安装完成 回车继续${background}
 } #install
 #########################################################
 function install_Yunzai_Bot(){

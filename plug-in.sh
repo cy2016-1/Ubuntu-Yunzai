@@ -3,7 +3,7 @@ function delete_js(){
 if [ -e js.log ];then
 rm js.log
 fi
-clear
+#clear
 a=0
 echo
 echo "#######################"
@@ -49,7 +49,7 @@ function delete_git(){
 if [ -e js.log ];then
 rm js.log
 fi
-clear
+#clear
 a=0
 echo
 echo "#######################"
@@ -116,7 +116,7 @@ green="\033[32m"
 blue="\033[36m"
 background="\033[0m"
 white="\033[37m"
-clear
+#clear
 echo
 echo
 echo "#######################"
@@ -184,7 +184,7 @@ echo -en "\033[35m请输入选项 \033[0m";read number
     if [ -d "${sdpath}" ];then
     echo -e ${blue}目录不存在!${background}
     fi
-   clear
+   #clear
    a=0
    green="\033[32m"
    blue="\033[36m"
@@ -242,7 +242,7 @@ echo -en "\033[35m请输入选项 \033[0m";read number
     if [ -d "${sdpath}" ];then
     echo -e ${blue}目录不存在!${background}
     fi
-   clear
+   #clear
    a=0
    green="\033[32m"
    blue="\033[36m"
@@ -297,7 +297,7 @@ echo -en "\033[35m请输入选项 \033[0m";read number
     if [ -d "${sdpath}" ];then
     echo -e ${blue}目录不存在!${background}
     fi
-   clear
+   #clear
    a=0
    green="\033[32m"
    blue="\033[36m"
@@ -340,13 +340,13 @@ echo -en "\033[35m请输入选项 \033[0m";read number
     cd ../../ 
      ;;
    0)
-     Linux
+     main
      ;;
    esac
 }
 #########################################################
 function git_pull_plugins(){
-clear
+#clear
 echo
 echo -e ${yellow}正在更新${background}
 cd ${path}
@@ -447,7 +447,7 @@ fi
 #########################################################
 function plugin_set(){
 function dialog_whiptail_page(){
-clear
+#clear
 number=$(${dialog_whiptail} \
 --title "白狐" \
 --menu "白狐的QQ群:705226976" \
@@ -460,10 +460,10 @@ feedback=$?
 if [ ! ${feedback} = 0 ];then
 exit
 fi
-clear
+#clear
 }  #dialog_whiptail_page
 function echo_page(){
-clear
+#clear
 echo
 echo
 echo -e ${white}"#####"${green}白狐${white}"#####"${background}
@@ -535,7 +535,7 @@ esac
 #########################################################
 function main(){
 function dialog_whiptail_page(){
-clear
+#clear
 number=$(${dialog_whiptail} \
 --title "白狐" \
 --menu "白狐的QQ群:705226976" \
@@ -553,10 +553,10 @@ feedback=$?
 if [ ! ${feedback} = 0 ];then
 exit
 fi
-clear
+#clear
 }  #dialog_whiptail_page
 function echo_page(){
-clear
+#clear
 echo
 echo
 echo -e ${white}"#####"${green}白狐${white}"#####"${background}
@@ -617,7 +617,7 @@ function install_git_plugin(){
 function dialog_whiptail_page(){
 if [ -d plugins/${Plugin} ]
   then
-    clear
+    #clear
     if (${dialog_whiptail} --title "白狐i-Bot-Plugin" \
        --yesno "        您已安装${Name}，是否删除" \
        10 48);then
@@ -632,7 +632,7 @@ if [ -d plugins/${Plugin} ]
        fi
     fi
   else
-    clear
+    #clear
     if (${dialog_whiptail} \
     --title "白狐-Bot-Plugin" \
     --yes-button "安装" \
@@ -640,7 +640,7 @@ if [ -d plugins/${Plugin} ]
     --yesno "确认要安装这个插件吗？\n插件名: ${Name} \n插件URL: ${Git}" \
     10 60)
     then
-    clear
+    #clear
     echo
     echo "=================================="
     echo 正在安装${Name}，稍安勿躁～
@@ -651,7 +651,9 @@ if [ -d plugins/${Plugin} ]
         then
           echo -e "\033[36m正在处理依赖\033[0m"
           cd plugins/${Plugin}
-          pnpm install -P
+          echo "Y" | pnpm install -P --registry=https://registry.npmmirror.com
+          echo "Y" | pnpm install -P --registry=https://registry.npmmirror.com
+          #pnpm install -P
           cd ../../ 
           echo;echo -en ${green}安装完成 回车返回${background};read
       else
@@ -684,8 +686,8 @@ if [ -d plugins/${Plugin} ]
          ;;
      esac
   else
-    clear
-    echo -e ${green}建议到插件地址查看使用方法'\n'${blue}${Git}${background}
+    #clear
+    echo -e ${green}插件名: ${yellow}${Name} '\n'${green}插件URL: ${yellow}${Git}'\n'${background}
     echo
     echo -en ${cyan}回车继续${background};read
     echo "=================================="
@@ -696,8 +698,9 @@ if [ -d plugins/${Plugin} ]
     then
       echo -e ${cyan}正在处理依赖${background}
       cd plugins/${Plugin}
-      pnpm install --registry=https://registry.npmmirror.com
-      pnpm install -P
+      echo "Y" | pnpm install -P --registry=https://registry.npmmirror.com
+      echo "Y" | pnpm install -P --registry=https://registry.npmmirror.com
+      #pnpm install -P
       cd ../../ 
       echo;echo -en ${green}安装完成 回车返回${background};read
     else
@@ -819,9 +822,9 @@ choose_page
 #########################################################
 function git_plugin(){
 function dialog_whiptail_page(){
-clear
+#clear
 number=$(${dialog_whiptail} \
-whiptail --title "白狐-QQ群:705226976" \
+--title "白狐-QQ群:705226976" \
 --menu "选择一个您喜欢的插件吧!" \
 25 60 18 \
 "1" "miao-plugin                    喵喵插件" \
@@ -878,10 +881,10 @@ feedback=$?
 if [ ! ${feedback} = 0 ];then
 main
 fi
-clear
+#clear
 } #dialog_whiptail_page
 function echo_page(){
-clear
+#clear
 echo
 echo
 echo -e ${white}"#######"${green}白狐-Plug-In${white}"#######"${background}
@@ -1297,7 +1300,7 @@ case ${number} in
      ;;
    0)
      echo
-     baihu_whiptail
+     main
      ;;
  esac
 } #git_plugin
@@ -1334,7 +1337,7 @@ echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
 echo "#########################"
 echo
 echo -en ${green}请输入您的选项: ${background};read number
-clear
+#clear
 }
 choose_page
 case ${number} in

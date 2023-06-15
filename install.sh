@@ -50,9 +50,9 @@ if ! [ -e "/usr/local/bin/bhyz" ];then
           echo ${a}
         done
     } | whiptail --gauge "正在安装" 6 60 0
-    if ! [ -x "/usr/local/bin/bhyz" ];then
+    if [ -x "/usr/local/bin/bhyz" ];then
     whiptail --title "白狐≧▽≦" --msgbox \
-    "安装失败 请检查网络" \
+    "安装成功 祝您使用愉快!" \
     8 25
     exit
     fi
@@ -77,9 +77,9 @@ else
           echo ${a}
         done
     } | whiptail --gauge "正在安装" 6 60 0
-    if ! [ -x "/usr/local/bin/bhyz" ];then
+    if [ -x "/usr/local/bin/bhyz" ];then
     whiptail --title "白狐≧▽≦" --msgbox \
-    "安装失败 请检查网络" \
+    "安装成功 祝您使用愉快!" \
     8 25
     exit
     fi

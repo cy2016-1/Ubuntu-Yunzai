@@ -10,7 +10,7 @@ background="\033[0m"
 echo
 echo
 echo -e ${white}"====="${green}白狐-Yunzai-Bot${white}"====="${background}
- ${blue}请选择您的bot${background}
+echo -e ${blue}请选择您的bot${background}
 echo "========================="
 echo -e  ${green}1.  ${cyan}Yunzai-Bot${background}
 echo -e  ${green}2.  ${cyan}Miao-Yunzai${background}
