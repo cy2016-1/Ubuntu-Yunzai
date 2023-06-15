@@ -19,7 +19,7 @@ if [ -d Yunzai-Bot ];then
       ln -sf ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
   fi
 fi
-ver=4.4.8.0
+ver=4.4.8.1
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -39,17 +39,18 @@ if [ "$version" != "$ver" ]; then
           echo ${a}
         done
     } | whiptail --gauge "检测到新版本 正在更新" 6 60 0
-    if ! [ -x "/usr/local/bin/bhyz" ];then
-    whiptail --title "白狐≧▽≦" --msgbox \
-    "安装失败 请检查网络" \
-    8 25
-    exit
-    fi
-    update_log=$(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/update.log)
+    #if ! [ -x "/usr/local/bin/bhyz" ];then
+    #whiptail --title "白狐≧▽≦" --msgbox \
+    #"安装失败 请检查网络" \
+    # 8 25
+    #exit
+    # fi
+    #update_log=$(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/update.log)
     #Aword=`curl -s https://api.vvhan.com/api/ian`
-    echo ${update_log}
-    echo ${yellow}回车继续${background}
-    exit
+    #echo ${update_log}
+    #echo ${yellow}回车继续${background}
+    bhyz
+    #exit
 fi
 #########################################################
 function install(){
