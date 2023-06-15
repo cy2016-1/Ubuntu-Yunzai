@@ -6,7 +6,7 @@
 #then
 #   Git=github
 #fi
-ver=4.4.8.2
+ver=4.4.8.3
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
