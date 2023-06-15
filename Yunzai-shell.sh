@@ -6,19 +6,6 @@
 #then
 #   Git=github
 #fi
-if [ -d ~/fox@bot ];then
-  mv fox@bot .fox@bot
-  rm -rf fox@bot > /dev/null
-fi
-if [ -d Yunzai-Bot ];then
-  if ! [ -L ~/Yunzai-Bot ];then
-    if [ ! -d ~/.fox@bot ];then
-      mkdir ~/.fox@bot
-    fi
-      mv ~/Yunzai-Bot ~/.fox@bot/Yunzai-Bot
-      ln -sf ~/.fox@bot/Yunzai-Bot ~/Yunzai-Bot
-  fi
-fi
 ver=4.4.8.1
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -170,16 +157,17 @@ mkdir /usr/local/node
 mv -f node/node* /usr/local/node
 echo 'PATH=$PATH:/usr/local/node/bin' >> .bashrc
 PATH=$PATH:/usr/local/node/bin
+rm -rf node
 }
 
 Nodsjs_Version=$(node -v | cut -d '.' -f1)
 if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Version" == "v18" || "$Nodsjs_Version" == "v19" || "$Nodsjs_Version" == "v20" ]] && ! [ -x "$(command -v npm)" ];then
   if (whiptail --title "白狐" \
-   --yes-button "二进制文件" \
-   --no-button "setup" \
-   --yesno "请选择nodejs安装方式 \n国内用户建议使用二进制文件安装 \n国际用户建议使用setup脚本安装" 10 50)
+   --yes-button "nvm脚本" \
+   --no-button "setup脚本" \
+   --yesno "请选择nodejs安装方式 \n国内用户建议使用nvm脚本安装 \n国际用户建议使用setup脚本安装" 10 50)
    then
-     nodejs_install=binaries_nodejs_install
+     nodejs_install=nvm_nodejs_install
    else
      nodejs_install=setup_nodejs_install
   fi
