@@ -6,7 +6,7 @@
 #then
 #   Git=github
 #fi
-ver=4.4.8.4
+ver=4.4.8.5
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -36,7 +36,6 @@ if [ "$version" != "$ver" ]; then
     whiptail --title "白狐≧▽≦" --msgbox \
     "安装成功 祝您使用愉快!" \
     8 25
-    exit
     fi
     update_log=$(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/update.log) 
     echo -e ${update_log}
