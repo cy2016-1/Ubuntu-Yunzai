@@ -1473,7 +1473,7 @@ do
      install_git_plugin${_checklist}
      ;;
    42)
-     Nam=聊天插件
+     Name=聊天插件
      Plugin=chatgpt-plugin
      ghproxy_agency
      Git=${ghproxy}https://github.com/ikechan8370/chatgpt-plugin.git
@@ -1481,49 +1481,49 @@ do
      install_git_plugin${_checklist}
      ;;
    43)
-     Nam=阴天插件
+     Name=阴天插件
      Plugin=y-tian-plugin
      Git=https://gitee.com/wan13877501248/y-tian-plugin.git
      plugin_name=$(echo ${plugin_name} | sed "s/43//g")
      install_git_plugin${_checklist}
      ;;
    44)
-     Nam=咸鱼插件
+     Name=咸鱼插件
      Plugin=xianyu-plugin
      Git=https://gitee.com/suancaixianyu/xianyu-plugin.git
      plugin_name=$(echo ${plugin_name} | sed "s/44//g")
      install_git_plugin${_checklist}
      ;;
    45)
-     Nam=星穹铁道插件
+     Name=星穹铁道插件
      Plugin=StarRail-plugin
      Git=https://gitee.com/hewang1an/StarRail-plugin.git
      plugin_name=$(echo ${plugin_name} | sed "s/45//g")
      install_git_plugin${_checklist}
      ;;
    46)
-     Nam=面板图插件
+     Name=面板图插件
      Plugin=panel-plugin
      Git=https://gitee.com/yunzai-panel/panel-plugin.git
      plugin_name=$(echo ${plugin_name} | sed "s/46//g")
      install_git_plugin${_checklist}
      ;;
    47)
-     Nam=憨憨插件
+     Name=憨憨插件
      Plugin=hanhan-plugin
      Git=https://gitee.com/han-hanz/hanhan-plugin.git
      plugin_name=$(echo ${plugin_name} | sed "s/47//g")
      install_git_plugin${_checklist}
      ;;
    48)
-     Nam=鳄梨插件
+     Name=鳄梨插件
      Plugin=avocado-plugin
      Git=https://gitee.com/sean_l/avocado-plugin.git
      plugin_name=$(echo ${plugin_name} | sed "s/48//g")
      install_git_plugin${_checklist}
      ;;
    49)
-     Nam=寸幼萱插件
+     Name=寸幼萱插件
      Plugin=cunyx-plugin
      Git=https://gitee.com/cunyx/cunyx-plugin.git
      plugin_name=$(echo ${plugin_name} | sed "s/49//g")
