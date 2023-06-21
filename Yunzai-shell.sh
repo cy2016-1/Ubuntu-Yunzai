@@ -6,7 +6,7 @@
 #then
 #   Git=github
 #fi
-ver=4.4.8.8
+ver=4.4.8.9
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -32,6 +32,10 @@ if [ "$version" != "$ver" ]; then
     # 8 25
     #exit
     # fi
+    update_log=$(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/update.log)
+    echo -e ${update_log}
+    echo
+    echo ${yellow}回车继续${background};read
     if [ -x "/usr/local/bin/bhyz" ];then
     whiptail --title "白狐≧▽≦" --msgbox \
     "安装成功 祝您使用愉快!" \
@@ -502,7 +506,7 @@ if ! [ "${Redis}" = "PONG" ]; then
  redis-server &
  echo
 fi
-if [ -e ~/${name}/data/device ] || [ -e ~/${name}/device ];then
+if [ -e ~/${name}/config/config/qq.yaml ];then
 cd ~/${name}
 pnpm run start
 echo -e ${yellow}${name}启动完成 ${green}是否打开日志 ${cyan}[Y/n] ${background}
@@ -524,7 +528,6 @@ read -p "" num
 else
 echo
 echo -en ${red}请使用前台启动后，在使用后台启动${background};read
-
 fi
 ;;
 3)
