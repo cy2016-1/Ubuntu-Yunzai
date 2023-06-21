@@ -6,7 +6,7 @@
 #then
 #   Git=github
 #fi
-ver=4.4.8.6
+ver=4.4.8.7
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -37,10 +37,6 @@ if [ "$version" != "$ver" ]; then
     "安装成功 祝您使用愉快!" \
     8 25
     fi
-    update_log=$(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/update.log) 
-    echo -e ${update_log}
-    echo
-    echo ${yellow}回车继续${background};read
     bhyz
     exit
 fi
@@ -63,14 +59,15 @@ echo
 chinesescript="$(whereis locales | awk '{print $2}')/install-language-pack"
 if ! [ -x "${chinesescript}" ];then
     echo -e ${yellow}安装中文字体${background}
-    until apt install -y fonts-wqy* language-pack-zh* locales-all
+    until apt install -y fonts-wqy-microhei  language-pack-zh* locales-all
     do
       echo -e ${red}中文字体安装失败 ${green}正在重试${background}
     done
     #fc-cache -fv
-    echo "LANG=\"zh_CN.UTF-8\"
-    export LANG">>/etc/profile
-    source /etc/profile
+    #echo "LANG=\"zh_CN.UTF-8\"
+    echo 'export LANG="zh_CN.UTF-8"' >> /etc/profile
+    export LANG="zh_CN.UTF-8"
+    #source /etc/profile
     echo
 fi
 
@@ -190,27 +187,36 @@ then
 else
   curl -o node.tar.xz https://cdn.npmmirror.com/binaries/node/latest-v16.x/node-v16.20.0-linux-${node}.tar.xz
 fi
-if ! [ -x "$(command -v unar)" ];then
-apt install -y unar
+if [ ! -d node ];then
+mkdir node
 fi
 echo ${yellow}正在解压二进制文件压缩包${background}
-unar -q node.tar.xz -o node
+if ! tar -xf node.tar.xz -C node ;then
+  echo ${red}tar命令解压失败 正在安装并使用unar${background}
+  if ! [ -x "$(command -v unar)" ];then
+    apt install -y unar
+  fi
+  unar -q node.tar.xz -o node
+fi
 rm -rf /usr/local/node > /dev/null
-mkdir /usr/local/node
-mv -f node/node* /usr/local/node
-echo 'PATH=$PATH:/usr/local/node/bin' >> .bashrc
+mv -f node/$(ls node) /usr/local/node
+echo '
+#Node.JS
+export PATH=$PATH:/usr/local/node/bin
+export PNPM_HOME=/usr/local/node/bin' >> /etc/profile
 PATH=$PATH:/usr/local/node/bin
+export PNPM_HOME=/usr/local/node/bin
 rm -rf node
 }
 
 Nodsjs_Version=$(node -v | cut -d '.' -f1)
 if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Version" == "v18" || "$Nodsjs_Version" == "v19" || "$Nodsjs_Version" == "v20" ]] && ! [ -x "$(command -v npm)" ];then
   if (whiptail --title "白狐" \
-   --yes-button "nvm脚本" \
+   --yes-button "二进制文件" \
    --no-button "setup脚本" \
-   --yesno "请选择nodejs安装方式 \n国内用户建议使用nvm脚本安装 \n国际用户建议使用setup脚本安装" 10 50)
+   --yesno "请选择nodejs安装方式 \n国内用户建议使用二进制文件安装 \n国际用户建议使用setup脚本安装" 10 50)
    then
-     nodejs_install=nvm_nodejs_install
+     nodejs_install=binaries_nodejs_install
    else
      nodejs_install=setup_nodejs_install
   fi
@@ -376,7 +382,7 @@ ErrorRepair=$(whiptail \
 --menu "${ver}" \
 20 40 10 \
 "1" "修复chromium启动失败" \
-"2" "修复chromium调用失败" \
+"2" "降级puppeteer版本" \
 "3" "修改${name}主人qq" \
 "4" "修改登录设备" \
 "5" "修复redis数据库" \
@@ -494,6 +500,7 @@ if ! [ "${Redis}" = "PONG" ]; then
  redis-server &
  echo
 fi
+if [ -e ~/${name}/data/device ] || [ -e ~/${name}/device ];then
 cd ~/${name}
 pnpm run start
 echo -e ${yellow}${name}启动完成 ${green}是否打开日志 ${cyan}[Y/n] ${background}
@@ -512,6 +519,11 @@ read -p "" num
        echo -en ${cyan}回车返回${background};read
        ;;
        esac
+else
+echo
+echo -en ${red}请使用前台启动后，在使用后台启动${background};read
+
+fi
 ;;
 3)
 cd ~/${name}
