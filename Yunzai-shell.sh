@@ -6,7 +6,7 @@
 #then
 #   Git=github
 #fi
-ver=4.4.8.7
+ver=4.4.8.8
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -176,7 +176,7 @@ armv7l|armhf|armv7*)
 node=armv7l
 ;;
 *)
-echo ${red}不受支持的框架 自动切换为setup脚本${background}
+echo -e ${red}不受支持的框架 自动切换为setup脚本${background}
 setup_nodejs_install
 return
 #echo ${red}您的框架为${yellow}$(uname -m)${red},快让白狐做适配.${background}
@@ -190,14 +190,15 @@ fi
 if [ ! -d node ];then
 mkdir node
 fi
-echo ${yellow}正在解压二进制文件压缩包${background}
+echo -e ${yellow}正在解压二进制文件压缩包${background}
 if ! tar -xf node.tar.xz -C node ;then
-  echo ${red}tar命令解压失败 正在安装并使用unar${background}
+  echo -e ${red}tar命令解压失败 正在安装并使用unar${background}
   if ! [ -x "$(command -v unar)" ];then
     apt install -y unar
   fi
   unar -q node.tar.xz -o node
 fi
+rm -rf /usr/local/node > /dev/null
 rm -rf /usr/local/node > /dev/null
 mv -f node/$(ls node) /usr/local/node
 echo '
@@ -206,11 +207,12 @@ export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin' >> /etc/profile
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
-rm -rf node
+rm -rf node node.tar.xz > /dev/null
+rm -rf node node.tar.xz > /dev/null
 }
 
 Nodsjs_Version=$(node -v | cut -d '.' -f1)
-if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Version" == "v18" || "$Nodsjs_Version" == "v19" || "$Nodsjs_Version" == "v20" ]] && ! [ -x "$(command -v npm)" ];then
+if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Version" == "v18" || "$Nodsjs_Version" == "v19" || "$Nodsjs_Version" == "v20" || "$Nodsjs_Version" == "v20" ]] && ! [ -x "$(command -v npm)" ];then
   if (whiptail --title "白狐" \
    --yes-button "二进制文件" \
    --no-button "setup脚本" \
@@ -685,6 +687,7 @@ Number=$(whiptail \
 --menu "请选择bot" \
 20 40 10 \
 "1" "安装ffmpeg" \
+"2" "安装python3.10 pip poetry" \
 "0" "退出" \
 3>&1 1>&2 2>&3)
 feedback=$?
@@ -728,7 +731,37 @@ mv -f static/$(ls static)/qt-faststart /usr/local/bin/qt-faststart
 chmod +x /usr/local/bin/ffmpeg /usr/local/bin/ffprobe /usr/local/bin/qt-faststart
 rm -rf static.tar.xz static > /dev/null
 rm -rf static.tar.xz static > /dev/null
-  echo
+echo
+;;
+2)
+apt update -y
+if [ -x "$(command -v python3.10)" ];then
+apt autoremove python3.10 -y
+fi
+until echo -e "\n" | add-apt-repository ppa:deadsnakes/ppa && apt update -y
+do
+apt install software-properties-common -y
+echo -e "\n" | add-apt-repository ppa:deadsnakes/ppa 
+done
+until apt install python3.10-full python3.10-venv -y
+do
+apt install software-properties-common -y
+echo -e "\n" | add-apt-repository ppa:deadsnakes/ppa
+apt install python3.10-full python3.10-venv -y
+done
+until curl https://bootstrap.pypa.io/get-pip.py | python3.10
+do
+curl https://bootstrap.pypa.io/get-pip.py | python3.10
+done
+python3.10 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+python3.10 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+python3.10 -m pip install --upgrade pip
+until curl https://install.python-poetry.org | POETRY_HOME=/usr/local/lib/python3.10/dist-packages/poetry python3.10 -
+do
+curl https://install.python-poetry.org | POETRY_HOME=/usr/local/lib/python3.10/dist-packages/poetry python3.10 -
+done
+echo
+echo -en ${yellow}安装完成 回车返回${background}
 ;;
 0)
 echo
