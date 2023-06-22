@@ -137,8 +137,8 @@ grep platform ${file}
 old_equipment=`grep platform ${file}`
 new_equipment="platform: 6"
 sed -i "s/${old_equipment}/${new_equipment}/g" $file
-rm data/device.json > /dev/null 2>&1
-rm -rf data/icqq > /dev/null 2>&1
+rm -rf data > /dev/null 2>&1
+rm -rf device > /dev/null 2>&1
 }
 echo
 echo -e ${white}"====="${cyan}白狐-Yunzai-Bot${white}"====="${background}
@@ -151,6 +151,7 @@ echo -e ${green}4. ${cyan}错误码:${red}238${background}
 echo -e ${green}5. ${cyan}仅更改登录端口\(设备\)${background}
 echo -e ${green}6. ${cyan}升级icqq版本为最新${background}
 echo -e ${green}7. ${cyan}降级icqq版本为指定版本${background}
+echo -e ${green}8. ${cyan}删除设备信息\(虚拟设备\)文件${background}
 echo -e ${white}"========================="${background}
 echo -e ${green}QQ群:狐狸窝:${cyan}705226976${background}
 echo -e ${green}注意:${cyan}手表协议和Macos协议都无法戳一戳"\n"因为本身这两种设备都不支持.${background}
@@ -185,6 +186,10 @@ echo "Y" | pnpm install icqq@latest -w
 echo "Y" | pnpm uninstall icqq
 echo -en ${green}请输入您指定的icqq版本:${background} ;read IcqqVersion
 echo "Y" | pnpm install icqq@${IcqqVersion} -w
+;;
+8)
+rm -rf data > /dev/null 2>&1
+rm -rf device > /dev/null 2>&1
 ;;
 *)
 echo -en ${red}输入错误${background} ;read
