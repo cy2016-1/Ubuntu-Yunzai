@@ -86,34 +86,46 @@ echo
 echo -e ${red} - ${cyan}您的 ${yellow}云崽/喵崽/TRSS崽/Yxy崽 ${cyan}应该至少启动过一次${background}
 exit
 fi
-icqq_local=`grep icqq package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g' | sed 's/\^//g'`
+icqq_local=`grep version ${path}/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g' | sed 's/\^//g'`
 #这边实在是想不出来怎么写了，希望各位大佬看到后不要喷，同时，也希望各位大佬提出您们宝贵的意见
 echo
 echo -e ${green} - ${cyan} 正在获取icqq最新版本${background}
 #icqq_latest=`curl -sL https://raw.github.com/icqqjs/icqq/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
 #if test -z "${icqq_latest}";then
-  icqq_latest=`curl -sL https://ghproxy.com/https://raw.github.com/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
+  icqq_latest=`curl -sL https://ghproxy.com/https://github.com/icqqjs/icqq/raw/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
+  if test -z "${icqq_latest}";then
+    icqq_latest=`curl -sL https://kgithub.com/icqqjs/icqq/raw/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
     if test -z "${icqq_latest}";then 
       icqq_latest=`curl -sL https://gitee.com/baihu433/icqq/raw/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g'`
         if test -z "${icqq_latest}";then 
           echo -e "\033[31m" 请检查网络"\033[0m"
         fi
     fi
+  fi
 #fi
 echo
 echo -e ${yellow} - ${green}icqq最新版本为 ${cyan}${icqq_latest} ${background}
 echo -e ${yellow} - ${green}本地icqq版本为 ${red}${icqq_local} ${background}
-if [ "${icqq_local}" == "${icqq_latest}" ]
-then
-echo
-echo -e ${yellow} - ${green}icqq已为最新${cyan}${icqq_latest} ${background}
-echo
-else
-echo
-echo -e ${yellow} - ${green}正在更新icqq${cyan}${background}
-sed -i "s/${icqq_local}/${icqq_latest}/g" package.json
-echo "Y" | pnpm uninstall icqq
-echo "Y" | pnpm install icqq@latest -w
+if [ ! ${icqq_latest} = ${icqq_local} ];then
+  echo -e ${green} - ${yellow}是否更新icqq \n${red}警告:更新icqq版本为最新,可能仍然无法登录${cyan} \n是否更新?${yellow}[N/y]${background};read -p "" num
+  echo
+  case $num in
+    N)
+      echo -e ${yellow} - ${green}放弃更新${background}
+      echo
+    ;;
+    y)
+      echo
+      echo -e ${yellow} - ${green}正在更新icqq${cyan}${background}
+      sed -i "s/${icqq_local}/${icqq_latest}/g" package.json
+      echo "Y" | pnpm uninstall icqq
+      echo "Y" | pnpm install icqq@latest -w
+      ;;
+    *)
+      echo -e${yellow} - ${green}放弃更新${background}
+      echo
+      ;;
+    esac
 fi
 echo
 function device(){
@@ -159,20 +171,20 @@ echo -e ${white}"========================="${background}
 echo -en ${green}请输入您的选项:${background} ;read number
 case $number in
 1|45)
-echo -e ${cyan}错误码:${red}45'\n'${cayn}建议使用${yellow}MacOS或${yellow}iPad或${yellow}old_Android'\n'回车继续${background};read
+#echo -e ${cyan}错误码:${red}45'\n'${cayn}建议使用${yellow}MacOS或${yellow}iPad或${yellow}old_Android'\n'回车继续${background};read
 device
 ;;
 2|235)
-echo -en ${cyan}错误码:${red}235'\n'${cayn}建议先使用手表协议然后扫码登录'\n'回车继续${background};read
+#echo -en ${cyan}错误码:${red}235'\n'${cayn}建议先使用手表协议然后扫码登录'\n'回车继续${background};read
 device
 ;;
 3|237)
-echo "Y" | pnpm uninstall icqq
-echo -en ${cyan}错误码:${red}237'\n'${cayn}建议使用iPad协议登录'\n'回车继续${background};read
+#echo "Y" | pnpm uninstall icqq
+#echo -en ${cyan}错误码:${red}237'\n'${cayn}建议使用iPad协议登录'\n'回车继续${background};read
 device
 ;;
 4|238)
-echo -en ${cyan}错误码:${red}238'\n'${cayn}建议命令换手表协议后再换回iPad协议[全部用密码]'\n'回车继续${background};read
+#echo -en ${cyan}错误码:${red}238'\n'${cayn}建议命令换手表协议后再换回iPad协议[全部用密码]'\n'回车继续${background};read
 device
 ;;
 5)

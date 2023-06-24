@@ -6,7 +6,7 @@
 #then
 #   Git=github
 #fi
-ver=4.4.8.9
+ver=4.4.9.0
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -35,7 +35,7 @@ if [ "$version" != "$ver" ]; then
     update_log=$(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/update.log)
     echo -e ${update_log}
     echo
-    echo ${yellow}回车继续${background};read
+    echo -en ${yellow}回车继续${background};read
     if [ -x "/usr/local/bin/bhyz" ];then
     whiptail --title "白狐≧▽≦" --msgbox \
     "安装成功 祝您使用愉快!" \
@@ -211,6 +211,8 @@ export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin' >> /etc/profile
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
+ln -s /usr/local/node/bin/node /usr/local/bin/node
+ln -s /usr/local/node/bin/npm /usr/local/bin/npm
 rm -rf node node.tar.xz > /dev/null
 rm -rf node node.tar.xz > /dev/null
 }
@@ -255,6 +257,7 @@ if ! [ -x "$(command -v pnpm)" ];then
         exit
       fi
     done
+    ln -s /usr/local/node/bin/pnpm /usr/local/bin/pnpm
     echo
 fi
 
@@ -483,9 +486,8 @@ baihu=$(whiptail \
 "6" "${name}无法登录" \
 "7" "前台启动${name}" \
 "8" "${name}报错修复" \
-"9" "白狐脚本附件安装" \
-"10" "帮助[实时更新]" \
-"11" "卸崽! 删除${name}" \
+"9" "帮助[实时更新]" \
+"10" "卸崽! 删除${name}" \
 "0" "返回" \
 3>&1 1>&2 2>&3)
 feedback=$?
@@ -572,9 +574,6 @@ error
 echo -en ${cyan} 正在咕咕 回车返回${background}
 ;;
 10)
-help
-;;
-11)
 echo -e ${yellow}是否删除${red}${name}${cyan}[N/y] ${background};read -p "" num
       case $num in
      Y|y)
