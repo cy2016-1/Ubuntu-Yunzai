@@ -54,7 +54,6 @@ if ! [ -e "/usr/local/bin/bhyz" ];then
     whiptail --title "白狐≧▽≦" --msgbox \
     "安装成功 祝您使用愉快!" \
     8 25
-    exit
     fi
     Aword=`curl -s https://api.vvhan.com/api/ian`
     whiptail --title "白狐≧▽≦" --msgbox \
@@ -81,7 +80,6 @@ else
     whiptail --title "白狐≧▽≦" --msgbox \
     "安装成功 祝您使用愉快!" \
     8 25
-    exit
     fi
     Aword=`curl -s https://api.vvhan.com/api/ian`
     whiptail --title "白狐≧▽≦" --msgbox \
