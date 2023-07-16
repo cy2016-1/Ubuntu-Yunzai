@@ -117,6 +117,7 @@ curl -o YZ.sh https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/YZ.sh
 mv YZ.sh ~/ubuntu/root/YZ.sh
 mkdir ~/ubuntu/root/.fox@bot > /dev/null
 ln -sf ~/ubuntu/root/.fox@bot $HOME/fox@bot > /dev/null
+echo "clear" >> ~/ubuntu/root/.bashrc
 echo "bash YZ.sh" >> ~/ubuntu/root/.bashrc
 echo "./${bin}" > .bashrc
 ./${bin}

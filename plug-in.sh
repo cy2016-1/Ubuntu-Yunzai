@@ -64,7 +64,7 @@ echo "#######################"
 a=0
 echo -en ${cyan}请输入您要删除的插件序号${background};read Number
 if [ "${Number}" = 0 ];then
-mian
+main
 else
 if [[ "${Number}" =~ ^[0-9]+$ ]]; then
   ls -I example -I bin -I other -I system plugins > git.log
@@ -348,9 +348,9 @@ echo -en "\033[35m请输入选项 \033[0m";read number
 function git_pull_plugins(){
 #clear
 echo
-echo -e ${yellow}正在更新${background}
 cd ${path}
 function git_pull(){
+echo -e ${yellow}正在更新 $(ls ..)${background}
  if ! git pull;then
    echo
      echo -en ${red} 更新失败 ${cyan} 是否${retry}强制更新${yellow} [Y/n]${background};read yn
@@ -373,7 +373,7 @@ for file in $(ls -I example -I bin -I other -I system -I genshin plugins)
 do
   if [ -d plugins/${file} ];then
    echo
-   echo -e ${yellow}正在更新${file}${background}
+   echo -e ${yellow}正在更新 ${file}${background}
    cd plugins/${file}
    function git_pull(){
    if ! git pull;then
@@ -988,7 +988,9 @@ number=$(${dialog_whiptail} \
 "47" "hanhan-plugin                  憨憨插件" \
 "48" "avocado-plugin                 鳄梨插件" \
 "49" "cunyx-plugin                   寸幼萱插件" \
+"50" "TianRu-plugin                  天如插件" \
 3>&1 1>&2 2>&3)
+clear
 _checklist=""
 }
 
@@ -1046,7 +1048,9 @@ number=$(${dialog_whiptail} \
 "47" "hanhan-plugin                  憨憨插件" OFF \
 "48" "avocado-plugin                 鳄梨插件" OFF \
 "49" "cunyx-plugin                   寸幼萱插件" OFF \
+"50" "TianRu-plugin                  天如插件" OFF \
 3>&1 1>&2 2>&3)
+clear
 _checklist="_checklist"
 }
 
@@ -1104,6 +1108,7 @@ echo -e ${green_red}46. ${cyan}panel-plugin"             "面板图插件${backg
 echo -e ${green_red}47. ${cyan}hanhan-plugin"            "憨憨插件${background}
 echo -e ${green_red}48. ${cyan}avocado-plugin"           "鳄梨插件${background}
 echo -e ${green_red}49. ${cyan}cunyx-plugin"             "寸幼萱插件${background}
+echo -e ${green_red}49. ${cyan}TianRu-plugin"            "天如插件${background}
 echo 
 echo -e ${green}0. ${cyan}返回${background}
 echo "#####################################"
@@ -1527,6 +1532,13 @@ do
      Plugin=cunyx-plugin
      Git=https://gitee.com/cunyx/cunyx-plugin.git
      plugin_name=$(echo ${plugin_name} | sed "s/49//g")
+     install_git_plugin${_checklist}
+     ;;
+   50)
+     Name=天如插件
+     Plugin=tianru-plugin
+     Git=https://gitee.com/HDTianRu/TianRu-plugin.git
+     plugin_name=$(echo ${plugin_name} | sed "s/50//g")
      install_git_plugin${_checklist}
      ;;
    0)

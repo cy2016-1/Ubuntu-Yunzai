@@ -6,7 +6,7 @@
 #then
 #   Git=github
 #fi
-ver=4.4.9.0
+ver=5.0
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -84,13 +84,31 @@ if ! [ -x "$(command -v redis-server)" ];then
     echo
 fi
 
-if ! [ -x "$(command -v chromium-browser)" ];then
+if ! [ -x "$(command -v chromium-browser)" ] | [ ! -x "$(command -v chromium)" ] | [ ! -x "$(command -v chrome)" ];then
     echo -e ${yellow}安装chromium浏览器${background}
-    until apt install -y chromium-browser
-    do
-       echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
-    done
-    echo
+    if awk '{print $2}' /etc/issue | grep -q -E 20.* || grep -q -E 22.* || grep -q -E 23.*
+        then
+            if awk '{print $2}' /etc/issue | grep -q -E 22.*
+                then
+                    bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
+                else
+                    echo "deb http://ftp.cn.debian.org/debian sid main" >> /etc/apt/sources.list
+                    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131
+                    apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
+                    apt update -y
+                    apt install -y gnupg gnupg1 gnupg2
+                    apt install -y chromium
+                    rm -rf /etc/apt/trusted.gpg
+                    sed -i "s/deb http:\/\/ftp.cn.debian.org\/debian sid main//g" /etc/apt/sources.list
+                    chromium > /dev/null
+            fi
+        else
+            until apt install -y chromium-browser
+                do
+                    apt install -y chromium-browser
+                    echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
+                done
+    fi
 fi
 
 if ! [ -x "$(command -v ffmpeg)" ];then
@@ -121,7 +139,7 @@ if ! [ -x "$(command -v unar)" ];then
 apt install -y unar
 fi
 echo -e "\033[33m正在解压\033[0m"
-unar -o static -q static.tar.xz
+unar -o static static.tar.xz
 mv -f static/$(ls static)/ffmpeg /usr/local/bin/ffmpeg
 mv -f static/$(ls static)/ffprobe /usr/local/bin/ffprobe
 mv -f static/$(ls static)/qt-faststart /usr/local/bin/qt-faststart
@@ -132,7 +150,7 @@ rm -rf static.tar.xz static > /dev/null
 fi
 
 function setup_nodejs_install(){
-if awk '{print $2}' /etc/issue | grep -q -E 22.*
+if awk '{print $2}' /etc/issue | grep -q -E 22.* | grep -q -E 23.*
 then
   echo -e ${yellow}安装nodejs${background}
   rm /etc/apt/sources.list.d/nodesource.list > /dev/null 2>&1
@@ -211,8 +229,7 @@ export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin' >> /etc/profile
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
-ln -s /usr/local/node/bin/node /usr/local/bin/node
-ln -s /usr/local/node/bin/npm /usr/local/bin/npm
+. /etc/profile
 rm -rf node node.tar.xz > /dev/null
 rm -rf node node.tar.xz > /dev/null
 }
@@ -291,7 +308,14 @@ if [ ! -d ~/.fox@bot/${name}/node_modules/icqq ];then
 pnpm install -w icqq@latest
 fi
 
-echo -en ${yellow}安装完成 回车继续${background}
+cd ~/.fox@bot/${name}
+echo -en ${yellow}正在初始化${background}
+pnpm start
+pnpm stop
+rm -rf ~/.pm2/logs/*.log
+echo -en ${yellow}正在初始化完成${background}
+echo
+echo -en ${yellow}安装完成 回车继续${background};read
 } #install
 #########################################################
 function install_Yunzai_Bot(){
@@ -404,7 +428,7 @@ return
 fi
 case ${ErrorRepair} in
 1)
-bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
+
 cd ~/.fox@bot/${name}
 chromium_path=$(grep chromium_path: config/config/bot.yaml)
 sed -i "s/${chromium_path}/chromium_path: \/usr\/bin\/chromium-browser/g" config/config/bot.yaml
@@ -553,7 +577,59 @@ echo
 echo -en ${cyan}回车返回${background};read
 ;;
 6)
-bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
+#bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
+cd ~/${name}
+echo -e ${yellow}正在更新 $(ls ..)${background}
+git pull
+icqq=$(grep icqq package.json | awk '{print $2}' | sed "s/\"//g" | sed "s/\^//g" | sed "s/,//g" )
+icqq_latest=$(curl -sL https://ghproxy.com/https://github.com/icqqjs/icqq/raw/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
+if [ ! "${icqq_latest}" = "${icqq}" ];then
+sed -i "s/${icqq}/${icqq_latest}/g" package.json
+echo "Y" | pnpm install
+pnpm uninstall icqq -w
+pnpm install icqq@latest -w
+fi
+if (whiptail --title "白狐" \
+--yes-button "马上填写" \
+--no-button "暂不填写" \
+--yesno "是否填写签名服务器地址?" 10 50)
+  then
+    if grep -q sign_api_addr config/config/bot.yaml
+    then
+        #http://127.0.0.1:8080/sign
+        #sign_api_addr: http://127.0.0.1:8080/sign?key=123456
+        #sign_api_addr: 112.74.57.142
+        sed -i '/sign_api_addr/d' config/config/bot.yaml
+        apilink=$(whiptail --title "白狐≧▽≦" --inputbox "请输入您准备好的api链接\n请注意,原链接末尾有sign的不要忘记了，如果有key请带上" \
+        10 60 3>&1 1>&2 2>&3)
+        if echo ${apilink} | grep -q sign_api_addr: ;then
+            apilink=$(echo ${apilink} | sed 's/sign_api_addr: //g')
+        fi
+        if echo ${apilink} | grep -q http;then
+            apilink=$(echo ${apilink} | sed "s/http://g")
+            http=http://
+        fi
+        if echo ${apilink} | grep -q https;then
+            apilink=$(echo ${apilink} | sed "s/https://g")
+            http=https://
+        fi
+        if echo ${apilink} | grep -q \/;then
+            apilink=$(echo ${apilink} | sed "s/\///g")
+        fi
+        if echo ${apilink} | grep -q sign;then
+            apilink1=$(echo ${apilink} | sed "s/sign/ /g")
+            apilink=$(echo ${apilink} | sed "s/sign//g")
+            sign=/sign
+        fi
+        if echo ${apilink} | grep -q key;then
+            key=$(echo ${apilink1} | awk '{print $2}' | sed "s/?key=//g")
+            apilink=$(echo ${apilink} | sed "s/?key=${key}//g")
+            key="?key=${key}"   
+        fi
+        echo "sign_api_addr: ${http}${apilink}${sign}${key}" >> config/config/bot.yaml
+    fi
+fi
+echo -en ${yellow}执行完成 回车继续${background};read
 ;;
 7)
 Redis=$(redis-cli ping)
@@ -726,7 +802,7 @@ if ! [ -x "$(command -v unar)" ];then
 apt install -y unar
 fi
 echo -e "\033[33m正在解压\033[0m"
-unar -o static -q static.tar.xz
+unar -o static static.tar.xz
 mv -f static/$(ls static)/ffmpeg /usr/local/bin/ffmpeg
 mv -f static/$(ls static)/ffprobe /usr/local/bin/ffprobe
 mv -f static/$(ls static)/qt-faststart /usr/local/bin/qt-faststart
@@ -763,7 +839,7 @@ do
 curl https://install.python-poetry.org | POETRY_HOME=/usr/local/lib/python3.10/dist-packages/poetry python3.10 -
 done
 echo
-echo -en ${yellow}安装完成 回车返回${background}
+echo -en ${yellow}安装完成 回车返回${background};read
 ;;
 0)
 echo
