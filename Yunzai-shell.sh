@@ -6,7 +6,7 @@
 #then
 #   Git=github
 #fi
-ver=5.0
+ver=5.1
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -63,7 +63,7 @@ echo
 chinesescript="$(whereis locales | awk '{print $2}')/install-language-pack"
 if ! [ -x "${chinesescript}" ];then
     echo -e ${yellow}安装中文字体${background}
-    until apt install -y fonts-wqy-microhei  language-pack-zh* locales-all
+    until apt install -y fonts-wqy*  language-pack-zh* locales-all
     do
       echo -e ${red}中文字体安装失败 ${green}正在重试${background}
     done
@@ -134,7 +134,10 @@ echo -e ${yellow}正在安装ffmpeg${background}
   exit
     ;;
 esac
-curl -o static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-${ffmpeg}-static.tar.xz
+if ! [ -x "$(command -v axel)" ];then
+apt install -y axel
+fi
+axel -n 32 -o static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-${ffmpeg}-static.tar.xz
 if ! [ -x "$(command -v unar)" ];then
 apt install -y unar
 fi
@@ -146,7 +149,7 @@ mv -f static/$(ls static)/qt-faststart /usr/local/bin/qt-faststart
 chmod +x /usr/local/bin/ffmpeg /usr/local/bin/ffprobe /usr/local/bin/qt-faststart
 rm -rf static.tar.xz static > /dev/null
 rm -rf static.tar.xz static > /dev/null
-    echo
+echo
 fi
 
 function setup_nodejs_install(){
@@ -194,7 +197,7 @@ node=x64
 arm64|aarch64|armv8*)
 node=arm64
 ;;
-armv7l|armhf|armv7*)
+armhf|armel|armv7*)
 node=armv7l
 ;;
 *)
@@ -218,7 +221,7 @@ if ! tar -xf node.tar.xz -C node ;then
   if ! [ -x "$(command -v unar)" ];then
     apt install -y unar
   fi
-  unar -q node.tar.xz -o node
+  unar node.tar.xz -o node
 fi
 rm -rf /usr/local/node > /dev/null
 rm -rf /usr/local/node > /dev/null
@@ -274,7 +277,6 @@ if ! [ -x "$(command -v pnpm)" ];then
         exit
       fi
     done
-    ln -s /usr/local/node/bin/pnpm /usr/local/bin/pnpm
     echo
 fi
 
@@ -303,11 +305,10 @@ do
     exit 
   fi
 done
-
-if [ ! -d ~/.fox@bot/${name}/node_modules/icqq ];then
+pnpm uninstall puppeteer -w
+pnpm install puppeteer@19.0.0 -w
+pnpm uninstall icqq -w
 pnpm install -w icqq@latest
-fi
-
 cd ~/.fox@bot/${name}
 echo -en ${yellow}正在初始化${background}
 pnpm start
@@ -428,10 +429,18 @@ return
 fi
 case ${ErrorRepair} in
 1)
-
+echo "deb http://ftp.cn.debian.org/debian sid main" >> /etc/apt/sources.list
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131
+apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
+apt update -y
+apt install -y gnupg gnupg1 gnupg2
+apt install -y chromium
+rm -rf /etc/apt/trusted.gpg
+sed -i "s/deb http:\/\/ftp.cn.debian.org\/debian sid main//g" /etc/apt/sources.list
+chromium > /dev/null
 cd ~/.fox@bot/${name}
 chromium_path=$(grep chromium_path: config/config/bot.yaml)
-sed -i "s/${chromium_path}/chromium_path: \/usr\/bin\/chromium-browser/g" config/config/bot.yaml
+sed -i "s/${chromium_path}/chromium_path: \/usr\/bin\/chromium/g" config/config/bot.yaml
 echo -e ${green}回车返回${background};read
 ;;
 2)
@@ -581,10 +590,10 @@ echo -en ${cyan}回车返回${background};read
 cd ~/${name}
 echo -e ${yellow}正在更新 $(ls ..)${background}
 git pull
-icqq=$(grep icqq package.json | awk '{print $2}' | sed "s/\"//g" | sed "s/\^//g" | sed "s/,//g" )
+icqq=$(grep version node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
 icqq_latest=$(curl -sL https://ghproxy.com/https://github.com/icqqjs/icqq/raw/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
 if [ ! "${icqq_latest}" = "${icqq}" ];then
-sed -i "s/${icqq}/${icqq_latest}/g" package.json
+#sed -i "s/${icqq}/${icqq_latest}/g" package.json
 echo "Y" | pnpm install
 pnpm uninstall icqq -w
 pnpm install icqq@latest -w
@@ -626,6 +635,7 @@ if (whiptail --title "白狐" \
             apilink=$(echo ${apilink} | sed "s/?key=${key}//g")
             key="?key=${key}"   
         fi
+        #echo "sign_api_addr: ${http}${apilink}${sign}${key}"
         echo "sign_api_addr: ${http}${apilink}${sign}${key}" >> config/config/bot.yaml
     fi
 fi
