@@ -6,8 +6,9 @@
 #then
 #   Git=github
 #fi
-ver=5.1
+ver=5.2
 cd $HOME
+function cs(){
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
     rm /usr/local/bin/bhyz
@@ -44,6 +45,7 @@ if [ "$version" != "$ver" ]; then
     bhyz
     exit
 fi
+}
 #########################################################
 function install(){
 echo
@@ -635,8 +637,11 @@ if (whiptail --title "白狐" \
             apilink=$(echo ${apilink} | sed "s/?key=${key}//g")
             key="?key=${key}"   
         fi
+        if ! echo ${http} | grep -q http;then
+            http=http://
+        fi
         #echo "sign_api_addr: ${http}${apilink}${sign}${key}"
-        echo "sign_api_addr: ${http}${apilink}${sign}${key}" >> config/config/bot.yaml
+        sed -i "\$a\sign_api_addr: ${http}${apilink}${sign}${key}" config/config/bot.yaml
     fi
 fi
 echo -en ${yellow}执行完成 回车继续${background};read
