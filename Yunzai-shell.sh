@@ -6,7 +6,7 @@
 #then
 #   Git=github
 #fi
-ver=5.3.4
+ver=5.3.5
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -294,9 +294,7 @@ fi
 #    done
 #    echo
 #fi
-if [ "${YZ}" = true ];then
-return
-fi
+if [ ! -e ~/${name}/config/config/bot.yaml ];then
 a=0
 echo -e ${yellow}正在使用pnpm安装依赖${background}
 cd ~/.fox@bot/${name}
@@ -322,9 +320,10 @@ echo -en ${yellow}正在初始化${background}
 pnpm start
 pnpm stop
 rm -rf ~/.pm2/logs/*.log
-echo -en ${yellow}正在初始化完成${background}
+echo -en ${yellow}初始化完成${background}
 echo
 echo -en ${yellow}安装完成 回车继续${background};read
+fi
 } #install
 #########################################################
 function install_Yunzai_Bot(){
@@ -516,6 +515,7 @@ echo -e ${green}回车返回${background};read
 6)
 YZ=true
 install
+echo -e ${green}检查完成 回车返回${background};read
 ;;
 esac
 }
