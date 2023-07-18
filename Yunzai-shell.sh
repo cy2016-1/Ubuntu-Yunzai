@@ -6,7 +6,7 @@
 #then
 #   Git=github
 #fi
-ver=5.3
+ver=5.3.4
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -84,30 +84,36 @@ if ! [ -x "$(command -v redis-server)" ];then
     echo
 fi
 
-if ! [ -x "$(command -v chromium-browser)" ] | [ ! -x "$(command -v chromium)" ] | [ ! -x "$(command -v chrome)" ];then
+
+function chromium_install(){
+echo "deb http://ftp.cn.debian.org/debian sid main" >> /etc/apt/sources.list
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131
+apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
+apt update -y
+apt install -y gnupg gnupg1 gnupg2
+apt install -y chromium
+rm -rf /etc/apt/trusted.gpg
+sed -i "s/deb http:\/\/ftp.cn.debian.org\/debian sid main//g" /etc/apt/sources.list
+chromium > /dev/null
+}
+
+if [ ! -x "$(command -v chromium-browser)" ] ||  [ ! -x "$(command -v chromium)" ] || [ ! -x "$(command -v chrome)" ];then
     echo -e ${yellow}安装chromium浏览器${background}
-    if awk '{print $2}' /etc/issue | grep -q -E 20.* || grep -q -E 22.* || grep -q -E 23.*
+    if awk '{print $2}' /etc/issue | grep -q -E 20.*
         then
-            if awk '{print $2}' /etc/issue | grep -q -E 22.*
-                then
-                    bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
-                else
-                    echo "deb http://ftp.cn.debian.org/debian sid main" >> /etc/apt/sources.list
-                    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131
-                    apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
-                    apt update -y
-                    apt install -y gnupg gnupg1 gnupg2
-                    apt install -y chromium
-                    rm -rf /etc/apt/trusted.gpg
-                    sed -i "s/deb http:\/\/ftp.cn.debian.org\/debian sid main//g" /etc/apt/sources.list
-                    chromium > /dev/null
-            fi
-        else
-            until apt install -y chromium-browser
-                do
-                    apt install -y chromium-browser
-                    echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
-                done
+            chromium_install
+    elif awk '{print $2}' /etc/issue | grep -q -E 22.*
+        then
+            chromium_install
+    elif awk '{print $2}' /etc/issue | grep -q -E 23.*
+        then
+            chromium_install     
+    else
+        until apt install -y chromium-browser
+            do
+               apt install -y chromium-browser
+               echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
+            done
     fi
 fi
 
