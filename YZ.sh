@@ -129,11 +129,13 @@ fi
 #    done
 #    echo
 #fi
-
-if [ ! -e ~/${name}/config/config/bot.yaml ];then
+mkdir -p ~/.fox@bot/
+git clone --depth=1 https://gitee.com/yoimiya-kokomi/Yunzai-Bot.git ~/.fox@bot/Yunzai-Bot
+ln -s ~/.fox@bot/Yunzai-Bot Yunzai-Bot
+if [ ! -e ~/Yunzai-Bot/config/config/bot.yaml ];then
 a=0
 echo -e ${yellow}正在使用pnpm安装依赖${background}
-cd ~/.fox@bot/${name}
+cd ~/.fox@bot/Yunzai-Bot
 pnpm config set registry https://registry.npmmirror.com
 pnpm config set registry https://registry.npmmirror.com
 until echo "Y" | pnpm install -P && echo "Y" | pnpm install
@@ -151,7 +153,7 @@ pnpm uninstall puppeteer -w
 pnpm install puppeteer@19.0.0 -w
 pnpm uninstall icqq -w
 pnpm install -w icqq@latest
-cd ~/.fox@bot/${name}
+cd ~/.fox@bot/Yunzai-Bot
 echo -en ${yellow}正在初始化${background}
 pnpm start
 pnpm stop
