@@ -690,7 +690,7 @@ echo -e ${yellow}是否删除${red}${name}${cyan}[N/y] ${background};read -p "" 
        rm -rf ~/${name} > /dev/null
        rm -rf ~/.fox@bot/${name} > /dev/null
        rm -rf ~/.fox@bot/${name} > /dev/null
-       echo -en ${cyan}删除完成 回车返回${background}
+       echo -en ${cyan}删除完成 回车返回${background};read
        ;;
      n|N)
        echo -en ${cyan}回车返回${background};read
