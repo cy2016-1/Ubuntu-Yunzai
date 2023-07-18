@@ -8,7 +8,6 @@
 #fi
 ver=5.2
 cd $HOME
-function cs(){
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
     rm /usr/local/bin/bhyz
@@ -45,7 +44,6 @@ if [ "$version" != "$ver" ]; then
     bhyz
     exit
 fi
-}
 #########################################################
 function install(){
 echo
