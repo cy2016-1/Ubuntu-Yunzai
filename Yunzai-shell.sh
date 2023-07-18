@@ -6,9 +6,8 @@
 #then
 #   Git=github
 #fi
-ver=5.2
+ver=5.3
 cd $HOME
-function cs(){
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
     rm /usr/local/bin/bhyz
@@ -45,7 +44,6 @@ if [ "$version" != "$ver" ]; then
     bhyz
     exit
 fi
-}
 #########################################################
 function install(){
 echo
@@ -234,7 +232,7 @@ export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin' >> /etc/profile
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
-. /etc/profile
+source /etc/profile
 rm -rf node node.tar.xz > /dev/null
 rm -rf node node.tar.xz > /dev/null
 }
@@ -290,7 +288,9 @@ fi
 #    done
 #    echo
 #fi
-
+if [ "${YZ}" = true ];then
+return
+fi
 a=0
 echo -e ${yellow}正在使用pnpm安装依赖${background}
 cd ~/.fox@bot/${name}
@@ -422,6 +422,7 @@ ErrorRepair=$(whiptail \
 "3" "修改${name}主人qq" \
 "4" "修改登录设备" \
 "5" "修复redis数据库" \
+"6" "检查各项依赖" \
 "0" "返回" \
 3>&1 1>&2 2>&3)
 feedback=$?
@@ -506,6 +507,10 @@ apt autoremove -y redis redis-server
 apt install -y redis redis-server
 echo -e ${green}回车返回${background};read
 ;;
+6)
+YZ=true
+install
+;;
 esac
 }
 function main(){
@@ -518,7 +523,7 @@ baihu=$(whiptail \
 "3" "停止${name}运行" \
 "4" "管理${name}插件" \
 "5" "${name}重新登陆" \
-"6" "${name}无法登录" \
+"6" "填写签名服务器" \
 "7" "前台启动${name}" \
 "8" "${name}报错修复" \
 "9" "帮助[实时更新]" \
