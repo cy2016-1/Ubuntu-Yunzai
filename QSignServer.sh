@@ -171,7 +171,7 @@ function uninstall_QSignServer(){
 cd $HOME
 rm -rf $HOME/QSignServer
 JDK='PATH=$PATH:$HOME/QSignServer/qsign/jdk/bin'
-JAVA_HOME='export JAVA_HOME=$HOME/QSignServer/qsign/jdk'
+JAVA_HOME='export JAVA_HOME=$HOME/QSignServer/jdk'
 sed -i "s/\#jdk//g" /etc/profile
 sed -i "s#${JDK}##g" /etc/profile
 sed -i "s#${JAVA_HOME}##g" /etc/profile
