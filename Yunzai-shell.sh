@@ -6,7 +6,11 @@
 #then
 #   Git=github
 #fi
-ver=5.3.5
+if [ -d /usr/local/node/bin ];then
+PATH=$PATH:/usr/local/node/bin
+export PNPM_HOME=/usr/local/node/bin
+fi
+ver=5.3.6
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -60,20 +64,13 @@ do
 done
 echo
 
-chinesescript="$(whereis locales | awk '{print $2}')/install-language-pack"
-if ! [ -x "${chinesescript}" ];then
-    echo -e ${yellow}安装中文字体${background}
-    until apt install -y fonts-wqy*  language-pack-zh* locales-all
-    do
-      echo -e ${red}中文字体安装失败 ${green}正在重试${background}
-    done
-    #fc-cache -fv
-    #echo "LANG=\"zh_CN.UTF-8\"
-    echo 'export LANG="zh_CN.UTF-8"' >> /etc/profile
-    export LANG="zh_CN.UTF-8"
-    #source /etc/profile
-    echo
+pkg_list=("fonts-wqy-zenhei" "fonts-wqy-microhei")
+for pkg in ${pkg_list[@]}; do
+if ! dpkg -s ${pkg} >/dev/null 2>&1 ; then
+    apt install -y ${pkg}
 fi
+done
+
 
 if ! [ -x "$(command -v redis-server)" ];then
     echo -e ${yellow}安装redis数据库${background}
@@ -84,6 +81,14 @@ if ! [ -x "$(command -v redis-server)" ];then
     echo
 fi
 
+#if ! [ -x "$(command -v catimg)" ];then
+#    echo -e ${yellow}安装catimg${background}
+#    until apt install -y catimg
+#    do
+#      echo -e ${red}catimg安装失败 ${green}正在重试${background}
+#    done
+#    echo
+#fi
 
 function chromium_install(){
 echo "deb http://ftp.cn.debian.org/debian sid main" >> /etc/apt/sources.list
@@ -104,7 +109,7 @@ if [ ! -x "$(command -v chromium-browser)" ] ||  [ ! -x "$(command -v chromium)"
             chromium_install
     elif awk '{print $2}' /etc/issue | grep -q -E 22.*
         then
-            chromium_install
+            bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
     elif awk '{print $2}' /etc/issue | grep -q -E 23.*
         then
             chromium_install     
