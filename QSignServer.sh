@@ -1,7 +1,7 @@
 #!/bin/env bash
 function main(){
 cd $HOME
-if [ -d $HOME/qsign/jdk/bin ];then
+if [ -d $HOME/QSignServer/jdk ];then
 PATH=$PATH:$HOME/QSignServer/jdk/bin
 export JAVA_HOME=$HOME/QSignServer/jdk
 fi
@@ -56,8 +56,8 @@ if [ ! -d QSignServer ];then
     mkdir -p QSignServer/jdk
     mv jdk/$(ls jdk) QSignServer/jdk
     rm -r jdk
-    PATH=$PATH:$HOME/qsign/jdk/bin
-    export JAVA_HOME=$HOME/qsign/jdk
+    PATH=$PATH:$HOME/QSignServer/jdk/bin
+    export JAVA_HOME=$HOME/QSignServer/jdk
 echo "
 #jdk
 PATH=$PATH:$HOME/QSignServer/jdk/bin
