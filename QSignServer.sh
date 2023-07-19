@@ -53,7 +53,6 @@ if [ ! -d QSignServer ];then
     done
     unar jdk.tar.gz -o jdk
     rm -f jdk.tar.gz
-    mkdir -p QSignServer/jdk
     mv jdk/$(ls jdk) QSignServer/jdk
     rm -r jdk
     PATH=$PATH:$HOME/QSignServer/jdk/bin
