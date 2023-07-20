@@ -1108,7 +1108,7 @@ echo -e ${green_red}46. ${cyan}panel-plugin"             "面板图插件${backg
 echo -e ${green_red}47. ${cyan}hanhan-plugin"            "憨憨插件${background}
 echo -e ${green_red}48. ${cyan}avocado-plugin"           "鳄梨插件${background}
 echo -e ${green_red}49. ${cyan}cunyx-plugin"             "寸幼萱插件${background}
-echo -e ${green_red}49. ${cyan}TianRu-plugin"            "天如插件${background}
+echo -e ${green_red}50. ${cyan}TianRu-plugin"            "天如插件${background}
 echo 
 echo -e ${green}0. ${cyan}返回${background}
 echo "#####################################"
