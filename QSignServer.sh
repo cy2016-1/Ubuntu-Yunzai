@@ -6,12 +6,12 @@ fi
 function main(){
 cd $HOME
 if [ -d $HOME/QSignServer/jdk ];then
-PATH=$PATH:$HOME/QSignServer/jdk/bin
+export PATH=$PATH:$HOME/QSignServer/jdk/bin
 export JAVA_HOME=$HOME/QSignServer/jdk
 fi
-if [ -d /usr/local/node/bin ];then
-PATH=$PATH:/usr/local/node/bin
-export PNPM_HOME=/usr/local/node/bin
+if [ -d $HOME/QSignServer/node/bin ];then
+export PATH=$PATH:$HOME/QSignServer/node/bin
+export PNPM_HOME=$HOME/QSignServer/node/bin
 fi
 function install_QSignServer(){
 case $(uname -m) in
@@ -92,15 +92,13 @@ if ! tar -xf node.tar.xz -C node ;then
   fi
   unar node.tar.xz -o node
 fi
-rm -rf /usr/local/node > /dev/null
-rm -rf /usr/local/node > /dev/null
-mv -f node/$(ls node) /usr/local/node
+mv -f node/$(ls node) $HOME/QSignServer/node
 echo '
 #Node.JS
-export PATH=$PATH:/usr/local/node/bin
-export PNPM_HOME=/usr/local/node/bin' >> /etc/profile
-PATH=$PATH:/usr/local/node/bin
-export PNPM_HOME=/usr/local/node/bin
+export PATH=$PATH:$HOME/QSignServer/node/bin
+export PNPM_HOME=$HOME/QSignServer/node/bin' >> /etc/profile
+export PATH=$PATH:$HOME/QSignServer/node/bin
+export PNPM_HOME=$HOME/QSignServer/node/bin
 source /etc/profile
 rm -rf node node.tar.xz > /dev/null
 rm -rf node node.tar.xz > /dev/null
@@ -150,24 +148,35 @@ echo -en ${yellow}安装完成 回车返回${background};read
 }
 
 function start_QSignServer(){
-if ! pm2 list | grep -q qsign ;then
+if ! pm2 show qsign | grep -q online ;then
     pm2 start --name qsign "bash $HOME/QSignServer/qsign/bin/unidbg-fetch-qsign --basePath=$HOME/QSignServer/qsign/txlib/8.9.68"
+    echo
+    echo -en ${yellow}签名服务器已经启动,是否打开日志 [Y/n]${background};read num
+    case $num in
+     Y|y)
+       pm2 logs qsign
+       echo
+       ;;
+       esac
 else
     echo -en ${yellow}签名服务器已经启动,是否打开日志 [Y/n]${background};read num
       case $num in
      Y|y)
-       pm2 log
+       pm2 logs qsign
        echo
-       echo -en ${cyan}回车返回${background};read
        ;;
        esac  
 fi
-echo -en ${yellow}启动完成 回车返回${background};read
-rm -f $HOME/.pm2/logs/qsign*
+echo -en ${yellow}回车返回${background};read
 }
 
 function stop_QSignServer(){
+pm2 stop qsign
 pm2 delete qsign
+}
+
+function restart_QSignServer(){
+pm2 restart qsign
 }
 
 function uninstall_QSignServer(){
@@ -175,6 +184,9 @@ cd $HOME
 rm -rf $HOME/QSignServer
 JDK='PATH=$PATH:$HOME/QSignServer/qsign/jdk/bin'
 JAVA_HOME='export JAVA_HOME=$HOME/QSignServer/jdk'
+sed -i "s/\#jdk//g" /etc/profile
+sed -i "s#${JDK}##g" /etc/profile
+sed -i "s#${JAVA_HOME}##g" /etc/profile
 sed -i "s/\#jdk//g" /etc/profile
 sed -i "s#${JDK}##g" /etc/profile
 sed -i "s#${JAVA_HOME}##g" /etc/profile
@@ -196,7 +208,12 @@ echo -en ${green}请输入您要更改的key值: ${background};read number
 sed -i "s/${port}/${number}/g" ${file}
 echo -en ${yellow}更改完成 回车返回${background};read
 }
-
+if [ -d QSignServer ];then
+file="$HOME/QSignServer/qsign/txlib/8.9.63/config.json"
+port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
+key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
+host="$(grep -E host ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
+fi
 red="\033[31m"
 green="\033[32m"
 yellow="\033[33m"
@@ -210,13 +227,14 @@ echo -e  ${green}1.  ${cyan}安装签名服务器${background}
 echo -e  ${green}2.  ${cyan}启动签名服务器${background}
 echo -e  ${green}3.  ${cyan}关闭签名服务器${background}
 #echo -e  ${green}3.  ${cyan}打开签名服务器日志${background}
-echo -e  ${green}4.  ${cyan}更新签名服务器${background}
+echo -e  ${green}4.  ${cyan}重启签名服务器${background}
 echo -e  ${green}5.  ${cyan}卸载签名服务器${background}
 echo -e  ${green}6.  ${cyan}修改签名服务器key值${background}
 echo -e  ${green}7.  ${cyan}修改签名服务器端口${background}
+echo -e  ${green}8.  ${cyan}清理签名服务器日志${background}
 echo -e  ${green}0.  ${cyan}退出${background}
 echo "========================="
-#echo -e ${green}状态:${cyan}[${condition}]${background}
+#echo -e ${green}您的api链接: "127.0.0.1":"${port}"/sign?key="${key}"${background}
 echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
 echo "========================="
 echo
@@ -236,8 +254,7 @@ stop_QSignServer
 ;;
 4)
 echo
-#update_QSignServer
-echo -en  ${yellow}暂时没写 回车返回${background};read
+restart_QSignServer
 ;;
 5)
 echo
@@ -250,6 +267,10 @@ key_QSignServer
 7)
 echo
 port_QSignServer
+;;
+8)
+echo
+pm2 flush qsign
 ;;
 0)
 exit
