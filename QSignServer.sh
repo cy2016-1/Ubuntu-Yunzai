@@ -75,14 +75,14 @@ arm64|aarch64|armv8*)
 node=arm64
 ;;
 esac
-if awk '{print $2}' /etc/issue | grep -q -E 22.* || grep -q -E 23.*
-then
-  curl -o node.tar.xz https://cdn.npmmirror.com/binaries/node/latest-v18.x/node-v18.16.0-linux-${node}.tar.xz
-else
-  curl -o node.tar.xz https://cdn.npmmirror.com/binaries/node/latest-v16.x/node-v16.20.0-linux-${node}.tar.xz
-fi
-if [ ! -d node ];then
-mkdir node
+if awk '{print $2}' /etc/issue | grep -q -E 22.*
+    then
+        curl -o node.tar.xz https://cdn.npmmirror.com/binaries/node/latest-v18.x/node-v18.17.0-linux-${node}.tar.xz
+elif awk '{print $2}' /etc/issue | grep -q -E 23.*
+    then
+        curl -o node.tar.xz https://cdn.npmmirror.com/binaries/node/latest-v18.x/node-v18.17.0-linux-${node}.tar.xz     
+    else
+        curl -o node.tar.xz https://cdn.npmmirror.com/binaries/node/latest-v16.x/node-v16.20.0-linux-${node}.tar.xz
 fi
 echo -e ${yellow}正在解压二进制文件压缩包${background}
 if ! tar -xf node.tar.xz -C node ;then
