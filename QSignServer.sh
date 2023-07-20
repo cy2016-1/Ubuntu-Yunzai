@@ -9,13 +9,13 @@ if [ -d $HOME/QSignServer/jdk ];then
 export PATH=$PATH:$HOME/QSignServer/jdk/bin
 export JAVA_HOME=$HOME/QSignServer/jdk
 fi
-if [ -d $HOME/QSignServer/node/bin ];then
-export PATH=$PATH:$HOME/QSignServer/node/bin
-export PNPM_HOME=$HOME/QSignServer/node/bin
-fi
 if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
+fi
+if [ -d $HOME/QSignServer/node/bin ];then
+export PATH=$PATH:$HOME/QSignServer/node/bin
+export PNPM_HOME=$HOME/QSignServer/node/bin
 fi
 function install_QSignServer(){
 case $(uname -m) in
@@ -65,10 +65,10 @@ if [ ! -d QSignServer ];then
     rm -r jdk
     PATH=$PATH:$HOME/QSignServer/jdk/bin
     export JAVA_HOME=$HOME/QSignServer/jdk
-echo "
+echo '
 #jdk
-PATH=$PATH:$HOME/QSignServer/jdk/bin
-export JAVA_HOME=$HOME/QSignServer/jdk " >> /etc/profile
+export PATH=$PATH:$HOME/QSignServer/jdk/bin
+export JAVA_HOME=$HOME/QSignServer/jdk ' >> /etc/profile
 fi
 function binaries_nodejs_install(){
 case $(uname -m) in
@@ -187,15 +187,18 @@ pm2 restart qsign
 
 function uninstall_QSignServer(){
 cd $HOME
-rm -rf $HOME/QSignServer
+rm -rf $HOME/QSignServer 2&> /dev/null
+rm -rf $HOME/QSignServer 2&> /dev/null
 JDK='PATH=$PATH:$HOME/QSignServer/qsign/jdk/bin'
 JAVA_HOME='export JAVA_HOME=$HOME/QSignServer/jdk'
+NODE='export PATH=$PATH:$HOME/QSignServer/node/bin'
+PNPM_HOME='export PNPM_HOME=$HOME/QSignServer/node/bin'
 sed -i "s/\#jdk//g" /etc/profile
 sed -i "s#${JDK}##g" /etc/profile
 sed -i "s#${JAVA_HOME}##g" /etc/profile
-sed -i "s/\#jdk//g" /etc/profile
-sed -i "s#${JDK}##g" /etc/profile
-sed -i "s#${JAVA_HOME}##g" /etc/profile
+sed -i "s/\#Node.JS//g" /etc/profile
+sed -i "s#${NODE}##g" /etc/profile
+sed -i "s#${PNPM_HOME}##g" /etc/profile
 echo -en ${yellow}卸载完成 回车返回${background};read
 }
 
