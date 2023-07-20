@@ -13,6 +13,10 @@ if [ -d $HOME/QSignServer/node/bin ];then
 export PATH=$PATH:$HOME/QSignServer/node/bin
 export PNPM_HOME=$HOME/QSignServer/node/bin
 fi
+if [ -d /usr/local/node/bin ];then
+PATH=$PATH:/usr/local/node/bin
+export PNPM_HOME=/usr/local/node/bin
+fi
 function install_QSignServer(){
 case $(uname -m) in
 x86_64|amd64)
