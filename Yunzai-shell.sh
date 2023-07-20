@@ -10,7 +10,7 @@ if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.3.7
+ver=5.3.8
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -890,6 +890,11 @@ echo -en ${yellow}安装完成 回车返回${background};read
 ;;
 3)
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer.sh)
+;;
+0)
+return
+;;
+esac
 ;;
 0)
 exit
