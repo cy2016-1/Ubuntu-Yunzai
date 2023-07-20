@@ -136,8 +136,10 @@ if ! [ -x "$(command -v pnpm)" ];then
     echo
 fi
 if ! [ -x "$(command -v pm2)" ];then
-    echo -e ${yellow}正在使用npm安装pnpm${background}
-    until npm install -g pm2
+    echo -e ${yellow}正在使用pnpm安装pnpm${background}
+    pnpm config set registry https://registry.npmmirror.com
+    pnpm config set registry https://registry.npmmirror.com
+    until pnpm install -g pm2@latest
     do
       echo -e ${red}pm2安装失败 ${green}正在重试${background}
     done
