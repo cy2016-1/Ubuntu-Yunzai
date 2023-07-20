@@ -10,7 +10,7 @@ if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.3.6
+ver=5.3.7
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -71,7 +71,6 @@ if ! dpkg -s ${pkg} >/dev/null 2>&1 ; then
 fi
 done
 
-
 if ! [ -x "$(command -v redis-server)" ];then
     echo -e ${yellow}安装redis数据库${background}
     until apt install -y redis redis-server
@@ -106,13 +105,19 @@ if [ ! -x "$(command -v chromium-browser)" ] ||  [ ! -x "$(command -v chromium)"
     echo -e ${yellow}安装chromium浏览器${background}
     if awk '{print $2}' /etc/issue | grep -q -E 20.*
         then
-            chromium_install
+            until chromium_install
+            do
+               echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
+            done
     elif awk '{print $2}' /etc/issue | grep -q -E 22.*
         then
             bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
     elif awk '{print $2}' /etc/issue | grep -q -E 23.*
         then
-            chromium_install     
+            until chromium_install
+            do
+               echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
+            done          
     else
         until apt install -y chromium-browser
             do
@@ -217,11 +222,14 @@ setup_nodejs_install
 return
 #echo ${red}您的框架为${yellow}$(uname -m)${red},快让白狐做适配.${background}
 esac
-if awk '{print $2}' /etc/issue | grep -q -E 22.* || grep -q -E 23.*
-then
-  curl -o node.tar.xz https://cdn.npmmirror.com/binaries/node/latest-v18.x/node-v18.16.0-linux-${node}.tar.xz
-else
-  curl -o node.tar.xz https://cdn.npmmirror.com/binaries/node/latest-v16.x/node-v16.20.0-linux-${node}.tar.xz
+if awk '{print $2}' /etc/issue | grep -q -E 22.*
+    then
+        curl -o node.tar.xz https://cdn.npmmirror.com/binaries/node/latest-v18.x/node-v18.17.0-linux-${node}.tar.xz
+elif awk '{print $2}' /etc/issue | grep -q -E 23.*
+    then
+        curl -o node.tar.xz https://cdn.npmmirror.com/binaries/node/latest-v18.x/node-v18.17.0-linux-${node}.tar.xz     
+    else
+        curl -o node.tar.xz https://cdn.npmmirror.com/binaries/node/latest-v16.x/node-v16.20.0-linux-${node}.tar.xz
 fi
 if [ ! -d node ];then
 mkdir node
@@ -497,7 +505,7 @@ equipment=$(whiptail \
 "3" "安卓手表" \
 "4" "MacOS" \
 "5" "iPad" \
-"6" "old_Android" \
+"6" "Tim" \
 3>&1 1>&2 2>&3)
 feedback=$?
 if ! [ $feedback = 0 ]
@@ -617,9 +625,9 @@ pnpm uninstall icqq -w
 pnpm install icqq@latest -w
 fi
 if (whiptail --title "白狐" \
---yes-button "马上填写" \
---no-button "暂不填写" \
---yesno "是否填写签名服务器地址?" 10 50)
+--yes-button "第三方签名服务器" \
+--no-button "本机签名服务器" \
+--yesno "请选择签名服务器类型" 10 50)
   then
     if grep -q sign_api_addr config/config/bot.yaml
     then
@@ -658,6 +666,13 @@ if (whiptail --title "白狐" \
         fi
         #echo "sign_api_addr: ${http}${apilink}${sign}${key}"
         sed -i "\$a\sign_api_addr: ${http}${apilink}${sign}${key}" config/config/bot.yaml
+    else
+        sed -i '/sign_api_addr/d' config/config/bot.yaml
+        file="$HOME/QSignServer/qsign/txlib/8.9.63/config.json"
+        port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
+        key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
+        echo -e http://127.0.0.1:${port}/sign?key=${key}
+        sed -i "\$a\sign_api_addr: http://127.0.0.1:${prot}/sign?key=${key}" config/config/bot.yaml
     fi
 fi
 echo -en ${yellow}执行完成 回车继续${background};read
@@ -797,6 +812,7 @@ Number=$(whiptail \
 20 40 10 \
 "1" "安装ffmpeg" \
 "2" "安装python3.10 pip poetry" \
+"3" "部署签名服务器" \
 "0" "退出" \
 3>&1 1>&2 2>&3)
 feedback=$?
@@ -872,10 +888,8 @@ done
 echo
 echo -en ${yellow}安装完成 回车返回${background};read
 ;;
-0)
-echo
-;;
-esac
+3)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer.sh)
 ;;
 0)
 exit
