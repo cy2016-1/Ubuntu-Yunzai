@@ -15,7 +15,7 @@ export JAVA_HOME=$HOME/QSignServer/jdk
 fi
 if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
-export PNPM_HOME:/usr/local/node/bin
+export PNPM_HOME=/usr/local/node/bin
 fi
 if [ -d $HOME/QSignServer/node/bin ];then
 export PATH=$PATH:$HOME/QSignServer/node/bin
@@ -164,8 +164,9 @@ exit
 fi
 if [ ! -d $HOME/QSignServer/txlib ];then
 mkdir -p $HOME/QSignServer/txlib
-git clone --depth=1 -b 1.1.6 https://ghproxy.com/https://github.com/fuqiuluo/unidbg-fetch-qsign
-mv unidbg-fetch-qsign/txlib/* $HOME/QSignServer/txlib
+git clone --depth=1 -b 1.1.5 https://gitee.com/baihu433/unidbg-fetch-qsign
+rm -rf $HOME/QSignServer/txlib
+mv -f unidbg-fetch-qsign/txlib $HOME/QSignServer/txlib
 rm -rf unidbg-fetch-qsign
 fi
 until axel -n 32 -o qsign.zip -c ${QSIGN_URL}
@@ -193,7 +194,7 @@ echo -e ${white}"====="${green}白狐-QSignServer${white}"====="${background}
 echo -e ${cyan}请选择您想让您签名服务器适配的QQ版本${background}
 echo -e  ${green}1.  ${cyan}8.9.63${background}
 echo -e  ${green}2.  ${cyan}8.9.68${background}
-echo -e  ${green}2.  ${cyan}8.9.70${background}
+#echo -e  ${green}2.  ${cyan}8.9.70${background}
 echo "========================="
 echo -en ${green}请输入您的选项: ${background};read num
 case ${num} in
@@ -202,9 +203,6 @@ export version=8.9.63
 ;;
 2|8.9.68)
 export version=8.9.68
-;;
-3|8.9.70)
-export version=8.9.70
 ;;
 *)
 echo
