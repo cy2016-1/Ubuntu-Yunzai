@@ -10,12 +10,16 @@ export PATH=$PATH:$HOME/QSignServer/jdk/bin
 export JAVA_HOME=$HOME/QSignServer/jdk
 fi
 if [ -d /usr/local/node/bin ];then
-PATH=$PATH:/usr/local/node/bin
-export PNPM_HOME=/usr/local/node/bin
+export PATH=$PATH:/usr/local/node/bin
+export PNPM_HOME:/usr/local/node/bin
 fi
 if [ -d $HOME/QSignServer/node/bin ];then
 export PATH=$PATH:$HOME/QSignServer/node/bin
 export PNPM_HOME=$HOME/QSignServer/node/bin
+fi
+if [ -d /usr/lib/node_modules/pnpm/bin ];then
+export PATH=$PATH:/usr/lib/node_modules/pnpm/bin
+export PNPM_HOME=/usr/lib/node_modules/pnpm/bin
 fi
 function install_QSignServer(){
 case $(uname -m) in
@@ -146,6 +150,7 @@ if ! [ -x "$(command -v pm2)" ];then
     until pnpm install -g pm2@latest
     do
       echo -e ${red}pm2安装失败 ${green}正在重试${background}
+      setup
     done
     echo
 fi
