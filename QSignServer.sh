@@ -1,8 +1,4 @@
 #!/bin/env bash
-if [ -d /data/data/com.termux ];then
-echo -e "\033[31m干什么呢？大聪明，这里是termux呀!!!!\033[0m"
-exit
-fi
 function main(){
 cd $HOME
 if [ -d $HOME/QSignServer/jdk ];then
