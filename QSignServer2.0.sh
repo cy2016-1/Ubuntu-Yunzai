@@ -7,6 +7,10 @@ purple="\033[35m"
 cyan="\033[36m"
 white="\033[37m"
 background="\033[0m"
+if [ "$(uname -o)" = "Android" ];then
+echo -e ${red}你是大聪明吗?${background}
+exit
+fi
 function main(){
 cd $HOME
 if [ -d $HOME/QSignServer/jdk ];then
@@ -26,6 +30,20 @@ export PATH=$PATH:/usr/lib/node_modules/pnpm/bin
 export PNPM_HOME=/usr/lib/node_modules/pnpm/bin
 fi
 function install_QSignServer(){
+if [ ! $(command -v git) ] || [ ! $(command -v axel) ] || [ ! $(command -v gzip) ] || [ ! $(command -v unzip) ] || [ ! $(command -v xz) ];then
+    if [ $(command -v apt) ];then
+        apt update -y
+        apt install -y git axel gzip unzip xz-utils
+    elif [ $(command -v yum) ];then
+        yum update -y
+        yum install -y git axel gzip unzip xz
+    elif [ $(command -v dnf) ];then
+        dnf update -y
+        dnf install -y git axel gzip unzip xz
+    elif [ $(command -v pacman) ];then
+        pacman -Sy --noconfirm --needed git axel gzip unzip xz
+    fi
+fi
 case $(uname -m) in
 amd64|x86_64)
 JDK_URL="https://cdn.azul.com/zulu/bin/zulu8.70.0.23-ca-jdk8.0.372-linux_x64.tar.gz"
@@ -36,33 +54,6 @@ JDK_URL="https://cdn.azul.com/zulu-embedded/bin/zulu8.70.0.23-ca-jdk8.0.372-linu
 node=arm64
 ;;
 esac
-if ! [ -x "$(command -v axel)" ];then
-    echo -e ${yellow}安装axel下载器${background}
-    until apt install -y axel
-    do
-      echo -e ${red}axel下载器安装失败 ${green}正在重试${background}
-    done
-    echo
-fi
-
-if ! [ -x "$(command -v unar)" ];then
-    echo -e ${yellow}安装unar解压器${background}
-    until apt install -y unar
-    do
-      echo -e ${red}安装unar解压器安装失败 ${green}正在重试${background}
-    done
-    echo
-fi
-
-if ! [ -x "$(command -v git)" ];then
-    echo -e ${yellow}安装git${background}
-    until apt install -y git
-    do
-      echo -e ${red}安装git安装失败 ${green}正在重试${background}
-    done
-    echo
-fi
-
 JAVA_VERSION=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
 if [[ ! "${JAVA_VERSION}" == "1.8"* ]]; then
     until axel -n 32 -o jdk.tar.gz -c ${JDK_URL}
@@ -73,9 +64,10 @@ if [[ ! "${JAVA_VERSION}" == "1.8"* ]]; then
         mkdir QSignServer
     fi
     echo -e ${yellow}正在解压JDK文件,请耐心等候${background}
-    unar -q jdk.tar.gz -o jdk
-    rm -rf jdk.tar.gz
+    mkdir jdk
+    tar -zxf jdk.tar.gz -C jdk
     mv jdk/$(ls jdk) QSignServer/jdk
+    rm -rf jdk.tar.gz
     rm -rf jdk
     PATH=$PATH:$HOME/QSignServer/jdk/bin
     export JAVA_HOME=$HOME/QSignServer/jdk
@@ -98,7 +90,8 @@ if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v18" ]]
     mkdir node
     fi
     echo -e ${yellow}正在解压nodejs二进制文件压缩包${background}
-    unar -q node.tar.xz -o node
+    mkdir node
+    tar -xJf node.tar.xz -C node
     mv -f node/$(ls node) $HOME/QSignServer/node
     rm -rf node.tar.xz
     rm -rf node
