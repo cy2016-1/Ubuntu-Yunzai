@@ -1,9 +1,9 @@
 #!/bin/env bash
-if ! [ "$(uname -o)" = "Android" ]; then
+if [ "$(uname -o)" = "Android" ]; then
 	echo "看来你是大聪明 加Q群获取帮助吧 596660282"
 	exit 1
 fi
-if ! [ -d /data/data/com.termux ];then
+if [ -d /data/data/com.termux ];then
 	echo "看来你是大聪明 加Q群获取帮助吧 596660282"
 	exit 1
 fi

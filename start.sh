@@ -16,20 +16,15 @@ echo -e "\033[33mproot-distro login ubuntu\033[0m"
 exit 0
 fi
 sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
+yes Y | pkg update -y | pkg upgrade -y
 sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
+yes Y | pkg update -y | pkg upgrade -y
 sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
-echo -e '\033[33m卡住直接回车\033[0m'
-sleep 1s
-echo -e '\033[33m卡住直接回车\033[0m'
-sleep 1s 
-echo -e '\033[33m卡住直接回车\033[0m'
-sleep 1s
-apt update -y && apt upgrade -y
-apt update -y && apt upgrade -y
+yes Y | pkg update -y && pkg upgrade -y
 apt install git wget proot-distro -y
 echo -e '\033[36m请允许存储与后台权\033[0m'
 sleep 1s
-termux-setup-storage
+echo y | termux-setup-storage
 sleep 3s
 termux-wake-lock
 echo "proot-distro login ubuntu" > $PREFIX/bin/U
@@ -57,8 +52,8 @@ case $(uname -m) in
     exit
     ;;
 esac
-wget -O ubuntu-${ubuntu}-pd-v3.5.1.tar.xz https://ghproxy.com/https://github.com/termux/proot-distro/releases/download/v3.10.0/ubuntu-${ubuntu}-pd-v3.10.0.tar.xz
-mv ubuntu-${ubuntu}-pd-v3.5.1.tar.xz ../usr/var/lib/proot-distro/dlcache
+wget -O ubuntu-${ubuntu}-pd-v3.10.0.tar.xz https://ghproxy.com/https://github.com/termux/proot-distro/releases/download/v3.10.0/ubuntu-${ubuntu}-pd-v3.10.0.tar.xz
+mv -f ubuntu-${ubuntu}-pd-v3.10.0.tar.xz ../usr/var/lib/proot-distro/dlcache
 proot-distro install ubuntu
 wget -O YZ.sh https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/YZ.sh
 mv YZ.sh ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/

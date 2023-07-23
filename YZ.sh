@@ -9,10 +9,10 @@ eatmydata apt install -y fonts-wqy* language-pack-zh* locales-all redis redis-se
 echo 'export LANG="zh_CN.UTF-8"' >> /etc/profile
 export LANG="zh_CN.UTF-8"
 echo "deb http://ftp.cn.debian.org/debian sid main" >> /etc/apt/sources.list
+eatmydata apt install -y gnupg gnupg1 gnupg2
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131
 apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
 apt update -y
-eatmydata apt install -y gnupg gnupg1 gnupg2
 eatmydata apt install -y chromium
 rm -rf /etc/apt/trusted.gpg
 sed -i "s/deb http:\/\/ftp.cn.debian.org\/debian sid main//g" /etc/apt/sources.list

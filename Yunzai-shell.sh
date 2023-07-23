@@ -10,7 +10,7 @@ if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.3.9
+ver=5.4.0
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -91,10 +91,10 @@ fi
 
 function chromium_install(){
 echo "deb http://ftp.cn.debian.org/debian sid main" >> /etc/apt/sources.list
+apt install -y gnupg gnupg1 gnupg2
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131
 apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
 apt update -y
-apt install -y gnupg gnupg1 gnupg2
 apt install -y chromium
 rm -rf /etc/apt/trusted.gpg
 sed -i "s/deb http:\/\/ftp.cn.debian.org\/debian sid main//g" /etc/apt/sources.list
@@ -451,10 +451,10 @@ fi
 case ${ErrorRepair} in
 1)
 echo "deb http://ftp.cn.debian.org/debian sid main" >> /etc/apt/sources.list
+apt install -y gnupg gnupg1 gnupg2
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131
 apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
 apt update -y
-apt install -y gnupg gnupg1 gnupg2
 apt install -y chromium
 rm -rf /etc/apt/trusted.gpg
 sed -i "s/deb http:\/\/ftp.cn.debian.org\/debian sid main//g" /etc/apt/sources.list
