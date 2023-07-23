@@ -3,10 +3,6 @@ if [ "$(uname -o)" = "Android" ]; then
 	echo "看来你是大聪明 加Q群获取帮助吧 596660282"
 	exit 1
 fi
-if [ -d /data/data/com.termux ];then
-	echo "看来你是大聪明 加Q群获取帮助吧 596660282"
-	exit 1
-fi
 #检查系统及root用户
 if ! [ "$(uname)" == "Linux" ];then
 echo -e "\033[31m 请使用linux! \033[0m"

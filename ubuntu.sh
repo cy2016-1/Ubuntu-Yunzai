@@ -3,10 +3,6 @@ if ! [ "$(uname -o)" = "Android" ]; then
 	echo "非termux 停止运行"
 	exit 1
 fi
-if ! [ -d /data/data/com.termux ];then
-	echo "非termux 停止运行"
-	exit 1
-fi
 folder=ubuntu
 if [ -d "${folder}" ]; then
 	first=1
