@@ -42,6 +42,9 @@ if [ ! $(command -v git) ] || [ ! $(command -v axel) ] || [ ! $(command -v gzip)
         dnf install -y git axel gzip unzip xz
     elif [ $(command -v pacman) ];then
         pacman -Sy --noconfirm --needed git axel gzip unzip xz
+    elif [ $(command -v apk) ];then
+        apk update
+        apk add git axel gzip unzip xz
     fi
 fi
 case $(uname -m) in
@@ -167,7 +170,7 @@ until axel -n 32 -o qsign.zip -c ${QSIGN_URL}
     echo -e ${red}下载失败 ${green}正在重试${background}
   done
 echo -e ${yellow}正在解压qsign文件压缩包${background}
-    unar -q qsign.zip -o qsign
+    unzip -q qsign.zip -d qsign
     mv $HOME/qsign/$(ls qsign) $HOME/QSignServer/qsign${QSIGN_VERSION}
     rm -rf qsign.zip
     rm -rf qsign

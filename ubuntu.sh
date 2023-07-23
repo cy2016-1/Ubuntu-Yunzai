@@ -22,11 +22,11 @@ sleep 1s
 echo -e '\033[33m卡住直接回车\033[0m'
 sleep 1s
 sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
-apt update && apt upgrade -y
+yes Y | pkg update -y | pkg upgrade -y
 sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
-apt update && apt upgrade -y
+yes Y | pkg update -y | pkg upgrade -y
 sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
-apt update && apt upgrade -y
+yes Y | pkg update -y && pkg upgrade -y
 pkg install openssl-tool pulseaudio proot -y
 rootfs="ubuntu-rootfs.tar.xz"
 if [ "${first}" != 1 ];then

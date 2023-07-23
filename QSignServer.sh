@@ -7,7 +7,7 @@ export JAVA_HOME=$HOME/QSignServer/jdk
 fi
 if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
-export PNPM_HOME:/usr/local/node/bin
+export PNPM_HOME=/usr/local/node/bin
 fi
 if [ -d $HOME/QSignServer/node/bin ];then
 export PATH=$PATH:$HOME/QSignServer/node/bin
@@ -51,7 +51,7 @@ if [ ! -d QSignServer ];then
     do
       echo -e ${red}下载失败 ${green}正在重试${background}
     done
-    unar qsign.zip
+    unar -p qsign.zip
     mkdir QSignServer
     mv unidbg-fetch-qsign-shadow-1.1.5 QSignServer/qsign
     rm -f qsign.zip
@@ -65,11 +65,6 @@ if [ ! -d QSignServer ];then
     rm -r jdk
     PATH=$PATH:$HOME/QSignServer/jdk/bin
     export JAVA_HOME=$HOME/QSignServer/jdk
-echo '
-#jdk
-export PATH=$PATH:$HOME/QSignServer/jdk/bin
-export JAVA_HOME=$HOME/QSignServer/jdk ' >> /etc/profile
-fi
 function binaries_nodejs_install(){
 case $(uname -m) in
 x86_64|amd64)
@@ -94,13 +89,9 @@ if ! tar -xf node.tar.xz -C node ;then
   if ! [ -x "$(command -v unar)" ];then
     apt install -y unar
   fi
-  unar node.tar.xz -o node
+  unar -p node.tar.xz -o node
 fi
 mv -f node/$(ls node) $HOME/QSignServer/node
-echo '
-#Node.JS
-export PATH=$PATH:$HOME/QSignServer/node/bin
-export PNPM_HOME=$HOME/QSignServer/node/bin' >> /etc/profile
 export PATH=$PATH:$HOME/QSignServer/node/bin
 export PNPM_HOME=$HOME/QSignServer/node/bin
 source /etc/profile
@@ -140,7 +131,7 @@ if ! [ -x "$(command -v pnpm)" ];then
     echo
 fi
 if ! [ -x "$(command -v pm2)" ];then
-    echo -e ${yellow}正在使用pnpm安装pnpm${background}
+    echo -e ${yellow}正在使用pnpm安装pm2${background}
     pnpm config set registry https://registry.npmmirror.com
     pnpm config set registry https://registry.npmmirror.com
     until pnpm install -g pm2@latest
@@ -204,7 +195,7 @@ echo -en ${yellow}卸载完成 回车返回${background};read
 }
 
 function key_QSignServer(){
-file="$HOME/QSignServer/qsign/txlib/8.9.63/config.json"
+file="$HOME/QSignServer/qsign/txlib/8.9.68/config.json"
 key=$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )
 echo -en ${green}请输入您要更改的key值: ${background};read number
 sed -i "s/${key}/${number}/g" ${file}
@@ -212,17 +203,17 @@ echo -en ${yellow}更改完成 回车返回${background};read
 }
 
 function port_QSignServer(){
-file="$HOME/QSignServer/qsign/txlib/8.9.63/config.json"
+file="$HOME/QSignServer/qsign/txlib/8.9.68/config.json"
 port=$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )
 echo -en ${green}请输入您要更改的key值: ${background};read number
 sed -i "s/${port}/${number}/g" ${file}
 echo -en ${yellow}更改完成 回车返回${background};read
 }
-if [ -d QSignServer ];then
-file="$HOME/QSignServer/qsign/txlib/8.9.63/config.json"
+if [ -d QSignServer/qsign ];then
+file="$HOME/QSignServer/qsign/txlib/8.9.68/config.json"
 port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
 key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
-host="$(grep -E host ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
+#host="$(grep -E host ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
 fi
 red="\033[31m"
 green="\033[32m"
@@ -244,7 +235,7 @@ echo -e  ${green}7.  ${cyan}修改签名服务器端口${background}
 echo -e  ${green}8.  ${cyan}清理签名服务器日志${background}
 echo -e  ${green}0.  ${cyan}退出${background}
 echo "========================="
-#echo -e ${green}您的api链接: "127.0.0.1":"${port}"/sign?key="${key}"${background}
+echo -e ${green}您的签名服务器链接:${cyan}http://127.0.0.1:${port}/sign?key=${key}${background}
 echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
 echo "========================="
 echo

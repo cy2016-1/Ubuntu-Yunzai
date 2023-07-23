@@ -1134,78 +1134,78 @@ fi
 
 choose_page
 
-plugin_name=$(echo ${number} | sed "s/\"//g")
-for plugin in ${plugin_name}
+plugin_number=$(echo ${number} | sed "s/\"//g")
+for plugin in ${plugin_number}
 do
   case ${plugin} in
    1)
      Name=喵喵插件
      Plugin=miao-plugin
      Git=https://gitee.com/yoimiya-kokomi/miao-plugin.git 
-     plugin_name=$(echo ${plugin_name} | sed "s/1//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/1//g")
      install_git_plugin${_checklist}
      ;;
    2)
      Name=逍遥图鉴
      Plugin=xiaoyao-cvs-plugin
      Git=https://gitee.com/Ctrlcvs/xiaoyao-cvs-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/2//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/2//g")
      install_git_plugin${_checklist}
      ;;
    3)
      Name=锅巴插件
      Plugin=Guoba-Plugin
      Git=https://gitee.com/guoba-yunzai/guoba-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/3//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/3//g")
      install_git_plugin${_checklist}
      ;;
    4)
      Name=白纸插件
      Plugin=zhi-plugin
      Git=https://gitee.com/headmastertan/zhi-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/4//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/4//g")
      install_git_plugin${_checklist}
      ;;
    5)
      Name=戏天插件
      Plugin=xitian-plugin
      Git=https://gitee.com/XiTianGame/xitian-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/5//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/5//g")
      install_git_plugin${_checklist}
      ;;
    6)
      Name=虚空插件
      Plugin=akasha-terminal-plugin
      Git=https://gitee.com/go-farther-and-farther/akasha-terminal-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/6//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/6//g")
      install_git_plugin${_checklist}
      ;;
    7)
      Name=修仙插件
      Plugin=xiuxian@2.0.0
      Git=https://gitee.com/ningmengchongshui/xiuxian-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/7//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/7//g")
      install_git_plugin${_checklist}
      ;;
    8)
      Name=椰奶插件
      Plugin=yenai-plugin
      Git=https://gitee.com/yeyang52/yenai-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/8//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/8//g")
      install_git_plugin${_checklist}
      ;;
    9)
      Name=小飞插件
      Plugin=xiaofei-plugin
      Git=https://gitee.com/xfdown/xiaofei-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/9//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/9//g")
      install_git_plugin${_checklist}
      ;;
    10)
      Name=土块插件
      Plugin=earth-k-plugin
      Git=https://gitee.com/SmallK111407/earth-k-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/10//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/10//g")
      install_git_plugin${_checklist}
      ;;
    11)
@@ -1220,7 +1220,7 @@ do
      Name=py插件
      Plugin=py-plugin
      Git=https://gitee.com/realhuhu/py-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/11//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/11//g")
      install_git_plugin${_checklist}
    if [ -d plugins/py-plugin ]
    then
@@ -1265,14 +1265,14 @@ do
      Name=闲心插件
      Plugin=xianxin-plugin
      Git=https://gitee.com/xianxincoder/xianxin-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/12//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/12//g")
      install_git_plugin${_checklist}
      ;;
    13)
      Name=麟插件
      Plugin=lin-plugin
      Git=https://gitee.com/go-farther-and-farther/lin-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/13//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/13//g")
      install_git_plugin${_checklist}
      ;;
    14)
@@ -1280,49 +1280,49 @@ do
      Plugin=l-plugin
      ghproxy_agency
      Git=${ghproxy}https://github.com/liuly0322/l-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/14//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/14//g")
      install_git_plugin${_checklist}
      ;;
    15)
      Name=千羽插件
      Plugin=qianyu-plugin
      Git=https://gitee.com/think-first-sxs/qianyu-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/15//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/15//g")
      install_git_plugin${_checklist}
      ;;
    16)
      Name=清凉图插件
      Plugin=yunzai-c-v-plugin
      Git=https://gitee.com/xwy231321/yunzai-c-v-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/16//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/16//g")
      install_git_plugin${_checklist}
      ;;
    17)
      Name=抽卡插件
      Plugin=flower-plugin
      Git=https://gitee.com/Nwflower/flower-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/17//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/17//g")
      install_git_plugin${_checklist}
      ;;
    18)
      Name=自动化插件
      Plugin=auto-plugin
      Git=https://gitee.com/Nwflower/auto-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/18//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/18//g")
      install_git_plugin${_checklist}
      ;;
    19)
      Name=娱乐插件
      Plugin=recreation-plugin
      Git=https://gitee.com/zzyAJohn/recreation-plugin
-     plugin_name=$(echo ${plugin_name} | sed "s/19//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/19//g")
      install_git_plugin${_checklist}
      ;;
    20)
      Name=碎月插件
      Plugin=suiyue
      Git=https://gitee.com/Acceleratorsky/suiyue.git
-     plugin_name=$(echo ${plugin_name} | sed "s/20//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/20//g")
      install_git_plugin${_checklist}
      ;;
    21)
@@ -1330,35 +1330,35 @@ do
      Plugin=windoge-plugin
      ghproxy_agency
      Git=${ghproxy}https://github.com/gxy12345/windoge-plugin
-     plugin_name=$(echo ${plugin_name} | sed "s/21//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/21//g")
      install_git_plugin${_checklist}
      ;;
    22)
      Name=Atlas[图鉴]
      Plugin=Atlas
      Git=https://gitee.com/Nwflower/atlas
-     plugin_name=$(echo ${plugin_name} | sed "s/22//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/22//g")
      install_git_plugin${_checklist}
      ;;
    23)
      Name=止水插件
      Plugin=zhishui-plugin
      Git=https://gitee.com/fjcq/zhishui-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/23//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/23//g")
      install_git_plugin${_checklist}
      ;;
    24)
      Name=trss插件
      Plugin=TRSS-Plugin
      Git=https://gitee.com/TimeRainStarSky/TRSS-Plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/24//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/24//g")
      install_git_plugin${_checklist}
      ;;
    25)
      Name=脆脆鲨插件
      Plugin=Jinmaocuicuisha-plugin
      Git=https://gitee.com/JMCCS/jinmaocuicuisha.git
-     plugin_name=$(echo ${plugin_name} | sed "s/25//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/25//g")
      install_git_plugin${_checklist}
      ;;
    26)
@@ -1367,70 +1367,70 @@ do
      Name=半柠檬插件
      Plugin=alemon-plugin
      Git=https://gitee.com/ningmengchongshui/alemon-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/26//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/26//g")
      install_git_plugin${_checklist}
      ;;
    27)
      Name=榴莲插件
      Plugin=liulian-plugin
      Git=https://gitee.com/huifeidemangguomao/liulian-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/27//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/27//g")
      install_git_plugin${_checklist}
      ;;
    28)
      Name=小叶插件
      Plugin=xiaoye-plugin
      Git=https://gitee.com/xiaoye12123/xiaoye-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/28//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/28//g")
      install_git_plugin${_checklist}
      ;;
    29)
      Name=R插件
      Plugin=rconsole-plugin
      Git=https://gitee.com/kyrzy0416/rconsole-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/29//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/29//g")
      install_git_plugin${_checklist}
      ;;
    30)
      Name=扩展插件
      Plugin=expand-plugin
      Git=https://gitee.com/SmallK111407/expand-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/30//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/30//g")
      install_git_plugin${_checklist}
      ;;
    31)
      Name=小雪插件
      Plugin=XiaoXuePlugin
      Git=https://gitee.com/XueWerY/XiaoXuePlugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/31//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/31//g")
      install_git_plugin${_checklist}
      ;;
    32)
      Name=冰祈插件
      Plugin=Icepray
      Git=https://gitee.com/koinori/Icepray.git
-     plugin_name=$(echo ${plugin_name} | sed "s/32//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/32//g")
      install_git_plugin${_checklist}
      ;;
    33)
      Name=光遇插件
      Plugin=Tlon-Sky
      Git=https://gitee.com/Tloml-Starry/Tlon-Sky.git
-     plugin_name=$(echo ${plugin_name} | sed "s/33//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/33//g")
      install_git_plugin${_checklist}
      ;;
    34)
      Name=枫叶插件
      Plugin=hs-qiqi-plugin
      Git=https://gitee.com/kesally/hs-qiqi-cv-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/34//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/34//g")
      install_git_plugin${_checklist}
      ;;
    35)
      Name=七圣召唤插件
      Plugin=call_of_seven_saints
      Git=https://gitee.com/huangshx2001/call_of_seven_saints.git
-     plugin_name=$(echo ${plugin_name} | sed "s/35//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/35//g")
      install_git_plugin${_checklist}
      ;;
    36)
@@ -1438,21 +1438,21 @@ do
      Plugin=QQGuild-Plugin
      ghproxy_agency
      Git=${ghproxy}https://github.com/2y8e9h22/QQGuild-Plugin
-     plugin_name=$(echo ${plugin_name} | sed "s/36//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/36//g")
      install_git_plugin${_checklist}
      ;;
    37)
      Name=小月插件
      Plugin=xiaoyue-plugin
      Git=https://gitee.com/yunxiyuan/xiaoyue-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/37//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/37//g")
      install_git_plugin${_checklist}
      ;;
    38)
      Name=fans插件
      Plugin=FanSky_Qs
      Git=https://gitee.com/FanSky_Qs/FanSky_Qs.git
-     plugin_name=$(echo ${plugin_name} | sed "s/38//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/38//g")
      install_git_plugin${_checklist}
      ;;
    39)
@@ -1460,21 +1460,21 @@ do
      Plugin=phi-plugin
      ghproxy_agency
      Git=${ghproxy}https://github.com/Catrong/phi-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/39//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/39//g")
      install_git_plugin${_checklist}
      ;;
    40)
      Name=ap绘图插件
      Plugin=ap-plugin
      Git=https://gitee.com/yhArcadia/ap-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/40//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/40//g")
      install_git_plugin${_checklist}
      ;;
    41)
      Name=三一插件
      Plugin=sanyi-plugin
      Git=https://gitee.com/ThreeYi/sanyi-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/41//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/41//g")
      install_git_plugin${_checklist}
      ;;
    42)
@@ -1482,63 +1482,63 @@ do
      Plugin=chatgpt-plugin
      ghproxy_agency
      Git=${ghproxy}https://github.com/ikechan8370/chatgpt-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/42//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/42//g")
      install_git_plugin${_checklist}
      ;;
    43)
      Name=阴天插件
      Plugin=y-tian-plugin
      Git=https://gitee.com/wan13877501248/y-tian-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/43//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/43//g")
      install_git_plugin${_checklist}
      ;;
    44)
      Name=咸鱼插件
      Plugin=xianyu-plugin
      Git=https://gitee.com/suancaixianyu/xianyu-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/44//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/44//g")
      install_git_plugin${_checklist}
      ;;
    45)
      Name=星穹铁道插件
      Plugin=StarRail-plugin
      Git=https://gitee.com/hewang1an/StarRail-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/45//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/45//g")
      install_git_plugin${_checklist}
      ;;
    46)
      Name=面板图插件
      Plugin=panel-plugin
      Git=https://gitee.com/yunzai-panel/panel-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/46//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/46//g")
      install_git_plugin${_checklist}
      ;;
    47)
      Name=憨憨插件
      Plugin=hanhan-plugin
      Git=https://gitee.com/han-hanz/hanhan-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/47//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/47//g")
      install_git_plugin${_checklist}
      ;;
    48)
      Name=鳄梨插件
      Plugin=avocado-plugin
      Git=https://gitee.com/sean_l/avocado-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/48//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/48//g")
      install_git_plugin${_checklist}
      ;;
    49)
      Name=寸幼萱插件
      Plugin=cunyx-plugin
      Git=https://gitee.com/cunyx/cunyx-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/49//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/49//g")
      install_git_plugin${_checklist}
      ;;
    50)
      Name=天如插件
      Plugin=tianru-plugin
      Git=https://gitee.com/HDTianRu/TianRu-plugin.git
-     plugin_name=$(echo ${plugin_name} | sed "s/50//g")
+     plugin_number=$(echo ${plugin_number} | sed "s/50//g")
      install_git_plugin${_checklist}
      ;;
    0)

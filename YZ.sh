@@ -141,6 +141,7 @@ pnpm config set registry https://registry.npmmirror.com
 until echo "Y" | pnpm install -P && echo "Y" | pnpm install
 do
   echo -e ${red}依赖安装失败 ${green}正在重试${background}
+  export PNPM_HOME="/usr/local/node/bin"
   pnpm setup
   source ~/.bashrc
   a=$(($a+1))
@@ -164,5 +165,4 @@ echo -en ${yellow}安装完成 回车继续${background}
 fi
 curl -o /usr/local/bin/bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh
 chmod +x /usr/local/bin/bhyz
-rm wget.log > /dev/null 2>&1
 bhyz

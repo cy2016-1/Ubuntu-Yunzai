@@ -10,7 +10,7 @@ if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.3.8
+ver=5.3.9
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -667,13 +667,15 @@ if (whiptail --title "白狐" \
         #echo "sign_api_addr: ${http}${apilink}${sign}${key}"
         sed -i "\$a\sign_api_addr: ${http}${apilink}${sign}${key}" config/config/bot.yaml
     else
+        echo -e ${red}您的BOT应该至少启动过一次${background}
+    fi
+  else
         sed -i '/sign_api_addr/d' config/config/bot.yaml
-        file="$HOME/QSignServer/qsign/txlib/8.9.63/config.json"
+        file="$HOME/QSignServer/txlib/8.9.68/config.json"
         port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
         key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
-        echo -e http://127.0.0.1:${port}/sign?key=${key}
+        echo -e "http://127.0.0.1:${port}/sign?key=${key}"
         sed -i "\$a\sign_api_addr: http://127.0.0.1:${prot}/sign?key=${key}" config/config/bot.yaml
-    fi
 fi
 echo -en ${yellow}执行完成 回车继续${background};read
 ;;
