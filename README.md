@@ -32,10 +32,6 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 >选择下载`arm64`版 然后使用下面的命令
 
 ```
-bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/ubuntu.sh)
-
-#下面这条命令仅供开发者测试使用,用户请不要执行!!!
-
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/start.sh)
 ```
 

@@ -54,6 +54,8 @@ proot-distro install ubuntu
 wget -O YZ.sh https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/YZ.sh
 mv YZ.sh ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/
 mkdir ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/.fox@bot
+echo > ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/usr/bin/locale-check
+chmod +x ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/usr/bin/locale-check
 echo "bash YZ.sh" >> ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/.bashrc
 ln -s ../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/.fox@bot $HOME/fox@bot
 echo "proot-distro login ubuntu" > .bashrc

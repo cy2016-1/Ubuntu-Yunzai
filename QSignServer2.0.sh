@@ -240,6 +240,7 @@ exit
 fi
 if ! pm2 show qsign110 | grep -q online ;then
     pm2 start --name qsign110 "bash $HOME/QSignServer/qsign110/bin/unidbg-fetch-qsign --host=0.0.0.0 --port=23500 --count=1 --library=$HOME/QSignServer/txlib/${version} --android_id=GGw0JRIMXn5a"
+    
     echo
     echo -en ${yellow}签名服务器已经启动,是否打开日志 [Y/n]${background};read num
     case $num in
