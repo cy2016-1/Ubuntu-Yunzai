@@ -11,7 +11,7 @@ if [ "$(uname -o)" = "Android" ];then
 echo -e ${red}你是大聪明吗?${background}
 exit
 fi
-if ! [ "$(uname -o)" = "Linux" ]; then
+if ! [ "$(uname)" = "Linux" ]; then
 	echo -e ${red}你是大聪明吗?${background}
     exit
 fi
