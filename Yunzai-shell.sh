@@ -327,7 +327,7 @@ done
 pnpm uninstall puppeteer -w
 pnpm install puppeteer@19.0.0 -w
 pnpm uninstall icqq -w
-pnpm install -w icqq@latest
+pnpm install -w icqq@0.4.11
 cd ~/.fox@bot/${name}
 echo -en ${yellow}正在初始化${background}
 pnpm start
@@ -616,14 +616,14 @@ echo -en ${cyan}回车返回${background};read
 cd ~/${name}
 echo -e ${yellow}正在更新 $(ls ..)${background}
 git pull
-icqq=$(grep version node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
-icqq_latest=$(curl -sL https://ghproxy.com/https://github.com/icqqjs/icqq/raw/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
-if [ ! "${icqq_latest}" = "${icqq}" ];then
+#icqq=$(grep version node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
+#icqq_latest=$(curl -sL https://ghproxy.com/https://github.com/icqqjs/icqq/raw/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
+#if [ ! "${icqq_latest}" = "${icqq}" ];then
 #sed -i "s/${icqq}/${icqq_latest}/g" package.json
-echo "Y" | pnpm install
-pnpm uninstall icqq -w
-pnpm install icqq@latest -w
-fi
+#echo "Y" | pnpm install
+#pnpm uninstall icqq -w
+#pnpm install icqq@latest -w
+#fi
 if (whiptail --title "白狐" \
 --yes-button "第三方签名服务器" \
 --no-button "本机签名服务器" \
