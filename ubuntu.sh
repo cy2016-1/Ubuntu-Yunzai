@@ -70,7 +70,7 @@ unset LD_PRELOAD
 command="proot"
 command+=" --link2symlink"
 command+=" -0"
-command+=" -r /data/data/com.termux/files/home/fox/ubuntu"
+command+=" -r ubuntu"
 command+=" -b /dev"
 command+=" -b /proc"
 command+=" -b ubuntu/root:/dev/shm"
