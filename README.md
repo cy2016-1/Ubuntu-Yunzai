@@ -116,6 +116,9 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 
 | 名称 | 金额 |
 |----|----|
+|笙凉|`20`元|
+|小云睡大觉|`45`元|
+|慕言|`19.05`元|
 |受不了了|5元|
 |Armani|2元|
 |小伟|10元|
@@ -131,13 +134,10 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 |鱼|8.66元|
 |好心人|2元|
 |冷风|1元|
-|慕言|19.05元|
-|小云睡大觉|45元|
 |好耶|10元|
 |刻晴|6元|
 |白狐|0.01元|
 |   |5元|
-|笙凉|20元|
 |(ᗜ ˰ ᗜ)|1.01元|
 |百草(白狐准新郎)|0.52元|
 感谢老板 喵~
