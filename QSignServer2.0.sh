@@ -11,6 +11,10 @@ if [ "$(uname -o)" = "Android" ];then
 echo -e ${red}你是大聪明吗?${background}
 exit
 fi
+if ! [ "$(uname -o)" = "Linux" ]; then
+	echo -e ${red}你是大聪明吗?${background}
+    exit
+fi
 function main(){
 cd $HOME
 if [ -d $HOME/QSignServer/jdk ];then
