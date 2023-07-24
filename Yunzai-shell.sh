@@ -891,7 +891,7 @@ echo
 echo -en ${yellow}安装完成 回车返回${background};read
 ;;
 3)
-bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer.sh)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2.0.sh)
 ;;
 0)
 return
