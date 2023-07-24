@@ -1181,6 +1181,8 @@ do
      install_git_plugin${_checklist}
      ;;
    7)
+     echo -e ${red}修仙插件仓库暂时关闭 无法安装${background}
+     exit
      Name=修仙插件
      Plugin=xiuxian@2.0.0
      Git=https://gitee.com/ningmengchongshui/xiuxian-plugin.git
