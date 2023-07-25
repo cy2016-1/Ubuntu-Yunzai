@@ -72,6 +72,7 @@ if [[ ! "${JAVA_VERSION}" == "1.8"* ]]; then
     if [ ! -d $HOME/QSignServer ];then
         mkdir QSignServer
     fi
+    rm -rf QSignServer/jdk 2&> /dev/null
     echo -e ${yellow}正在解压JDK文件,请耐心等候${background}
     mkdir jdk
     tar -zxf jdk.tar.gz -C jdk
@@ -99,6 +100,7 @@ if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v18" ]]
     mkdir node
     fi
     echo -e ${yellow}正在解压nodejs二进制文件压缩包${background}
+    rm -rf $HOME/QSignServer/node
     mkdir node
     tar -xJf node.tar.xz -C node
     mv -f node/$(ls node) $HOME/QSignServer/node
@@ -156,7 +158,12 @@ echo -e ${yellow}正在解压qsign文件压缩包${background}
     rm -rf qsign.zip
     rm -rf qsign
     rm -rf $HOME/QSignServer/qsign${QSIGN_VERSION}/txlib 2&> /dev/null
-echo -en ${yellow}安装完成 回车返回${background};read
+echo -en ${yellow}安装完成 是否启动?[Y/n]${background};read yn
+case ${yn} in
+Y|y)
+start_QSignServer
+;;
+esac
 }
 
 function start_QSignServer(){
@@ -212,7 +219,7 @@ echo -en ${yellow}回车返回${background};read
 function stop_QSignServer(){
 pm2 stop qsign116
 pm2 delete qsign116
-echo -e ${yellowyellow}停止完成 回车返回${background}
+echo -e ${yellow}停止完成 回车返回${background}
 }
 
 function restart_QSignServer(){
@@ -258,7 +265,7 @@ file="$HOME/QSignServer/txlib/${file}/config.json"
 key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
 sed -i "s/${key}/${key_}/g" ${file}
 done
-echo -e ${yellow}更改完成 回车返回${background}
+echo -e ${yellow}更改完成 回车返回${background};read
 }
 
 function port_QSignServer(){
@@ -269,18 +276,29 @@ file="$HOME/QSignServer/txlib/${file}/config.json"
 port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
 sed -i "s/${port}/${port_}/g" ${file}
 done
-echo -e ${yellow}更改完成 回车返回${background}
+echo -e ${yellow}更改完成 回车返回${background};read
+}
+
+function help_QSignServer(){
+echo -e ${green}1. ${cyan}先启动签名服务器,再写入签名服务器地址,最后启动机器人${background}
+echo -e ${green}2. ${cyan}已经启动签名服务器,然后才能使用重启签名服务器,不然请使用启动签名服务器${background}
+echo -e ${yellow}回车返回${background};read
 }
 
 if [ -d $HOME/QSignServer/qsign115 ];then
-qsign_version="1.1.5 ${red}[请更新]"
+    qsign_version="1.1.5 ${red}[请更新]"
 elif [ -d $HOME/QSignServer/qsign116 ];then
-qsign_version=1.1.6
-file="$HOME/QSignServer/txlib/8.9.68/config.json"
-port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
-key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
-host="$(grep -E host ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
-API_LINK="${host}":"${port}"/sign?key="${key}"
+    qsign_version=1.1.6
+    file="$HOME/QSignServer/txlib/8.9.68/config.json"
+    port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
+    key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
+    host="$(grep -E host ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
+    API_LINK="${host}":"${port}"/sign?key="${key}"
+    if pm2 show qsign116 | grep -q online;then
+        condition="${cyan}[已启动]"
+    else
+        condition="${red}[未启动]"
+    fi
 fi
 echo -e ${white}"====="${green}白狐-QSignServer${white}"====="${background}
 echo -e  ${green}1.  ${cyan}安装签名服务器${background}
@@ -292,9 +310,10 @@ echo -e  ${green}6.  ${cyan}卸载签名服务器${background}
 echo -e  ${green}7.  ${cyan}修改签名服务器key值${background}
 echo -e  ${green}8.  ${cyan}修改签名服务器端口${background}
 echo -e  ${green}9.  ${cyan}清理签名服务器日志${background}
+echo -e  ${green}10.  ${cyan}打开签名服务器帮助${background}
 echo -e  ${green}0.  ${cyan}退出${background}
 echo "========================="
-echo -e ${green}您的api链接: ${API_LINK}${background}
+echo -e ${green}您的api链接: ${API_LINK} ${condition}${background}
 echo -e ${green}当前签名服务器版本:${cyan}${qsign_version}${background}
 echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
 echo "========================="
@@ -335,6 +354,9 @@ port_QSignServer
 9)
 echo
 pm2 flush qsign
+;;
+10)
+help_QSignServer
 ;;
 0)
 exit
