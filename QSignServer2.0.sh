@@ -34,16 +34,22 @@ export PATH=$PATH:$HOME/QSignServer/jdk/bin
 export JAVA_HOME=$HOME/QSignServer/jdk
 fi
 if [ -d /usr/local/node/bin ];then
-export PATH=$PATH:/usr/local/node/bin
-export PNPM_HOME=/usr/local/node/bin
+    if [ ! -d $HOME/.local/share/pnpm ];then
+        mkdir -p $HOME/.local/share/pnpm
+    fi
+    export PATH=$PATH:$HOME/.local/share/pnpm
+    export PNPM_HOME=$HOME/.local/share/pnpm
 fi
 if [ -d $HOME/QSignServer/node/bin ];then
 export PATH=$PATH:$HOME/QSignServer/node/bin
 export PNPM_HOME=$HOME/QSignServer/node/bin
 fi
 if [ -d /usr/lib/node_modules/pnpm/bin ];then
-export PATH=$PATH:/usr/lib/node_modules/pnpm/bin
-export PNPM_HOME=/usr/lib/node_modules/pnpm/bin
+    if [ ! -d $HOME/.local/share/pnpm ];then
+        mkdir -p $HOME/.local/share/pnpm
+    fi
+    export PATH=$PATH:$HOME/.local/share/pnpm
+    export PNPM_HOME=$HOME/.local/share/pnpm
 fi
 function install_QSignServer(){
 if [ ! $(command -v git) ] || [ ! $(command -v axel) ] || [ ! $(command -v gzip) ] || [ ! $(command -v unzip) ] || [ ! $(command -v xz) ];then
@@ -258,47 +264,71 @@ rm -rf $HOME/QSignServer 2&> /dev/null
 }
 
 function key_QSignServer(){
-echo -e ${green}请输入更改后的key: ${background};read key_
+echo -en ${green}请输入更改后的key: ${background};read key_
+if [ -z "${key_}" ]; then
+    echo -en ${red}输入错误 回车返回${background}
+    return
+fi
 for file in $(ls $HOME/QSignServer/txlib)
 do
 file="$HOME/QSignServer/txlib/${file}/config.json"
 key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
-sed -i "s/${key}/${key_}/g" ${file}
+sed -i "s/\"key\": \"${key}\"/\"key\": ${key_}/g" ${file}
 done
-echo -e ${yellow}更改完成 回车返回${background};read
+echo -en ${yellow}更改完成 回车返回${background};read
 }
 
 function port_QSignServer(){
-echo -e ${green}请输入更改后的端口号: ${background};read port_
-for file in $(ls $HOME/QSignServer/txlib)
+echo -en ${green}请输入更改后的端口号: ${background};read port_
+if [ -z "${key_}" ]; then
+    echo -en ${red}输入错误 回车返回${background}
+    return
+fi
+for folder in $(ls $HOME/QSignServer/txlib)
 do
-file="$HOME/QSignServer/txlib/${file}/config.json"
+file="$HOME/QSignServer/txlib/${folder}/config.json"
 port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
-sed -i "s/${port}/${port_}/g" ${file}
+sed -i "s/\"port\": ${port}/\"port\": ${port_}/g" ${file}
+done    
+echo -en ${yellow}更改完成 回车返回${background};read
+}
+
+function link_QSignServer(){
+if [ ! -d $HOME/QSignServer/qsign116 ];then
+    echo -en ${red}您还没有部署签名服务器!!! ${cyan}回车返回${background};read
+    return
+fi
+echo -e ${green}您的各版本API链接${background}
+echo
+for folder in $(ls $HOME/QSignServer/txlib)
+do
+file="$HOME/QSignServer/txlib/${folder}/config.json"
+port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
+key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
+host="$(grep -E host ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
+echo -e ${green}${folder}: ${cyan}"http://""${host}":"${port}"/sign?key="${key}"${background}
+echo
 done
-echo -e ${yellow}更改完成 回车返回${background};read
+echo -en ${yellow}回车返回${background};read
 }
 
 function help_QSignServer(){
 echo -e ${green}1. ${cyan}先启动签名服务器,再写入签名服务器地址,最后启动机器人${background}
 echo -e ${green}2. ${cyan}已经启动签名服务器,然后才能使用重启签名服务器,不然请使用启动签名服务器${background}
-echo -e ${yellow}回车返回${background};read
+echo -en ${yellow}回车返回${background};read
 }
 
 if [ -d $HOME/QSignServer/qsign115 ];then
     qsign_version="1.1.5 ${red}[请更新]"
 elif [ -d $HOME/QSignServer/qsign116 ];then
     qsign_version=1.1.6
-    file="$HOME/QSignServer/txlib/8.9.68/config.json"
-    port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
-    key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
-    host="$(grep -E host ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
-    API_LINK="${host}":"${port}"/sign?key="${key}"
     if pm2 show qsign116 | grep -q online;then
         condition="${cyan}[已启动]"
     else
         condition="${red}[未启动]"
     fi
+else
+    API_LINK="${red}[未部署]"
 fi
 echo -e ${white}"====="${green}白狐-QSignServer${white}"====="${background}
 echo -e  ${green}1.  ${cyan}安装签名服务器${background}
@@ -310,10 +340,11 @@ echo -e  ${green}6.  ${cyan}卸载签名服务器${background}
 echo -e  ${green}7.  ${cyan}修改签名服务器key值${background}
 echo -e  ${green}8.  ${cyan}修改签名服务器端口${background}
 echo -e  ${green}9.  ${cyan}清理签名服务器日志${background}
-echo -e  ${green}10.  ${cyan}打开签名服务器帮助${background}
+echo -e  ${green}10.  ${cyan}查看签名服务器链接${background}
+echo -e  ${green}11.  ${cyan}打开签名服务器帮助${background}
 echo -e  ${green}0.  ${cyan}退出${background}
 echo "========================="
-echo -e ${green}您的api链接: ${API_LINK} ${condition}${background}
+echo -e ${green}您的签名服务器状态: ${condition}${background}
 echo -e ${green}当前签名服务器版本:${cyan}${qsign_version}${background}
 echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
 echo "========================="
@@ -356,6 +387,11 @@ echo
 pm2 flush qsign
 ;;
 10)
+echo
+link_QSignServer
+;;
+11)
+echo
 help_QSignServer
 ;;
 0)
