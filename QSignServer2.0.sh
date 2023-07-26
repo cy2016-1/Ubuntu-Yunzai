@@ -52,26 +52,26 @@ if [ -d /usr/lib/node_modules/pnpm/bin ];then
     export PNPM_HOME=$HOME/.local/share/pnpm
 fi
 function install_QSignServer(){
-if [ ! $(command -v git) ] || [ ! $(command -v axel) ] || [ ! $(command -v gzip) ] || [ ! $(command -v unzip) ] || [ ! $(command -v xz) ];then
+if [ ! $(command -v git) ] || [ ! $(command -v wget) ] || [ ! $(command -v gzip) ] || [ ! $(command -v unzip) ] || [ ! $(command -v xz) ];then
     if [ $(command -v apt) ];then
         apt update -y
-        apt install -y git axel gzip unzip xz-utils
+        apt install -y git wget gzip unzip xz-utils
     elif [ $(command -v yum) ];then
         yum update -y
-        yum install -y git axel gzip unzip xz
+        yum install -y git wget gzip unzip xz
     elif [ $(command -v dnf) ];then
         dnf update -y
-        dnf install -y git axel gzip unzip xz
+        dnf install -y git wget gzip unzip xz
     elif [ $(command -v pacman) ];then
-        pacman -Sy --noconfirm --needed git axel gzip unzip xz
+        pacman -Sy --noconfirm --needed git wget gzip unzip xz
     elif [ $(command -v apk) ];then
         apk update
-        apk add git axel gzip unzip xz
+        apk add git wget gzip unzip xz
     fi
 fi
 JAVA_VERSION=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
 if [[ ! "${JAVA_VERSION}" == "1.8"* ]]; then
-    until axel -n 32 -o jdk.tar.gz -c ${JDK_URL}
+    until wget -O jdk.tar.gz -c ${JDK_URL}
     do
       echo -e ${red}下载失败 ${green}正在重试${background}
     done
@@ -154,7 +154,7 @@ rm -rf $HOME/QSignServer/txlib
 mv -f unidbg-fetch-qsign/txlib $HOME/QSignServer/txlib
 rm -rf unidbg-fetch-qsign
 fi
-until axel -n 32 -o qsign.zip -c ${QSIGN_URL}
+until wget -O qsign.zip -c ${QSIGN_URL}
   do
     echo -e ${red}下载失败 ${green}正在重试${background}
   done
@@ -241,7 +241,7 @@ git clone --depth=1 -b 1.1.6 https://gitee.com/baihu433/unidbg-fetch-qsign
 rm -rf $HOME/QSignServer/txlib
 mv -f unidbg-fetch-qsign/txlib $HOME/QSignServer/txlib
 rm -rf unidbg-fetch-qsign
-until axel -n 32 -o qsign.zip -c ${QSIGN_URL}
+until wget -O qsign.zip -c ${QSIGN_URL}
   do
     echo -e ${red}下载失败 ${green}正在重试${background}
   done
