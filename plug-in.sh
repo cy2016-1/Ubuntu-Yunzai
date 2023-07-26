@@ -826,7 +826,10 @@ choose_page
 function pip_mirrors(){
 function py_install(){
 poetry run pip install --upgrade pip -i ${mirror}
-if ! poetry run pip install -r requirements.txt -i ${mirror}
+URL1=$(grep --index-url)
+URL2=${mirror}
+sed -i
+if ! poetry run pip install -r requirements.txt
 then
 echo -en ${red}依赖安装失败 '\n'${blue}回车重新安装${background};read
 pip_mirrors
