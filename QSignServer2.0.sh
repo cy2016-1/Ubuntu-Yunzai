@@ -1,12 +1,12 @@
 #!/bin/env bash
-red="\033[31m"
-green="\033[32m"
-yellow="\033[33m"
-blue="\033[34m"
-purple="\033[35m"
-cyan="\033[36m"
-white="\033[37m"
-background="\033[0m"
+export red="\033[31m"
+export green="\033[32m"
+export yellow="\033[33m"
+export blue="\033[34m"
+export purple="\033[35m"
+export cyan="\033[36m"
+export white="\033[37m"
+export background="\033[0m"
 if [ "$(uname -o)" = "Android" ];then
 echo -e ${red}你是大聪明吗?${background}
 exit
@@ -15,8 +15,8 @@ if ! [ "$(uname)" = "Linux" ]; then
 	echo -e ${red}你是大聪明吗?${background}
     exit
 fi
-QSIGN_URL="https://ghproxy.com/https://github.com/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.6/unidbg-fetch-qsign-1.1.6.zip"
-QSIGN_VERSION="116"
+export QSIGN_URL="https://ghproxy.com/https://github.com/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.7/unidbg-fetch-qsign-1.1.7-onejar.zip"
+export QSIGN_VERSION="117"
 case $(uname -m) in
 amd64|x86_64)
 JDK_URL="https://cdn.azul.com/zulu/bin/zulu8.70.0.23-ca-jdk8.0.372-linux_x64.tar.gz"
@@ -196,17 +196,17 @@ echo -e ${red}输入错误${background}
 exit
 ;;
 esac
-if [ ! -d $HOME/QSignServer/qsign116 ];then
+if [ ! -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
 echo -e ${yellow}您未安装过该版本的签名服务器${background}
 exit
 fi
-if ! pm2 show qsign116 | grep -q online ;then
-    pm2 start --name qsign116 "bash $HOME/QSignServer/qsign116/bin/unidbg-fetch-qsign --basePath=$HOME/QSignServer/txlib/${version}"
+if ! pm2 show qsign${QSIGN_VERSION} | grep -q online ;then
+    pm2 start --name qsign${QSIGN_VERSION} "bash $HOME/QSignServer/qsign${QSIGN_VERSION}/bin/unidbg-fetch-qsign --basePath=$HOME/QSignServer/txlib/${version}"
     echo
     echo -en ${yellow}签名服务器已经启动,是否打开日志 [Y/n]${background};read num
     case $num in
      Y|y)
-       pm2 logs qsign116
+       pm2 logs qsign${QSIGN_VERSION}
        echo
        ;;
        esac
@@ -214,7 +214,7 @@ else
     echo -en ${yellow}签名服务器已经启动,是否打开日志 [Y/n]${background};read num
       case $num in
      Y|y)
-       pm2 logs qsign116
+       pm2 logs qsign${QSIGN_VERSION}
        echo
        ;;
        esac  
@@ -223,13 +223,13 @@ echo -en ${yellow}回车返回${background};read
 }
 
 function stop_QSignServer(){
-pm2 stop qsign116
-pm2 delete qsign116
+pm2 stop qsign${QSIGN_VERSION}
+pm2 delete qsign${QSIGN_VERSION}
 echo -e ${yellow}停止完成 回车返回${background}
 }
 
 function restart_QSignServer(){
-pm2 restart qsign116
+pm2 restart qsign${QSIGN_VERSION}
 echo -e ${yellow}重启完成 回车返回${background}
 }
 
@@ -257,8 +257,8 @@ echo -en ${yellow}更新完成 回车返回${background};read
 function uninstall_QSignServer(){
 cd $HOME
 echo -e ${yellow}正在停止服务器运行${background}
-pm2 stop qsign116
-pm2 delete qsign116
+pm2 stop qsign${QSIGN_VERSION}
+pm2 delete qsign${QSIGN_VERSION}
 rm -rf $HOME/QSignServer 2&> /dev/null
 rm -rf $HOME/QSignServer 2&> /dev/null
 }
@@ -294,7 +294,7 @@ echo -en ${yellow}更改完成 回车返回${background};read
 }
 
 function link_QSignServer(){
-if [ ! -d $HOME/QSignServer/qsign116 ];then
+if [ ! -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     echo -en ${red}您还没有部署签名服务器!!! ${cyan}回车返回${background};read
     return
 fi
@@ -321,8 +321,10 @@ echo -en ${yellow}回车返回${background};read
 if [ -d $HOME/QSignServer/qsign115 ];then
     qsign_version="1.1.5 ${red}[请更新]"
 elif [ -d $HOME/QSignServer/qsign116 ];then
-    qsign_version=1.1.6
-    if pm2 show qsign116 | grep -q online;then
+    qsign_version="1.1.6 ${red}[请更新]"
+elif [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
+    qsign_version=1.1.7
+    if pm2 show qsign${QSIGN_VERSION} | grep -q online;then
         condition="${cyan}[已启动]"
     else
         condition="${red}[未启动]"
