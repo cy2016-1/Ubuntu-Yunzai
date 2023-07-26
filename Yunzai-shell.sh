@@ -10,7 +10,7 @@ if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.4.2
+ver=5.4.4
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -48,6 +48,18 @@ if [ "$version" != "$ver" ]; then
     bhyz
     exit
 fi
+#########################################################
+function centos(){
+yum install -y chromium
+yum install -y redis
+yum install -y wqy*
+
+
+
+
+
+
+}
 #########################################################
 function install(){
 echo
@@ -327,7 +339,7 @@ done
 pnpm uninstall puppeteer -w
 pnpm install puppeteer@19.0.0 -w
 pnpm uninstall icqq -w
-pnpm install -w icqq@0.4.11
+pnpm install -w icqq@latest
 cd ~/.fox@bot/${name}
 echo -en ${yellow}正在初始化${background}
 pnpm start
@@ -616,17 +628,18 @@ echo -en ${cyan}回车返回${background};read
 cd ~/${name}
 echo -e ${yellow}正在更新 $(ls ..)${background}
 git pull
-#icqq=$(grep version node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
-#icqq_latest=$(curl -sL https://ghproxy.com/https://github.com/icqqjs/icqq/raw/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
-#if [ ! "${icqq_latest}" = "${icqq}" ];then
+icqq=$(grep version node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
+icqq_latest=$(curl -sL https://ghproxy.com/https://github.com/icqqjs/icqq/raw/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
+if [ ! "${icqq_latest}" = "${icqq}" ];then
 #sed -i "s/${icqq}/${icqq_latest}/g" package.json
-#echo "Y" | pnpm install
-#pnpm uninstall icqq -w
-#pnpm install icqq@latest -w
-#fi
+echo "Y" | pnpm install
+pnpm uninstall icqq -w
+pnpm install icqq@latest -w
+fi
+
 if (whiptail --title "白狐" \
 --yes-button "第三方签名服务器" \
---no-button "本机签名服务器" \
+--no-button "返回" \
 --yesno "请选择签名服务器类型" 10 50)
   then
     if grep -q sign_api_addr config/config/bot.yaml
@@ -669,13 +682,6 @@ if (whiptail --title "白狐" \
     else
         echo -e ${red}您的BOT应该至少启动过一次${background}
     fi
-  else
-        sed -i '/sign_api_addr/d' config/config/bot.yaml
-        file="$HOME/QSignServer/txlib/8.9.68/config.json"
-        port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
-        key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
-        echo -e "http://127.0.0.1:${port}/sign?key=${key}"
-        sed -i "\$a\sign_api_addr: http://127.0.0.1:${prot}/sign?key=${key}" config/config/bot.yaml
 fi
 echo -en ${yellow}执行完成 回车继续${background};read
 ;;
