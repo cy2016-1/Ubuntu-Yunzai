@@ -139,5 +139,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 |白狐|0.01元|
 |   |5元|
 |(ᗜ ˰ ᗜ)|1.01元|
+|纳西妲|6元|
+|夜|2元|
 |百草(白狐准新郎)|0.52元|
 感谢老板 喵~
