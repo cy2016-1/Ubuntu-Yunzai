@@ -15,7 +15,7 @@ if ! [ "$(uname)" = "Linux" ]; then
 	echo -e ${red}你是大聪明吗?${background}
     exit
 fi
-export QSIGN_URL="https://ghproxy.com/https://github.com/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.6/unidbg-fetch-qsign-1.1.6.zip"
+export QSIGN_URL="https://hub.nuaa.cf/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.6/unidbg-fetch-qsign-1.1.6.zip"
 export QSIGN_VERSION="116"
 export qsign_version=1.1.6
 case $(uname -m) in
@@ -281,7 +281,7 @@ echo -en ${yellow}更改完成 回车返回${background};read
 
 function port_QSignServer(){
 echo -en ${green}请输入更改后的端口号: ${background};read port_
-if [ -z "${key_}" ]; then
+if [ -z "${port_}" ]; then
     echo -en ${red}输入错误 回车返回${background};read
     return
 fi
@@ -316,6 +316,7 @@ echo -en ${yellow}回车返回${background};read
 function help_QSignServer(){
 echo -e ${green}1. ${cyan}先启动签名服务器,再写入签名服务器地址,最后启动机器人${background}
 echo -e ${green}2. ${cyan}已经启动签名服务器,然后才能使用重启签名服务器,不然请使用启动签名服务器${background}
+
 echo -en ${yellow}回车返回${background};read
 }
 
