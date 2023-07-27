@@ -15,8 +15,9 @@ if ! [ "$(uname)" = "Linux" ]; then
 	echo -e ${red}你是大聪明吗?${background}
     exit
 fi
-export QSIGN_URL="https://hub.nuaa.cf/https://github.com/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.7/unidbg-fetch-qsign-1.1.7-onejar.zip"
-export QSIGN_VERSION="117"
+export QSIGN_URL="https://ghproxy.com/https://github.com/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.6/unidbg-fetch-qsign-1.1.6.zip"
+export QSIGN_VERSION="116"
+export qsign_version=1.1.6
 case $(uname -m) in
 amd64|x86_64)
 JDK_URL="https://cdn.azul.com/zulu/bin/zulu8.70.0.23-ca-jdk8.0.372-linux_x64.tar.gz"
@@ -318,19 +319,19 @@ echo -e ${green}2. ${cyan}已经启动签名服务器,然后才能使用重启�
 echo -en ${yellow}回车返回${background};read
 }
 
-if [ -d $HOME/QSignServer/qsign115 ];then
-    qsign_version="1.1.5 ${red}[请更新]"
-elif [ -d $HOME/QSignServer/qsign116 ];then
-    qsign_version="1.1.6 ${red}[请更新]"
-elif [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
-    qsign_version=1.1.7
+if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     if pm2 show qsign${QSIGN_VERSION} | grep -q online;then
         condition="${cyan}[已启动]"
     else
         condition="${red}[未启动]"
     fi
 else
-    API_LINK="${red}[未部署]"
+    if [ -d $HOME/QSignServer ];then  
+        Current_Version=$(ls $HOME/QSignServer | grep qsign | sed "s/qsign//g" | sed "s/.\B/&./g")
+        qsign_version="${Current_Version} ${red}[请更新]"
+    else
+        API_LINK="${red}[未部署]"
+    fi
 fi
 echo -e ${white}"====="${green}白狐-QSignServer${white}"====="${background}
 echo -e  ${green}1.  ${cyan}安装签名服务器${background}
