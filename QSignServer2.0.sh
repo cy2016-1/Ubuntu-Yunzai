@@ -15,7 +15,7 @@ if ! [ "$(uname)" = "Linux" ]; then
 	echo -e ${red}你是大聪明吗?${background}
     exit
 fi
-export QSIGN_URL="https://ghproxy.com/https://github.com/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.7/unidbg-fetch-qsign-1.1.7-onejar.zip"
+export QSIGN_URL="https://hub.nuaa.cf/https://github.com/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.7/unidbg-fetch-qsign-1.1.7-onejar.zip"
 export QSIGN_VERSION="117"
 case $(uname -m) in
 amd64|x86_64)
@@ -266,7 +266,7 @@ rm -rf $HOME/QSignServer 2&> /dev/null
 function key_QSignServer(){
 echo -en ${green}请输入更改后的key: ${background};read key_
 if [ -z "${key_}" ]; then
-    echo -en ${red}输入错误 回车返回${background}
+    echo -en ${red}输入错误 回车返回${background};read
     return
 fi
 for file in $(ls $HOME/QSignServer/txlib)
@@ -281,7 +281,7 @@ echo -en ${yellow}更改完成 回车返回${background};read
 function port_QSignServer(){
 echo -en ${green}请输入更改后的端口号: ${background};read port_
 if [ -z "${key_}" ]; then
-    echo -en ${red}输入错误 回车返回${background}
+    echo -en ${red}输入错误 回车返回${background};read
     return
 fi
 for folder in $(ls $HOME/QSignServer/txlib)
