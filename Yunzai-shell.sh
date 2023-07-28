@@ -10,7 +10,7 @@ if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.5.3
+ver=5.5.4
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -382,13 +382,13 @@ if (whiptail --title "白狐" \
 --no-button "Github" \
 --yesno "请选择的miao-plugin下载服务器\n国内用户建议选择Gitee" 10 50)
   then
-    if ! git clone --depth=1 ${GiteeMP} ~/.fox@bot/${name}/plugins/miao-plugin
+    if ! git clone --depth=1 https://gitee.com/yoimiya-kokomi/miao-plugin.git ~/.fox@bot/${name}/plugins/miao-plugin
     then
       echo -e ${red} 克隆失败 ${cyan}试试Github ${background}
       exit
     fi
   else
-    if ! git clone --depth=1 ${GithubMP} ~/.fox@bot/${name}/plugins/miao-plugin
+    if ! git clone --depth=1 https://github.com/yoimiya-kokomi/miao-plugin.git ~/.fox@bot/${name}/plugins/miao-plugin
     then
       echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
       exit
