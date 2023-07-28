@@ -7,6 +7,7 @@ export purple="\033[35m"
 export cyan="\033[36m"
 export white="\033[37m"
 export background="\033[0m"
+cd $HOME
 if [ "$(uname -o)" = "Android" ];then
 echo -e ${red}你是大聪明吗?${background}
 exit
@@ -31,7 +32,6 @@ node=arm64
 ;;
 esac
 function main(){
-cd $HOME
 if [ -d $HOME/QSignServer/jdk ];then
 export PATH=$PATH:$HOME/QSignServer/jdk/bin
 export JAVA_HOME=$HOME/QSignServer/jdk
