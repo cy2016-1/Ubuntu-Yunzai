@@ -10,7 +10,7 @@ if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.5.0
+ver=5.5.1
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -351,72 +351,31 @@ echo -en ${yellow}安装完成 回车继续${background};read
 fi
 } #install
 #########################################################
-function install_Yunzai_Bot(){
-if ! [ -d ~/.fox@bot/${name} ];then
-  if (whiptail --title "白狐" \
-     --yes-button "安装" \
-     --no-button "返回" \
-     --yesno "${name}未安装，是否开始安装?" 10 50)
-     then
-       if (whiptail --title "白狐" \
+function install_Bot(){
+if (whiptail --title "白狐" \
+   --yes-button "安装" \
+   --no-button "返回" \
+   --yesno "${name}未安装，是否开始安装?" 10 50)
+   then
+     if (whiptail --title "白狐" \
        --yes-button "Gitee" \
        --no-button "Github" \
        --yesno "请选择${name}的下载服务器\n国内用户建议选择Gitee" 10 50)
-         then
-           if ! git clone --depth=1 ${Gitee} ~/.fox@bot/${name};then
-             echo -e ${red} 克隆失败 ${cyan}试试Github ${background}
-             exit
-           fi
-         else
-           if ! git clone --depth=1 ${Github} ~/.fox@bot/${name};then
-             echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
-             exit
-           fi
-       fi
-       ln -sf ~/.fox@bot/${name} ~/${name}
-       install
-       main
-  fi
-else
-bot_path
-main
+       then
+         if ! git clone --depth=1 ${Gitee} ~/.fox@bot/${name};then
+           echo -e ${red} 克隆失败 ${cyan}试试Github ${background}
+           exit
+         fi
+       else
+         if ! git clone --depth=1 ${Github} ~/.fox@bot/${name};then
+           echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
+           exit
+         fi
+     fi
+     ln -sf ~/.fox@bot/${name} ~/${name}
+     install
 fi
 } #install_Yunzai_Bot
-#########################################################
-function install_Miao_Yunzai(){
-if ! [ -d ~/.fox@bot/${name} ];then
-  if (whiptail --title "白狐" \
-     --yes-button "安装" \
-     --no-button "返回" \
-     --yesno "${name}未安装，是否开始安装?" 10 50)
-     then
-       if (whiptail --title "白狐" \
-       --yes-button "Gitee" \
-       --no-button "Github" \
-       --yesno "请选择${name}的下载服务器\n国内用户建议选择Gitee" 10 50)
-         then
-           if ! git clone --depth=1 ${GiteeMZ} ~/.fox@bot/${name};then
-             echo -e ${red} 克隆失败 ${cyan}试试Github ${background}
-             exit
-           fi
-         else
-           if ! git clone --depth=1 ${GithubMZ} ~/.fox@bot/${name};then
-             echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
-             exit
-           fi
-       fi
-     ln -sf ~/.fox@bot/${name} ~/${name}
-     install_Miao_Plugin
-     install
-     main
-  fi
-else
-bot_path
-main
-fi
-} #install_Miao_Yunzai
-######################################################### 
-
 #########################################################
 function install_Miao_Plugin(){
 if (whiptail --title "白狐" \
@@ -778,28 +737,28 @@ case ${Number} in
 name=Yunzai-Bot
 Gitee=https://gitee.com/yoimiya-kokomi/Yunzai-Bot.git
 #GithubYZ=https://github.com/yoimiya-kokomi/Yunzai-Bot.git
-install_Yunzai_Bot
-
+install_Bot
+bot_path
+main
 ;;
 2)
 name=Miao-Yunzai
-GiteeMZ=https://gitee.com/yoimiya-kokomi/Miao-Yunzai.git
-GiteeMP=https://gitee.com/yoimiya-kokomi/miao-plugin.git
-GithubMZ=https://github.com/yoimiya-kokomi/Miao-Yunzai.git
-GithubMP=https://github.com/yoimiya-kokomi/miao-plugin.git
-install_Miao_Yunzai
+Gitee=https://gitee.com/yoimiya-kokomi/Miao-Yunzai.git
+Github=https://github.com/yoimiya-kokomi/Miao-Yunzai.git
+install_Bot
+bot_path
+main
 ;;
 3)
 whiptail --title "白狐≧▽≦" --msgbox "
 TRSS-Yunzai的安装正在测试中，可能有bug
 " 10 43
 name=TRSS-Yunzai
-GiteeTY=https://gitee.com/TimeRainStarSky/Yunzai.git
-GiteeMP=https://gitee.com/yoimiya-kokomi/miao-plugin.git
-GithubTY=https://github.com/TimeRainStarSky/Yunzai.git
-GithubMP=https://github.com/yoimiya-kokomi/miao-plugin.git
-install_Miao_Yunzai
+Gitee=https://gitee.com/TimeRainStarSky/Yunzai.git
+Github=https://github.com/TimeRainStarSky/Yunzai.git
+install_Bot
 install_Miao_Plugin
+bot_path
 main
 ;;
 4)
