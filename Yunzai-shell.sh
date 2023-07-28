@@ -10,7 +10,7 @@ if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.5.4
+ver=5.5.5
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -53,12 +53,6 @@ function centos(){
 yum install -y chromium
 yum install -y redis
 yum install -y wqy*
-
-
-
-
-
-
 }
 #########################################################
 function install(){
@@ -113,7 +107,7 @@ sed -i "s/deb http:\/\/ftp.cn.debian.org\/debian sid main//g" /etc/apt/sources.l
 chromium > /dev/null
 }
 
-if [ ! -x "$(command -v chromium-browser)" ] ||  [ ! -x "$(command -v chromium)" ] || [ ! -x "$(command -v chrome)" ];then
+if ! command -v chromium > /dev/null || ! command -v chromium-browser > /dev/null; then
     echo -e ${yellow}安装chromium浏览器${background}
     if awk '{print $2}' /etc/issue | grep -q -E 20.*
         then
@@ -138,6 +132,7 @@ if [ ! -x "$(command -v chromium-browser)" ] ||  [ ! -x "$(command -v chromium)"
             done
     fi
 fi
+
 
 if ! [ -x "$(command -v ffmpeg)" ];then
 echo -e ${yellow}正在安装ffmpeg${background}
