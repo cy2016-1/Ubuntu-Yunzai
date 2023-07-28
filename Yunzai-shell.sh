@@ -10,7 +10,7 @@ if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.4.4
+ver=5.5.0
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -764,9 +764,8 @@ Number=$(whiptail \
 "1" "Yunzai[icqq版]" \
 "2" "Miao-Yunzai" \
 "3" "TRSS-Yunzai" \
-"4" "Yunzai-Bot-Llite" \
-"5" "Alemon-Bot" \
-"6" "白狐脚本附件安装" \
+"4" "签名服务器管理" \
+"5" "白狐脚本附件安装" \
 "0" "退出" \
 3>&1 1>&2 2>&3)
 feedback=$?
@@ -792,35 +791,27 @@ install_Miao_Yunzai
 ;;
 3)
 whiptail --title "白狐≧▽≦" --msgbox "
-TRSS-Yunzai的安装正在咕咕
+TRSS-Yunzai的安装正在测试中，可能有bug
 " 10 43
-#name=TRSS-Yunzai
-#GiteeTY=https://gitee.com/TimeRainStarSky/Yunzai.git
-#GiteeMP=https://gitee.com/yoimiya-kokomi/miao-plugin.git
-#GithubTY=https://github.com/TimeRainStarSky/Yunzai.git
-#GithubMP=https://github.com/yoimiya-kokomi/miao-plugin.git
-#main
+name=TRSS-Yunzai
+GiteeTY=https://gitee.com/TimeRainStarSky/Yunzai.git
+GiteeMP=https://gitee.com/yoimiya-kokomi/miao-plugin.git
+GithubTY=https://github.com/TimeRainStarSky/Yunzai.git
+GithubMP=https://github.com/yoimiya-kokomi/miao-plugin.git
+install_Miao_Yunzai
+install_Miao_Plugin
+main
 ;;
 4)
-name=Yunzai-Bot-Lite
-Gitee=https://gitee.com/Nwflower/yunzai-bot-lite.git
-Github=https://github.com/Nwflower/yunzai-bot-lite.git
-install_Yunzai_Bot
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2.0.sh)
 ;;
 5)
-name=Alemon-Bot
-Gitee=https://gitee.com/ningmengchongshui/alemon-bot.git
-Github=https://github.com/ningmengchongshui/alemon-bot.git
-install_Yunzai_Bot
-;;
-6)
 Number=$(whiptail \
 --title "白狐 QQ群:705226976" \
 --menu "请选择bot" \
 20 40 10 \
 "1" "安装ffmpeg" \
 "2" "安装python3.10 pip poetry" \
-"3" "部署签名服务器" \
 "0" "退出" \
 3>&1 1>&2 2>&3)
 feedback=$?
@@ -889,15 +880,12 @@ done
 python3.10 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 python3.10 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 python3.10 -m pip install --upgrade pip
-until curl https://install.python-poetry.org | POETRY_HOME=/usr/local/lib/python3.10/dist-packages/poetry python3.10 -
+until curl https://install.python-poetry.org | export POETRY_HOME=/usr/local/lib/python3.10/dist-packages/poetry python3.10 -
 do
-curl https://install.python-poetry.org | POETRY_HOME=/usr/local/lib/python3.10/dist-packages/poetry python3.10 -
+curl https://install.python-poetry.org | export POETRY_HOME=/usr/local/lib/python3.10/dist-packages/poetry python3.10 -
 done
 echo
 echo -en ${yellow}安装完成 回车返回${background};read
-;;
-3)
-bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2.0.sh)
 ;;
 0)
 return
