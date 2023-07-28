@@ -10,7 +10,7 @@ if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.5.1
+ver=5.5.2
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -737,7 +737,9 @@ case ${Number} in
 name=Yunzai-Bot
 Gitee=https://gitee.com/yoimiya-kokomi/Yunzai-Bot.git
 #GithubYZ=https://github.com/yoimiya-kokomi/Yunzai-Bot.git
+if [ ! -d "/root/.fox@bot/${name}" ];then
 install_Bot
+fi
 bot_path
 main
 ;;
@@ -745,7 +747,9 @@ main
 name=Miao-Yunzai
 Gitee=https://gitee.com/yoimiya-kokomi/Miao-Yunzai.git
 Github=https://github.com/yoimiya-kokomi/Miao-Yunzai.git
+if [ ! -d "/root/.fox@bot/${name}" ];then
 install_Bot
+fi
 bot_path
 main
 ;;
@@ -756,8 +760,10 @@ TRSS-Yunzai的安装正在测试中，可能有bug
 name=TRSS-Yunzai
 Gitee=https://gitee.com/TimeRainStarSky/Yunzai.git
 Github=https://github.com/TimeRainStarSky/Yunzai.git
+if [ ! -d "/root/.fox@bot/${name}" ];then
 install_Bot
 install_Miao_Plugin
+fi
 bot_path
 main
 ;;
