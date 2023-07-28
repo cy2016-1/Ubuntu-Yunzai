@@ -246,10 +246,11 @@ git clone --depth=1 -b 1.1.6 https://gitee.com/baihu433/unidbg-fetch-qsign
 rm -rf $HOME/QSignServer/txlib
 mv -f unidbg-fetch-qsign/txlib $HOME/QSignServer/txlib
 rm -rf unidbg-fetch-qsign
+QSIGN_URL=${QSIGN_URL_ghproxy}
 until wget -O qsign.zip -c ${QSIGN_URL}
   do
     echo -e ${red}下载失败 ${green}正在重试${background}
-    
+    QSIGN_URL=${QSIGN_URL_hub_nuaa}
   done
 echo -e ${yellow}正在解压qsign文件压缩包${background}
     unzip -q qsign.zip -d qsign
