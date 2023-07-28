@@ -10,7 +10,7 @@ if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.5.2
+ver=5.5.3
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -373,7 +373,6 @@ if (whiptail --title "白狐" \
          fi
      fi
      ln -sf ~/.fox@bot/${name} ~/${name}
-     install
 fi
 } #install_Yunzai_Bot
 #########################################################
@@ -739,6 +738,7 @@ Gitee=https://gitee.com/yoimiya-kokomi/Yunzai-Bot.git
 #GithubYZ=https://github.com/yoimiya-kokomi/Yunzai-Bot.git
 if [ ! -d "/root/.fox@bot/${name}" ];then
 install_Bot
+install
 fi
 bot_path
 main
@@ -749,6 +749,8 @@ Gitee=https://gitee.com/yoimiya-kokomi/Miao-Yunzai.git
 Github=https://github.com/yoimiya-kokomi/Miao-Yunzai.git
 if [ ! -d "/root/.fox@bot/${name}" ];then
 install_Bot
+install_Miao_Plugin
+install
 fi
 bot_path
 main
@@ -763,6 +765,7 @@ Github=https://github.com/TimeRainStarSky/Yunzai.git
 if [ ! -d "/root/.fox@bot/${name}" ];then
 install_Bot
 install_Miao_Plugin
+install
 fi
 bot_path
 main
