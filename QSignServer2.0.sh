@@ -15,9 +15,11 @@ if ! [ "$(uname)" = "Linux" ]; then
 	echo -e ${red}你是大聪明吗?${background}
     exit
 fi
-export QSIGN_URL="https://hub.nuaa.cf/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.6/unidbg-fetch-qsign-1.1.6.zip"
-export QSIGN_VERSION="116"
-export qsign_version=1.1.6
+QSIGN_URL_ghproxy="https://ghproxy.com/https://github.com/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.6/unidbg-fetch-qsign-1.1.6.zip"
+QSIGN_URL_hub_nuaa="https://hub.nuaa.cf/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.6/unidbg-fetch-qsign-1.1.6.zip"
+QSIGN_VERSION="116"
+qsign_version=1.1.6
+
 case $(uname -m) in
 amd64|x86_64)
 JDK_URL="https://cdn.azul.com/zulu/bin/zulu8.70.0.23-ca-jdk8.0.372-linux_x64.tar.gz"
@@ -53,21 +55,21 @@ if [ -d /usr/lib/node_modules/pnpm/bin ];then
     export PNPM_HOME=$HOME/.local/share/pnpm
 fi
 function install_QSignServer(){
-if [ ! $(command -v git) ] || [ ! $(command -v wget) ] || [ ! $(command -v gzip) ] || [ ! $(command -v unzip) ] || [ ! $(command -v xz) ];then
+if [ ! $(command -v git) ] || [ ! $(command -v wget) ] || [ ! $(command -v gzip) ] || [ ! $(command -v unzip) ] || [ ! $(command -v xz) ] || [ ! $(command -v tar) ];then
     if [ $(command -v apt) ];then
         apt update -y
-        apt install -y git wget gzip unzip xz-utils
+        apt install -y git wget gzip unzip xz-utils tar
     elif [ $(command -v yum) ];then
         yum update -y
-        yum install -y git wget gzip unzip xz
+        yum install -y git wget gzip unzip xz tar
     elif [ $(command -v dnf) ];then
         dnf update -y
         dnf install -y git wget gzip unzip xz
     elif [ $(command -v pacman) ];then
-        pacman -Sy --noconfirm --needed git wget gzip unzip xz
+        pacman -Sy --noconfirm --needed git wget gzip unzip xz tar
     elif [ $(command -v apk) ];then
         apk update
-        apk add git wget gzip unzip xz
+        apk add git wget gzip unzip xz tar
     fi
 fi
 JAVA_VERSION=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
@@ -108,7 +110,6 @@ if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v18" ]]
     fi
     echo -e ${yellow}正在解压nodejs二进制文件压缩包${background}
     rm -rf $HOME/QSignServer/node
-    mkdir node
     tar -xJf node.tar.xz -C node
     mv -f node/$(ls node) $HOME/QSignServer/node
     rm -rf node.tar.xz
@@ -155,9 +156,11 @@ rm -rf $HOME/QSignServer/txlib
 mv -f unidbg-fetch-qsign/txlib $HOME/QSignServer/txlib
 rm -rf unidbg-fetch-qsign
 fi
+QSIGN_URL=${QSIGN_URL_ghproxy}
 until wget -O qsign.zip -c ${QSIGN_URL}
   do
     echo -e ${red}下载失败 ${green}正在重试${background}
+    QSIGN_URL=${QSIGN_URL_hub_nuaa}
   done
 echo -e ${yellow}正在解压qsign文件压缩包${background}
     unzip -q qsign.zip -d qsign
@@ -171,6 +174,7 @@ Y|y)
 start_QSignServer
 ;;
 esac
+API_LINK=["${cyan} ${qsign_version}"]
 }
 
 function start_QSignServer(){
@@ -245,6 +249,7 @@ rm -rf unidbg-fetch-qsign
 until wget -O qsign.zip -c ${QSIGN_URL}
   do
     echo -e ${red}下载失败 ${green}正在重试${background}
+    
   done
 echo -e ${yellow}正在解压qsign文件压缩包${background}
     unzip -q qsign.zip -d qsign
@@ -262,6 +267,7 @@ pm2 stop qsign${QSIGN_VERSION}
 pm2 delete qsign${QSIGN_VERSION}
 rm -rf $HOME/QSignServer 2&> /dev/null
 rm -rf $HOME/QSignServer 2&> /dev/null
+Version="${red}[未部署]"
 }
 
 function key_QSignServer(){
@@ -326,14 +332,17 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     else
         condition="${red}[未启动]"
     fi
-else
-    if [ -d $HOME/QSignServer ];then  
-        Current_Version=$(ls $HOME/QSignServer | grep qsign | sed "s/qsign//g" | sed "s/.\B/&./g")
-        qsign_version="${Current_Version} ${red}[请更新]"
-    else
-        API_LINK="${red}[未部署]"
-    fi
 fi
+
+if [ -d $HOME/QSignServer/qsign* ];then  
+        Version="${cyan}[$(ls $HOME/QSignServer | grep qsign | sed "s/qsign//g" | sed "s/.\B/&./g")]"
+        if [ ! "${QSIGN_VERSION}" = $(ls $HOME/QSignServer | grep qsign | sed "s/qsign//g") ];then
+            Version="${red}{Version} [请更新]"
+        fi
+else
+        Version="${red}[未部署]"
+fi
+
 echo -e ${white}"====="${green}白狐-QSignServer${white}"====="${background}
 echo -e  ${green}1.  ${cyan}安装签名服务器${background}
 echo -e  ${green}2.  ${cyan}启动签名服务器${background}
@@ -349,7 +358,7 @@ echo -e  ${green}11.  ${cyan}打开签名服务器帮助${background}
 echo -e  ${green}0.  ${cyan}退出${background}
 echo "========================="
 echo -e ${green}您的签名服务器状态: ${condition}${background}
-echo -e ${green}当前签名服务器版本:${cyan}${qsign_version}${background}
+echo -e ${green}当前签名服务器版本: ${Version}${background}
 echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
 echo "========================="
 echo
