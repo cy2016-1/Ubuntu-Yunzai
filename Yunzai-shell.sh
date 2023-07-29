@@ -10,7 +10,7 @@ if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.5.5
+ver=5.5.6
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -843,9 +843,9 @@ done
 python3.10 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 python3.10 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 python3.10 -m pip install --upgrade pip
-until curl https://install.python-poetry.org | export POETRY_HOME=/usr/local/lib/python3.10/dist-packages/poetry python3.10 -
+until curl https://install.python-poetry.org | export POETRY_HOME=/usr/local/lib/python3.10/dist-packages/poetry | python3.10
 do
-curl https://install.python-poetry.org | export POETRY_HOME=/usr/local/lib/python3.10/dist-packages/poetry python3.10 -
+curl https://install.python-poetry.org | export POETRY_HOME=/usr/local/lib/python3.10/dist-packages/poetry | python3.10
 done
 echo
 echo -en ${yellow}安装完成 回车返回${background};read
