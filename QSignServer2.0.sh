@@ -16,11 +16,28 @@ if ! [ "$(uname)" = "Linux" ]; then
 	echo -e ${red}你是大聪明吗?${background}
     exit
 fi
-QSIGN_URL_ghproxy="https://ghproxy.com/https://github.com/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.6/unidbg-fetch-qsign-1.1.6.zip"
-QSIGN_URL_hub_nuaa="https://hub.nuaa.cf/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.6/unidbg-fetch-qsign-1.1.6.zip"
+if [ "$(id -u)" != "0" ]; then
+    echo -e ${red}请使用root用户${background}
+    exit 0
+fi
+if [ -e /etc/resolv.conf ]; then
+        cp /etc/resolv.conf /etc/resolv.conf.backup
+        echo -e ${yellow}DNS已备份至 /etc/resolv.conf.backup${background}
+    else
+        echo -e ${red}没有resolv.conf此文件${background}
+        exit
+fi
+if grep -q "114.114.114.114" /etc/resolv.conf && grep -q "8.8.8.8" /etc/resolv.conf
+    then
+        echo -e ${yellow}DNS已修改${background}
+    else
+        echo "nameserver 114.114.114.114" > /etc/resolv.conf
+        echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+        echo -e ${yellow}DNS已修改为 114.114.114.114 8.8.8.8${background}
+fi
+QSIGN_URL="https://ghproxy.com/https://github.com/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.6/unidbg-fetch-qsign-1.1.6.zip"
 QSIGN_VERSION="116"
 qsign_version=1.1.6
-
 case $(uname -m) in
 amd64|x86_64)
 JDK_URL="https://cdn.azul.com/zulu/bin/zulu8.70.0.23-ca-jdk8.0.372-linux_x64.tar.gz"
@@ -156,11 +173,10 @@ rm -rf $HOME/QSignServer/txlib
 mv -f unidbg-fetch-qsign/txlib $HOME/QSignServer/txlib
 rm -rf unidbg-fetch-qsign
 fi
-QSIGN_URL=${QSIGN_URL_ghproxy}
+
 until wget -O qsign.zip -c ${QSIGN_URL}
   do
     echo -e ${red}下载失败 ${green}正在重试${background}
-    QSIGN_URL=${QSIGN_URL_hub_nuaa}
   done
 echo -e ${yellow}正在解压qsign文件压缩包${background}
     unzip -q qsign.zip -d qsign
