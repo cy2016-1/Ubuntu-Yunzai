@@ -826,9 +826,9 @@ choose_page
 function pip_mirrors(){
 function py_install(){
 poetry run pip install --upgrade pip -i ${mirror}
-URL1=$(grep --index-url)
-URL2=${mirror}
-sed -i
+URL1="$(grep --index-url)"
+URL2="--index-url ${mirror}"
+sed -i "s/${URL1}/${URL2}/g" requirements.txt
 if ! poetry run pip install -r requirements.txt
 then
 echo -en ${red}依赖安装失败 '\n'${blue}回车重新安装${background};read
@@ -1724,6 +1724,12 @@ if ! [ -x "$(command -v curl)" ];then
     pacman -Sy curl --noconfirm
 fi
 }
+function pnpm_install(){
+if ! [ -x "$(command -v pnpm)" ];then
+    echo -e ${cyan}检测到未安装pnpm 开始安装${background}
+    npm install -g pnpm --registry=https://registry.npmmirror.com
+fi
+}
 red="\033[31m"
 green="\033[32m"
 yellow="\033[33m"
@@ -1732,6 +1738,7 @@ purple="\033[35m"
 cyan="\033[36m"
 white="\033[37m"
 background="\033[0m"
+pnpm_install
 if grep -q -s -i -E "debian|ubuntu" /etc/issue;then > /dev/null
     apt_install
     page=dialog_whiptail_page
