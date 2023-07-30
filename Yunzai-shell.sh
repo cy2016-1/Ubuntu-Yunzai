@@ -6,11 +6,22 @@
 #then
 #   Git=github
 #fi
+if [ -d $HOME/XDM ];then
+{
+    for ((i = 0 ; i <= 100 ; i+=1)); do
+        sleep 0.01s
+        echo $i
+    done
+} | whiptail --gauge "检测到XDM[寒暄]脚本 自动卸载白狐脚本 正在卸载白狐脚本" 6 60 0
+whiptail --title "白狐≧▽≦" --msgbox \
+"卸载成功 欢迎您的再次使用愉快!" \
+8 25
+fi
 if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.5.6
+ver=5.5.7
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -390,6 +401,40 @@ if (whiptail --title "白狐" \
     fi
 fi
 } #install_Miao_Plugin
+#########################################################
+function install_go_cqhttp(){
+if [ -e /etc/resolv.conf ]; then
+        cp /etc/resolv.conf /etc/resolv.conf.backup
+        echo -e ${yellow}DNS已备份至 /etc/resolv.conf.backup${background}
+    else
+        echo -e ${red}没有resolv.conf此文件${background}
+        exit
+fi
+if grep -q "114.114.114.114" /etc/resolv.conf && grep -q "8.8.8.8" /etc/resolv.conf
+    then
+        echo -e ${yellow}DNS已修改${background}
+    else
+        echo "nameserver 114.114.114.114" > /etc/resolv.conf
+        echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+        echo -e ${yellow}DNS已修改为 114.114.114.114 8.8.8.8${background}
+fi
+case $(uname -m) in
+amd64|x86_64)
+URL="https://ghproxy.com/https://github.com/rhwong/go-cqhttp-dev/releases/download/v1.1.1-dev/go-cqhttp-linux-amd64.tar.gz"
+;;
+arm64|aarch64)
+URL="https://ghproxy.com/https://github.com/rhwong/go-cqhttp-dev/releases/download/v1.1.1-dev/go-cqhttp-linux-arm64.tar.gz
+;;
+*)
+echo ${red}抱歉 暂时不支持您的架构${background}
+exit
+;;
+esac
+axel -n 32 -o go-cqhttp.tar.gz -c ${URL}
+tar -zxf go-cqhttp.tar.gz
+
+
+}
 #########################################################
 function help(){
 echo -en ${cyan} 正在咕咕 回车返回${background}
