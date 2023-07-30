@@ -168,10 +168,10 @@ exit
 fi
 if [ ! -d $HOME/QSignServer/txlib ];then
 mkdir -p $HOME/QSignServer/txlib
-git clone --depth=1 -b 1.1.6 https://gitee.com/baihu433/unidbg-fetch-qsign
+git clone --depth=1 https://gitee.com/baihu433/unidbg-fetch-qsign-onekey 
 rm -rf $HOME/QSignServer/txlib
-mv -f unidbg-fetch-qsign/txlib $HOME/QSignServer/txlib
-rm -rf unidbg-fetch-qsign
+mv -f unidbg-fetch-qsign-onekey/txlib $HOME/QSignServer/txlib
+rm -rf unidbg-fetch-qsign-onekey
 fi
 
 until wget -O qsign.zip -c ${QSIGN_URL}
@@ -196,16 +196,20 @@ API_LINK=["${cyan} ${qsign_version}"]
 function start_QSignServer(){
 echo -e ${white}"====="${green}白狐-QSignServer${white}"====="${background}
 echo -e ${cyan}请选择您想让您签名服务器适配的QQ版本${background}
-echo -e  ${green}1.  ${cyan}8.9.63${background}
-echo -e  ${green}2.  ${cyan}8.9.68${background}
-echo -e  ${green}3.  ${cyan}8.9.70${background}
+echo -e  ${green}1.  ${cyan}8.9.58${background}
+echo -e  ${green}2.  ${cyan}8.9.63${background}
+echo -e  ${green}3.  ${cyan}8.9.68${background}
+echo -e  ${green}4.  ${cyan}8.9.70${background}
 echo "========================="
 echo -en ${green}请输入您的选项: ${background};read num
 case ${num} in
-1|8.9.63)
+1|8.9.58)
+export version=8.9.58
+;;
+2|8.9.63)
 export version=8.9.63
 ;;
-2|8.9.68)
+3|8.9.68)
 export version=8.9.68
 ;;
 3|8.9.70)
@@ -258,9 +262,9 @@ function update_QSignServer(){
 rm -rf $HOME/QSignServer/txlib
 rm -rf $HOME/QSignServer/qsign*
 mkdir -p $HOME/QSignServer/txlib
-git clone --depth=1 -b 1.1.6 https://gitee.com/baihu433/unidbg-fetch-qsign
+git clone --depth=1 https://gitee.com/baihu433/unidbg-fetch-qsign-onekey
 rm -rf $HOME/QSignServer/txlib
-mv -f unidbg-fetch-qsign/txlib $HOME/QSignServer/txlib
+mv -f unidbg-fetch-qsign-onekey/txlib $HOME/QSignServer/txlib
 rm -rf unidbg-fetch-qsign
 until wget -O qsign.zip -c ${QSIGN_URL}
   do
