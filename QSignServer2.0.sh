@@ -59,15 +59,17 @@ fi
 function install_QSignServer(){
 if [ ! -e /etc/resolv.conf ]; then
     echo -e ${red}没有resolv.conf此文件${background}
-    exit
+    echo -e ${yellow}将不更改DNS 这可能会导致签名服务器文件下载失败${background}
+else
+    if ! grep -q "114.114.114.114" /etc/resolv.conf && grep -q "8.8.8.8" /etc/resolv.conf
+        cp -f /etc/resolv.conf /etc/resolv.conf.backup
+        echo -e ${yellow}DNS已备份至 /etc/resolv.conf.backup${background}
+        echo "nameserver 114.114.114.114" > /etc/resolv.conf
+        echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+        echo -e ${yellow}DNS已修改为 114.114.114.114 8.8.8.8${background}
+    fi
 fi
-if ! grep -q "114.114.114.114" /etc/resolv.conf && grep -q "8.8.8.8" /etc/resolv.conf
-    cp -f /etc/resolv.conf /etc/resolv.conf.backup
-    echo -e ${yellow}DNS已备份至 /etc/resolv.conf.backup${background}
-    echo "nameserver 114.114.114.114" > /etc/resolv.conf
-    echo "nameserver 8.8.8.8" >> /etc/resolv.conf
-    echo -e ${yellow}DNS已修改为 114.114.114.114 8.8.8.8${background}
-fi
+
 if [ ! $(command -v git) ] || [ ! $(command -v wget) ] || [ ! $(command -v gzip) ] || [ ! $(command -v unzip) ] || [ ! $(command -v xz) ] || [ ! $(command -v tar) ];then
     if [ $(command -v apt) ];then
         apt update -y
