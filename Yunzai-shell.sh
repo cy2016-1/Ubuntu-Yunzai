@@ -21,7 +21,7 @@ if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.5.8
+ver=5.5.9
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -147,43 +147,7 @@ fi
 
 if ! [ -x "$(command -v ffmpeg)" ];then
 echo -e ${yellow}正在安装ffmpeg${background}
-  case $(uname -m) in
-  aarch64|arm64)
-    ffmpeg=arm64
-    ;;
-  amd64|x86_64)
-    ffmpeg=amd64
-    ;;
-  armel)
-    ffmpeg=armel
-    ;;
-  armhf)
-    ffmpeg=armhf
-    ;;
-  i686)
-    ffmpeg=i686
-    ;;
-  *)
-  echo -e "\033[33m您的框架为\033[31m $(uname -m)\033[33m 快截图 让白狐做适配!!\033[0m"
-  exit
-    ;;
-esac
-if ! [ -x "$(command -v axel)" ];then
-apt install -y axel
-fi
-axel -n 32 -o static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-${ffmpeg}-static.tar.xz
-if ! [ -x "$(command -v unar)" ];then
-apt install -y unar
-fi
-echo -e "\033[33m正在解压\033[0m"
-unar -o static static.tar.xz
-mv -f static/$(ls static)/ffmpeg /usr/local/bin/ffmpeg
-mv -f static/$(ls static)/ffprobe /usr/local/bin/ffprobe
-mv -f static/$(ls static)/qt-faststart /usr/local/bin/qt-faststart
-chmod +x /usr/local/bin/ffmpeg /usr/local/bin/ffprobe /usr/local/bin/qt-faststart
-rm -rf static.tar.xz static > /dev/null
-rm -rf static.tar.xz static > /dev/null
-echo
+bash <(curl https://gitee.com/baihu433/ffmpeg/raw/master/ffmpeg.sh)
 fi
 
 function setup_nodejs_install(){
