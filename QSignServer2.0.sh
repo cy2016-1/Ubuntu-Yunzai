@@ -57,20 +57,16 @@ if [ -d /usr/lib/node_modules/pnpm/bin ];then
     export PNPM_HOME=$HOME/.local/share/pnpm
 fi
 function install_QSignServer(){
-if [ -e /etc/resolv.conf ]; then
-        cp /etc/resolv.conf /etc/resolv.conf.backup
-        echo -e ${yellow}DNS已备份至 /etc/resolv.conf.backup${background}
-    else
-        echo -e ${red}没有resolv.conf此文件${background}
-        exit
+if [ ! -e /etc/resolv.conf ]; then
+    echo -e ${red}没有resolv.conf此文件${background}
+    exit
 fi
-if grep -q "114.114.114.114" /etc/resolv.conf && grep -q "8.8.8.8" /etc/resolv.conf
-    then
-        echo -e ${yellow}DNS已修改${background}
-    else
-        echo "nameserver 114.114.114.114" > /etc/resolv.conf
-        echo "nameserver 8.8.8.8" >> /etc/resolv.conf
-        echo -e ${yellow}DNS已修改为 114.114.114.114 8.8.8.8${background}
+if ! grep -q "114.114.114.114" /etc/resolv.conf && grep -q "8.8.8.8" /etc/resolv.conf
+    cp -f /etc/resolv.conf /etc/resolv.conf.backup
+    echo -e ${yellow}DNS已备份至 /etc/resolv.conf.backup${background}
+    echo "nameserver 114.114.114.114" > /etc/resolv.conf
+    echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+    echo -e ${yellow}DNS已修改为 114.114.114.114 8.8.8.8${background}
 fi
 if [ ! $(command -v git) ] || [ ! $(command -v wget) ] || [ ! $(command -v gzip) ] || [ ! $(command -v unzip) ] || [ ! $(command -v xz) ] || [ ! $(command -v tar) ];then
     if [ $(command -v apt) ];then
