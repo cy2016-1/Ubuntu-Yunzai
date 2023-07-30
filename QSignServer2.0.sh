@@ -62,6 +62,7 @@ if [ ! -e /etc/resolv.conf ]; then
     exit
 fi
 if ! grep -q "114.114.114.114" /etc/resolv.conf && grep -q "8.8.8.8" /etc/resolv.conf
+    then
     cp -f /etc/resolv.conf /etc/resolv.conf.backup
     echo -e ${yellow}DNS已备份至 /etc/resolv.conf.backup${background}
     echo "nameserver 114.114.114.114" > /etc/resolv.conf
