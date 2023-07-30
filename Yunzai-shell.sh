@@ -21,7 +21,7 @@ if [ -d /usr/local/node/bin ];then
 PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.5.7
+ver=5.5.8
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -423,7 +423,7 @@ amd64|x86_64)
 URL="https://ghproxy.com/https://github.com/rhwong/go-cqhttp-dev/releases/download/v1.1.1-dev/go-cqhttp-linux-amd64.tar.gz"
 ;;
 arm64|aarch64)
-URL="https://ghproxy.com/https://github.com/rhwong/go-cqhttp-dev/releases/download/v1.1.1-dev/go-cqhttp-linux-arm64.tar.gz
+URL="https://ghproxy.com/https://github.com/rhwong/go-cqhttp-dev/releases/download/v1.1.1-dev/go-cqhttp-linux-arm64.tar.gz"
 ;;
 *)
 echo ${red}抱歉 暂时不支持您的架构${background}
