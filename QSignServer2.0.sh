@@ -62,6 +62,7 @@ if [ ! -e /etc/resolv.conf ]; then
     echo -e ${yellow}将不更改DNS 这可能会导致签名服务器文件下载失败${background}
 else
     if ! grep -q "114.114.114.114" /etc/resolv.conf && grep -q "8.8.8.8" /etc/resolv.conf
+    then
         cp -f /etc/resolv.conf /etc/resolv.conf.backup
         echo -e ${yellow}DNS已备份至 /etc/resolv.conf.backup${background}
         echo "nameserver 114.114.114.114" > /etc/resolv.conf
