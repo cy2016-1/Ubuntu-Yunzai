@@ -212,7 +212,7 @@ export version=8.9.63
 3|8.9.68)
 export version=8.9.68
 ;;
-3|8.9.70)
+4|8.9.70)
 export version=8.9.70
 ;;
 *)
