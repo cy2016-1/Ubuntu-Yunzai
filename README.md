@@ -130,6 +130,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 |胡桃快来吧！|5.4元|
 |晓彬残月|5.21元|
 |丶基控Q | 5.2元|
+|夜|5元|
 |   |5元|
 |受不了了|5元|
 |猫耳傲娇小刻晴|3元|
@@ -137,7 +138,6 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 |远走高飞|2.5元|
 |小白|2.1元|
 |好心人|2元|
-|夜|2元|
 |想白佬的第N天|1.68元|
 |(ᗜ ˰ ᗜ)|1.01元|
 |百草(白狐准新郎)|0.52元|
