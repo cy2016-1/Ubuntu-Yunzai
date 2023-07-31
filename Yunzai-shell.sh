@@ -19,15 +19,15 @@ echo -e ${green}=============================${background}
 echo -e ${cyan} bhyz"      | "${blue}打开白狐脚本${background}
 echo -e ${cyan} help"      | "${blue}获取快捷命令${background}
 echo -e ${cyan} QS"        | "${blue}管理签名服务器${background}
-echo -e ${cyan} YZ/MZ/TZ"  | "${blue}选择您要控制的对象${background}
-echo -e ${cyan} yz/mz/yz"  | "${blue}进入相应的bot文件夹${background}
+echo -e ${cyan} YZ/MZ/TZ"  | "${green}[大写] ${blue}选择您要控制的对象${background}
+echo -e ${cyan} yz/mz/yz"  | "${green}[小写] ${blue}进入相应的bot文件夹${background}
 echo -e ${cyan} n"         | "${blue}前台启动${background}
 echo -e ${cyan} start"     | "${blue}后台启动${background}
 echo -e ${cyan} log"       | "${blue}打开日志${background}
 echo -e ${cyan} stop"      | "${blue}停止运行${background}
 echo -e ${cyan} login"     | "${blue}重新登陆${background}
 echo -e ${cyan} install"   | "${green}[依赖名] ${blue}安装依赖${background}
-echo -e ${cyan} qs"        | "${green}[API链接] ${blue}填写签名服务器API${background}
+echo -e ${cyan} qsign"     | "${green}[API链接] ${blue}填写签名服务器API${background}
 echo -e ${green}=============================${background}
 }
 case "$1" in
@@ -113,7 +113,7 @@ if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.6.1
+ver=5.6.2
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
