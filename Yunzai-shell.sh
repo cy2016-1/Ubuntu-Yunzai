@@ -113,7 +113,7 @@ if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.6.4
+ver=5.6.5
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -882,7 +882,7 @@ Number=$(whiptail \
 --menu "请选择bot" \
 20 40 10 \
 "1" "安装ffmpeg" \
-"2" "安装python3.10 pip poetry" \
+"2" "安装python3.9 pip poetry" \
 "0" "退出" \
 3>&1 1>&2 2>&3)
 feedback=$?
