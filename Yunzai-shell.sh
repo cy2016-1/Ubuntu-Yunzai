@@ -29,6 +29,9 @@ echo -e ${cyan} login"     | "${blue}重新登陆${background}
 echo -e ${cyan} install"   | "${green}[依赖名] ${blue}安装依赖${background}
 echo -e ${cyan} qsign"     | "${green}[API链接] ${blue}填写签名服务器API${background}
 echo -e ${green}=============================${background}
+echo -e ${yellow} 脚本完全免费 如果你是购买所得 请给差评 打击倒卖 从你我做起${background}
+echo -e ${green} QQ群:${cyan}狐狸窝:705226976${background}
+echo -e ${green}=============================${background}
 }
 case "$1" in
 QS)
@@ -113,7 +116,7 @@ if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.6.5
+ver=5.6.6
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
