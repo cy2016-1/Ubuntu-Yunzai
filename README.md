@@ -80,6 +80,7 @@ rm /usr/local/bin/bhyz
 ### 下面的命令可以脱离脚本使用:
 
 >插件安装脚本:
+>Linux请使用Terminal执行 window请使用Git Bash执行
 ```
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
 ```
