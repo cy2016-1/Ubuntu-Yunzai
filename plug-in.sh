@@ -841,8 +841,8 @@ echo
 echo -e ${white}"#####"${green}白狐-py-plugin${white}"#####"${background}
 echo -e ${blue}请输入要选择的pip镜像源${background}
 echo "#########################"
-echo -e ${green}1.  ${cyan}清华源${background}
-echo -e ${green}2.  ${cyan}北外源${background}
+echo -e ${green}1.  ${cyan}北外源${background}
+echo -e ${green}2.  ${cyan}清华源${background}
 echo -e ${green}3.  ${cyan}阿里源${background}
 echo -e ${green}4.  ${cyan}豆瓣源${background}
 echo -e ${green}5.  ${cyan}中科大${background}
@@ -890,7 +890,7 @@ case ${number} in
   ;;
   *)
     echo;echo -en ${red}输入错误 ${cyan}默认使用清华源${background}
-    mirror=https://pypi.tuna.tsinghua.edu.cn/simple
+    mirror=https://mirrors.bfsu.edu.cn/pypi/web/simple
     py_install
   ;;
 esac
@@ -1217,13 +1217,12 @@ do
      install_git_plugin${_checklist}
      ;;
    11)
-     if ! [ -x "$(command -v pip)" ];then
-       echo -e ${cyan}检测到未安装pip${background}
+     if [ ! -x "$(command -v pip)" ];then
+       echo -e ${cyan}检测到未安装pip 回车返回${background};read
        exit
      fi 
-     if ! [ -x "$(command -v poetry)" ];then
-       echo -e ${cyan}检测到未安装poetry${background}
-       exit
+     if [ ! -x "$(command -v poetry)" ];then
+       echo -e ${cyan}检测到未安装poetry 回车返回${background};read
      fi
      Name=py插件
      Plugin=py-plugin
