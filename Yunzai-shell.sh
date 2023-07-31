@@ -6,22 +6,113 @@
 #then
 #   Git=github
 #fi
-if [ -d $HOME/XDM ];then
-{
-    for ((i = 0 ; i <= 100 ; i+=1)); do
-        sleep 0.01s
-        echo $i
-    done
-} | whiptail --gauge "检测到XDM[寒暄]脚本 自动卸载白狐脚本 正在卸载白狐脚本" 6 60 0
-whiptail --title "白狐≧▽≦" --msgbox \
-"卸载成功 欢迎您的再次使用愉快!" \
-8 25
-fi
+export red="\033[31m"
+export green="\033[32m"
+export yellow="\033[33m"
+export blue="\033[34m"
+export purple="\033[35m"
+export cyan="\033[36m"
+export white="\033[37m"
+export background="\033[0m"
+function help(){
+echo -e ${green}=============================${background}
+echo -e ${cyan} bhyz"      | "${blue}打开白狐脚本${background}
+echo -e ${cyan} help"      | "${blue}获取快捷命令${background}
+echo -e ${cyan} QS"        | "${blue}管理签名服务器${background}
+echo -e ${cyan} YZ/MZ/TZ"  | "${blue}选择您要控制的对象${background}
+echo -e ${cyan} yz/mz/yz"  | "${blue}进入相应的bot文件夹${background}
+echo -e ${cyan} n"         | "${blue}前台启动${background}
+echo -e ${cyan} start"     | "${blue}后台启动${background}
+echo -e ${cyan} log"       | "${blue}打开日志${background}
+echo -e ${cyan} stop"      | "${blue}停止运行${background}
+echo -e ${cyan} login"     | "${blue}重新登陆${background}
+echo -e ${cyan} install"   | "${green}[依赖名] ${blue}安装依赖${background}
+echo -e ${cyan} qs"        | "${green}[API链接] ${blue}填写签名服务器API${background}
+echo -e ${green}=============================${background}
+}
+case "$1" in
+QS)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2.0.sh)
+;;
+YZ)
+cd $HOME/Yunzai-Bot
+;;
+MZ)
+cd $HOE/Miao-Yunzai
+;;
+TZ)
+cd $HOE/TRSS-Yunzai
+;;
+yz)
+pushd $HOME/Yunzai-Bot && exec bash -i
+exit
+;;
+mz)
+pushd $HOE/Miao-Yunzai && exec bash -i
+exit
+;;
+tz)
+pushd $HOE/TRSS-Yunzai && exec bash -i
+exit
+;;
+help)
+help
+exit
+;;
+esac
+
+case "$2" in
+n)
+node app
+exit
+;;
+start)
+pnpm run start
+exit
+;;
+stop)
+pnpm run stop
+exit
+;;
+log)
+pnpm run log
+exit
+;;
+login)
+pnpm run login
+exit
+;;
+install)
+pnpm install "$3" -w
+exit
+;;
+up)
+case $3 in
+  bot)
+  git pull
+  exit
+  ;;
+  pkg)
+  echo "Y" | pnpm install
+  echo "Y" | pnpm install puppeteer@19.0.0 icqq@latest -w
+  exit
+  ;;
+esac
+;;
+qs)
+sed -i '/sign_api_addr/d' config/config/bot.yaml
+sed -i "\$a\sign_api_addr: $3" config/config/bot.yaml
+API=$(grep sign_api_addr config/config/bot.yaml)
+API=$(echo ${API} | sed "s/sign_api_addr//g")
+echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
+exit
+;;
+esac
 if [ -d /usr/local/node/bin ];then
-PATH=$PATH:/usr/local/node/bin
+export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.5.9
+ver=5.6.0
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -504,6 +595,17 @@ YZ=true
 install
 echo -e ${green}检查完成 回车返回${background};read
 ;;
+7)
+curl -o redis.tar.gz https://download.redis.io/releases/redis-7.2-rc3.tar.gz
+apt install -y tar gzip xz-utils make pkg-config gcc
+mkdir redis
+tar -zxf redis.tar.gz -C redis
+cd redis/$(ls redis)
+rm -rf /usr/local/redis > /dev/null
+mkdir /usr/local/redis
+make PREFIX=/usr/local/redis install
+echo -e ${green}重装完成 回车返回${background};read
+;;
 esac
 }
 function main(){
@@ -711,14 +813,6 @@ cd ~
 if ! [ -d .fox@bot ];then
 mkdir .fox@bot
 fi
-red="\033[31m"
-green="\033[32m"
-yellow="\033[33m"
-blue="\033[34m"
-purple="\033[35m"
-cyan="\033[36m"
-white="\033[37m"
-background="\033[0m"
 Number=$(whiptail \
 --title "白狐 QQ群:705226976" \
 --menu "请选择bot" \
