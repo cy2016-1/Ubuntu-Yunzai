@@ -49,7 +49,7 @@ case $(uname -m) in
     exit
     ;;
 esac
-until wget -O ubuntu-${ubuntu}-pd-v3.10.0.tar.xz https://ghproxy.com/https://github.com/termux/proot-distro/releases/download/v3.10.0/ubuntu-${ubuntu}-pd-v3.10.0.tar.xz
+until wget -O ubuntu-${ubuntu}-pd-v3.10.0.tar.xz -c https://ghproxy.com/https://github.com/termux/proot-distro/releases/download/v3.10.0/ubuntu-${ubuntu}-pd-v3.10.0.tar.xz
 do
 echo -e "\033[31m下载失败 重试中\033[0m"
 done
