@@ -19,8 +19,8 @@ echo -e ${green}=============================${background}
 echo -e ${cyan} bhyz"      | "${blue}打开白狐脚本${background}
 echo -e ${cyan} help"      | "${blue}获取快捷命令${background}
 echo -e ${cyan} QS"        | "${blue}管理签名服务器${background}
-echo -e ${cyan} YZ/MZ/TZ"  | "${green}[大写] ${blue}选择您要控制的对象${background}
-echo -e ${cyan} yz/mz/yz"  | "${green}[小写] ${blue}进入相应的bot文件夹${background}
+echo -e ${cyan} YZ/MZ/TZ"  | "${green}[大写]${blue}选择您要控制的对象${background}
+echo -e ${cyan} yz/mz/yz"  | "${green}[小写]${blue}进入相应的bot文件夹${background}
 echo -e ${cyan} n"         | "${blue}前台启动${background}
 echo -e ${cyan} start"     | "${blue}后台启动${background}
 echo -e ${cyan} log"       | "${blue}打开日志${background}
@@ -113,7 +113,7 @@ if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.6.2
+ver=5.6.4
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -930,30 +930,32 @@ echo
 ;;
 2)
 apt update -y
-if [ -x "$(command -v python3.10)" ];then
-apt autoremove python3.10 -y
+if [ -x "$(command -v python3.9)" ];then
+apt autoremove python3.9 -y
 fi
+apt install -y software-properties-common
 until echo -e "\n" | add-apt-repository ppa:deadsnakes/ppa && apt update -y
 do
-apt install software-properties-common -y
-echo -e "\n" | add-apt-repository ppa:deadsnakes/ppa 
+echo -e ${red}ppa仓库写入失败 ${cyan}3秒后重试${background}
+sleep 3s
 done
-until apt install python3.10-full python3.10-venv -y
+until apt install python3.9-full -y
 do
-apt install software-properties-common -y
-echo -e "\n" | add-apt-repository ppa:deadsnakes/ppa
-apt install python3.10-full python3.10-venv -y
+echo -e ${red}python3.9安装失败 ${cyan}3秒后重试${background}
+sleep 3s
 done
 until curl https://bootstrap.pypa.io/get-pip.py | python3.10
 do
-curl https://bootstrap.pypa.io/get-pip.py | python3.10
+echo -e ${red}pip安装失败 ${cyan}3秒后重试${background}
+sleep 3s
 done
-python3.10 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-python3.10 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+python3.10 -m pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+python3.10 -m pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
 python3.10 -m pip install --upgrade pip
-until curl https://install.python-poetry.org | export POETRY_HOME=/usr/local/lib/python3.10/dist-packages/poetry | python3.10
+until pip install poetry
 do
-curl https://install.python-poetry.org | export POETRY_HOME=/usr/local/lib/python3.10/dist-packages/poetry | python3.10
+echo -e ${red}poetry安装失败 ${cyan}3秒后重试${background}
+sleep 3s
 done
 echo
 echo -en ${yellow}安装完成 回车返回${background};read
