@@ -32,7 +32,8 @@ echo -e ${green}=============================${background}
 }
 case "$1" in
 QS)
-bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2.0.sh)
+bash <(curl https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2.0.sh)
+exit
 ;;
 YZ)
 cd $HOME/Yunzai-Bot
@@ -112,7 +113,7 @@ if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.6.0
+ver=5.6.1
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -515,6 +516,9 @@ return
 fi
 case ${ErrorRepair} in
 1)
+if ! command -v aptitude > /dev/null;then
+apt install -y aptitude
+fi
 echo "deb http://ftp.cn.debian.org/debian sid main" >> /etc/apt/sources.list
 apt install -y gnupg gnupg1 gnupg2
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131
@@ -527,6 +531,7 @@ chromium > /dev/null
 cd ~/.fox@bot/${name}
 chromium_path=$(grep chromium_path: config/config/bot.yaml)
 sed -i "s/${chromium_path}/chromium_path: \/usr\/bin\/chromium/g" config/config/bot.yaml
+aptitude install -y
 echo -e ${green}回车返回${background};read
 ;;
 2)
