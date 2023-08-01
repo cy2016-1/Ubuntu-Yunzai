@@ -29,6 +29,9 @@ echo -e ${green}4.  ${cyan}TRSS-Yunzai${background}
 echo -e ${green}5.  ${cyan}Yxy-Bot${background}
 echo -e ${green}0.  ${cyan}退出${background}
 echo "#########################"
+echo -e ${green}白狐API的ICQQ适配版本为${cyan}0.4.12${background}
+echo -e ${green}白狐API的共享库版本为${cyan}8.9.70${background}
+echo "#########################"
 echo -e ${green}QQ群:${cyan}狐狸窝:705226976${background}
 echo "#########################"
 echo
