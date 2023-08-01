@@ -1,12 +1,6 @@
 <h1 align="center">Ubuntu-Yunzai</h1>
 <h6 align="center">QQ群:狐狸窝 705226976</h6>
 <hr/>
-<ul>
-<li>有插件安装脚本，方便安装插件</li>
-<li>可以安装并配置ffmpeg</li>
-</ul>
-<hr/>
-
 ## 一.服务器或者电脑安装脚本<br>
 >如果您的服务器或者电脑是`ubuntu` 请直接使用下面的命令<br>
 
@@ -68,6 +62,10 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 bhyz
 ```
+>获取白狐脚本帮助的命令
+```
+bhyz help
+```
 >脚本打不开的修复命令
 ```
 bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
@@ -76,6 +74,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 rm /usr/local/bin/bhyz
 ```
+
 
 ### 下面的命令可以脱离脚本使用:
 
@@ -90,6 +89,18 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 ```
 
 <hr/>
+
+#### 功能介绍
+
+- [x] 一键部署BOT
+- [x] 可视化BOT管理
+- [x] 插件的安装/更新/卸载
+- [x] 管理员/添加/删除/修改
+- [x] 查看日志
+- [x] 一键部署API(解决45)
+- [x] 一键部署ffmpeg(发送语音)
+
+<hr>
 
 #### 相关链接
 
