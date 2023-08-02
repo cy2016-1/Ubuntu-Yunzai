@@ -42,21 +42,21 @@ YZ)
 cd $HOME/Yunzai-Bot
 ;;
 MZ)
-cd $HOE/Miao-Yunzai
+cd $HOME/Miao-Yunzai
 ;;
 TZ)
-cd $HOE/TRSS-Yunzai
+cd $HOME/TRSS-Yunzai
 ;;
 yz)
 pushd $HOME/Yunzai-Bot && exec bash -i
 exit
 ;;
 mz)
-pushd $HOE/Miao-Yunzai && exec bash -i
+pushd $HOME/Miao-Yunzai && exec bash -i
 exit
 ;;
 tz)
-pushd $HOE/TRSS-Yunzai && exec bash -i
+pushd $HOME/TRSS-Yunzai && exec bash -i
 exit
 ;;
 help)
@@ -116,7 +116,7 @@ if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.6.7
+ver=5.6.8
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -726,7 +726,7 @@ if (whiptail --title "白狐" \
 --no-button "返回" \
 --yesno "请选择签名服务器类型" 10 50)
   then
-    if grep -q sign_api_addr config/config/bot.yaml
+    if [ -e $HOME/${name}/config/config/bot.yaml ]
     then
         #http://127.0.0.1:8080/sign
         #sign_api_addr: http://127.0.0.1:8080/sign?key=123456
@@ -763,8 +763,6 @@ if (whiptail --title "白狐" \
         fi
         #echo "sign_api_addr: ${http}${apilink}${sign}${key}"
         sed -i "\$a\sign_api_addr: ${http}${apilink}${sign}${key}" config/config/bot.yaml
-    else
-        echo -e ${red}您的BOT应该至少启动过一次${background}
     fi
 fi
 echo -en ${yellow}执行完成 回车继续${background};read
