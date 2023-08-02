@@ -190,8 +190,9 @@ then
         port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
         sed -i "s/\"port\": ${port}/\"port\": ${port_}/g" ${file}
     done
-    sed -i '/sign_api_addr/d' $HOME/.fox@bot/Yunzai-Bot/config/config/bot.yaml
-    sed -i '$a\sign_api_addr: https://127.0.0.1:6666/sign?key=114514'
+    file="$HOME/.fox@bot/Yunzai-Bot/config/config/bot.yaml"
+    sed -i '/sign_api_addr/d' ${file}
+    sed -i '$a\sign_api_addr: https://127.0.0.1:6666/sign?key=114514' ${file}
     echo -e ${cyan}已自动填入签名服务器链接${background}
     echo -e ${yellow}正在启动签名服务器${background}
     start_QSignServer
