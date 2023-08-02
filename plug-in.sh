@@ -938,7 +938,7 @@ choose_page
 function plugin_file(){
 for plugin_file in $(ls -I example -I genshin -I other -I system plugins)
 do
-
+echo
 done
 }
 function git_plugin(){
