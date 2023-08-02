@@ -1099,7 +1099,7 @@ echo -e ${green_red}22. ${cyan}Atlas"                    "原神图鉴${backgrou
 echo -e ${green_red}23. ${cyan}zhishui-plugin"           "止水插件${background}
 echo -e ${green_red}24. ${cyan}TRSS-Plugin"              "trss插件${background}
 echo -e ${green_red}25. ${cyan}Jinmaocuicuisha"          "脆脆鲨插件${background}
-echo -e ${green_red}26. ${cyan}useless-plugin"            "无用插件${background}
+echo -e ${green_red}26. ${cyan}useless-plugin"           "无用插件${background}
 echo -e ${green_red}27. ${cyan}liulian-plugin"           "榴莲插件${background}
 echo -e ${green_red}28. ${cyan}xiaoye-plugin"            "小叶插件${background}
 echo -e ${green_red}29. ${cyan}rconsole-plugin"          "R插件${background}
