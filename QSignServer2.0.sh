@@ -25,11 +25,11 @@ QSIGN_VERSION="116"
 qsign_version=1.1.6
 case $(uname -m) in
 amd64|x86_64)
-JDK_URL="https://cdn.azul.com/zulu/bin/zulu8.70.0.23-ca-jdk8.0.372-linux_x64.tar.gz"
+JDK_URL="https://download.oracle.com/java/17/archive/jdk-17.0.8_linux-x64_bin.tar.gz"
 node=x64
 ;;
 arm64|aarch64)
-JDK_URL="https://cdn.azul.com/zulu-embedded/bin/zulu8.70.0.23-ca-jdk8.0.372-linux_aarch64.tar.gz"
+JDK_URL="https://download.oracle.com/java/17/archive/jdk-17.0.8_linux-aarch64_bin.tar.gz"
 node=arm64
 ;;
 esac
