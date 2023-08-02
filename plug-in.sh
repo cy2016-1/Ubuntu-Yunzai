@@ -1292,8 +1292,8 @@ do
      ;;
    15)
      Name=千羽插件
-     Plugin=qianyu-plugin
-     Git=https://gitee.com/think-first-sxs/qianyu-plugin.git
+     Plugin=reset-qianyu-plugin
+     Git=https://gitee.com/think-first-sxs/reset-qianyu-plugin
      plugin_number=$(echo ${plugin_number} | sed "s/15//g")
      install_git_plugin${_checklist}
      ;;
