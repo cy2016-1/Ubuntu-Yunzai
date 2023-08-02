@@ -280,6 +280,7 @@ echo -en ${yellow}回车返回${background};read
 }
 
 function stop_QSignServer(){
+echo -e ${yellow}正在停止服务器运行${background}
 pm2 stop qsign${QSIGN_VERSION}
 pm2 delete qsign${QSIGN_VERSION}
 echo -e ${yellow}停止完成 回车返回${background};read
@@ -291,6 +292,10 @@ echo -e ${yellow}重启完成 回车返回${background};read
 }
 
 function update_QSignServer(){
+echo -e ${yellow}正在停止服务器运行${background}
+pm2 stop qsign${QSIGN_VERSION}
+pm2 delete qsign${QSIGN_VERSION}
+echo -e ${yellow}正在更新签名服务器${background}
 rm -rf $HOME/QSignServer/txlib
 rm -rf $HOME/QSignServer/qsign*
 mkdir -p $HOME/QSignServer/txlib

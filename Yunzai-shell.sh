@@ -116,7 +116,7 @@ if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.6.6
+ver=5.6.7
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -616,6 +616,17 @@ echo -e ${green}重装完成 回车返回${background};read
 ;;
 esac
 }
+function QSIGN(){
+if [ -d $HOME/QSignServer/qsign* ];then
+    if pm2 show qsign${QSIGN_VERSION} | grep -q online;then
+        echo -e ${green}签名服务器 ${cyan}已启动${background}
+    else
+        echo -e ${green}签名服务器 ${red}未启动${background}
+        echo -e ${yellow}正在尝试启动签名服务器${background}
+        pm2 start --name qsign116 "bash $HOME/QSignServer/qsign116/bin/unidbg-fetch-qsign --basePath=$HOME/QSignServer/txlib/8.9.70"
+    fi
+fi
+}
 function main(){
 baihu=$(whiptail \
 --title "白狐≧▽≦" \
@@ -648,9 +659,10 @@ echo -en ${cyan}回车返回${background};read
 2)
 Redis=$(redis-cli ping)
 if ! [ "${Redis}" = "PONG" ]; then
- redis-server &
+ nohup redis-server &
  echo
 fi
+QSIGN
 if [ -e ~/${name}/config/config/qq.yaml ];then
 cd ~/${name}
 pnpm run start
@@ -763,6 +775,7 @@ if ! [ "${Redis}" = "PONG" ]; then
  redis-server --daemonize yes &
  echo
 fi
+QSIGN
 cd ~/${name}
 pnpm run stop
 node app
@@ -947,14 +960,14 @@ do
 echo -e ${red}python3.9安装失败 ${cyan}3秒后重试${background}
 sleep 3s
 done
-until curl https://bootstrap.pypa.io/get-pip.py | python3.10
+until curl https://bootstrap.pypa.io/get-pip.py | python3.9
 do
 echo -e ${red}pip安装失败 ${cyan}3秒后重试${background}
 sleep 3s
 done
-python3.10 -m pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
-python3.10 -m pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
-python3.10 -m pip install --upgrade pip
+python3.9 -m pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+python3.9 -m pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+python3.9 -m pip install --upgrade pip
 until pip install poetry
 do
 echo -e ${red}poetry安装失败 ${cyan}3秒后重试${background}
