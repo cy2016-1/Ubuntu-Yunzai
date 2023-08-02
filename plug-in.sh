@@ -935,6 +935,12 @@ choose_page
 #export ${plugin}=\[已安装\]
 #done
 #########################################################
+function plugin_file(){
+for plugin_file in $(ls -I example -I genshin -I other -I system plugins)
+do
+
+done
+}
 function git_plugin(){
 #clear
 function dialog_whiptail_page_menu(){
@@ -994,6 +1000,7 @@ number=$(${dialog_whiptail} \
 "50" "TianRu-plugin                  天如插件" \
 "51" "ws-plugin                      ws连接插件" \
 "52" "WeLM-plugin                    AI对话插件" \
+"53" "Yunzai-Kuro-Plugin             库洛插件" \
 3>&1 1>&2 2>&3)
 clear
 _checklist=""
@@ -1056,6 +1063,7 @@ number=$(${dialog_whiptail} \
 "50" "TianRu-plugin                  天如插件" OFF \
 "51" "ws-plugin                      ws连接插件" OFF \
 "52" "WeLM-plugin                    AI对话插件" OFF \
+"53" "Yunzai-Kuro-Plugin             库洛插件" OFF \
 3>&1 1>&2 2>&3)
 clear
 _checklist="_checklist"
@@ -1118,6 +1126,7 @@ echo -e ${green_red}49. ${cyan}cunyx-plugin"             "寸幼萱插件${backg
 echo -e ${green_red}50. ${cyan}TianRu-plugin"            "天如插件${background}
 echo -e ${green_red}51. ${cyan}ws-plugin"                "ws连接插件${background}
 echo -e ${green_red}52. ${cyan}WeLM-plugin"              "AI对话插件${background}
+echo -e ${green_red}53. ${cyan}Yunzai-Kuro-Plugin"       "库洛插件${background}
 echo 
 echo -e ${green}0. ${cyan}返回${background}
 echo "#####################################"
@@ -1561,6 +1570,13 @@ do
      Plugin=WeLM-plugin
      Git=https://gitee.com/shuciqianye/yunzai-custom-dialogue-welm.git
      plugin_number=$(echo ${plugin_number} | sed "s/52//g")
+     install_git_plugin${_checklist}
+     ;;
+   53)
+     Name=库洛插件
+     Plugin=Yunzai-Kuro-Plugin
+     Git=https://gitee.com/TomyJan/Yunzai-Kuro-Plugin.git
+     plugin_number=$(echo ${plugin_number} | sed "s/53//g")
      install_git_plugin${_checklist}
      ;;
    0)
