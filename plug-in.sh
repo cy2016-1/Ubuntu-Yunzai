@@ -993,6 +993,7 @@ number=$(${dialog_whiptail} \
 "49" "cunyx-plugin                   寸幼萱插件" \
 "50" "TianRu-plugin                  天如插件" \
 "51" "ws-plugin                      ws连接插件" \
+"52" "WeLM-plugin                    AI对话插件" \
 3>&1 1>&2 2>&3)
 clear
 _checklist=""
@@ -1054,6 +1055,7 @@ number=$(${dialog_whiptail} \
 "49" "cunyx-plugin                   寸幼萱插件" OFF \
 "50" "TianRu-plugin                  天如插件" OFF \
 "51" "ws-plugin                      ws连接插件" OFF \
+"52" "WeLM-plugin                    AI对话插件" OFF \
 3>&1 1>&2 2>&3)
 clear
 _checklist="_checklist"
@@ -1115,6 +1117,7 @@ echo -e ${green_red}48. ${cyan}avocado-plugin"           "鳄梨插件${backgrou
 echo -e ${green_red}49. ${cyan}cunyx-plugin"             "寸幼萱插件${background}
 echo -e ${green_red}50. ${cyan}TianRu-plugin"            "天如插件${background}
 echo -e ${green_red}51. ${cyan}ws-plugin"                "ws连接插件${background}
+echo -e ${green_red}52. ${cyan}WeLM-plugin"              "AI对话插件${background}
 echo 
 echo -e ${green}0. ${cyan}返回${background}
 echo "#####################################"
@@ -1551,6 +1554,13 @@ do
      Plugin=ws-plugin
      Git=https://gitee.com/xiaoye12123/ws-plugin.git
      plugin_number=$(echo ${plugin_number} | sed "s/51//g")
+     install_git_plugin${_checklist}
+     ;;
+   52)
+     Name=AI对话插件
+     Plugin=WeLM-plugin
+     Git=https://gitee.com/shuciqianye/yunzai-custom-dialogue-welm.git
+     plugin_number=$(echo ${plugin_number} | sed "s/52//g")
      install_git_plugin${_checklist}
      ;;
    0)
