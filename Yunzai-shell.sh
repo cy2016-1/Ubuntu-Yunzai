@@ -119,7 +119,7 @@ if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.7.3
+ver=5.7.4
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -678,7 +678,7 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     else
         echo -e ${green}签名服务器 ${red}未启动${background}
         echo -e ${yellow}正在尝试启动签名服务器${background}
-        ICQQ_VERSION="$(grep version node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')"
+        ICQQ_VERSION="$(grep version $HOME/.fox@bot/${name}/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')"
         case ${ICQQ_VERSION} in
         0.4.12)
         export version=8.9.70
@@ -687,7 +687,7 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
         export version=8.9.68
         ;;
         *)
-        echo ${yellow}读取失败 请更新icqq${background}
+        echo -e ${yellow}读取失败 请更新icqq${background}
         exit
         ;;
         esac
