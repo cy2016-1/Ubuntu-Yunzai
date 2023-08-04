@@ -103,7 +103,7 @@ case $3 in
   ;;
 esac
 ;;
-qs)
+qsign)
 sed -i '/sign_api_addr/d' config/config/bot.yaml
 sed -i "\$a\sign_api_addr: $3" config/config/bot.yaml
 API=$(grep sign_api_addr config/config/bot.yaml)
@@ -116,7 +116,7 @@ if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.6.8
+ver=5.6.9
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -213,7 +213,7 @@ sed -i "s/deb http:\/\/ftp.cn.debian.org\/debian sid main//g" /etc/apt/sources.l
 chromium > /dev/null
 }
 
-if ! command -v chromium > /dev/null || ! command -v chromium-browser > /dev/null; then
+if [ ! command -v chromium > /dev/null ] || [ ! command -v chromium-browser > /dev/null ];then
     echo -e ${yellow}安装chromium浏览器${background}
     if awk '{print $2}' /etc/issue | grep -q -E 20.*
         then
@@ -617,13 +617,49 @@ echo -e ${green}重装完成 回车返回${background};read
 esac
 }
 function QSIGN(){
+QSIGN_VERSION="116"
+if [ -d $HOME/QSignServer/jdk ];then
+export PATH=$PATH:$HOME/QSignServer/jdk/bin
+export JAVA_HOME=$HOME/QSignServer/jdk
+fi
 if [ -d $HOME/QSignServer/qsign* ];then
+    if ! grep -q 'https://127.0.0.1:6666/sign?key=114514' ;then
+        file="$HOME/.fox@bot/Yunzai-Bot/config/config/bot.yaml"
+        sed -i '/sign_api_addr/d' ${file}
+        sed -i '$a\sign_api_addr: https://127.0.0.1:6666/sign?key=114514' ${file}
+    fi
+    port_="6666"
+    for folder in $(ls $HOME/QSignServer/txlib)
+    do
+        file="$HOME/QSignServer/txlib/${folder}/config.json"
+        if ! grep -q '6666' ${file} ;then
+            port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
+            sed -i "s/\"port\": ${port}/\"port\": ${port_}/g" ${file}
+        fi
+    done
     if pm2 show qsign${QSIGN_VERSION} | grep -q online;then
         echo -e ${green}签名服务器 ${cyan}已启动${background}
     else
+        if [ -e $HOME/${name}/node_modules/icqq/package.json ]
+        then
+        icqq=$(grep version $HOME/Yunzai-Bot/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
+        case ${icqq} in
+        0.4.12)
+        export version=8.9.70
+        ;;
+        0.4.11)
+        export version=8.9.68
+        ;;
+        *)
+        echo -e ${red}请升级icqq版本为最新${background}
+        echo -e ${yellow}现将使用默认配置启动签名服务器${background}
+        export version=8.9.70
+        ;;
+        esac
+        fi
         echo -e ${green}签名服务器 ${red}未启动${background}
         echo -e ${yellow}正在尝试启动签名服务器${background}
-        pm2 start --name qsign116 "bash $HOME/QSignServer/qsign116/bin/unidbg-fetch-qsign --basePath=$HOME/QSignServer/txlib/8.9.70"
+        pm2 start --name qsign${QSIGN_VERSION} "bash $HOME/QSignServer/qsign${QSIGN_VERSION}/bin/unidbg-fetch-qsign --basePath=$HOME/QSignServer/txlib/${version}"
     fi
 fi
 }
