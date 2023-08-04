@@ -116,7 +116,7 @@ if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.7.0
+ver=5.7.1
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -642,7 +642,7 @@ if [ -d $HOME/QSignServer/qsign* ];then
     else
         if [ -e $HOME/${name}/node_modules/icqq/package.json ]
         then
-        icqq=$(grep version $HOME/${name}t/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
+        icqq=$(grep version $HOME/${name}/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
         case ${icqq} in
         0.4.12)
         export version=8.9.70
