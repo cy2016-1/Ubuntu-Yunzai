@@ -153,6 +153,7 @@ if ! [ -x "$(command -v pm2)" ];then
     do
       echo -e ${red}pm2安装失败 ${green}正在重试${background}
       pnpm setup
+      source /root/.bashrc
     done
     echo
 fi
