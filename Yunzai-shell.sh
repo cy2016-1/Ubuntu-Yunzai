@@ -116,7 +116,7 @@ if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.7.1
+ver=5.7.2
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -621,6 +621,24 @@ QSIGN_VERSION="116"
 if [ -d $HOME/QSignServer/jdk ];then
 export PATH=$PATH:$HOME/QSignServer/jdk/bin
 export JAVA_HOME=$HOME/QSignServer/jdk
+fi
+if [ -d /usr/local/node/bin ];then
+    if [ ! -d $HOME/.local/share/pnpm ];then
+        mkdir -p $HOME/.local/share/pnpm
+    fi
+    export PATH=$PATH:$HOME/.local/share/pnpm
+    export PNPM_HOME=$HOME/.local/share/pnpm
+fi
+if [ -d $HOME/QSignServer/node/bin ];then
+export PATH=$PATH:$HOME/QSignServer/node/bin
+export PNPM_HOME=$HOME/QSignServer/node/bin
+fi
+if [ -d /usr/lib/node_modules/pnpm/bin ];then
+    if [ ! -d $HOME/.local/share/pnpm ];then
+        mkdir -p $HOME/.local/share/pnpm
+    fi
+    export PATH=$PATH:$HOME/.local/share/pnpm
+    export PNPM_HOME=$HOME/.local/share/pnpm
 fi
 if [ -d $HOME/QSignServer/qsign* ];then
     file="$HOME/.fox@bot/${name}/config/config/bot.yaml"
