@@ -116,7 +116,7 @@ if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.6.9
+ver=5.7.0
 cd $HOME
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
@@ -623,8 +623,8 @@ export PATH=$PATH:$HOME/QSignServer/jdk/bin
 export JAVA_HOME=$HOME/QSignServer/jdk
 fi
 if [ -d $HOME/QSignServer/qsign* ];then
-    if ! grep -q 'https://127.0.0.1:6666/sign?key=114514' ;then
-        file="$HOME/.fox@bot/Yunzai-Bot/config/config/bot.yaml"
+    file="$HOME/.fox@bot/${name}/config/config/bot.yaml"
+    if ! grep -q 'https://127.0.0.1:6666/sign?key=114514' ${file};then
         sed -i '/sign_api_addr/d' ${file}
         sed -i '$a\sign_api_addr: https://127.0.0.1:6666/sign?key=114514' ${file}
     fi
@@ -642,7 +642,7 @@ if [ -d $HOME/QSignServer/qsign* ];then
     else
         if [ -e $HOME/${name}/node_modules/icqq/package.json ]
         then
-        icqq=$(grep version $HOME/Yunzai-Bot/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
+        icqq=$(grep version $HOME/${name}t/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
         case ${icqq} in
         0.4.12)
         export version=8.9.70
