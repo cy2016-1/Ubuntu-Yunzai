@@ -44,12 +44,10 @@ if [ -d /usr/local/node/bin ];then
     fi
     export PATH=$PATH:$HOME/.local/share/pnpm
     export PNPM_HOME=$HOME/.local/share/pnpm
-fi
-if [ -d $HOME/QSignServer/node/bin ];then
-export PATH=$PATH:$HOME/QSignServer/node/bin
-export PNPM_HOME=$HOME/QSignServer/node/bin
-fi
-if [ -d /usr/lib/node_modules/pnpm/bin ];then
+elif [ -d $HOME/QSignServer/node/bin ];then
+    export PATH=$PATH:$HOME/QSignServer/node/bin
+    export PNPM_HOME=$HOME/QSignServer/node/bin
+elif [ -d /usr/lib/node_modules/pnpm/bin ];then
     if [ ! -d $HOME/.local/share/pnpm ];then
         mkdir -p $HOME/.local/share/pnpm
     fi
@@ -86,7 +84,7 @@ if [ ! $(command -v git) ] || [ ! $(command -v wget) ] || [ ! $(command -v gzip)
     fi
 fi
 JAVA_VERSION=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
-if [[ ! "${JAVA_VERSION}" == "17."* ]]; then
+if [[ ! "${JAVA_VERSION}" == "1.8"* ]]; then
     until wget -O jdk.tar.gz -c ${JDK_URL}
     do
       echo -e ${red}下载失败 ${green}正在重试${background}
@@ -192,7 +190,7 @@ then
     done
     file="$HOME/.fox@bot/Yunzai-Bot/config/config/bot.yaml"
     sed -i '/sign_api_addr/d' ${file}
-    sed -i '$a\sign_api_addr: https://127.0.0.1:6666/sign?key=114514' ${file}
+    sed -i '$a\sign_api_addr: http://127.0.0.1:6666/sign?key=114514' ${file}
     echo -e ${cyan}已自动填入签名服务器链接${background}
     echo -e ${yellow}正在启动签名服务器${background}
     start_QSignServer
@@ -210,7 +208,17 @@ fi
 }
 
 function start_QSignServer(){
-function input(){
+if ! [ -x "$(command -v pm2)" ];then
+    echo -e ${yellow}正在使用pnpm安装pm2${background}
+    pnpm config set registry https://registry.npmmirror.com
+    pnpm config set registry https://registry.npmmirror.com
+    until pnpm install -g pm2@latest
+    do
+      echo -e ${red}pm2安装失败 ${green}正在重试${background}
+      pnpm setup
+    done
+    echo
+fi
 echo -e ${white}"====="${green}白狐-QSignServer${white}"====="${background}
 echo -e ${cyan}请选择您想让您签名服务器适配的QQ版本${background}
 echo -e  ${green}1.  ${cyan}8.9.58${background}
@@ -219,22 +227,6 @@ echo -e  ${green}3.  ${cyan}8.9.68${background}
 echo -e  ${green}4.  ${cyan}8.9.70${background}
 echo "========================="
 echo -en ${green}请输入您的选项: ${background};read num
-}
-if [ -d $HOME/.fox@bot/Yunzai-Bot ]
-then
-icqq=$(grep version $HOME/Yunzai-Bot/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
-    if [ "${icqq}" = "0.4.11" ]
-    then
-        num=3
-    elif [ "${icqq}" = "0.4.12" ]
-    then
-        num=4
-    else
-        input
-    fi
-else
-    input
-fi
 case ${num} in
 1|8.9.58)
 export version=8.9.58

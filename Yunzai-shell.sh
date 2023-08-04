@@ -101,6 +101,9 @@ case $3 in
   echo "Y" | pnpm install puppeteer@19.0.0 icqq@latest -w
   exit
   ;;
+  false)
+  up=false
+  ;;
 esac
 ;;
 qsign)
@@ -116,8 +119,9 @@ if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
 export PNPM_HOME=/usr/local/node/bin
 fi
-ver=5.7.2
+ver=5.7.3
 cd $HOME
+if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
 if [ "$version" != "$ver" ]; then
     rm /usr/local/bin/bhyz
@@ -153,6 +157,7 @@ if [ "$version" != "$ver" ]; then
     fi
     bhyz
     exit
+fi
 fi
 #########################################################
 function centos(){
@@ -628,23 +633,36 @@ if [ -d /usr/local/node/bin ];then
     fi
     export PATH=$PATH:$HOME/.local/share/pnpm
     export PNPM_HOME=$HOME/.local/share/pnpm
-fi
-if [ -d $HOME/QSignServer/node/bin ];then
-export PATH=$PATH:$HOME/QSignServer/node/bin
-export PNPM_HOME=$HOME/QSignServer/node/bin
-fi
-if [ -d /usr/lib/node_modules/pnpm/bin ];then
+elif [ -d $HOME/QSignServer/node/bin ];then
+    export PATH=$PATH:$HOME/QSignServer/node/bin
+    export PNPM_HOME=$HOME/QSignServer/node/bin
+elif [ -d /usr/lib/node_modules/pnpm/bin ];then
     if [ ! -d $HOME/.local/share/pnpm ];then
         mkdir -p $HOME/.local/share/pnpm
     fi
     export PATH=$PATH:$HOME/.local/share/pnpm
     export PNPM_HOME=$HOME/.local/share/pnpm
 fi
-if [ -d $HOME/QSignServer/qsign* ];then
+if ! [ -x "$(command -v pm2)" ];then
+    echo -e ${yellow}正在使用pnpm安装pm2${background}
+    pnpm config set registry https://registry.npmmirror.com
+    pnpm config set registry https://registry.npmmirror.com
+    until pnpm install -g pm2@latest
+    do
+      echo -e ${red}pm2安装失败 ${green}正在重试${background}
+      pnpm setup
+    done
+    echo
+fi
+if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     file="$HOME/.fox@bot/${name}/config/config/bot.yaml"
     if ! grep -q 'https://127.0.0.1:6666/sign?key=114514' ${file};then
         sed -i '/sign_api_addr/d' ${file}
-        sed -i '$a\sign_api_addr: https://127.0.0.1:6666/sign?key=114514' ${file}
+        sed -i '$a\sign_api_addr: http://127.0.0.1:6666/sign?key=114514' ${file}
+    fi
+    file="$HOME/.fox@bot/${name}/config/config/qq.yaml"
+    if ! grep platform ${file} | grep -q 2 ;then
+    sed -i "s/$(grep platform ${file})/platform: 2/g" ${file}
     fi
     port_="6666"
     for folder in $(ls $HOME/QSignServer/txlib)
@@ -658,10 +676,10 @@ if [ -d $HOME/QSignServer/qsign* ];then
     if pm2 show qsign${QSIGN_VERSION} | grep -q online;then
         echo -e ${green}签名服务器 ${cyan}已启动${background}
     else
-        if [ -e $HOME/${name}/node_modules/icqq/package.json ]
-        then
-        icqq=$(grep version $HOME/${name}/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
-        case ${icqq} in
+        echo -e ${green}签名服务器 ${red}未启动${background}
+        echo -e ${yellow}正在尝试启动签名服务器${background}
+        ICQQ_VERSION="$(grep version node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')"
+        case ${ICQQ_VERSION} in
         0.4.12)
         export version=8.9.70
         ;;
@@ -669,14 +687,10 @@ if [ -d $HOME/QSignServer/qsign* ];then
         export version=8.9.68
         ;;
         *)
-        echo -e ${red}请升级icqq版本为最新${background}
-        echo -e ${yellow}现将使用默认配置启动签名服务器${background}
-        export version=8.9.70
+        echo ${yellow}读取失败 请更新icqq${background}
+        exit
         ;;
         esac
-        fi
-        echo -e ${green}签名服务器 ${red}未启动${background}
-        echo -e ${yellow}正在尝试启动签名服务器${background}
         pm2 start --name qsign${QSIGN_VERSION} "bash $HOME/QSignServer/qsign${QSIGN_VERSION}/bin/unidbg-fetch-qsign --basePath=$HOME/QSignServer/txlib/${version}"
     fi
 fi
