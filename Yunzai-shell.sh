@@ -102,7 +102,7 @@ case $3 in
   ;;
   pkg)
   echo "Y" | pnpm install
-  echo "Y" | pnpm install puppeteer@19.0.0 icqq@latest -w
+  echo "Y" | pnpm install puppeteer@19.0.0 icqq@0.4.12 -w
   exit
   ;;
   false)
@@ -119,7 +119,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.7.5
+ver=5.7.6
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -524,22 +524,36 @@ return
 fi
 case ${ErrorRepair} in
 1)
-if ! command -v aptitude > /dev/null;then
-apt install -y aptitude
-fi
-echo "deb http://ftp.cn.debian.org/debian sid main" >> /etc/apt/sources.list
+function install_chromium(){
 apt install -y gnupg gnupg1 gnupg2
+cp -f /etc/apt/sources.list /etc/apt/sources.list.bak
+echo "deb http://ftp.cn.debian.org/debian sid main" > /etc/apt/sources.list
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131
 apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
 apt update -y
 apt install -y chromium
 rm -rf /etc/apt/trusted.gpg
-sed -i "s/deb http:\/\/ftp.cn.debian.org\/debian sid main//g" /etc/apt/sources.list
+mv -f /etc/apt/sources.list.bak /etc/apt/sources.list
 chromium > /dev/null
 cd ~/.fox@bot/${name}
 chromium_path=$(grep chromium_path: config/config/bot.yaml)
 sed -i "s/${chromium_path}/chromium_path: \/usr\/bin\/chromium/g" config/config/bot.yaml
 aptitude install -y
+}
+if ! command -v aptitude > /dev/null;then
+apt install -y aptitude
+fi
+if awk '{print $2}' /etc/issue | grep -q -E 22.*
+    then
+        install_chromium
+elif awk '{print $2}' /etc/issue | grep -q -E 23.*
+    then
+        install_chromium
+    else
+        apt autoremove -y chromium-browser
+        apt install -y chromium-browser
+fi
+
 echo -e ${green}回车返回${background};read
 ;;
 2)

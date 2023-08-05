@@ -1004,6 +1004,7 @@ number=$(${dialog_whiptail} \
 "54" "mj-plugin                      AI绘图插件" \
 "55" "qinghe-plugin                  卿何插件" \
 "56" "BlueArchive-plugin             碧蓝档案插件" \
+"57" "impart-pro-plugin              牛牛大作战" \
 3>&1 1>&2 2>&3)
 clear
 _checklist=""
@@ -1070,6 +1071,7 @@ number=$(${dialog_whiptail} \
 "54" "mj-plugin                      AI绘图插件" OFF \
 "55" "qinghe-plugin                  卿何插件" OFF \
 "56" "BlueArchive-plugin             碧蓝档案插件" OFF \
+"57" "impart-pro-plugin              牛牛大作战" OFF \
 3>&1 1>&2 2>&3)
 clear
 _checklist="_checklist"
@@ -1136,6 +1138,7 @@ echo -e ${green_red}53. ${cyan}Yunzai-Kuro-Plugin"       "库洛插件${backgrou
 echo -e ${green_red}54. ${cyan}mj-plugin"                "AI绘图插件${background}
 echo -e ${green_red}55. ${cyan}qinghe-plugin"            "卿何插件${background}
 echo -e ${green_red}56. ${cyan}BlueArchive-plugin"       "碧蓝档案插件${background}
+echo -e ${green_red}57. ${cyan}impart-pro-plugin"        "牛牛大作战${background}
 echo 
 echo -e ${green}0. ${cyan}返回${background}
 echo "#####################################"
@@ -1607,6 +1610,13 @@ do
      Plugin=BlueArchive-plugin
      Git=https://gitee.com/all-thoughts-are-broken/blue-archive.git
      plugin_number=$(echo ${plugin_number} | sed "s/56//g")
+     install_git_plugin${_checklist}
+     ;;
+   57)
+     Name=牛牛大作战
+     Plugin=impart-pro-plugin
+     Git=https://gitee.com/sumght/impart-pro-plugin.git
+     plugin_number=$(echo ${plugin_number} | sed "s/57//g")
      install_git_plugin${_checklist}
      ;;
    0)
