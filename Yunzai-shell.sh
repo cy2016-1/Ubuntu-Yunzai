@@ -14,6 +14,10 @@ export purple="\033[35m"
 export cyan="\033[36m"
 export white="\033[37m"
 export background="\033[0m"
+if [ -d /usr/local/node/bin ];then
+export PATH=$PATH:/usr/local/node/bin
+export PNPM_HOME=/usr/local/node/bin
+fi
 function help(){
 echo -e ${green}=============================${background}
 echo -e ${cyan} bhyz"      | "${blue}打开白狐脚本${background}
@@ -115,11 +119,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-if [ -d /usr/local/node/bin ];then
-export PATH=$PATH:/usr/local/node/bin
-export PNPM_HOME=/usr/local/node/bin
-fi
-ver=5.7.4
+ver=5.7.5
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
