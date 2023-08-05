@@ -67,6 +67,9 @@ help)
 help
 exit
 ;;
+unup)
+up=false
+;;
 esac
 
 case "$2" in
@@ -105,9 +108,6 @@ case $3 in
   echo "Y" | pnpm install puppeteer@19.0.0 icqq@0.4.12 -w
   exit
   ;;
-  false)
-  up=false
-  ;;
 esac
 ;;
 qsign)
@@ -119,7 +119,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.7.6
+ver=5.7.7
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -636,7 +636,7 @@ echo -e ${green}重装完成 回车返回${background};read
 esac
 }
 function QSIGN(){
-QSIGN_VERSION="116"
+export QSIGN_VERSION="116"
 if [ -d $HOME/QSignServer/jdk ];then
 export PATH=$PATH:$HOME/QSignServer/jdk/bin
 export JAVA_HOME=$HOME/QSignServer/jdk
@@ -702,7 +702,6 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
         ;;
         *)
         echo -e ${yellow}读取失败 请更新icqq${background}
-        exit
         ;;
         esac
         pm2 start --name qsign${QSIGN_VERSION} "bash $HOME/QSignServer/qsign${QSIGN_VERSION}/bin/unidbg-fetch-qsign --basePath=$HOME/QSignServer/txlib/${version}"
@@ -792,16 +791,8 @@ echo -en ${cyan}回车返回${background};read
 6)
 #bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
 cd ~/${name}
-echo -e ${yellow}正在更新 $(ls ..)${background}
 git pull
 icqq=$(grep version node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
-icqq_latest=$(curl -sL https://ghproxy.com/https://github.com/icqqjs/icqq/raw/main/package.json | grep version | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
-if [ ! "${icqq_latest}" = "${icqq}" ];then
-#sed -i "s/${icqq}/${icqq_latest}/g" package.json
-echo "Y" | pnpm install
-pnpm uninstall icqq -w
-pnpm install icqq@latest -w
-fi
 
 if (whiptail --title "白狐" \
 --yes-button "第三方签名服务器" \
@@ -814,7 +805,7 @@ if (whiptail --title "白狐" \
         #sign_api_addr: http://127.0.0.1:8080/sign?key=123456
         #sign_api_addr: 112.74.57.142
         sed -i '/sign_api_addr/d' config/config/bot.yaml
-        apilink=$(whiptail --title "白狐≧▽≦" --inputbox "请输入您准备好的api链接\n请注意,原链接末尾有sign的不要忘记了，如果有key请带上" \
+        apilink=$(whiptail --title "白狐≧▽≦" --inputbox "您的ICQQ版本为 [${icqq}]\n请输入您准备好的api链接\n请注意,原链接末尾有sign的不要忘记了，如果有key请带上" \
         10 60 3>&1 1>&2 2>&3)
         if echo ${apilink} | grep -q sign_api_addr: ;then
             apilink=$(echo ${apilink} | sed 's/sign_api_addr: //g')

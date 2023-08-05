@@ -25,11 +25,11 @@ QSIGN_VERSION="116"
 qsign_version=1.1.6
 case $(uname -m) in
 amd64|x86_64)
-JDK_URL="https://download.oracle.com/java/17/archive/jdk-17.0.8_linux-x64_bin.tar.gz"
+JDK_URL="https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-x64.tar.gz"
 node=x64
 ;;
 arm64|aarch64)
-JDK_URL="https://download.oracle.com/java/17/archive/jdk-17.0.8_linux-aarch64_bin.tar.gz"
+JDK_URL="https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-arm64-vfp-hflt.tar.gz"
 node=arm64
 ;;
 esac
@@ -217,6 +217,7 @@ if ! [ -x "$(command -v pm2)" ];then
     do
       echo -e ${red}pm2安装失败 ${green}正在重试${background}
       pnpm setup
+      source /root/.bashrc
     done
     echo
 fi
@@ -277,12 +278,12 @@ function stop_QSignServer(){
 echo -e ${yellow}正在停止服务器运行${background}
 pm2 stop qsign${QSIGN_VERSION}
 pm2 delete qsign${QSIGN_VERSION}
-echo -e ${yellow}停止完成 回车返回${background};read
+echo -en ${yellow}停止完成 回车返回${background};read
 }
 
 function restart_QSignServer(){
 pm2 restart qsign${QSIGN_VERSION}
-echo -e ${yellow}重启完成 回车返回${background};read
+echo -en ${yellow}重启完成 回车返回${background};read
 }
 
 function update_QSignServer(){
@@ -330,7 +331,7 @@ for file in $(ls $HOME/QSignServer/txlib)
 do
 file="$HOME/QSignServer/txlib/${file}/config.json"
 key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
-sed -i "s/\"key\": \"${key}\"/\"key\": ${key_}/g" ${file}
+sed -i "s/${key}/${key_}/g" ${file}
 done
 echo -en ${yellow}更改完成 回车返回${background};read
 }
