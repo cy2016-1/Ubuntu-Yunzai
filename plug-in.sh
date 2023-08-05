@@ -963,7 +963,7 @@ number=$(${dialog_whiptail} \
 "13" "lin-plugin                     麟插件" \
 "14" "l-plugin                       L插件" \
 "15" "qianyu-plugin                  千羽插件" \
-"16" "yunzai-c-v-plugin              清凉图插件" \
+"16" "ql-plugin                      清凉图插件" \
 "17" "flower-plugin                  抽卡插件" \
 "18" "auto-plugin                    自动化插件" \
 "19" "recreation-plugin              娱乐插件" \
@@ -1001,6 +1001,9 @@ number=$(${dialog_whiptail} \
 "51" "ws-plugin                      ws连接插件" \
 "52" "WeLM-plugin                    AI对话插件" \
 "53" "Yunzai-Kuro-Plugin             库洛插件" \
+"54" "mj-plugin                      AI绘图插件" \
+"55" "qinghe-plugin                  卿何插件" \
+"56" "BlueArchive-plugin             碧蓝档案插件" \
 3>&1 1>&2 2>&3)
 clear
 _checklist=""
@@ -1026,7 +1029,7 @@ number=$(${dialog_whiptail} \
 "13" "lin-plugin                     麟插件" OFF \
 "14" "l-plugin                       L插件" OFF \
 "15" "qianyu-plugin                  千羽插件" OFF \
-"16" "yunzai-c-v-plugin              清凉图插件" OFF \
+"16" "ql-plugin                      清凉图插件" OFF \
 "17" "flower-plugin                  抽卡插件" OFF \
 "18" "auto-plugin                    自动化插件" OFF \
 "19" "recreation-plugin              娱乐插件" OFF \
@@ -1064,6 +1067,9 @@ number=$(${dialog_whiptail} \
 "51" "ws-plugin                      ws连接插件" OFF \
 "52" "WeLM-plugin                    AI对话插件" OFF \
 "53" "Yunzai-Kuro-Plugin             库洛插件" OFF \
+"54" "mj-plugin                      AI绘图插件" OFF \
+"55" "qinghe-plugin                  卿何插件" OFF \
+"56" "BlueArchive-plugin             碧蓝档案插件" OFF \
 3>&1 1>&2 2>&3)
 clear
 _checklist="_checklist"
@@ -1089,7 +1095,7 @@ echo -e ${green_red}12. ${cyan}xianxin-plugin"           "闲心插件${backgrou
 echo -e ${green_red}13. ${cyan}lin-plugin"               "麟插件${background}
 echo -e ${green_red}14. ${cyan}l-plugin"                 "L插件${background}
 echo -e ${green_red}15. ${cyan}qianyu-plugin"            "千羽插件${background}
-echo -e ${green_red}16. ${cyan}yunzai-c-v-plugin"        "清凉图插件${background}
+echo -e ${green_red}16. ${cyan}ql-plugin"                "清凉图插件${background}
 echo -e ${green_red}17. ${cyan}flower-plugin"            "抽卡插件${background}
 echo -e ${green_red}18. ${cyan}auto-plugin"              "自动化插件${background}
 echo -e ${green_red}19. ${cyan}recreation-plugin"        "娱乐插件${background}
@@ -1127,6 +1133,9 @@ echo -e ${green_red}50. ${cyan}TianRu-plugin"            "天如插件${backgrou
 echo -e ${green_red}51. ${cyan}ws-plugin"                "ws连接插件${background}
 echo -e ${green_red}52. ${cyan}WeLM-plugin"              "AI对话插件${background}
 echo -e ${green_red}53. ${cyan}Yunzai-Kuro-Plugin"       "库洛插件${background}
+echo -e ${green_red}54. ${cyan}mj-plugin"                "AI绘图插件${background}
+echo -e ${green_red}55. ${cyan}qinghe-plugin"            "卿何插件${background}
+echo -e ${green_red}56. ${cyan}BlueArchive-plugin"       "碧蓝档案插件${background}
 echo 
 echo -e ${green}0. ${cyan}返回${background}
 echo "#####################################"
@@ -1311,8 +1320,8 @@ do
      ;;
    16)
      Name=清凉图插件
-     Plugin=yunzai-c-v-plugin
-     Git=https://gitee.com/xwy231321/yunzai-c-v-plugin.git
+     Plugin=ql-plugin
+     Git=https://gitee.com/xwy231321/ql-plugin.git
      plugin_number=$(echo ${plugin_number} | sed "s/16//g")
      install_git_plugin${_checklist}
      ;;
@@ -1579,6 +1588,27 @@ do
      plugin_number=$(echo ${plugin_number} | sed "s/53//g")
      install_git_plugin${_checklist}
      ;;
+   54)
+     Name=AI绘图插件
+     Plugin=mj-plugin
+     Git=https://gitee.com/CikeyQi/mj-plugin.git
+     plugin_number=$(echo ${plugin_number} | sed "s/54//g")
+     install_git_plugin${_checklist}
+     ;;
+   55)
+     Name=卿何插件
+     Plugin=qinghe-plugin
+     Git=https://gitee.com/Tloml-Starry/qinghe-plugin.git
+     plugin_number=$(echo ${plugin_number} | sed "s/55//g")
+     install_git_plugin${_checklist}
+     ;;
+   56)
+     Name=碧蓝档案插件
+     Plugin=BlueArchive-plugin
+     Git=https://gitee.com/all-thoughts-are-broken/blue-archive.git
+     plugin_number=$(echo ${plugin_number} | sed "s/56//g")
+     install_git_plugin${_checklist}
+     ;;
    0)
      echo
      main
@@ -1664,8 +1694,8 @@ exit
 esac
 if [ -d "/root/${name}" ];then
 path="/root/${name}"
-elif [ -d "/root/fox@bot/${name}" ];then
-path="/root/fox@bot/${name}"
+elif [ -d "/root/.fox@bot/${name}" ];then
+path="/root/.fox@bot/${name}"
 elif [ -d "/home/lighthouse/ubuntu/${name}" ];then
 path="/home/lighthouse/ubuntu/${name}"
 elif [ -d "/home/lighthouse/centos/${name}" ];then
