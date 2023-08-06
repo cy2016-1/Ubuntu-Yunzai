@@ -20,16 +20,16 @@ if [ ! "$(id -u)" = "0" ]; then
     echo -e ${red}请使用root用户${background}
     exit 0
 fi
-QSIGN_URL="https://ghproxy.com/https://github.com/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.6/unidbg-fetch-qsign-1.1.6.zip"
-QSIGN_VERSION="116"
-qsign_version=1.1.6
+export QSIGN_URL="https://ghproxy.com/https://github.com/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.6/unidbg-fetch-qsign-1.1.6.zip"
+export QSIGN_VERSION="116"
+export qsign_version=1.1.6
 case $(uname -m) in
 amd64|x86_64)
-JDK_URL="https://download.oracle.com/java/17/archive/jdk-17.0.8_linux-x64_bin.tar.gz"
+JDK_URL="https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-x64.tar.gz"
 node=x64
 ;;
 arm64|aarch64)
-JDK_URL="https://download.oracle.com/java/17/archive/jdk-17.0.8_linux-aarch64_bin.tar.gz"
+JDK_URL="https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-arm64-vfp-hflt.tar.gz"
 node=arm64
 ;;
 esac
@@ -68,7 +68,7 @@ if [ ! $(command -v git) ] || [ ! $(command -v wget) ] || [ ! $(command -v gzip)
     fi
 fi
 JAVA_VERSION=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
-if [[ ! "$JAVA_VERSION" == "17."* ]]; then
+if [[ ! "$JAVA_VERSION" == "1.8"* ]]; then
     until wget -O jdk.tar.gz -c ${JDK_URL}
     do
       echo -e ${red}下载失败 ${green}正在重试${background}
@@ -157,7 +157,6 @@ fi
 }
 
 function start_QSignServer(){
-function input(){
 echo -e ${white}"====="${green}白狐-QSignServer${white}"====="${background}
 echo -e ${cyan}请选择您想让您签名服务器适配的QQ版本${background}
 echo -e  ${green}1.  ${cyan}8.9.58${background}
@@ -166,22 +165,6 @@ echo -e  ${green}3.  ${cyan}8.9.68${background}
 echo -e  ${green}4.  ${cyan}8.9.70${background}
 echo "========================="
 echo -en ${green}请输入您的选项: ${background};read num
-}
-if [ -d $HOME/.fox@bot/Yunzai-Bot ]
-then
-icqq=$(grep version $HOME/Yunzai-Bot/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
-    if [ "${icqq}" = "0.4.11" ]
-    then
-        num=3
-    elif [ "${icqq}" = "0.4.12" ]
-    then
-        num=4
-    else
-        input
-    fi
-else
-    input
-fi
 case ${num} in
 1|8.9.58)
 export version=8.9.58
@@ -207,23 +190,9 @@ exit
 fi
 cd $HOME/QSignServer
 if tmux ls | grep -q qsign${QSIGN_VERSION} ;then
-    echo -en ${yellow}签名服务器已经启动,是否打开日志 [Y/n]${background};read num
-      case $num in
-     Y|y)
-       tail -f qsign.log
-       echo
-       ;;
-       esac
 else
-    tmux new -s qsign${QSIGN_VERSION} "bash qsign${QSIGN_VERSION}/bin/unidbg-fetch-qsign --basePath=$HOME/QSignServer/txlib/${version}" | tee qsign.log
+    tmux new -s qsign${QSIGN_VERSION} "bash qsign${QSIGN_VERSION}/bin/unidbg-fetch-qsign --basePath=$HOME/QSignServer/txlib/${version}"
     echo
-    echo -en ${yellow}签名服务器已经启动,是否打开日志 [Y/n]${background};read num
-    case $num in
-     Y|y)
-       tail -f qsign.log
-       echo
-       ;;
-       esac
 fi
 echo -en ${yellow}回车返回${background};read
 }
@@ -279,7 +248,7 @@ for file in $(ls $HOME/QSignServer/txlib)
 do
 file="$HOME/QSignServer/txlib/${file}/config.json"
 key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
-sed -i "s/\"key\": \"${key}\"/\"key\": ${key_}/g" ${file}
+sed -i "s/${key}/${key_}/g" ${file}
 done
 echo -en ${yellow}更改完成 回车返回${background};read
 }
@@ -294,7 +263,7 @@ for folder in $(ls $HOME/QSignServer/txlib)
 do
 file="$HOME/QSignServer/txlib/${folder}/config.json"
 port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
-sed -i "s/\"port\": ${port}/\"port\": ${port_}/g" ${file}
+sed -i "s/${port}/${port_}/g" ${file}
 done
 echo -en ${yellow}更改完成 回车返回${background};read
 }
@@ -351,9 +320,8 @@ echo -e  ${green}5.  ${cyan}更新签名服务器${background}
 echo -e  ${green}6.  ${cyan}卸载签名服务器${background}
 echo -e  ${green}7.  ${cyan}修改签名服务器key值${background}
 echo -e  ${green}8.  ${cyan}修改签名服务器端口${background}
-echo -e  ${green}9.  ${cyan}清理签名服务器日志${background}
-echo -e  ${green}10.  ${cyan}查看签名服务器链接${background}
-echo -e  ${green}11.  ${cyan}打开签名服务器帮助${background}
+echo -e  ${green}9.  ${cyan}查看签名服务器链接${background}
+echo -e  ${green}10.  ${cyan}打开签名服务器帮助${background}
 echo -e  ${green}0.  ${cyan}退出${background}
 echo "========================="
 echo -e ${green}您的签名服务器状态: ${condition}${background}
@@ -396,13 +364,9 @@ port_QSignServer
 ;;
 9)
 echo
-pm2 flush qsign
-;;
-10)
-echo
 link_QSignServer
 ;;
-11)
+10)
 echo
 help_QSignServer
 ;;

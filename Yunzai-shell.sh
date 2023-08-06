@@ -119,7 +119,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.7.8
+ver=5.7.9
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -691,6 +691,7 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
     host="$(grep -E host ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
     API="http://"${host}":"${port}"/sign?key="${key}
+    API=$(echo ${API})
     file="$HOME/.fox@bot/${name}/config/config/bot.yaml"
     if ! grep -q "${API}" ${file};then
         sed -i '/sign_api_addr/d' ${file}
@@ -977,40 +978,8 @@ fi
 case ${Number} in
 1)
 echo -e ${yellow}正在安装ffmpeg${background}
-case $(uname -m) in
-  aarch64|arm64)
-    ffmpeg=arm64
-    ;;
-  amd64|x86_64)
-    ffmpeg=amd64
-    ;;
-  armel)
-    ffmpeg=armel
-    ;;
-  armhf)
-    ffmpeg=armhf
-    ;;
-  i686)
-    ffmpeg=i686
-    ;;
-  *)
-  echo -e "\033[33m您的框架为\033[31m $(uname -m)\033[33m 快截图 让白狐做适配!!\033[0m"
-  exit
-    ;;
-esac
-curl -o static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-${ffmpeg}-static.tar.xz
-if ! [ -x "$(command -v unar)" ];then
-apt install -y unar
-fi
-echo -e "\033[33m正在解压\033[0m"
-unar -o static static.tar.xz
-mv -f static/$(ls static)/ffmpeg /usr/local/bin/ffmpeg
-mv -f static/$(ls static)/ffprobe /usr/local/bin/ffprobe
-mv -f static/$(ls static)/qt-faststart /usr/local/bin/qt-faststart
-chmod +x /usr/local/bin/ffmpeg /usr/local/bin/ffprobe /usr/local/bin/qt-faststart
-rm -rf static.tar.xz static > /dev/null
-rm -rf static.tar.xz static > /dev/null
-echo
+bash <(curl https://gitee.com/baihu433/ffmpeg/raw/master/ffmpeg.sh)
+echo -en ${yellow}安装完成 回车返回${background};read
 ;;
 2)
 apt update -y
