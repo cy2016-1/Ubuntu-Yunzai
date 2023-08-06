@@ -339,7 +339,7 @@ for file in $(ls $HOME/QSignServer/txlib)
 do
 file="$HOME/QSignServer/txlib/${file}/config.json"
 key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
-sed -i "s/\"key\": \"${key}\"/\"key\": ${key_}/g" ${file}
+sed -i "s/${key}/${key_}/g" ${file}
 done
 echo -en ${yellow}更改完成 回车返回${background};read
 }
@@ -354,7 +354,7 @@ for folder in $(ls $HOME/QSignServer/txlib)
 do
 file="$HOME/QSignServer/txlib/${folder}/config.json"
 port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
-sed -i "s/\"port\": ${port}/\"port\": ${port_}/g" ${file}
+sed -i "s/${port}/${port_}/g" ${file}
 done
 echo -en ${yellow}更改完成 回车返回${background};read
 }
