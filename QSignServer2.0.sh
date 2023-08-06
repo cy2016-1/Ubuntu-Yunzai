@@ -84,7 +84,7 @@ if [ ! $(command -v git) ] || [ ! $(command -v wget) ] || [ ! $(command -v gzip)
     fi
 fi
 JAVA_VERSION=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
-if [[ ! "${JAVA_VERSION}" == "17."* ]]; then
+if [[ ! "${JAVA_VERSION}" == "1.8"* ]]; then
     rm -rf $HOME/QSignServer/jdk > /dev/null
     until wget -O jdk.tar.gz -c ${JDK_URL}
     do
