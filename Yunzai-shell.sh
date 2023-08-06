@@ -119,7 +119,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.7.7
+ver=5.7.8
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -669,41 +669,38 @@ if ! [ -x "$(command -v pm2)" ];then
     echo
 fi
 if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
+    ICQQ_VERSION="$(grep version $HOME/.fox@bot/${name}/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')"
+    case ${ICQQ_VERSION} in
+    0.4.12)
+    export version=8.9.70
+    ;;
+    0.4.11)
+    export version=8.9.68
+    ;;
+    0.4.13)
+    pnpm uninstall icqq -w
+    pnpm install icqq@4.11 -w
+    export version=8.9.68
+    ;;
+    *)
+    echo -e ${yellow}读取失败 请更新icqq${background}
+    ;;
+    esac
+    file="$HOME/QSignServer/txlib/${version}/config.json"
+    port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
+    key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
+    host="$(grep -E host ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
+    API="http://"${host}":"${port}"/sign?key="${key}
     file="$HOME/.fox@bot/${name}/config/config/bot.yaml"
-    if ! grep -q 'https://127.0.0.1:6666/sign?key=114514' ${file};then
+    if ! grep -q "${API}" ${file};then
         sed -i '/sign_api_addr/d' ${file}
-        sed -i '$a\sign_api_addr: http://127.0.0.1:6666/sign?key=114514' ${file}
+        sed -i "\$a\sign_api_addr: ${API}" ${file}
     fi
-    file="$HOME/.fox@bot/${name}/config/config/qq.yaml"
-    if ! grep platform ${file} | grep -q 2 ;then
-    sed -i "s/$(grep platform ${file})/platform: 2/g" ${file}
-    fi
-    port_="6666"
-    for folder in $(ls $HOME/QSignServer/txlib)
-    do
-        file="$HOME/QSignServer/txlib/${folder}/config.json"
-        if ! grep -q '6666' ${file} ;then
-            port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
-            sed -i "s/\"port\": ${port}/\"port\": ${port_}/g" ${file}
-        fi
-    done
     if pm2 show qsign${QSIGN_VERSION} | grep -q online;then
         echo -e ${green}签名服务器 ${cyan}已启动${background}
     else
         echo -e ${green}签名服务器 ${red}未启动${background}
         echo -e ${yellow}正在尝试启动签名服务器${background}
-        ICQQ_VERSION="$(grep version $HOME/.fox@bot/${name}/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')"
-        case ${ICQQ_VERSION} in
-        0.4.12)
-        export version=8.9.70
-        ;;
-        0.4.11)
-        export version=8.9.68
-        ;;
-        *)
-        echo -e ${yellow}读取失败 请更新icqq${background}
-        ;;
-        esac
         pm2 start --name qsign${QSIGN_VERSION} "bash $HOME/QSignServer/qsign${QSIGN_VERSION}/bin/unidbg-fetch-qsign --basePath=$HOME/QSignServer/txlib/${version}"
     fi
 fi
@@ -743,9 +740,9 @@ if ! [ "${Redis}" = "PONG" ]; then
  nohup redis-server &
  echo
 fi
+cd ~/${name}
 QSIGN
 if [ -e ~/${name}/config/config/qq.yaml ];then
-cd ~/${name}
 pnpm run start
 echo -e ${yellow}${name}启动完成 ${green}是否打开日志 ${cyan}[Y/n] ${background}
 read -p "" num
@@ -846,8 +843,8 @@ if ! [ "${Redis}" = "PONG" ]; then
  redis-server --daemonize yes &
  echo
 fi
-QSIGN
 cd ~/${name}
+QSIGN
 pnpm run stop
 node app
 echo

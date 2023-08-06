@@ -25,11 +25,11 @@ QSIGN_VERSION="116"
 qsign_version=1.1.6
 case $(uname -m) in
 amd64|x86_64)
-JDK_URL="https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-x64.tar.gz"
+JDK_URL="https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-arm64-vfp-hflt.tar.gz"
 node=x64
 ;;
 arm64|aarch64)
-JDK_URL="https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-arm64-vfp-hflt.tar.gz"
+JDK_URL="https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-x64.tar.gz"
 node=arm64
 ;;
 esac
@@ -85,6 +85,7 @@ if [ ! $(command -v git) ] || [ ! $(command -v wget) ] || [ ! $(command -v gzip)
 fi
 JAVA_VERSION=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
 if [[ ! "${JAVA_VERSION}" == "17."* ]]; then
+    rm -rf $HOME/QSignServer/jdk > /dev/null
     until wget -O jdk.tar.gz -c ${JDK_URL}
     do
       echo -e ${red}下载失败 ${green}正在重试${background}
@@ -189,9 +190,16 @@ then
         port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
         sed -i "s/\"port\": ${port}/\"port\": ${port_}/g" ${file}
     done
+    key_="fox"
+    for file in $(ls $HOME/QSignServer/txlib)
+    do
+        file="$HOME/QSignServer/txlib/${file}/config.json"
+        key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
+        sed -i "s/\"key\": \"${key}\"/\"key\": ${key_}/g" ${file}
+    done
     file="$HOME/.fox@bot/Yunzai-Bot/config/config/bot.yaml"
     sed -i '/sign_api_addr/d' ${file}
-    sed -i '$a\sign_api_addr: http://127.0.0.1:6666/sign?key=114514' ${file}
+    sed -i '$a\sign_api_addr: http://127.0.0.1:6666/sign?key=fox' ${file}
     echo -e ${cyan}已自动填入签名服务器链接${background}
     echo -e ${yellow}正在启动签名服务器${background}
     start_QSignServer
@@ -278,12 +286,12 @@ function stop_QSignServer(){
 echo -e ${yellow}正在停止服务器运行${background}
 pm2 stop qsign${QSIGN_VERSION}
 pm2 delete qsign${QSIGN_VERSION}
-echo -en ${yellow}停止完成 回车返回${background};read
+echo -e ${yellow}停止完成 回车返回${background};read
 }
 
 function restart_QSignServer(){
 pm2 restart qsign${QSIGN_VERSION}
-echo -en ${yellow}重启完成 回车返回${background};read
+echo -e ${yellow}重启完成 回车返回${background};read
 }
 
 function update_QSignServer(){
@@ -331,7 +339,7 @@ for file in $(ls $HOME/QSignServer/txlib)
 do
 file="$HOME/QSignServer/txlib/${file}/config.json"
 key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
-sed -i "s/${key}/${key_}/g" ${file}
+sed -i "s/\"key\": \"${key}\"/\"key\": ${key_}/g" ${file}
 done
 echo -en ${yellow}更改完成 回车返回${background};read
 }
