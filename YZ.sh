@@ -5,51 +5,12 @@ sed -i 's/ports.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
 apt update -y
 apt install eatmydata -y
 eatmydata apt install -y whiptail
-eatmydata apt install -y fonts-wqy* language-pack-zh* locales-all redis redis-server git curl wget unar axel
+eatmydata apt install -y fonts-wqy* language-pack-zh* locales-all redis redis-server git curl wget tar gzip xz-utils
 echo 'export LANG="zh_CN.UTF-8"' >> /etc/profile
 export LANG="zh_CN.UTF-8"
 bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
-if ! [ -x "$(command -v ffmpeg)" ];then
 echo -e ${yellow}正在安装ffmpeg${background}
-  case $(uname -m) in
-  aarch64|arm64)
-    ffmpeg=arm64
-    ;;
-  amd64|x86_64)
-    ffmpeg=amd64
-    ;;
-  armel)
-    ffmpeg=armel
-    ;;
-  armhf)
-    ffmpeg=armhf
-    ;;
-  i686)
-    ffmpeg=i686
-    ;;
-  *)
-  echo -e "\033[33m您的框架为\033[31m $(uname -m)\033[33m 快截图 让白狐做适配!!\033[0m"
-  exit
-    ;;
-esac
-if ! [ -x "$(command -v axel)" ];then
-apt install -y axel
-fi
-axel -n 32 -o static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-${ffmpeg}-static.tar.xz
-if ! [ -x "$(command -v unar)" ];then
-apt install -y unar
-fi
-echo -e "\033[33m正在解压\033[0m"
-unar -o static static.tar.xz
-mv -f static/$(ls static)/ffmpeg /usr/local/bin/ffmpeg
-mv -f static/$(ls static)/ffprobe /usr/local/bin/ffprobe
-mv -f static/$(ls static)/qt-faststart /usr/local/bin/qt-faststart
-chmod +x /usr/local/bin/ffmpeg /usr/local/bin/ffprobe /usr/local/bin/qt-faststart
-rm -rf static.tar.xz static > /dev/null
-rm -rf static.tar.xz static > /dev/null
-echo
-fi
-
+bash <(curl https://gitee.com/baihu433/ffmpeg/raw/master/ffmpeg.sh)
 case $(uname -m) in
 x86_64|amd64)
 node=x64
@@ -65,7 +26,7 @@ echo ${red}您的框架为${yellow}$(uname -m)${red},快让白狐做适配.${bac
 exit
 esac
 
-if awk '{print $2}' /etc/issue | grep -q -E 22.* || grep -q -E 23.*
+if awk '{print $2}' /etc/issue | grep -q -E 22.*
 then
   curl -o node.tar.xz https://cdn.npmmirror.com/binaries/node/latest-v18.x/node-v18.16.0-linux-${node}.tar.xz
 else
@@ -85,12 +46,17 @@ fi
 rm -rf /usr/local/node > /dev/null
 rm -rf /usr/local/node > /dev/null
 mv -f node/$(ls node) /usr/local/node
+if [ ! -d $HOME/.local/share/pnpm ];then
+    mkdir -p $HOME/.local/share/pnpm
+fi
 echo '
 #Node.JS
 export PATH=$PATH:/usr/local/node/bin
-export PNPM_HOME=/usr/local/node/bin' >> /etc/profile
-PATH=$PATH:/usr/local/node/bin
-export PNPM_HOME=/usr/local/node/bin
+export PATH=$PATH:/root/.local/share/pnpm
+export PNPM_HOME=/root/.local/share/pnpm' >> /etc/profile
+export PATH=$PATH:/usr/local/node/bin
+export PATH=$PATH:/root/.local/share/pnpm
+export PNPM_HOME=/root/.local/share/pnpm
 source /etc/profile
 rm -rf node node.tar.xz > /dev/null
 rm -rf node node.tar.xz > /dev/null
@@ -124,8 +90,6 @@ fi
 mkdir -p ~/.fox@bot/
 git clone --depth=1 https://gitee.com/yoimiya-kokomi/Yunzai-Bot.git ~/.fox@bot/Yunzai-Bot
 ln -s ~/.fox@bot/Yunzai-Bot Yunzai-Bot
-if [ ! -e ~/Yunzai-Bot/config/config/bot.yaml ];then
-a=0
 echo -e ${yellow}正在使用pnpm安装依赖${background}
 cd ~/.fox@bot/Yunzai-Bot
 pnpm config set registry https://registry.npmmirror.com
@@ -133,9 +97,11 @@ pnpm config set registry https://registry.npmmirror.com
 until echo "Y" | pnpm install -P && echo "Y" | pnpm install
 do
   echo -e ${red}依赖安装失败 ${green}正在重试${background}
-  export PNPM_HOME="/usr/local/node/bin"
-  pnpm setup
-  source ~/.bashrc
+  if [ ! -d $HOME/.local/share/pnpm ];then
+    mkdir -p $HOME/.local/share/pnpm
+  fi
+  export PATH=$PATH:$HOME/.local/share/pnpm
+  export PNPM_HOME=$HOME/.local/share/pnpm
   a=$(($a+1))
   if [ "${a}" == "3" ];then
     echo -e ${red}错误次数过多 退出${background}
@@ -145,16 +111,16 @@ done
 pnpm uninstall puppeteer -w
 pnpm install puppeteer@19.0.0 -w
 pnpm uninstall icqq -w
-pnpm install -w icqq@latest
+pnpm install -w icqq@0.4.11
 cd ~/.fox@bot/Yunzai-Bot
 echo -en ${yellow}正在初始化${background}
 pnpm start
+sleep 5s
 pnpm stop
 rm -rf ~/.pm2/logs/*.log
 echo -en ${yellow}初始化完成${background}
 echo
 echo -en ${yellow}安装完成 回车继续${background}
-fi
 curl -o /usr/local/bin/bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh
 chmod +x /usr/local/bin/bhyz
 bhyz

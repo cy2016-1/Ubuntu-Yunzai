@@ -119,7 +119,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.8.3
+ver=5.8.4
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -187,7 +187,7 @@ if ! dpkg -s ${pkg} >/dev/null 2>&1 ; then
     echo -e ${yellow}安装解压工具${pkg}${background}
     until apt install -y ${pkg}
     do
-        echo -e ${red}中文字体安装失败 ${green}正在重试${background}
+        echo -e ${red}解压工具 ${green}正在重试${background}
     done
 fi
 done
@@ -438,7 +438,7 @@ done
 pnpm uninstall puppeteer -w
 pnpm install puppeteer@19.0.0 -w
 pnpm uninstall icqq -w
-pnpm install -w icqq@0.4.11
+pnpm install icqq@0.4.11 -w
 if [ ! -e $HOME/.fox@bot/${name}/config/config/bot.yaml ];then
 cd ~/.fox@bot/${name}
 echo -en ${yellow}正在初始化${background}
