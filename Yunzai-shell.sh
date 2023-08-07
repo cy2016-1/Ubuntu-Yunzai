@@ -119,7 +119,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.8.2
+ver=5.8.3
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -999,7 +999,7 @@ Number=$(whiptail \
 --menu "请选择bot" \
 20 40 10 \
 "1" "安装ffmpeg" \
-"2" "安装python3.9 pip poetry" \
+"2" "安装python3.8 pip poetry" \
 "0" "退出" \
 3>&1 1>&2 2>&3)
 feedback=$?
@@ -1015,8 +1015,9 @@ echo -en ${yellow}安装完成 回车返回${background};read
 ;;
 2)
 apt update -y
-if [ -x "$(command -v python3.9)" ];then
-apt autoremove python3.9 -y
+if [ -x "$(command -v python3.10)" ];then
+apt autoremove python3.10 -y
+apt autoremove python3.10-full -y
 fi
 apt install -y software-properties-common
 until echo -e "\n" | add-apt-repository ppa:deadsnakes/ppa && apt update -y
@@ -1024,19 +1025,21 @@ do
 echo -e ${red}ppa仓库写入失败 ${cyan}3秒后重试${background}
 sleep 3s
 done
-until apt install python3.9-full -y
+apt install -y python3.10-dev
+apt install -y python3.10-venv
+until apt install python3.10-full -y
 do
-echo -e ${red}python3.9安装失败 ${cyan}3秒后重试${background}
+echo -e ${red}python3.8安装失败 ${cyan}3秒后重试${background}
 sleep 3s
 done
-until curl https://bootstrap.pypa.io/get-pip.py | python3.9
+until curl https://bootstrap.pypa.io/get-pip.py | python3.10
 do
 echo -e ${red}pip安装失败 ${cyan}3秒后重试${background}
 sleep 3s
 done
-python3.9 -m pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
-python3.9 -m pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
-python3.9 -m pip install --upgrade pip
+python3.8 -m pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+python3.8 -m pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+python3.8 -m pip install --upgrade pip
 until pip install poetry
 do
 echo -e ${red}poetry安装失败 ${cyan}3秒后重试${background}
