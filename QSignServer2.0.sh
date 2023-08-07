@@ -180,6 +180,7 @@ echo -e ${yellow}正在解压qsign文件压缩包${background}
     rm -rf qsign.zip
     rm -rf qsign
     rm -rf $HOME/QSignServer/qsign${QSIGN_VERSION}/txlib > /dev/null
+    API_LINK=["${cyan} ${qsign_version}"]
     if [ -d $HOME/.fox@bot/Yunzai-Bot ];then
         name=Yunzai-Bot
     elif [ -d $HOME/.fox@bot/Miao-Yunzai ];then
@@ -189,7 +190,7 @@ echo -e ${yellow}正在解压qsign文件压缩包${background}
     else
         name="不存在"
     fi
-    if [ -d $HOME/.fox@bot/${name} ];then
+    if [ -e $HOME/.fox@bot/${name}/config/config/bot.yaml ];then
         port_=6666
         key_=fox
         for folder in $(ls $HOME/QSignServer/txlib)
@@ -232,8 +233,8 @@ echo -e ${yellow}正在解压qsign文件压缩包${background}
         cd $HOME/.fox@bot/${name}
         echo -e ${green}给机器人发重启可转后台运行${background}
         node app
+        exit
     else
-        API_LINK=["${cyan} ${qsign_version}"]
         echo -en ${yellow}安装完成 是否启动?[Y/n]${background};read yn
         case ${yn} in
         Y|y)
