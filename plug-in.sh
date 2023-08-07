@@ -841,6 +841,12 @@ then
 echo -en ${red}依赖安装失败 '\n'${blue}回车重新安装${background};read
 pip_mirrors
 fi
+if ! poetry install
+then
+echo -en ${red}依赖安装失败 '\n'${blue}回车重新安装${background};read
+pip_mirrors
+fi
+echo -en ${green}依赖安装成功 回车返回${background};read
 }
 echo 
 echo
