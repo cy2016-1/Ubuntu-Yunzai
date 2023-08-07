@@ -119,7 +119,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.8.1
+ver=5.8.2
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -181,10 +181,25 @@ do
 done
 echo
 
+pkg_list=("tar" "xz-utils" "gzip")
+for pkg in ${pkg_list[@]}; do
+if ! dpkg -s ${pkg} >/dev/null 2>&1 ; then
+    echo -e ${yellow}安装解压工具${pkg}${background}
+    until apt install -y ${pkg}
+    do
+        echo -e ${red}中文字体安装失败 ${green}正在重试${background}
+    done
+fi
+done
+
 pkg_list=("fonts-wqy-zenhei" "fonts-wqy-microhei")
 for pkg in ${pkg_list[@]}; do
 if ! dpkg -s ${pkg} >/dev/null 2>&1 ; then
-    apt install -y ${pkg}
+    echo -e ${yellow}安装中文字体${background}
+    until apt install -y ${pkg}
+    do
+        echo -e ${red}中文字体安装失败 ${green}正在重试${background}
+    done
 fi
 done
 

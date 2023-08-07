@@ -180,40 +180,67 @@ echo -e ${yellow}正在解压qsign文件压缩包${background}
     rm -rf qsign.zip
     rm -rf qsign
     rm -rf $HOME/QSignServer/qsign${QSIGN_VERSION}/txlib > /dev/null
-API_LINK=["${cyan} ${qsign_version}"]
-if [ -e $HOME/.fox@bot/Yunzai-Bot/config/config/bot.yaml ]
-then
-    port_="6666"
-    for folder in $(ls $HOME/QSignServer/txlib)
-    do
-        file="$HOME/QSignServer/txlib/${folder}/config.json"
-        port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
-        sed -i "s/\"port\": ${port}/\"port\": ${port_}/g" ${file}
-    done
-    key_="fox"
-    for file in $(ls $HOME/QSignServer/txlib)
-    do
-        file="$HOME/QSignServer/txlib/${file}/config.json"
-        key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
-        sed -i "s/\"key\": \"${key}\"/\"key\": ${key_}/g" ${file}
-    done
-    file="$HOME/.fox@bot/Yunzai-Bot/config/config/bot.yaml"
-    sed -i '/sign_api_addr/d' ${file}
-    sed -i '$a\sign_api_addr: http://127.0.0.1:6666/sign?key=fox' ${file}
-    echo -e ${cyan}已自动填入签名服务器链接${background}
-    echo -e ${yellow}正在启动签名服务器${background}
-    start_QSignServer
-    echo -e ${yellow}正在启动BOT${background}
-    cd $HOME/.fox@bot/Yunzai-Bot
-    node app
-else
-    echo -en ${yellow}安装完成 是否启动?[Y/n]${background};read yn
-    case ${yn} in
-    Y|y)
-    start_QSignServer
-    ;;
-    esac
-fi
+    if [ -d $HOME/.fox@bot/Yunzai-Bot ];then
+        name=Yunzai-Bot
+    elif [ -d $HOME/.fox@bot/Miao-Yunzai ];then
+        name=Miao-Yunzai
+    elif [ -d $HOME/.fox@bot/TRSS-Yunzai ];then
+        name=TRSS-Yunzai
+    else
+        name="不存在"
+    fi
+    if [ -d $HOME/.fox@bot/${name} ];then
+        port_=6666
+        key_=fox
+        for folder in $(ls $HOME/QSignServer/txlib)
+        do
+            file="$HOME/QSignServer/txlib/${folder}/config.json"
+            port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
+            sed -i "s/${port}/${port_}/g" ${file}
+        done
+        for file in $(ls $HOME/QSignServer/txlib)
+        do
+            file="$HOME/QSignServer/txlib/${file}/config.json"
+            key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
+            sed -i "s/${key}/${key_}/g" ${file}
+        done
+        file="$HOME/.fox@bot/${name}/config/config/bot.yaml"
+        sed -i '/sign_api_addr/d' ${file}
+        sed -i "\$a\sign_api_addr: ${API}" ${file}
+        echo -e ${cyan}签名服务器API写入成功${background}
+        echo -e ${yellow}正在尝试启动签名服务器${background}
+        ICQQ_VERSION="$(grep version $HOME/.fox@bot/${name}/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')"
+        case ${ICQQ_VERSION} in
+        0.4.12)
+        export version=8.9.70
+        ;;
+        0.4.11)
+        export version=8.9.68
+        ;;
+        0.4.13)
+        pnpm install 
+        pnpm uninstall icqq -w
+        pnpm install icqq@4.11 -w
+        export version=8.9.68
+        ;;
+        *)
+        echo -e ${yellow}读取失败 请更新icqq${background}
+        ;;
+        esac
+        pm2 start --name qsign${QSIGN_VERSION} "bash $HOME/QSignServer/qsign${QSIGN_VERSION}/bin/unidbg-fetch-qsign --basePath=$HOME/QSignServer/txlib/${version}"
+        echo -e ${yellow}正在尝试启动机器人${background}
+        cd $HOME/.fox@bot/${name}
+        echo -e ${green}给机器人发重启可转后台运行${background}
+        node app
+    else
+        API_LINK=["${cyan} ${qsign_version}"]
+        echo -en ${yellow}安装完成 是否启动?[Y/n]${background};read yn
+        case ${yn} in
+        Y|y)
+        start_QSignServer
+        ;;
+        esac
+    fi
 }
 
 function start_QSignServer(){
