@@ -205,6 +205,7 @@ echo -e ${yellow}正在解压qsign文件压缩包${background}
             key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
             sed -i "s/${key}/${key_}/g" ${file}
         done
+        API='http://127.0.0.1:6666/sign?key=fox'
         file="$HOME/.fox@bot/${name}/config/config/bot.yaml"
         sed -i '/sign_api_addr/d' ${file}
         sed -i "\$a\sign_api_addr: ${API}" ${file}
