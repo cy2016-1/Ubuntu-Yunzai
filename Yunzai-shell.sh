@@ -119,7 +119,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.7.9
+ver=5.8.0
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -188,7 +188,7 @@ if ! dpkg -s ${pkg} >/dev/null 2>&1 ; then
 fi
 done
 
-if ! [ -x "$(command -v redis-server)" ];then
+if [ ! -x "$(command -v redis-server)" ];then
     echo -e ${yellow}安装redis数据库${background}
     until apt install -y redis redis-server
     do
@@ -218,32 +218,47 @@ sed -i "s/deb http:\/\/ftp.cn.debian.org\/debian sid main//g" /etc/apt/sources.l
 chromium > /dev/null
 }
 
-if [ ! command -v chromium > /dev/null ] || [ ! command -v chromium-browser > /dev/null ];then
-    echo -e ${yellow}安装chromium浏览器${background}
-    if awk '{print $2}' /etc/issue | grep -q -E 20.*
-        then
-            until chromium_install
-            do
-               echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
-            done
-    elif awk '{print $2}' /etc/issue | grep -q -E 22.*
-        then
-            bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
-    elif awk '{print $2}' /etc/issue | grep -q -E 23.*
-        then
-            until chromium_install
-            do
-               echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
-            done          
-    else
-        until apt install -y chromium-browser
-            do
-               apt install -y chromium-browser
-               echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
-            done
-    fi
+function install_chromium(){
+echo -e ${yellow}安装chromium浏览器${background}
+if awk '{print $2}' /etc/issue | grep -q -E 20.*
+    then
+        until chromium_install
+        do
+           echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
+        done
+elif awk '{print $2}' /etc/issue | grep -q -E 22.*
+    then
+        until bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
+        do
+           echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
+        done
+elif awk '{print $2}' /etc/issue | grep -q -E 23.*
+    then
+        until chromium_install
+        do
+           echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
+        done          
+else
+    until apt install -y chromium-browser
+        do
+           apt install -y chromium-browser
+           echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
+        done
+fi
+}
+if dpkg-query -s chromium > /dev/null 2>&1
+    then 
+        Installation_Status="installed"
 fi
 
+if dpkg-query -s chromium-browser > /dev/null 2>&1
+    then 
+        Installation_Status="installed"
+fi
+
+if [ ! "${Installation_Status}" == "installed" ];then
+    install_chromium
+fi
 
 if ! [ -x "$(command -v ffmpeg)" ];then
 echo -e ${yellow}正在安装ffmpeg${background}
@@ -389,7 +404,6 @@ fi
 #    done
 #    echo
 #fi
-if [ ! -e ~/${name}/config/config/bot.yaml ];then
 a=0
 echo -e ${yellow}正在使用pnpm安装依赖${background}
 cd ~/.fox@bot/${name}
@@ -409,10 +423,12 @@ done
 pnpm uninstall puppeteer -w
 pnpm install puppeteer@19.0.0 -w
 pnpm uninstall icqq -w
-pnpm install -w icqq@latest
+pnpm install -w icqq@0.4.11
+if [ ! -e $HOME/.fox@bot/${name}/config/config/bot.yaml ];then
 cd ~/.fox@bot/${name}
 echo -en ${yellow}正在初始化${background}
 pnpm start
+sleep 5s
 pnpm stop
 rm -rf ~/.pm2/logs/*.log
 echo -en ${yellow}初始化完成${background}
@@ -524,7 +540,7 @@ return
 fi
 case ${ErrorRepair} in
 1)
-function install_chromium(){
+function chromium_install(){
 apt install -y gnupg gnupg1 gnupg2
 cp -f /etc/apt/sources.list /etc/apt/sources.list.bak
 echo "deb http://ftp.cn.debian.org/debian sid main" > /etc/apt/sources.list
@@ -545,10 +561,10 @@ apt install -y aptitude
 fi
 if awk '{print $2}' /etc/issue | grep -q -E 22.*
     then
-        install_chromium
+        chromium_install
 elif awk '{print $2}' /etc/issue | grep -q -E 23.*
     then
-        install_chromium
+        chromium_install
     else
         apt autoremove -y chromium-browser
         apt install -y chromium-browser
@@ -678,6 +694,7 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     export version=8.9.68
     ;;
     0.4.13)
+    pnpm install 
     pnpm uninstall icqq -w
     pnpm install icqq@4.11 -w
     export version=8.9.68
@@ -686,6 +703,7 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     echo -e ${yellow}读取失败 请更新icqq${background}
     ;;
     esac
+    /root/QSignServer/txlib/8.9.68
     file="$HOME/QSignServer/txlib/${version}/config.json"
     port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
     key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
