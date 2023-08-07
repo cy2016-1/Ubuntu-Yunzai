@@ -825,16 +825,22 @@ choose_page
 #########################################################
 function pip_mirrors(){
 function py_install(){
-poetry run pip install --upgrade pip -i ${mirror}
-URL1="$(grep --index-url)"
+if [ "$(poetry run pip -V)" = "22.3".* ];then
+    poetry run pip install --upgrade pip -i ${mirror}
+fi
+URL1=$(grep "index-url" requirements.txt)
 URL2="--index-url ${mirror}"
-sed -i "s/${URL1}/${URL2}/g" requirements.txt
+sed -i "s|${URL1}|${URL2}|g" requirements.txt
 if ! poetry run pip install -r requirements.txt
 then
 echo -en ${red}依赖安装失败 '\n'${blue}回车重新安装${background};read
 pip_mirrors
 fi
-poetry install
+if ! poetry install
+then
+echo -en ${red}依赖安装失败 '\n'${blue}回车重新安装${background};read
+pip_mirrors
+fi
 }
 echo 
 echo
