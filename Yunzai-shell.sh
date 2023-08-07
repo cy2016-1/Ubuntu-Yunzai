@@ -119,7 +119,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.8.0
+ver=5.8.1
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -703,7 +703,6 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     echo -e ${yellow}读取失败 请更新icqq${background}
     ;;
     esac
-    /root/QSignServer/txlib/8.9.68
     file="$HOME/QSignServer/txlib/${version}/config.json"
     port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
     key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
