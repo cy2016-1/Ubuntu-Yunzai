@@ -111,7 +111,7 @@ done
 pnpm uninstall puppeteer -w
 pnpm install puppeteer@19.0.0 -w
 pnpm uninstall icqq -w
-pnpm install -w icqq@0.4.11
+pnpm install -w icqq@latest
 cd ~/.fox@bot/Yunzai-Bot
 echo -en ${yellow}正在初始化${background}
 pnpm start
