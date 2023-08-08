@@ -1,6 +1,7 @@
 <h1 align="center">Ubuntu-Yunzai</h1>
 <h6 align="center">QQ群:狐狸窝 705226976</h6>
 <hr/>
+
 ## 一.服务器或者电脑安装脚本<br>
 
 >如果您的服务器或者电脑是`ubuntu` 请直接使用下面的命令<br>
