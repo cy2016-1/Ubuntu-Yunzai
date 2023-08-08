@@ -123,7 +123,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.8.5
+ver=5.8.6
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -716,7 +716,7 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     export version=8.9.63
     ;;
     0.3.*)
-    
+    echo -e ${yellow}请更新icqq${background}
     ;;
     *)
     echo -e ${yellow}读取失败 请更新icqq${background}

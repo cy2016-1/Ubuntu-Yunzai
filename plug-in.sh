@@ -158,6 +158,7 @@ echo -en "\033[35m请输入选项 \033[0m";read number
                     curl "https://ghproxy.com/${js}" > ${jsname}
             fi
      fi
+     cd ../../
      ;;
    2)
     if [ -d "/media/sd" ];then
