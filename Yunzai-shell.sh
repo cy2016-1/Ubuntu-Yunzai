@@ -830,8 +830,6 @@ echo -en ${cyan}回车返回${background};read
 #bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
 cd ~/${name}
 git pull
-icqq=$(grep version node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')
-
 if (whiptail --title "白狐" \
 --yes-button "第三方签名服务器" \
 --no-button "返回" \
@@ -843,37 +841,12 @@ if (whiptail --title "白狐" \
         #sign_api_addr: http://127.0.0.1:8080/sign?key=123456
         #sign_api_addr: 112.74.57.142
         sed -i '/sign_api_addr/d' config/config/bot.yaml
-        apilink=$(whiptail --title "白狐≧▽≦" --inputbox "您的ICQQ版本为 [${icqq}]\n请输入您准备好的api链接\n请注意,原链接末尾有sign的不要忘记了，如果有key请带上" \
+        apilink=$(whiptail --title "白狐≧▽≦" --inputbox "请输入您准备好的api链接\n请注意,原链接末尾有sign的不要忘记了，如果有key请带上" \
         10 60 3>&1 1>&2 2>&3)
-        if echo ${apilink} | grep -q sign_api_addr: ;then
-            apilink=$(echo ${apilink} | sed 's/sign_api_addr: //g')
-        fi
-        if echo ${apilink} | grep -q http;then
-            apilink=$(echo ${apilink} | sed "s/http://g")
-            http=http://
-        fi
-        if echo ${apilink} | grep -q https;then
-            apilink=$(echo ${apilink} | sed "s/https://g")
-            http=https://
-        fi
-        if echo ${apilink} | grep -q \/;then
-            apilink=$(echo ${apilink} | sed "s/\///g")
-        fi
-        if echo ${apilink} | grep -q sign;then
-            apilink1=$(echo ${apilink} | sed "s/sign/ /g")
-            apilink=$(echo ${apilink} | sed "s/sign//g")
-            sign=/sign
-        fi
-        if echo ${apilink} | grep -q key;then
-            key=$(echo ${apilink1} | awk '{print $2}' | sed "s/?key=//g")
-            apilink=$(echo ${apilink} | sed "s/?key=${key}//g")
-            key="?key=${key}"   
-        fi
-        if ! echo ${http} | grep -q http;then
-            http=http://
-        fi
-        #echo "sign_api_addr: ${http}${apilink}${sign}${key}"
-        sed -i "\$a\sign_api_addr: ${http}${apilink}${sign}${key}" config/config/bot.yaml
+        sed -i "\$a\sign_api_addr: ${apilink}" config/config/bot.yaml
+        API=$(grep sign_api_addr config/config/bot.yaml)
+        API=$(echo ${API} | sed "s/sign_api_addr//g")
+        echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
     fi
 fi
 echo -en ${yellow}执行完成 回车继续${background};read
