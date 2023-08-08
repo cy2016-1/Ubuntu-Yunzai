@@ -125,8 +125,8 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 | 名称 | 金额 |
 |----|----|
 |小云睡大觉|`45`元|<br>
+|汾阳|`30`元|<br>
 |笙凉|`20`元|<br>
-|汾阳|`20`元|<br>
 |小吉祥草王|`19.99`元|<br>
 |慕言|`19.05`元|<br>
 |摸鱼梦|13.5元|
