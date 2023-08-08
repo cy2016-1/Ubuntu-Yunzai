@@ -1,4 +1,4 @@
-[]#!/data/data/com.termux/files/usr/bin/bash
+#!/data/data/com.termux/files/usr/bin/bash
 cd $HOME
 if ! [ "$(uname -o)" = "Android" ]; then
 	echo "非termux 停止运行"

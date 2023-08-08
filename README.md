@@ -1,7 +1,9 @@
 <h1 align="center">Ubuntu-Yunzai</h1>
 <h6 align="center">QQ群:狐狸窝 705226976</h6>
 <hr/>
+
 ## 一.服务器或者电脑安装脚本<br>
+
 >如果您的服务器或者电脑是`ubuntu` 请直接使用下面的命令<br>
 
 必须启用root用户
@@ -125,8 +127,8 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 | 名称 | 金额 |
 |----|----|
 |小云睡大觉|`45`元|<br>
+|汾阳|`30`元|<br>
 |笙凉|`20`元|<br>
-|汾阳|`20`元|<br>
 |小吉祥草王|`19.99`元|<br>
 |慕言|`19.05`元|<br>
 |摸鱼梦|13.5元|
