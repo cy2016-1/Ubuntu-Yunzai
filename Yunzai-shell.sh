@@ -123,7 +123,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.8.6
+ver=5.8.7
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -701,6 +701,9 @@ if ! [ -x "$(command -v pm2)" ];then
     echo
 fi
 if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
+    if [ ! -e $HOME/.fox@bot/${name}/node_modules/icqq/package.json ];then
+        echo Y pnpm install && echo Y | pnpm install -P
+    fi
     ICQQ_VERSION="$(grep version $HOME/.fox@bot/${name}/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')"
     case ${ICQQ_VERSION} in
     0.4.13)
@@ -717,9 +720,11 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     ;;
     0.3.*)
     echo -e ${yellow}请更新icqq${background}
+    export version=8.9.70
     ;;
     *)
     echo -e ${yellow}读取失败 请更新icqq${background}
+    export version=8.9.70
     ;;
     esac
     if [ ! -e $HOME/QSignServer/txlib/${version}/config.json ];then
@@ -733,9 +738,11 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     API="http://"${host}":"${port}"/sign?key="${key}
     API=$(echo ${API})
     file="$HOME/.fox@bot/${name}/config/config/bot.yaml"
-    if ! grep -q "${API}" ${file};then
-        sed -i '/sign_api_addr/d' ${file}
-        sed -i "\$a\sign_api_addr: ${API}" ${file}
+    if [ -e ${file} ];then
+        if ! grep -q "${API}" ${file};then
+            sed -i '/sign_api_addr/d' ${file}
+            sed -i "\$a\sign_api_addr: ${API}" ${file}
+        fi
     fi
     if pm2 show qsign${QSIGN_VERSION} | grep -q online;then
         echo -e ${green}签名服务器 ${cyan}已启动${background}

@@ -1,8 +1,8 @@
-#!/data/data/com.termux/files/usr/bin/bash
+[]#!/data/data/com.termux/files/usr/bin/bash
 cd $HOME
 if ! [ "$(uname -o)" = "Android" ]; then
 	echo "非termux 停止运行"
-	exit 1
+	exit
 fi
 if [ -d "../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/" ];then
 echo
@@ -17,20 +17,11 @@ sleep 2s
 termux-wake-lock
 sleep 2s
 sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
-yes Y | pkg update -y | pkg upgrade -y
-sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
-yes Y | pkg update -y | pkg upgrade -y
-sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
 yes Y | pkg update -y && pkg upgrade -y
-apt install git wget proot-distro -y
+sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
 apt install git wget proot-distro -y
 echo "proot-distro login ubuntu" > $PREFIX/bin/U
 chmod +x $PREFIX/bin/U
-echo >> $HOME/.bashrc
-if ! grep -q "Ubuntu" $HOME/.bashrc
-then
-echo 'echo;echo 输入U 启动Ubuntu[大写];echo' >> $HOME/.bashrc
-fi
 if ! [ -d "../usr/var/lib/proot-distro/dlcache" ];then
 mkdir -p ../usr/var/lib/proot-distro/dlcache
 fi

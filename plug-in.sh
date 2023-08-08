@@ -92,26 +92,6 @@ fi
 } #delete_git
 #########################################################
 function js_plugin(){
-if [ -e js.log ];then
-rm js.log
-fi
-function ghproxy_js(){
-green="\033[32m"
-blue="\033[36m"
-background="\033[0m"
-echo -en  ${green}${jsname}位于github 是否启用ghproxy镜像站 ${blue}'\n'启用[y]" "取消[n] [区分大小写]:${background};read -p "" num
-  case $num in
-     y)
-       echo "curl https://ghproxy.com/${js} > ${jsname}" > plugins/example/js.log
-       ;;
-     n)
-       echo "curl ${js} > ${jsname}" > plugins/example/js.log
-       ;;
-     *)
-       echo -e "\033[31m请正确输入 \033[36m回车返回\033[0m";read -p ""
-       ;;
-  esac
-}
 green="\033[32m"
 blue="\033[36m"
 background="\033[0m"
@@ -131,12 +111,11 @@ echo -en "\033[35m请输入选项 \033[0m";read number
     1)
      echo;echo -en "\033[35m请输入链接: \033[0m";read js
      jsname=`echo $js | awk -F/ '{print $NF}'`
-     if [[ $js != http* ]] || [[ $js != *.js ]];then
-       echo -e "\033[31m 输入错误\033[0m"
+     if [[ ${js} != https://* ]] || [[ ${js} != *.js ]];then
+       echo -e ${red}输入错误${background}
        exit 1
      fi
      cd ${path}/plugins/example
-          cd ${path}/plugins/example
      if [[ ${js} = *gitee* ]]
         then
             if [[ ${js} = *raw* ]]
@@ -157,6 +136,12 @@ echo -en "\033[35m请输入选项 \033[0m";read number
                     js=$(echo ${js} | sed "s|blob/||g" | sed "s|github|raw.githubusercontent|g" )
                     curl "https://ghproxy.com/${js}" > ${jsname}
             fi
+     fi
+     if [ -e ${jsname} ]
+         then
+              echo;echo -en ${cyan}安装完成 回车返回${background};read
+         else
+              echo;echo -en ${red}安装失败 回车返回${background};read
      fi
      cd ../../
      ;;
@@ -1010,7 +995,7 @@ number=$(${dialog_whiptail} \
 "56" "BlueArchive-plugin             碧蓝档案插件" \
 "57" "impart-pro-plugin              牛牛大作战" \
 3>&1 1>&2 2>&3)
-clear
+#clear
 _checklist=""
 }
 
@@ -1246,11 +1231,11 @@ do
      ;;
    11)
      if [ ! -x "$(command -v pip)" ];then
-       echo -e ${cyan}检测到未安装pip 回车返回${background};read
+       echo -en ${cyan}检测到未安装pip 回车返回${background};read
        exit
      fi 
      if [ ! -x "$(command -v poetry)" ];then
-       echo -e ${cyan}检测到未安装poetry 回车返回${background};read
+       echo -en ${cyan}检测到未安装poetry 回车返回${background};read
      fi
      Name=py插件
      Plugin=py-plugin
