@@ -16,7 +16,11 @@ export white="\033[37m"
 export background="\033[0m"
 if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
-export PNPM_HOME=/usr/local/node/bin
+if [ ! -d $HOME/.local/share/pnpm ];then
+    mkdir -p $HOME/.local/share/pnpm
+fi
+export PATH=$PATH:/root/.local/share/pnpm
+export PNPM_HOME=/root/.local/share/pnpm
 fi
 function help(){
 echo -e ${green}=============================${background}
@@ -52,15 +56,15 @@ TZ)
 cd $HOME/TRSS-Yunzai
 ;;
 yz)
-pushd $HOME/Yunzai-Bot && exec bash -i
+cd $HOME/Yunzai-Bot && exec bash -i
 exit
 ;;
 mz)
-pushd $HOME/Miao-Yunzai && exec bash -i
+cd  $HOME/Miao-Yunzai && exec bash -i
 exit
 ;;
 tz)
-pushd $HOME/TRSS-Yunzai && exec bash -i
+cd $HOME/TRSS-Yunzai && exec bash -i
 exit
 ;;
 help)
@@ -105,7 +109,7 @@ case $3 in
   ;;
   pkg)
   echo "Y" | pnpm install
-  echo "Y" | pnpm install puppeteer@19.0.0 icqq@0.4.12 -w
+  echo "Y" | pnpm install puppeteer@19.0.0 icqq@latest -w
   exit
   ;;
 esac
@@ -119,7 +123,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.8.4
+ver=5.8.5
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -275,7 +279,7 @@ if [ ! "${Installation_Status}" == "installed" ];then
     install_chromium
 fi
 
-if ! [ -x "$(command -v ffmpeg)" ];then
+if [ ! -x "$(command -v ffmpeg)" ];then
 echo -e ${yellow}正在安装ffmpeg${background}
 bash <(curl https://gitee.com/baihu433/ffmpeg/raw/master/ffmpeg.sh)
 fi
@@ -316,7 +320,6 @@ fi
 source ~/.bashrc
 echo
 }
-
 function binaries_nodejs_install(){
 case $(uname -m) in
 x86_64|amd64)
@@ -347,22 +350,22 @@ if [ ! -d node ];then
 mkdir node
 fi
 echo -e ${yellow}正在解压二进制文件压缩包${background}
-if ! tar -xf node.tar.xz -C node ;then
-  echo -e ${red}tar命令解压失败 正在安装并使用unar${background}
-  if ! [ -x "$(command -v unar)" ];then
-    apt install -y unar
-  fi
-  unar node.tar.xz -o node
-fi
+tar -xf node.tar.xz -C node
 rm -rf /usr/local/node > /dev/null
 rm -rf /usr/local/node > /dev/null
 mv -f node/$(ls node) /usr/local/node
+if [ ! -d $HOME/.local/share/pnpm ];then
+    mkdir -p $HOME/.local/share/pnpm
+fi
+export PATH=$PATH:/usr/local/node/bin
+export PATH=$PATH:/root/.local/share/pnpm
+export PNPM_HOME=/root/.local/share/pnpm
 echo '
 #Node.JS
 export PATH=$PATH:/usr/local/node/bin
-export PNPM_HOME=/usr/local/node/bin' >> /etc/profile
-PATH=$PATH:/usr/local/node/bin
-export PNPM_HOME=/usr/local/node/bin
+export PATH=$PATH:/root/.local/share/pnpm
+export PNPM_HOME=/root/.local/share/pnpm
+' >> /etc/profile
 source /etc/profile
 rm -rf node node.tar.xz > /dev/null
 rm -rf node node.tar.xz > /dev/null
@@ -393,7 +396,7 @@ if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v17" || "$Nodsjs_Ver
   echo
 fi
 
-if ! [ -x "$(command -v pnpm)" ];then
+if [ ! -x "$(command -v pnpm)" ];then
     echo -e ${yellow}正在使用npm安装pnpm${background}
     a=0
     npm config set registry https://registry.npmmirror.com
@@ -419,6 +422,7 @@ fi
 #    done
 #    echo
 #fi
+
 a=0
 echo -e ${yellow}正在使用pnpm安装依赖${background}
 cd ~/.fox@bot/${name}
@@ -438,7 +442,7 @@ done
 pnpm uninstall puppeteer -w
 pnpm install puppeteer@19.0.0 -w
 pnpm uninstall icqq -w
-pnpm install icqq@0.4.11 -w
+pnpm install icqq@latest -w
 if [ ! -e $HOME/.fox@bot/${name}/config/config/bot.yaml ];then
 cd ~/.fox@bot/${name}
 echo -en ${yellow}正在初始化${background}
@@ -527,8 +531,6 @@ exit
 esac
 axel -n 32 -o go-cqhttp.tar.gz -c ${URL}
 tar -zxf go-cqhttp.tar.gz
-
-
 }
 #########################################################
 function help(){
@@ -649,7 +651,6 @@ apt install -y redis redis-server
 echo -e ${green}回车返回${background};read
 ;;
 6)
-YZ=true
 install
 echo -e ${green}检查完成 回车返回${background};read
 ;;
@@ -702,22 +703,29 @@ fi
 if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     ICQQ_VERSION="$(grep version $HOME/.fox@bot/${name}/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')"
     case ${ICQQ_VERSION} in
+    0.4.13)
+    export version=8.9.70
+    ;;
     0.4.12)
     export version=8.9.70
     ;;
     0.4.11)
     export version=8.9.68
     ;;
-    0.4.13)
-    pnpm install 
-    pnpm uninstall icqq -w
-    pnpm install icqq@4.11 -w
-    export version=8.9.68
+    0.4.10)
+    export version=8.9.63
+    ;;
+    0.3.*)
+    
     ;;
     *)
     echo -e ${yellow}读取失败 请更新icqq${background}
     ;;
     esac
+    if [ ! -e $HOME/QSignServer/txlib/${version}/config.json ];then
+        echo ${red}文件不存在 请确认您已经部署签名服务器${background}
+        exit
+    fi
     file="$HOME/QSignServer/txlib/${version}/config.json"
     port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
     key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
@@ -1037,9 +1045,9 @@ do
 echo -e ${red}pip安装失败 ${cyan}3秒后重试${background}
 sleep 3s
 done
-python3.8 -m pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
-python3.8 -m pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
-python3.8 -m pip install --upgrade pip
+python3.10 -m pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+python3.10 -m pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+python3.10 -m pip install --upgrade pip
 until pip install poetry
 do
 echo -e ${red}poetry安装失败 ${cyan}3秒后重试${background}

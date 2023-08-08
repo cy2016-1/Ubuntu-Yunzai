@@ -136,37 +136,28 @@ echo -en "\033[35m请输入选项 \033[0m";read number
        exit 1
      fi
      cd ${path}/plugins/example
-     if [[ $js == *"raw"* ]];then
-       curl ${js} > ${jsname}
-         if [ ! -f "${jsname}" ];then
-           echo -e "\033[31m ${jsname}下载失败\033[0m"
-           exit 1
-         fi
-     else
-       if [[ ${js} == *"gitee"* ]];then
-         echo "curl ${js} > ${jsname}" > js.log
-         sed -i 's/blob/raw/g' js.log
-         bash js.log
-         if [ ! -f "${jsname}" ];then
-           echo -e ${green}${jsname}${blue}下载失败${background}
-           exit
-         fi
-         echo -en ${green}${jsname}${blue}下载成功 回车返回${background};read 
-       fi
-       if [[ ${js} == *"github"* ]];then
-         sed -i 's/blob\///g' js.log
-         sed -i 's/github/${ghproxy_js}raw.githubusercontent/g' js.log
-         ghproxy_js
-         bash js.log
-         if [ ! -f "$jsname" ];then
-           echo -e ${green}${jsname}${blue}下载失败${background}
-           exit
-         fi
-         echo -en ${green}${jsname}${blue}下载成功 回车返回${background};read 
-         rm  js.log
-       fi
+          cd ${path}/plugins/example
+     if [[ ${js} = *gitee* ]]
+        then
+            if [[ ${js} = *raw* ]]
+                then
+                    curl ${js} > ${jsname}
+            elif [[ ${js} = *blob* ]]
+                then
+                    js=$(echo ${js} | sed "s/blob/raw/g")
+                    curl ${js} > ${jsname}
+            fi
+     elif [[ ${js} = *github* ]]
+        then
+            if [[ ${js} = *raw* ]]
+                then
+                    curl "https://ghproxy.com/${js}" > ${jsname}
+            elif [[ ${js} = *blob* ]]
+                then
+                    js=$(echo ${js} | sed "s|blob/||g" | sed "s|github|raw.githubusercontent|g" )
+                    curl "https://ghproxy.com/${js}" > ${jsname}
+            fi
      fi
-     cd ../../
      ;;
    2)
     if [ -d "/media/sd" ];then
