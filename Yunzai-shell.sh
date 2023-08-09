@@ -123,7 +123,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.9.2
+ver=5.9.3
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -608,24 +608,14 @@ node ./node_modules/puppeteer/install.js
 echo -e ${green}回车返回${background};read
 ;;
 3)
-qq=$(whiptail \
+cd ~/.fox@bot/${name}
+QQ=$(whiptail \
 --title "白狐≧▽≦" \
 --inputbox "请输入您要更改后的主人qq号" \
 10 60 \
 3>&1 1>&2 2>&3)
 if [[ ${qq} =~ ^[0-9]+$ ]]; then
-  if [ ${qq} -gt 9999 ]; then
-    sed -i '7s/.*/'" - $qq"'/' $HOME/Yunzai-Bot/config/config/other.yaml
-    whiptail --title "白狐≧▽≦" --msgbox \
-    "主人QQ已更改为${qq}" \
-    10 60
-  else
-    echo -e ${red}请输入正确的QQ!${background}
-    exit
-  fi
-else
-    echo -e ${red}请输入正确的QQ号${background}
-    exit
+    sed -i "7a\  - ${QQ}" config/config/other.yaml
 fi
 echo -e ${green}回车返回${background};read
 ;;
@@ -716,10 +706,7 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     fi
     ICQQ_VERSION="$(grep version $HOME/.fox@bot/${name}/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')"
     case ${ICQQ_VERSION} in
-    0.4.13)
-    export version=8.9.70
-    ;;
-    0.4.12)
+    0.4.14|0.4.13|0.4.12)
     export version=8.9.70
     ;;
     0.4.11)
