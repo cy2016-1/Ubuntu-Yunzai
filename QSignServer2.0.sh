@@ -202,6 +202,7 @@ Y|y)
 start_QSignServer
 ;;
 esac
+fi
 }
 
 function start_QSignServer(){
