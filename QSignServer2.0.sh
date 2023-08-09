@@ -194,6 +194,8 @@ do
     key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
     sed -i "s/${key}/${key_}/g" ${file}
 done
+if [ ! "${install_QSignServer}" == "true" ]
+then
 echo -en ${yellow}安装完成 是否启动?[Y/n]${background};read yn
 case ${yn} in
 Y|y)
@@ -465,6 +467,11 @@ exit
 ;;
 esac
 }
+if [ "${install_QSignServer}" == "true" ]
+then
+install_QSignServer
+
+else
 function mainbak()
 {
    while true
@@ -474,3 +481,4 @@ function mainbak()
    done
 }
 mainbak
+fi

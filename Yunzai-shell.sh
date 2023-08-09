@@ -123,7 +123,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.8.8
+ver=5.9.0
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -446,14 +446,24 @@ pnpm install icqq@latest -w
 if [ ! -e $HOME/.fox@bot/${name}/config/config/bot.yaml ];then
 cd ~/.fox@bot/${name}
 echo -en ${yellow}正在初始化${background}
-pnpm start
+pnpm run start
 sleep 5s
-pnpm stop
+pnpm run stop
 rm -rf ~/.pm2/logs/*.log
 echo -en ${yellow}初始化完成${background}
 echo
-echo -en ${yellow}安装完成 回车继续${background};read
+if [ ! -d $HOME/QSignServer/qsign* ];then
+if (whiptail --title "白狐" \
+   --yes-button "马上部署" \
+   --no-button "暂不部署" \
+   --yesno "是否部署本地签名服务器?" 10 50)
+   then
+       export install_QSignServer=true
+       bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2.0.sh)
 fi
+fi
+fi
+echo -en ${yellow}安装完成 回车继续${background};read
 } #install
 #########################################################
 function install_Bot(){
@@ -737,11 +747,16 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     host="$(grep -E host ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
     API="http://"${host}":"${port}"/sign?key="${key}
     API=$(echo ${API})
-    file="$HOME/.fox@bot/${name}/config/config/bot.yaml"
+    file1="$HOME/.fox@bot/${name}/config/config/bot.yaml"
+    file2="$HOME/.fox@bot/${name}/config/config/qq.yaml"
+    equipment="platform: 2"
     if [ -e ${file} ];then
-        if ! grep -q "${API}" ${file};then
-            sed -i '/sign_api_addr/d' ${file}
-            sed -i "\$a\sign_api_addr: ${API}" ${file}
+        if ! grep -q "${API}" ${file1};then
+            sed -i '/sign_api_addr/d' ${file1}
+            sed -i "\$a\sign_api_addr: ${API}" ${file1}
+        fi
+        if ! grep -q "${equipment}" ${file2};then
+            sed -i "s/platform: */${equipment}/g" ${file2}
         fi
     fi
     if pm2 show qsign${QSIGN_VERSION} | grep -q online;then
@@ -854,6 +869,7 @@ if (whiptail --title "白狐" \
         API=$(grep sign_api_addr config/config/bot.yaml)
         API=$(echo ${API} | sed "s/sign_api_addr//g")
         echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
+        echo
     fi
 fi
 echo -en ${yellow}执行完成 回车继续${background};read
@@ -910,9 +926,6 @@ esac
 #########################################################
 function bot_path(){
 if ! [ -L ~/${name} ];then
-  if [ ! -d ~/.fox@bot ];then
-    mkdir ~/.fox@bot
-  fi
     mv ~/${name} ~/.fox@bot/${name}
     ln -sf ~/.fox@bot/${name} ~/${name}
 fi
