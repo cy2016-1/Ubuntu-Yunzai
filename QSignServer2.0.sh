@@ -33,7 +33,6 @@ JDK_URL="https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-arm64-v
 node=arm64
 ;;
 esac
-function main(){
 if [ -d $HOME/QSignServer/jdk ];then
 export PATH=$PATH:$HOME/QSignServer/jdk/bin
 export JAVA_HOME=$HOME/QSignServer/jdk
@@ -204,7 +203,6 @@ start_QSignServer
 esac
 fi
 }
-
 function start_QSignServer(){
 if ! [ -x "$(command -v pm2)" ];then
     echo -e ${yellow}正在使用pnpm安装pm2${background}
@@ -377,6 +375,7 @@ echo -e ${green}2. ${cyan}已经启动签名服务器,然后才能使用重启�
 echo -en ${yellow}回车返回${background};read
 }
 
+function main(){
 if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     if pm2 show qsign${QSIGN_VERSION} | grep -q online;then
         condition="${cyan}[已启动]"
@@ -474,7 +473,6 @@ esac
 if [ "${install_QSignServer}" == "true" ]
 then
 install_QSignServer
-
 else
 function mainbak()
 {
