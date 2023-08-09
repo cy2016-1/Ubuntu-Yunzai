@@ -20,7 +20,7 @@ if [ ! "$(id -u)" = "0" ]; then
     echo -e ${red}请使用root用户${background}
     exit 0
 fi
-QSIGN_URL="https://ghproxy.com/https://github.com/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.7/Package.zip"
+QSIGN_URL="https://gitee.com/baihu433/qsign/releases/download/1.1.7/unidbg-fetch-qsign-1.1.7.zip"
 QSIGN_VERSION="117"
 qsign_version=1.1.7
 case $(uname -m) in
