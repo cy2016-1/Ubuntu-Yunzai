@@ -120,7 +120,8 @@ pnpm stop
 rm -rf ~/.pm2/logs/*.log
 echo -en ${yellow}初始化完成${background}
 echo
-echo -en ${yellow}安装完成 回车继续${background}
+export install_QSignServer=true
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2.0.sh)
 curl -o /usr/local/bin/bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh
 chmod +x /usr/local/bin/bhyz
 bhyz
