@@ -123,7 +123,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.9.0
+ver=5.9.1
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -1000,7 +1000,7 @@ Number=$(whiptail \
 --menu "请选择bot" \
 20 40 10 \
 "1" "安装ffmpeg" \
-"2" "安装python3.8 pip poetry" \
+"2" "安装python3.10 pip poetry" \
 "0" "退出" \
 3>&1 1>&2 2>&3)
 feedback=$?
