@@ -20,9 +20,9 @@ if [ ! "$(id -u)" = "0" ]; then
     echo -e ${red}请使用root用户${background}
     exit 0
 fi
-QSIGN_URL="https://ghproxy.com/https://github.com/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.6/unidbg-fetch-qsign-1.1.6.zip"
-QSIGN_VERSION="116"
-qsign_version=1.1.6
+QSIGN_URL="https://ghproxy.com/https://github.com/fuqiuluo/unidbg-fetch-qsign/releases/download/1.1.7/Package.zip"
+QSIGN_VERSION="117"
+qsign_version=1.1.7
 case $(uname -m) in
 amd64|x86_64)
 JDK_URL="https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-x64.tar.gz"
@@ -164,10 +164,10 @@ exit
 fi
 if [ ! -d $HOME/QSignServer/txlib ];then
 mkdir -p $HOME/QSignServer/txlib
-git clone --depth=1 https://gitee.com/baihu433/unidbg-fetch-qsign-onekey 
-rm -rf $HOME/QSignServer/txlib
-mv -f unidbg-fetch-qsign-onekey/txlib $HOME/QSignServer/txlib
-rm -rf unidbg-fetch-qsign-onekey
+git clone --depth=1 https://gitee.com/baihu433/qsign
+rm -rf $HOME/QSignServer/txlib > /dev/null
+mv -f qsign/txlib $HOME/QSignServer/txlib
+rm -rf qsign
 fi
 until wget -O qsign.zip -c ${QSIGN_URL}
   do
@@ -223,6 +223,7 @@ echo -e  ${green}1.  ${cyan}8.9.58${background}
 echo -e  ${green}2.  ${cyan}8.9.63${background}
 echo -e  ${green}3.  ${cyan}8.9.68${background}
 echo -e  ${green}4.  ${cyan}8.9.70${background}
+echo -e  ${green}5.  ${cyan}8.9.71${background}
 echo "========================="
 echo -en ${green}请输入您的选项: ${background};read num
 case ${num} in
@@ -237,6 +238,9 @@ export version=8.9.68
 ;;
 4|8.9.70)
 export version=8.9.70
+;;
+5|8.9.71)
+export version=8.9.71
 ;;
 *)
 echo
@@ -289,11 +293,10 @@ pm2 delete qsign${QSIGN_VERSION}
 echo -e ${yellow}正在更新签名服务器${background}
 rm -rf $HOME/QSignServer/txlib
 rm -rf $HOME/QSignServer/qsign*
-mkdir -p $HOME/QSignServer/txlib
-git clone --depth=1 https://gitee.com/baihu433/unidbg-fetch-qsign-onekey
+git clone --depth=1 https://gitee.com/baihu433/qsign
 rm -rf $HOME/QSignServer/txlib
-mv -f unidbg-fetch-qsign-onekey/txlib $HOME/QSignServer/txlib
-rm -rf unidbg-fetch-qsign
+mv -f qsign/txlib $HOME/QSignServer/txlib
+rm -rf qsign
 until wget -O qsign.zip -c ${QSIGN_URL}
   do
     echo -e ${red}下载失败 ${green}正在重试${background}
