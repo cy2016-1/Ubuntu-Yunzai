@@ -16,10 +16,11 @@ echo y | termux-setup-storage
 sleep 2s
 termux-wake-lock
 sleep 2s
-sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
+echo 'deb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main' > $PREFIX/etc/apt/sources.list
 yes Y | pkg update -y && pkg upgrade -y
 echo 'deb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main' > $PREFIX/etc/apt/sources.list
-apt install git wget proot-distro -y
+pkg update -y
+pkg install git wget proot-distro -y
 echo "proot-distro login ubuntu" > $PREFIX/bin/U
 chmod +x $PREFIX/bin/U
 if ! [ -d "../usr/var/lib/proot-distro/dlcache" ];then
