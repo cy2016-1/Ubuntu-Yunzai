@@ -123,7 +123,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.9.3
+ver=5.9.4
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -441,8 +441,6 @@ do
 done
 pnpm uninstall puppeteer -w
 pnpm install puppeteer@19.0.0 -w
-pnpm uninstall icqq -w
-pnpm install icqq@latest -w
 if [ ! -e $HOME/.fox@bot/${name}/config/config/bot.yaml ];then
 cd ~/.fox@bot/${name}
 echo -en ${yellow}正在初始化${background}
@@ -452,7 +450,7 @@ pnpm run stop
 rm -rf ~/.pm2/logs/*.log
 echo -en ${yellow}初始化完成${background}
 echo
-if [ ! -d $HOME/QSignServer/qsign* ];then
+if [ ! -d $HOME/QSignServer ];then
 if (whiptail --title "白狐" \
    --yes-button "马上部署" \
    --no-button "暂不部署" \
