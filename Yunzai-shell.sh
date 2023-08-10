@@ -123,7 +123,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.9.4
+ver=5.9.5
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -735,13 +735,15 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     file1="$HOME/.fox@bot/${name}/config/config/bot.yaml"
     file2="$HOME/.fox@bot/${name}/config/config/qq.yaml"
     equipment="platform: 2"
-    if [ -e ${file} ];then
+    if [ -e ${file1} ];then
         if ! grep -q "${API}" ${file1};then
             sed -i '/sign_api_addr/d' ${file1}
             sed -i "\$a\sign_api_addr: ${API}" ${file1}
         fi
+    fi
+    if [ -e ${file2} ];then
         if ! grep -q "${equipment}" ${file2};then
-            sed -i "s/platform: */${equipment}/g" ${file2}
+            sed -i "s/$(grep platform ${file2})/${equipment}/g" ${file2}
         fi
     fi
     if pm2 show qsign${QSIGN_VERSION} | grep -q online;then
