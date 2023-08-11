@@ -130,6 +130,7 @@ case $3 in
   exit
   ;;
 esac
+;;
 qsign)
 sed -i '/sign_api_addr/d' config/config/bot.yaml
 sed -i "\$a\sign_api_addr: $3" config/config/bot.yaml
@@ -139,7 +140,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.9.6
+ver=5.9.7
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
