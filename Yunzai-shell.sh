@@ -114,6 +114,22 @@ case $3 in
   ;;
 esac
 ;;
+fix)
+case $3 in
+  bot)
+  git fetch --all
+  git reset --hard origin/master
+  git pull
+  exit
+  ;;
+  pkg)
+  rm -rf node_modules 
+  pnpm install -P
+  pnpm install
+  pnpm install puppeteer@19.0.0 icqq@0.4.11 -w
+  exit
+  ;;
+esac
 qsign)
 sed -i '/sign_api_addr/d' config/config/bot.yaml
 sed -i "\$a\sign_api_addr: $3" config/config/bot.yaml
@@ -123,7 +139,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.9.5
+ver=5.9.6
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -723,7 +739,7 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     ;;
     esac
     if [ ! -e $HOME/QSignServer/txlib/${version}/config.json ];then
-        echo ${red}文件不存在 请确认您已经部署签名服务器${background}
+        echo -e ${red}文件不存在 请确认您已经部署签名服务器${background}
         exit
     fi
     file="$HOME/QSignServer/txlib/${version}/config.json"
