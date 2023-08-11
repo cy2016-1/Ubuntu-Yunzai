@@ -109,7 +109,7 @@ case $3 in
   ;;
   pkg)
   echo "Y" | pnpm install
-  echo "Y" | pnpm install puppeteer@19.0.0 icqq@latest -w
+  echo "Y" | pnpm install puppeteer@19.0.0 -w
   exit
   ;;
 esac
@@ -126,7 +126,7 @@ case $3 in
   rm -rf node_modules 
   pnpm install -P
   pnpm install
-  pnpm install puppeteer@19.0.0 icqq@0.4.11 -w
+  pnpm install puppeteer@19.0.0 -w
   exit
   ;;
 esac
@@ -140,7 +140,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.9.8
+ver=5.9.9
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
