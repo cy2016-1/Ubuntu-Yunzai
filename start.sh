@@ -1,7 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 cd $HOME
 if ! [ "$(uname -o)" = "Android" ]; then
-	echo "非termux 停止运行"
+	echo "看来你是大聪明 加Q群获取帮助吧 596660282"
 	exit
 fi
 if [ -d "../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/" ];then
