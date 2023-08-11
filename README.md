@@ -136,6 +136,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 |好耶|10元|
 |蛇蛇天下第一|9.99元|
 |鱼|8.66元|
+|(ᗜ ˰ ᗜ)|7.67元|
 |某个萌新的赞助|6.66元|
 |纳西妲|6元|
 |刻晴|6元|
@@ -152,7 +153,6 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 |小白|2.1元|
 |好心人|2元|
 |想白佬的第N天|1.68元|
-|(ᗜ ˰ ᗜ)|1.01元|
 |承影|1元|
 |百草(白狐准新郎)|0.52元|
 |宵宫|0.4元|
