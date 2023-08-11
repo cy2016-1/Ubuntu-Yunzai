@@ -140,7 +140,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=5.9.9
+ver=6.0.0
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -950,8 +950,6 @@ Number=$(whiptail \
 "4" "签名服务器管理" \
 "5" "白狐脚本附件安装" \
 "0" "退出" \
-"脚本完全免费 如果你是购买所得" \
-"请给差评 打击倒卖 从你我做起" \
 3>&1 1>&2 2>&3)
 feedback=$?
 if ! [ $feedback = 0 ]
