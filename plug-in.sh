@@ -943,7 +943,7 @@ number=$(${dialog_whiptail} \
 "4" "zhi-plugin                     白纸插件" \
 "5" "xitian-plugin                  戏天插件" \
 "6" "Akasha-Terminal-plugin         虚空插件" \
-"7" "Xiuxian-Plugin-Box             修仙插件" \
+"7" "xiuxian-emulator-plugin        绝云间修仙插件" \
 "8" "Yenai-Plugin                   椰奶插件" \
 "9" "xiaofei-plugin                 小飞插件" \
 "10" "earth-k-plugin                 土块插件" \
@@ -1011,7 +1011,7 @@ number=$(${dialog_whiptail} \
 "4" "zhi-plugin                     白纸插件" OFF \
 "5" "xitian-plugin                  戏天插件" OFF \
 "6" "Akasha-Terminal-plugin         虚空插件" OFF \
-"7" "Xiuxian-Plugin-Box             修仙插件" OFF \
+"7" "xiuxian-emulator-plugin        绝云间修仙插件" OFF \
 "8" "Yenai-Plugin                   椰奶插件" OFF \
 "9" "xiaofei-plugin                 小飞插件" OFF \
 "10" "earth-k-plugin                 土块插件" OFF \
@@ -1079,7 +1079,7 @@ echo -e ${green_red}3.  ${cyan}Guoba-Plugin"              "锅巴插件${backgro
 echo -e ${green_red}4.  ${cyan}zhi-plugin"                "白纸插件${background}
 echo -e ${green_red}5.  ${cyan}xitian-plugin"             "戏天插件${background}
 echo -e ${green_red}6.  ${cyan}Akasha-Terminal-plugin"    "虚空插件${background}
-echo -e ${green_red}7.  ${cyan}Xiuxian-Plugin-Box"        "修仙插件${background}
+echo -e ${green_red}7.  ${cyan}xiuxian-emulator-plugin"   "绝云间修仙插件${background}
 echo -e ${green_red}8.  ${cyan}Yenai-Plugin"              "椰奶插件${background}
 echo -e ${green_red}9.  ${cyan}xiaofei-plugin"            "小飞插件${background}
 echo -e ${green_red}10. ${cyan}earth-k-plugin"           "土块插件${background}
@@ -1203,11 +1203,9 @@ do
      install_git_plugin${_checklist}
      ;;
    7)
-     echo -e ${red}修仙插件仓库暂时关闭 无法安装${background}
-     exit
-     Name=修仙插件
-     Plugin=xiuxian@2.0.0
-     Git=https://gitee.com/ningmengchongshui/xiuxian-plugin.git
+     Name=绝云间修仙
+     Plugin=xiuxian-emulator-plugin
+     Git=https://gitee.com/xialuo03/xiuxian-emulator-plugin.git
      plugin_number=$(echo ${plugin_number} | sed "s/7//g")
      install_git_plugin${_checklist}
      ;;
