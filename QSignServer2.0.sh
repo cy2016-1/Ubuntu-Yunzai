@@ -21,8 +21,8 @@ if [ ! "$(id -u)" = "0" ]; then
     exit 0
 fi
 QSIGN_URL="https://gitee.com/baihu433/qsign/releases/download/1.1.7/unidbg-fetch-qsign-1.1.7.zip"
-QSIGN_VERSION="117"
-qsign_version=1.1.7
+QSIGN_VERSION="117b"
+qsign_version="1.1.7.b"
 qsign="https://gitee.com/baihu433/unidbg-fetch-qsign"
 case $(uname -m) in
 amd64|x86_64)
