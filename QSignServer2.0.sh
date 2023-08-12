@@ -306,6 +306,20 @@ echo -e ${yellow}正在解压qsign文件压缩包${background}
     rm -rf qsign.zip
     rm -rf qsign
     rm -rf $HOME/QSignServer/qsign${QSIGN_VERSION}/txlib 2&> /dev/null
+port_=6666
+key_=fox
+for folder in $(ls $HOME/QSignServer/txlib)
+do
+    file="$HOME/QSignServer/txlib/${folder}/config.json"
+    port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
+    sed -i "s/${port}/${port_}/g" ${file}
+done
+for file in $(ls $HOME/QSignServer/txlib)
+do
+    file="$HOME/QSignServer/txlib/${file}/config.json"
+    key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
+    sed -i "s/${key}/${key_}/g" ${file}
+done
 echo -en ${yellow}更新完成 回车返回${background};read
 }
 
