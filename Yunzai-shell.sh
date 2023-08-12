@@ -98,6 +98,7 @@ pnpm run login
 exit
 ;;
 install)
+pnpm install
 pnpm install "$3" -w
 exit
 ;;
@@ -140,7 +141,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=6.0.0
+ver=6.0.1
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -296,7 +297,7 @@ if [ ! "${Installation_Status}" == "installed" ];then
     install_chromium
 fi
 
-if [ ! -x "$(command -v ffmpeg)" ];then
+if [ ! -x "/usr/local/bin/ffmpeg" ];then
 echo -e ${yellow}正在安装ffmpeg${background}
 bash <(curl https://gitee.com/baihu433/ffmpeg/raw/master/ffmpeg.sh)
 fi
@@ -526,37 +527,25 @@ if (whiptail --title "白狐" \
 fi
 } #install_Miao_Plugin
 #########################################################
-function install_go_cqhttp(){
-if [ -e /etc/resolv.conf ]; then
-        cp /etc/resolv.conf /etc/resolv.conf.backup
-        echo -e ${yellow}DNS已备份至 /etc/resolv.conf.backup${background}
-    else
-        echo -e ${red}没有resolv.conf此文件${background}
-        exit
-fi
-if grep -q "114.114.114.114" /etc/resolv.conf && grep -q "8.8.8.8" /etc/resolv.conf
+function install_Genshin(){
+if (whiptail --title "白狐" \
+--yes-button "Gitee" \
+--no-button "Github" \
+--yesno "请选择的miao-plugin下载服务器\n国内用户建议选择Gitee" 10 50)
+  then
+    if ! git clone --depth=1 https://gitee.com/TimeRainStarSky/Yunzai-genshin ~/.fox@bot/${name}/plugins/genshin
     then
-        echo -e ${yellow}DNS已修改${background}
-    else
-        echo "nameserver 114.114.114.114" > /etc/resolv.conf
-        echo "nameserver 8.8.8.8" >> /etc/resolv.conf
-        echo -e ${yellow}DNS已修改为 114.114.114.114 8.8.8.8${background}
+      echo -e ${red} 克隆失败 ${cyan}试试Github ${background}
+      exit
+    fi
+  else
+    if ! git clone --depth=1 git clone --depth 1 https://github.com/TimeRainStarSky/Yunzai-genshin ~/.fox@bot/${name}/plugins/genshin
+    then
+      echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
+      exit
+    fi
 fi
-case $(uname -m) in
-amd64|x86_64)
-URL="https://ghproxy.com/https://github.com/rhwong/go-cqhttp-dev/releases/download/v1.1.1-dev/go-cqhttp-linux-amd64.tar.gz"
-;;
-arm64|aarch64)
-URL="https://ghproxy.com/https://github.com/rhwong/go-cqhttp-dev/releases/download/v1.1.1-dev/go-cqhttp-linux-arm64.tar.gz"
-;;
-*)
-echo ${red}抱歉 暂时不支持您的架构${background}
-exit
-;;
-esac
-axel -n 32 -o go-cqhttp.tar.gz -c ${URL}
-tar -zxf go-cqhttp.tar.gz
-}
+} #install_Genshin
 #########################################################
 function help(){
 echo -en ${cyan} 正在咕咕 回车返回${background}
@@ -981,15 +970,13 @@ bot_path
 main
 ;;
 3)
-whiptail --title "白狐≧▽≦" --msgbox "
-TRSS-Yunzai的安装正在测试中，可能有bug
-" 10 43
 name=TRSS-Yunzai
 Gitee=https://gitee.com/TimeRainStarSky/Yunzai.git
 Github=https://github.com/TimeRainStarSky/Yunzai.git
 if [ ! -d "/root/.fox@bot/${name}" ];then
 install_Bot
 install_Miao_Plugin
+install_Genshin
 install
 fi
 bot_path
