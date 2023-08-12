@@ -158,8 +158,9 @@ if ! [ -x "$(command -v pm2)" ];then
     done
     echo
 fi
-if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
-echo -e ${yellow}您已安装过该版本的签名服务器了${background}
+rm -rf qsign* > /dev/null
+if [[ -d $HOME/QSignServer/qsign* ]];then
+echo -e ${yellow}您已安装过签名服务 请使用更新${background}
 exit
 fi
 git clone --depth=1 ${qsign} ./qsign
@@ -294,6 +295,8 @@ echo -e ${yellow}正在停止服务器运行${background}
 pm2 stop qsign*
 pm2 delete qsign*
 echo -e ${yellow}正在更新签名服务器${background}
+rm -rf $HOME/QSignServer/qsign* > /dev/null
+rm -rf $HOME/QSignServer/txlib > /dev/null
 git clone --depth=1 ${qsign} ./qsign
 if [ ! -d $HOME/QSignServer/txlib ];then
 mkdir $HOME/QSignServer/txlib
@@ -402,10 +405,10 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     fi
 fi
 
-if [ -d $HOME/QSignServer/qsign* ];then  
+if [[ -d $HOME/QSignServer ]];then  
         Version="${cyan}[$(ls $HOME/QSignServer | grep qsign | sed "s/qsign//g" | sed "s/.\B/&./g")]"
         if [ ! "${QSIGN_VERSION}" = $(ls $HOME/QSignServer | grep qsign | sed "s/qsign//g") ];then
-            Version="${red}{Version} [请更新]"
+            Version="${red}${Version} [请更新]"
         fi
 else
         Version="${red}[未部署]"
