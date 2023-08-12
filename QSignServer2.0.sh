@@ -244,6 +244,7 @@ export version=8.9.71
 ;;
 6|8.9.73)
 export version=8.9.73
+;;
 *)
 echo
 echo -e ${red}输入错误${background}
