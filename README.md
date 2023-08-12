@@ -141,6 +141,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 |纳西妲|6元|
 |刻晴|6元|
 |冷风|6元|
+|怣忈|6元|
 |胡桃快来吧！|5.4元|
 |晓彬残月|5.21元|
 |丶基控Q | 5.2元|
