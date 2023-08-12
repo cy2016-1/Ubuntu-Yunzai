@@ -23,6 +23,7 @@ fi
 QSIGN_URL="https://gitee.com/baihu433/qsign/releases/download/1.1.7/unidbg-fetch-qsign-1.1.7.zip"
 QSIGN_VERSION="117"
 qsign_version=1.1.7
+qsign="https://gitee.com/baihu433/unidbg-fetch-qsign"
 case $(uname -m) in
 amd64|x86_64)
 JDK_URL="https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-x64.tar.gz"
@@ -161,13 +162,12 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
 echo -e ${yellow}您已安装过该版本的签名服务器了${background}
 exit
 fi
+git clone --depth=1 ${qsign} ./qsign
 if [ ! -d $HOME/QSignServer/txlib ];then
-mkdir -p $HOME/QSignServer/txlib
-git clone --depth=1 https://gitee.com/baihu433/qsign
-rm -rf $HOME/QSignServer/txlib > /dev/null
-mv -f qsign/txlib $HOME/QSignServer/txlib
-rm -rf qsign
+mkdir $HOME/QSignServer/txlib
 fi
+mv qsign/txlib/* $HOME/QSignServer/txlib/
+rm -rf qsign > /dev/null
 until wget -O qsign.zip -c ${QSIGN_URL}
   do
     echo -e ${red}下载失败 ${green}正在重试${background}
@@ -287,25 +287,25 @@ echo -en ${yellow}重启完成 回车返回${background};read
 
 function update_QSignServer(){
 echo -e ${yellow}正在停止服务器运行${background}
-pm2 stop qsign${QSIGN_VERSION}
-pm2 delete qsign${QSIGN_VERSION}
+pm2 stop qsign*
+pm2 delete qsign*
 echo -e ${yellow}正在更新签名服务器${background}
-rm -rf $HOME/QSignServer/txlib
-rm -rf $HOME/QSignServer/qsign*
-git clone --depth=1 https://gitee.com/baihu433/qsign
-rm -rf $HOME/QSignServer/txlib
-mv -f qsign/txlib $HOME/QSignServer/txlib
-rm -rf qsign
+git clone --depth=1 ${qsign} ./qsign
+if [ ! -d $HOME/QSignServer/txlib ];then
+mkdir $HOME/QSignServer/txlib
+fi
+mv qsign/txlib/* $HOME/QSignServer/txlib/
+rm -rf qsign > /dev/null
 until wget -O qsign.zip -c ${QSIGN_URL}
   do
     echo -e ${red}下载失败 ${green}正在重试${background}
   done
 echo -e ${yellow}正在解压qsign文件压缩包${background}
-    unzip -q qsign.zip -d qsign
-    mv $HOME/qsign/$(ls qsign) $HOME/QSignServer/qsign${QSIGN_VERSION}
-    rm -rf qsign.zip
-    rm -rf qsign
-    rm -rf $HOME/QSignServer/qsign${QSIGN_VERSION}/txlib 2&> /dev/null
+unzip -q qsign.zip -d qsign
+mv $HOME/qsign/$(ls qsign) $HOME/QSignServer/qsign${QSIGN_VERSION}
+rm -rf qsign.zip
+rm -rf qsign
+rm -rf $HOME/QSignServer/qsign${QSIGN_VERSION}/txlib > /dev/null
 port_=6666
 key_=fox
 for folder in $(ls $HOME/QSignServer/txlib)
