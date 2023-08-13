@@ -141,7 +141,7 @@ echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
 exit
 ;;
 esac
-ver=6.0.1
+ver=6.0.2
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -672,7 +672,7 @@ echo -e ${green}重装完成 回车返回${background};read
 esac
 }
 function QSIGN(){
-export QSIGN_VERSION="117"
+export QSIGN_VERSION="117b"
 if [ -d $HOME/QSignServer/jdk ];then
 export PATH=$PATH:$HOME/QSignServer/jdk/bin
 export JAVA_HOME=$HOME/QSignServer/jdk
@@ -706,9 +706,9 @@ if ! [ -x "$(command -v pm2)" ];then
 fi
 if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     if [ ! -e $HOME/.fox@bot/${name}/node_modules/icqq/package.json ];then
-        echo Y pnpm install && echo Y | pnpm install -P
+        echo Y | pnpm install && echo Y | pnpm install -P
     fi
-    ICQQ_VERSION="$(grep version $HOME/.fox@bot/${name}/node_modules/icqq/package.json | awk '{print $2}' | sed 's/\"//g' | sed 's/,//g')"
+    ICQQ_VERSION="$(pnpm list icqq | grep icqq | sed "s/icqq //g" )"
     case ${ICQQ_VERSION} in
     0.4.14|0.4.13|0.4.12)
     export version=8.9.70
