@@ -546,6 +546,8 @@ echo -e ${green_red}55. ${cyan}qinghe-plugin"            "卿何插件${backgrou
 echo -e ${green_red}56. ${cyan}BlueArchive-plugin"       "碧蓝档案插件${background}
 echo -e ${green_red}57. ${cyan}impart-pro-plugin"        "牛牛大作战${background}
 echo -e ${green_red}58. ${cyan}Gi-plugin"                "群互动插件${background}
+echo
+echo -e ${green_red}0. ${cyan}退出${background}
 echo "#####################################"
 #echo -e ${yellow}tip:序号为${red}白色${yellow}表示未安装'\n'序号为${green}绿色${green}表示已安装 ${background}
 echo
