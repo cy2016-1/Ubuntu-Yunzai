@@ -223,7 +223,7 @@ echo -e  ${green}1.  ${cyan}8.9.58${background}
 echo -e  ${green}2.  ${cyan}8.9.63${background}
 echo -e  ${green}3.  ${cyan}8.9.68${background}
 echo -e  ${green}4.  ${cyan}8.9.70${background}
-echo -e  ${green}5.  ${cyan}8.9.71${background}
+#echo -e  ${green}5.  ${cyan}8.9.71${background}
 #echo -e  ${green}6.  ${cyan}8.9.73${background}
 echo "========================="
 echo -en ${green}请输入您的选项: ${background};read num
