@@ -21,9 +21,9 @@ if [ ! "$(id -u)" = "0" ]; then
     exit 0
 fi
 QSIGN_URL="https://gitee.com/baihu433/qsign/releases/download/1.1.7/unidbg-fetch-qsign-1.1.7.zip"
-QSIGN_VERSION="117b"
-qsign_version="1.1.7.b"
-qsign="https://gitee.com/baihu433/unidbg-fetch-qsign"
+QSIGN_VERSION="117c"
+qsign_version="1.1.7.c"
+qsign="https://gitee.com/baihu433/qsign"
 case $(uname -m) in
 amd64|x86_64)
 JDK_URL="https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-x64.tar.gz"
@@ -224,7 +224,7 @@ echo -e  ${green}2.  ${cyan}8.9.63${background}
 echo -e  ${green}3.  ${cyan}8.9.68${background}
 echo -e  ${green}4.  ${cyan}8.9.70${background}
 echo -e  ${green}5.  ${cyan}8.9.71${background}
-echo -e  ${green}6.  ${cyan}8.9.73${background}
+#echo -e  ${green}6.  ${cyan}8.9.73${background}
 echo "========================="
 echo -en ${green}请输入您的选项: ${background};read num
 case ${num} in
