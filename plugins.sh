@@ -6,6 +6,7 @@ purple="\033[35m"
 cyan="\033[36m"
 white="\033[37m"
 background="\033[0m"
+function main(){
 function ghproxy_agency(){
 function dialog_whiptail_page(){
 if (${dialog_whiptail} \
@@ -400,6 +401,11 @@ number=$(${dialog_whiptail} \
 "57" "impart-pro-plugin              牛牛大作战" \
 "58" "Gi-plugin                      群互动插件" \
 3>&1 1>&2 2>&3)
+feedback=$?
+if ! [ $feedback = 0 ]
+then
+exit
+fi
 #clear
 _checklist=""
 }
@@ -467,6 +473,11 @@ number=$(${dialog_whiptail} \
 "56" "BlueArchive-plugin             碧蓝档案插件" OFF \
 "57" "impart-pro-plugin              牛牛大作战" OFF \
 "58" "Gi-plugin                      群互动插件" OFF \
+feedback=$?
+if ! [ $feedback = 0 ]
+then
+exit
+fi
 3>&1 1>&2 2>&3)
 clear
 _checklist="_checklist"
@@ -1002,6 +1013,10 @@ do
      plugin_number=$(echo ${plugin_number} | sed "s/58//g")
      install_git_plugin${_checklist}
      ;;
+   0)
+     echo
+     exit
+     ;;
   esac    
 done
 
@@ -1011,6 +1026,7 @@ else
 echo -e ${red}错误的路径${background}
 exit
 fi
+
 function MCASC(){
 case ${MCASC} in
 Single)
@@ -1046,4 +1062,23 @@ exit
 esac
 }
 
+function pnpm_install(){
+if ! [ -x "$(command -v pnpm)" ];then
+    echo -e ${cyan}检测到未安装pnpm 开始安装${background}
+    npm install -g pnpm --registry=https://registry.npmmirror.com
+fi
+}
+pnpm_install
+
 choose_page
+
+}
+function mainbak()
+{
+   while true
+   do
+       main
+       mainbak
+   done
+}
+mainbak
