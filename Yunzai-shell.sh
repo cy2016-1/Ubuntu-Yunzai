@@ -102,6 +102,14 @@ pnpm install
 pnpm install "$3" -w
 exit
 ;;
+qsign)
+sed -i '/sign_api_addr/d' config/config/bot.yaml
+sed -i "\$a\sign_api_addr: $3" config/config/bot.yaml
+API=$(grep sign_api_addr config/config/bot.yaml)
+API=$(echo ${API} | sed "s/sign_api_addr//g")
+echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
+exit
+;;
 up)
 case $3 in
   bot)
@@ -132,16 +140,8 @@ case $3 in
   ;;
 esac
 ;;
-qsign)
-sed -i '/sign_api_addr/d' config/config/bot.yaml
-sed -i "\$a\sign_api_addr: $3" config/config/bot.yaml
-API=$(grep sign_api_addr config/config/bot.yaml)
-API=$(echo ${API} | sed "s/sign_api_addr//g")
-echo -e ${cyan}您的API链接已修改为 ${green}${API}${background}
-exit
-;;
 esac
-ver=6.0.2
+ver=6.0.3
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -672,7 +672,7 @@ echo -e ${green}重装完成 回车返回${background};read
 esac
 }
 function QSIGN(){
-export QSIGN_VERSION="117b"
+export QSIGN_VERSION="117e"
 if [ -d $HOME/QSignServer/jdk ];then
 export PATH=$PATH:$HOME/QSignServer/jdk/bin
 export JAVA_HOME=$HOME/QSignServer/jdk
