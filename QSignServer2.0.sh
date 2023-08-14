@@ -21,9 +21,9 @@ if [ ! "$(id -u)" = "0" ]; then
     exit 0
 fi
 QSIGN_URL="https://gitee.com/baihu433/qsign/releases/download/1.1.7/unidbg-fetch-qsign-1.1.7.zip"
-QSIGN_VERSION="117c"
-qsign_version="1.1.7.c"
-qsign="https://gitee.com/baihu433/qsign"
+QSIGN_VERSION="117e"
+qsign_version="1.1.7.e"
+txlib="https://gitee.com/baihu433/txlib"
 case $(uname -m) in
 amd64|x86_64)
 JDK_URL="https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-x64.tar.gz"
@@ -158,27 +158,22 @@ if ! [ -x "$(command -v pm2)" ];then
     done
     echo
 fi
-rm -rf qsign* > /dev/null
 if [[ -d $HOME/QSignServer/qsign* ]];then
 echo -e ${yellow}您已安装过签名服务 请使用更新${background}
 exit
 fi
-git clone --depth=1 ${qsign} ./qsign
-if [ ! -d $HOME/QSignServer/txlib ];then
-mkdir $HOME/QSignServer/txlib
-fi
-mv qsign/txlib/* $HOME/QSignServer/txlib/
-rm -rf qsign > /dev/null
+git clone --depth=1 ${txlib} ./txlib
+rm -rf txlib/.git txlib/README.md
+mv -f txlib $HOME/QSignServer/txlib
 until wget -O qsign.zip -c ${QSIGN_URL}
-  do
-    echo -e ${red}下载失败 ${green}正在重试${background}
-  done
-echo -e ${yellow}正在解压qsign文件压缩包${background}
+do
+    echo -e ${red}下载失败 3秒后重试${background}
+done
+echo -e ${yellow}正在解压签名服务器压缩包${background}
 unzip -q qsign.zip -d qsign
-mv $HOME/qsign/$(ls qsign) $HOME/QSignServer/qsign${QSIGN_VERSION}
 rm -rf qsign.zip
+mv qsign/* $HOME/QSignServer/qsign${QSIGN_VERSION}
 rm -rf qsign
-rm -rf $HOME/QSignServer/qsign${QSIGN_VERSION}/txlib > /dev/null
 API_LINK=["${cyan} ${qsign_version}"]
 port_=6666
 key_=fox
@@ -223,8 +218,8 @@ echo -e  ${green}1.  ${cyan}8.9.58${background}
 echo -e  ${green}2.  ${cyan}8.9.63${background}
 echo -e  ${green}3.  ${cyan}8.9.68${background}
 echo -e  ${green}4.  ${cyan}8.9.70${background}
-#echo -e  ${green}5.  ${cyan}8.9.71${background}
-#echo -e  ${green}6.  ${cyan}8.9.73${background}
+echo -e  ${green}5.  ${cyan}8.9.71${background}
+echo -e  ${green}6.  ${cyan}8.9.73${background}
 echo "========================="
 echo -en ${green}请输入您的选项: ${background};read num
 case ${num} in
@@ -297,22 +292,17 @@ pm2 delete qsign*
 echo -e ${yellow}正在更新签名服务器${background}
 rm -rf $HOME/QSignServer/qsign* > /dev/null
 rm -rf $HOME/QSignServer/txlib > /dev/null
-git clone --depth=1 ${qsign} ./qsign
-if [ ! -d $HOME/QSignServer/txlib ];then
-mkdir $HOME/QSignServer/txlib
-fi
-mv qsign/txlib/* $HOME/QSignServer/txlib/
-rm -rf qsign > /dev/null
+git clone --depth=1 ${txlib} ./txlib
+rm -rf txlib/.git txlib/README.md
+mv -f txlib $HOME/QSignServer/txlib
 until wget -O qsign.zip -c ${QSIGN_URL}
-  do
-    echo -e ${red}下载失败 ${green}正在重试${background}
-  done
-echo -e ${yellow}正在解压qsign文件压缩包${background}
+do
+    echo -e ${red}下载失败 3秒后重试${background}
+done
 unzip -q qsign.zip -d qsign
-mv $HOME/qsign/$(ls qsign) $HOME/QSignServer/qsign${QSIGN_VERSION}
 rm -rf qsign.zip
+mv qsign/$(ls qsign) $HOME/QSignServer/qsign${QSIGN_VERSION}
 rm -rf qsign
-rm -rf $HOME/QSignServer/qsign${QSIGN_VERSION}/txlib > /dev/null
 port_=6666
 key_=fox
 for folder in $(ls $HOME/QSignServer/txlib)
@@ -406,8 +396,11 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
 fi
 
 if [[ -d $HOME/QSignServer ]];then  
-        Version="${cyan}[$(ls $HOME/QSignServer | grep qsign | sed "s/qsign//g" | sed "s/.\B/&./g")]"
-        if [ ! "${QSIGN_VERSION}" = $(ls $HOME/QSignServer | grep qsign | sed "s/qsign//g") ];then
+        Version="[$(ls $HOME/QSignServer | grep qsign | sed "s/qsign//g" | sed "s/.\B/&./g")]"
+        if [ "${QSIGN_VERSION}" = $(ls $HOME/QSignServer | grep qsign | sed "s/qsign//g") ]
+        then
+        Version="${cyan}${Version}"
+        else
             Version="${red}${Version} [请更新]"
         fi
 else
