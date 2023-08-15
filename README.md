@@ -126,11 +126,12 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 
 | 名称 | 金额 |
 |----|----|
-|小云睡大觉|`45`元|<br>
-|汾阳|`30`元|<br>
-|笙凉|`20`元|<br>
-|小吉祥草王|`19.99`元|<br>
-|慕言|`19.05`元|<br>
+|小云睡大觉|<strong>45</strong>元|<br>
+|汾阳|<strong>30</strong>元|<br>
+|笙凉|<strong>20</strong>元|<br>
+|╲ゝ丶瞳少|<strong>20</strong>元|<br>
+|小吉祥草王|<strong>20</strong>元|<br>
+|慕言|<strong>19.05</strong>元|<br>
 |摸鱼梦|13.5元|
 |小伟|10元|
 |好耶|10元|
@@ -148,6 +149,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 |夜|5元|
 |   |5元|
 |受不了了|5元|
+|三水|5元
 |猫耳傲娇小刻晴|3元|
 |梦铃星柠|2.5元|
 |远走高飞|2.5元|
