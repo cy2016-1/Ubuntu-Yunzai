@@ -141,7 +141,7 @@ case $3 in
 esac
 ;;
 esac
-ver=6.0.3
+ver=6.0.4
 cd $HOME
 if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
@@ -441,6 +441,7 @@ fi
 #    echo
 #fi
 
+export PUPPETEER_SKIP_DOWNLOAD='true'
 a=0
 echo -e ${yellow}正在使用pnpm安装依赖${background}
 cd ~/.fox@bot/${name}
