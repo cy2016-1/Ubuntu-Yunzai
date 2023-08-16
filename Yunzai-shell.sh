@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.0.6
+export ver=6.0.7
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -940,7 +940,7 @@ if ! [ -L ~/${name} ];then
 fi
 }
 #########################################################
-function install_bot(){
+function home_page(){
 cd ~
 if ! [ -d .fox@bot ];then
 mkdir .fox@bot
@@ -1070,7 +1070,7 @@ function mainbak()
 {
    while true
    do
-       install_bot
+       home_page
        mainbak
    done
 }
