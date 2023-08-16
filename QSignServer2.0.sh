@@ -164,6 +164,7 @@ exit
 fi
 git clone --depth=1 ${txlib} ./txlib
 rm -rf txlib/.git txlib/README.md
+rm -rf $HOME/QSignServer/txlib > /dev/null
 mv -f txlib $HOME/QSignServer/txlib
 until wget -O qsign.zip -c ${QSIGN_URL}
 do
