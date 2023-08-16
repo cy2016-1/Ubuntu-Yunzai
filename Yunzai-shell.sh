@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.0.5
+export ver=6.0.6
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -63,7 +63,7 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     fi
     ICQQ_VERSION="$(pnpm list icqq | grep icqq | sed "s/icqq //g" )"
     case ${ICQQ_VERSION} in
-    0.4.14|0.4.13|0.4.12)
+    0.5.0|0.4.14|0.4.13|0.4.12)
     export version=8.9.70
     ;;
     0.4.11)
@@ -99,13 +99,15 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
             sed -i '/sign_api_addr/d' ${file1}
             sed -i "\$a\sign_api_addr: ${API}" ${file1}
         fi
+    #cd && sed -i '/sign_api_addr/d' M*/con*/con*/bot* && sed -i '$a\sign_api_addr: 127.0.0.1:6666/sign?key=fox' M*/con*/con*/bot*
     fi
     if [ -e ${file2} ];then
         if ! grep -q "${equipment}" ${file2};then
             sed -i "s/$(grep platform ${file2})/${equipment}/g" ${file2}
         fi
     fi
-    if pm2 show qsign${QSIGN_VERSION} | grep -q online;then
+    if pm2 show qsign${QSIGN_VERSION} | grep -q online
+    then
         echo -e ${green}签名服务器 ${cyan}已启动${background}
             if curl -sL ${API} | grep -q ${version}
               then
@@ -116,7 +118,7 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
                 pm2 delete qsign${QSIGN_VERSION}
                 pm2 start --name qsign${QSIGN_VERSION} "bash $HOME/QSignServer/qsign${QSIGN_VERSION}/bin/unidbg-fetch-qsign --basePath=$HOME/QSignServer/txlib/${version}"
                 sleep 5s
-            fi  
+            fi
     else
         echo -e ${green}签名服务器 ${red}未启动${background}
         echo -e ${yellow}正在尝试启动签名服务器${background}
