@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.0.7
+export ver=6.0.8
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -111,10 +111,10 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
         echo -e ${green}签名服务器 ${cyan}已启动${background}
             if curl -sL ${API} | grep -q ${version}
               then
-                echo ${cyan}签名服务器的共享库版本 ${green}正确${background}
+                echo -e ${cyan}签名服务器的共享库版本 ${green}正确${background}
               else
-                echo ${cyan}签名服务器的共享库版本 ${red}错误${background}
-                echo ${yellow}正在重启签名服务器${background}
+                echo -e ${cyan}签名服务器的共享库版本 ${red}错误${background}
+                echo -e ${yellow}正在重启签名服务器${background}
                 pm2 delete qsign${QSIGN_VERSION}
                 pm2 start --name qsign${QSIGN_VERSION} "bash $HOME/QSignServer/qsign${QSIGN_VERSION}/bin/unidbg-fetch-qsign --basePath=$HOME/QSignServer/txlib/${version}"
                 sleep 5s
@@ -680,18 +680,17 @@ case ${ErrorRepair} in
 function chromium_install(){
 apt install -y gnupg gnupg1 gnupg2
 cp -f /etc/apt/sources.list /etc/apt/sources.list.bak
-echo "deb http://ftp.cn.debian.org/debian sid main" > /etc/apt/sources.list
+echo "deb http://ftp.cn.debian.org/debian sid main" >> /etc/apt/sources.list
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131
 apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
-apt update -y
-apt install -y chromium
+aptitude update -y
+aptitude install -y chromium
 rm -rf /etc/apt/trusted.gpg
 mv -f /etc/apt/sources.list.bak /etc/apt/sources.list
 chromium > /dev/null
 cd ~/.fox@bot/${name}
 chromium_path=$(grep chromium_path: config/config/bot.yaml)
 sed -i "s/${chromium_path}/chromium_path: \/usr\/bin\/chromium/g" config/config/bot.yaml
-aptitude install -y
 }
 if ! command -v aptitude > /dev/null;then
 apt install -y aptitude
