@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.0.9
+export ver=6.1.0
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -184,11 +184,21 @@ esac
 case "$2" in
 n)
 QSIGN
+Redis=$(redis-cli ping)
+if ! [ "${Redis}" = "PONG" ]; then
+ redis-server &
+ echo
+fi
 node app
 exit
 ;;
 start)
 QSIGN
+Redis=$(redis-cli ping)
+if ! [ "${Redis}" = "PONG" ]; then
+ nohup redis-server &
+ echo
+fi
 pnpm run start
 exit
 ;;
