@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.0.8
+export ver=6.0.9
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -381,9 +381,8 @@ elif awk '{print $2}' /etc/issue | grep -q -E 23.*
            echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
         done          
 else
-    until apt install -y chromium-browser
+    until apt install -y chromium-browser || apt install -y chromium
         do
-           apt install -y chromium-browser
            echo -e ${red}chromium浏览器安装失败 ${green}正在重试${background}
         done
 fi
@@ -697,13 +696,13 @@ apt install -y aptitude
 fi
 if awk '{print $2}' /etc/issue | grep -q -E 22.*
     then
-        chromium_install
-elif awk '{print $2}' /etc/issue | grep -q -E 23.*
+        bash <(curl https://gitee.com/baihu433/chromium/raw/master/chromium.sh)
+elif awk '{print $2}' /etc/issue | grep -q -E 20.*
     then
         chromium_install
     else
-        apt autoremove -y chromium-browser
-        apt install -y chromium-browser
+        apt autoremove -y chromium-browser || apt autoremove -y chromium
+        apt install -y chromium-browser || apt install -y chromium
 fi
 
 echo -e ${green}回车返回${background};read

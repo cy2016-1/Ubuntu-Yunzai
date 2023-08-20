@@ -9,11 +9,6 @@ echo -e "\033[31m 请使用linux! \033[0m"
 exit 0
 fi
 
-if ! [ -f /etc/lsb-release ];then
-echo -e "\033[31m 请使用ubuntu! \033[0m"
-exit 0
-fi
-
 if [ "$(id -u)" != "0" ]; then
 echo -e "\033[31m 请使用root用户! \033[0m"
 exit 0
