@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.1.0
+export ver=6.1.1
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -58,9 +58,6 @@ if ! [ -x "$(command -v pm2)" ];then
     echo
 fi
 if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
-    if [ ! -e $HOME/.fox@bot/${name}/node_modules/icqq/package.json ];then
-        echo Y | pnpm install && echo Y | pnpm install -P
-    fi
     ICQQ_VERSION="$(pnpm list icqq | grep icqq | sed "s/icqq //g" )"
     case ${ICQQ_VERSION} in
     0.5.0|0.4.14|0.4.13|0.4.12)
@@ -127,6 +124,12 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     fi
 fi
 }
+function pkg(){
+if [ ! -e package.json ];then
+echo -e ${red}参数错误${background}
+exit
+fi
+}
 function help(){
 echo -e ${green}=============================${background}
 echo -e ${cyan} bhyz"      | "${blue}打开白狐脚本${background}
@@ -183,6 +186,7 @@ esac
 
 case "$2" in
 n)
+pkg
 QSIGN
 Redis=$(redis-cli ping)
 if ! [ "${Redis}" = "PONG" ]; then
@@ -193,6 +197,7 @@ node app
 exit
 ;;
 start)
+pkg
 QSIGN
 Redis=$(redis-cli ping)
 if ! [ "${Redis}" = "PONG" ]; then
@@ -203,23 +208,28 @@ pnpm run start
 exit
 ;;
 stop)
+pkg
 pnpm run stop
 exit
 ;;
 log)
+pkg
 pnpm run log
 exit
 ;;
 login)
+pkg
 pnpm run login
 exit
 ;;
 install)
+pkg
 pnpm install
 pnpm install "$3" -w
 exit
 ;;
 qsign)
+pkg
 sed -i '/sign_api_addr/d' config/config/bot.yaml
 sed -i "\$a\sign_api_addr: $3" config/config/bot.yaml
 API=$(grep sign_api_addr config/config/bot.yaml)
@@ -318,7 +328,7 @@ do
 done
 echo
 
-pkg_list=("tar" "xz-utils" "gzip")
+pkg_list=("tar" "xz-utils" "gzip" "pv")
 for pkg in ${pkg_list[@]}; do
 if ! dpkg -s ${pkg} >/dev/null 2>&1 ; then
     echo -e ${yellow}安装解压工具${pkg}${background}
@@ -482,7 +492,7 @@ if [ ! -d node ];then
 mkdir node
 fi
 echo -e ${yellow}正在解压二进制文件压缩包${background}
-tar -xf node.tar.xz -C node
+pv node.tar.xz|tar -xJf - -C node
 rm -rf /usr/local/node > /dev/null
 rm -rf /usr/local/node > /dev/null
 mv -f node/$(ls node) /usr/local/node

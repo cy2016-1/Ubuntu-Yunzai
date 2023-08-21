@@ -96,7 +96,7 @@ if [[ ! "${JAVA_VERSION}" == "1.8"* ]]; then
     rm -rf QSignServer/jdk 2&> /dev/null
     echo -e ${yellow}正在解压JDK文件,请耐心等候${background}
     mkdir jdk
-    tar -zxf jdk.tar.gz -C jdk
+    pv jdk.tar.gz | tar -zxf - -C jdk
     mv jdk/$(ls jdk) QSignServer/jdk
     rm -rf jdk.tar.gz
     rm -rf jdk
@@ -122,7 +122,7 @@ if ! [[ "$Nodsjs_Version" == "v16" || "$Nodsjs_Version" == "v18" ]]
     fi
     echo -e ${yellow}正在解压nodejs二进制文件压缩包${background}
     rm -rf $HOME/QSignServer/node
-    tar -xJf node.tar.xz -C node
+    pv node.tar.xz | tar -xJf - -C node
     mv -f node/$(ls node) $HOME/QSignServer/node
     rm -rf node.tar.xz
     rm -rf node
@@ -171,7 +171,7 @@ do
     echo -e ${red}下载失败 3秒后重试${background}
 done
 echo -e ${yellow}正在解压签名服务器压缩包${background}
-unzip -q qsign.zip -d qsign
+pv qsign.zip | unzip -q qsign.zip -d qsign
 rm -rf qsign.zip
 mv qsign/* $HOME/QSignServer/qsign${QSIGN_VERSION}
 rm -rf qsign
