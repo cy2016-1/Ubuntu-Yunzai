@@ -66,27 +66,27 @@ if ! grep -q "114.114.114.114" /etc/resolv.conf && grep -q "8.8.8.8" /etc/resolv
     echo "nameserver 8.8.8.8" >> /etc/resolv.conf
     echo -e ${yellow}DNS已修改为 114.114.114.114 8.8.8.8${background}
 fi
-if [ ! $(command -v git) ] || [ ! $(command -v wget) ] || [ ! $(command -v gzip) ] || [ ! $(command -v unzip) ] || [ ! $(command -v xz) ] || [ ! $(command -v tar) ];then
+if [ ! $(command -v git) ] || [ ! $(command -v wget) ] || [ ! $(command -v gzip) ] || [ ! $(command -v unzip) ] || [ ! $(command -v xz) ] || [ ! $(command -v tar) ] || [ ! $(command -v pv) ];then
     if [ $(command -v apt) ];then
         apt update -y
-        apt install -y git wget gzip unzip xz-utils tar
+        apt install -y git wget gzip unzip xz-utils tar pv
     elif [ $(command -v yum) ];then
         yum update -y
-        yum install -y git wget gzip unzip xz tar
+        yum install -y git wget gzip unzip xz tar pv
     elif [ $(command -v dnf) ];then
         dnf update -y
-        dnf install -y git wget gzip unzip xz
+        dnf install -y git wget gzip unzip xz pv
     elif [ $(command -v pacman) ];then
-        pacman -Sy --noconfirm --needed git wget gzip unzip xz tar
+        pacman -Sy --noconfirm --needed git wget gzip unzip xz tar pv
     elif [ $(command -v apk) ];then
         apk update
-        apk add git wget gzip unzip xz tar
+        apk add git wget gzip unzip xz tar pv
     fi
 fi
 JAVA_VERSION=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
 if [[ ! "${JAVA_VERSION}" == "1.8"* ]]; then
     rm -rf $HOME/QSignServer/jdk > /dev/null
-    until wget -O jdk.tar.gz -c ${JDK_URL}
+    until wget -q --show-progress -O jdk.tar.gz -c ${JDK_URL}
     do
       echo -e ${red}下载失败 ${green}正在重试${background}
     done
@@ -166,7 +166,7 @@ git clone --depth=1 ${txlib} ./txlib
 rm -rf txlib/.git txlib/README.md
 rm -rf $HOME/QSignServer/txlib > /dev/null
 mv -f txlib $HOME/QSignServer/txlib
-until wget -O qsign.zip -c ${QSIGN_URL}
+until wget -q --show-progress -O qsign.zip -c ${QSIGN_URL}
 do
     echo -e ${red}下载失败 3秒后重试${background}
 done
@@ -296,7 +296,7 @@ rm -rf $HOME/QSignServer/txlib > /dev/null
 git clone --depth=1 ${txlib} ./txlib
 rm -rf txlib/.git txlib/README.md
 mv -f txlib $HOME/QSignServer/txlib
-until wget -O qsign.zip -c ${QSIGN_URL}
+until wget -q --show-progress -O qsign.zip -c ${QSIGN_URL}
 do
     echo -e ${red}下载失败 3秒后重试${background}
 done
