@@ -135,6 +135,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 |摸鱼梦|13.5元|
 |小伟|10元|
 |好耶|10元|
+|彭于晏|10元|
 |蛇蛇天下第一|9.99元|
 |鱼|8.66元|
 |(ᗜ ˰ ᗜ)|7.67元|
