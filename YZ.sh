@@ -1,7 +1,7 @@
 #!/bin/bash
 sed -i "s/bash YZ.sh//g" $HOME/.bashrc
 rm YZ.sh > /dev/null
-sed -i 's/ports.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
+sed -i 's/ports.ubuntu.com/mirrors.bfsu.edu.cn/g' /etc/apt/sources.list
 apt update -y
 apt install eatmydata -y
 eatmydata apt install -y whiptail
