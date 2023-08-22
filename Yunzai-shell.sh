@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.1.1
+export ver=6.1.2
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -101,9 +101,11 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     if [ -e ${file2} ];then
         if ! grep -q "${equipment}" ${file2};then
             sed -i "s/$(grep platform ${file2})/${equipment}/g" ${file2}
+            sed -i "s/$(grep ver ${file2})//g" ${file2}
         fi
     fi
-    if pm2 show qsign${QSIGN_VERSION} | grep -q online
+    API=$(echo ${API} | sed 's/sign?key=fox//g' )
+    if pm2 list qsign${QSIGN_VERSION} | grep -q online
     then
         echo -e ${green}签名服务器 ${cyan}已启动${background}
             if curl -sL ${API} | grep -q ${version}
@@ -132,11 +134,11 @@ fi
 }
 function help(){
 echo -e ${green}=============================${background}
-echo -e ${cyan} bhyz"      | "${blue}打开白狐脚本${background}
+echo -e ${cyan} bh"        | "${blue}打开白狐脚本${background}
 echo -e ${cyan} help"      | "${blue}获取快捷命令${background}
 echo -e ${cyan} QS"        | "${blue}管理签名服务器${background}
 echo -e ${cyan} YZ/MZ/TZ"  | "${green}[大写]${blue}选择您要控制的对象${background}
-echo -e ${cyan} yz/mz/yz"  | "${green}[小写]${blue}进入相应的bot文件夹${background}
+echo -e ${cyan} yz/mz/tz"  | "${green}[小写]${blue}进入相应的bot文件夹${background}
 echo -e ${cyan} n"         | "${blue}前台启动${background}
 echo -e ${cyan} start"     | "${blue}后台启动${background}
 echo -e ${cyan} log"       | "${blue}打开日志${background}
