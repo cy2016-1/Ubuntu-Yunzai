@@ -995,6 +995,7 @@ number=$(${dialog_whiptail} \
 "56" "BlueArchive-plugin             碧蓝档案插件" \
 "57" "impart-pro-plugin              牛牛大作战" \
 "58" "Gi-plugin                      群互动插件" \
+"59" "MC-PLUGIN                      MC服务器插件" \
 3>&1 1>&2 2>&3)
 #clear
 _checklist=""
@@ -1063,6 +1064,7 @@ number=$(${dialog_whiptail} \
 "56" "BlueArchive-plugin             碧蓝档案插件" OFF \
 "57" "impart-pro-plugin              牛牛大作战" OFF \
 "58" "Gi-plugin                      群互动插件" OFF \
+"59" "MC-PLUGIN                      MC服务器插件" \
 3>&1 1>&2 2>&3)
 clear
 _checklist="_checklist"
@@ -1131,6 +1133,7 @@ echo -e ${green_red}55. ${cyan}qinghe-plugin"            "卿何插件${backgrou
 echo -e ${green_red}56. ${cyan}BlueArchive-plugin"       "碧蓝档案插件${background}
 echo -e ${green_red}57. ${cyan}impart-pro-plugin"        "牛牛大作战${background}
 echo -e ${green_red}58. ${cyan}Gi-plugin"                "群互动插件${background}
+echo -e ${green_red}59. ${cyan}MC-PLUGIN"                "MC服务器插件${background}
 echo 
 echo -e ${green}0. ${cyan}返回${background}
 echo "#####################################"
@@ -1456,7 +1459,7 @@ do
      Name=QQ频道插件
      Plugin=QQGuild-Plugin
      ghproxy_agency
-     Git=${ghproxy}https://github.com/2y8e9h22/QQGuild-Plugin
+     Git=https://gitee.com/Zyy955/QQGuild-plugin
      plugin_number=$(echo ${plugin_number} | sed "s/36//g")
      install_git_plugin${_checklist}
      ;;
@@ -1582,7 +1585,7 @@ do
      install_git_plugin${_checklist}
      ;;
    54)
-     Name=AI绘图插件
+     Name=mj绘图插件
      Plugin=mj-plugin
      Git=https://gitee.com/CikeyQi/mj-plugin.git
      plugin_number=$(echo ${plugin_number} | sed "s/54//g")
@@ -1614,6 +1617,27 @@ do
      Plugin=Gi-plugin
      Git=https://gitee.com/qiannqq/gi-plugin.git
      plugin_number=$(echo ${plugin_number} | sed "s/58//g")
+     install_git_plugin${_checklist}
+     ;;
+   59)
+     Name=MC服务器插件
+     Plugin=mc-plugin
+     Git=https://gitee.com/CikeyQi/mc-plugin.git
+     plugin_number=$(echo ${plugin_number} | sed "s/59//g")
+     install_git_plugin${_checklist}
+     ;;
+   60)
+     Name=名字插件
+     Plugin=mz-plugin
+     Git=https://gitee.com/xyb12345678qwe/mz-plugin.git
+     plugin_number=$(echo ${plugin_number} | sed "s/60//g")
+     install_git_plugin${_checklist}
+     ;;
+   61)
+     Name=涩图监听插件
+     Plugin=nsfwjs-plugin
+     Git=https://gitee.com/CikeyQi/nsfwjs-plugin.git
+     plugin_number=$(echo ${plugin_number} | sed "s/61//g")
      install_git_plugin${_checklist}
      ;;
    0)
