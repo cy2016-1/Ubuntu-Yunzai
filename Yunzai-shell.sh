@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.1.2
+export ver=6.1.3
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -271,25 +271,25 @@ esac
 ;;
 esac
 if [ ! "${up}" = "false" ];then
-version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bhyz.sh`
+version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bh.sh`
 if [ "$version" != "$ver" ]; then
-    rm /usr/local/bin/bhyz
+    rm /usr/local/bin/bh
     a=1
     function install(){
-    curl -o bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh
-    mv bhyz /usr/local/bin/bhyz
-    chmod +x /usr/local/bin/bhyz
+    curl -o bh https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh
+    mv bh /usr/local/bin/bh
+    chmod +x /usr/local/bin/bh
     }
     install > /dev/null 2>&1 &
     {
-       until command -v bhyz
+       until command -v bh
         do
           a=$(($a+1))
           sleep 0.05s
           echo ${a}
         done
     } | whiptail --gauge "检测到新版本 正在更新" 6 60 0
-    #if ! [ -x "/usr/local/bin/bhyz" ];then
+    #if ! [ -x "/usr/local/bin/bh" ];then
     #whiptail --title "白狐≧▽≦" --msgbox \
     #"安装失败 请检查网络" \
     # 8 25
@@ -299,12 +299,12 @@ if [ "$version" != "$ver" ]; then
     echo -e ${update_log}
     echo
     echo -en ${yellow}回车继续${background};read
-    if [ -x "/usr/local/bin/bhyz" ];then
+    if [ -x "/usr/local/bin/bh" ];then
     whiptail --title "白狐≧▽≦" --msgbox \
     "安装成功 祝您使用愉快!" \
     8 25
     fi
-    bhyz
+    bh
     exit
 fi
 fi
