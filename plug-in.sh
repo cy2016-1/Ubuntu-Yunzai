@@ -1064,7 +1064,7 @@ number=$(${dialog_whiptail} \
 "56" "BlueArchive-plugin             碧蓝档案插件" OFF \
 "57" "impart-pro-plugin              牛牛大作战" OFF \
 "58" "Gi-plugin                      群互动插件" OFF \
-"59" "MC-PLUGIN                      MC服务器插件" \
+"59" "MC-PLUGIN                      MC服务器插件" OFF \
 3>&1 1>&2 2>&3)
 clear
 _checklist="_checklist"
