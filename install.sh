@@ -33,23 +33,23 @@ if ! [ -x "$(command -v whiptail)" ]
     apt install whiptail -y
 fi
 
-if ! [ -e "/usr/local/bin/bhyz" ];then
+if ! [ -e "/usr/local/bin/bh" ];then
     a=1
     function install(){
-    curl -o bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh
-    mv bhyz /usr/local/bin/bhyz
-    chmod +x /usr/local/bin/bhyz
+    curl -o bh https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh
+    mv bh /usr/local/bin/bh
+    chmod +x /usr/local/bin/bh
     }
     install > /dev/null 2>&1 &
     {
-       until command -v bhyz
+       until command -v bh
         do
           a=$(($a+1))
           sleep 0.05s
           echo ${a}
         done
     } | whiptail --gauge "正在安装" 6 60 0
-    if [ -x "/usr/local/bin/bhyz" ];then
+    if [ -x "/usr/local/bin/bh" ];then
     whiptail --title "白狐≧▽≦" --msgbox \
     "安装成功 祝您使用愉快!" \
     8 25
@@ -58,24 +58,24 @@ if ! [ -e "/usr/local/bin/bhyz" ];then
     whiptail --title "白狐≧▽≦" --msgbox \
     "${Aword}" \
     10 50
-    bhyz
+    bh
 else
     a=1
     function install(){
-    curl -o bhyz https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh
-    mv bhyz /usr/local/bin/bhyz
-    chmod +x /usr/local/bin/bhyz
+    curl -o bh https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh
+    mv bh /usr/local/bin/bh
+    chmod +x /usr/local/bin/bh
     }
     install > /dev/null 2>&1 &
     {
-       until command -v bhyz
+       until command -v bh
         do
           a=$(($a+1))
           sleep 0.05s
           echo ${a}
         done
     } | whiptail --gauge "正在安装" 6 60 0
-    if [ -x "/usr/local/bin/bhyz" ];then
+    if [ -x "/usr/local/bin/bh" ];then
     whiptail --title "白狐≧▽≦" --msgbox \
     "安装成功 祝您使用愉快!" \
     8 25
@@ -84,5 +84,5 @@ else
     whiptail --title "白狐≧▽≦" --msgbox \
     "${Aword}" \
     10 50
-    bhyz
+    bh
 fi
