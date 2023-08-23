@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.1.5
+export ver=6.1.6
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -144,6 +144,7 @@ echo -e ${cyan} start"     | "${blue}后台启动${background}
 echo -e ${cyan} log"       | "${blue}打开日志${background}
 echo -e ${cyan} stop"      | "${blue}停止运行${background}
 echo -e ${cyan} login"     | "${blue}重新登陆${background}
+echo -e ${cyan} pi"        | "${blue}打开插件管理脚本${background}
 echo -e ${cyan} install"   | "${green}[依赖名] ${blue}安装依赖${background}
 echo -e ${cyan} qsign"     | "${green}[API链接] ${blue}填写签名服务器API${background}
 echo -e ${green}=============================${background}
@@ -183,6 +184,9 @@ exit
 ;;
 unup)
 up=false
+;;
+pi)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/plug-in.sh)
 ;;
 esac
 
