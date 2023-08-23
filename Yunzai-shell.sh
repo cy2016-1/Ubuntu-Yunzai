@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.1.4
+export ver=6.1.5
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -312,7 +312,6 @@ if [ "$version" != "$ver" ]; then
     如果发现此类情况 请立即向 \n
     QQ 1522099983 反应" \
     20 60
-    fi
     bh
     exit
 fi
