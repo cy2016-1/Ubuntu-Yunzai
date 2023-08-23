@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.1.3
+export ver=6.1.4
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -274,6 +274,7 @@ if [ ! "${up}" = "false" ];then
 version=`curl -s https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version-bh.sh`
 if [ "$version" != "$ver" ]; then
     rm /usr/local/bin/bh
+    rm /usr/local/bin/bhyz 2&> /dev/null
     a=1
     function install(){
     curl -o bh https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/Yunzai-shell.sh
@@ -303,6 +304,14 @@ if [ "$version" != "$ver" ]; then
     whiptail --title "白狐≧▽≦" --msgbox \
     "安装成功 祝您使用愉快!" \
     8 25
+    fi
+    whiptail --title "白狐≧▽≦" --msgbox \
+    "重要公告 \n
+    请不要将本脚本添加到任何 \n
+    [镜像][恢复包]等 进行打包分发 \n
+    如果发现此类情况 请立即向 \n
+    QQ 1522099983 反应" \
+    20 60
     fi
     bh
     exit
