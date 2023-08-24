@@ -74,7 +74,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 >删除白狐脚本的命令
 ```
-rm /usr/local/bin/bhyz
+rm /usr/local/bin/bh
 ```
 
 
