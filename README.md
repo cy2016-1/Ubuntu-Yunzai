@@ -62,11 +62,11 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 
 >打开白狐脚本的命令
 ```
-bhyz
+bh
 ```
 >获取白狐脚本帮助的命令
 ```
-bhyz help
+bh help
 ```
 >脚本打不开的修复命令
 ```
@@ -74,7 +74,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/install.sh)
 ```
 >删除白狐脚本的命令
 ```
-rm /usr/local/bin/bhyz
+rm /usr/local/bin/bh
 ```
 
 
