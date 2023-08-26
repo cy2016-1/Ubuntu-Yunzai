@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.1.6
+export ver=6.1.7
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -16,6 +16,12 @@ export purple="\033[35m"
 export cyan="\033[36m"
 export white="\033[37m"
 export background="\033[0m"
+if [ ! -e .bashrc ];then
+touch .bashrc
+fi
+if grep -q 'bh help' .bashrc ;then
+sed -i '$a\bh help' .bashrc
+fi
 if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
 if [ ! -d $HOME/.local/share/pnpm ];then
@@ -25,7 +31,13 @@ export PATH=$PATH:/root/.local/share/pnpm
 export PNPM_HOME=/root/.local/share/pnpm
 fi
 function QSIGN(){
+if [ -d $HOME/QSignServer/qsign117e ]
+then
 export QSIGN_VERSION="117e"
+elif [ -d $HOME/QSignServer/qsign119 ]
+then
+export QSIGN_VERSION="119"
+fi
 if [ -d $HOME/QSignServer/jdk ];then
 export PATH=$PATH:$HOME/QSignServer/jdk/bin
 export JAVA_HOME=$HOME/QSignServer/jdk
@@ -60,7 +72,7 @@ fi
 if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     ICQQ_VERSION="$(pnpm list icqq | grep icqq | sed "s/icqq //g" )"
     case ${ICQQ_VERSION} in
-    0.5.0|0.4.14|0.4.13|0.4.12)
+    0.5.2|0.5.1|0.5.0|0.4.14|0.4.13|0.4.12)
     export version=8.9.70
     ;;
     0.4.11)
@@ -104,7 +116,7 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
             sed -i "s/$(grep ver ${file2})//g" ${file2}
         fi
     fi
-    API=$(echo ${API} | sed 's/sign?key=fox//g' )
+    API=$(echo ${API} | sed "s#/sign?key=${key}##g" )
     if pm2 list qsign${QSIGN_VERSION} | grep -q online
     then
         echo -e ${green}签名服务器 ${cyan}已启动${background}
@@ -257,6 +269,7 @@ case $3 in
 esac
 ;;
 fix)
+pkg
 case $3 in
   bot)
   git fetch --all
