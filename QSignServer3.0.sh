@@ -221,8 +221,9 @@ echo -e  ${green}3.  ${cyan}HD: 8.9.68${background}
 echo -e  ${green}4.  ${cyan}HD: 8.9.70${background}
 echo -e  ${green}5.  ${cyan}HD: 8.9.71${background}
 echo -e  ${green}6.  ${cyan}HD: 8.9.73${background}
-echo -e  ${green}7.  ${cyan}TIM: 3.5.1${background}
-echo -e  ${green}8.  ${cyan}TIM: 3.5.2${background}
+echo -e  ${green}7.  ${cyan}HD: 8.9.76${background}
+echo -e  ${green}8.  ${cyan}TIM: 3.5.1${background}
+echo -e  ${green}9.  ${cyan}TIM: 3.5.2${background}
 echo "========================="
 echo -en ${green}请输入您的选项: ${background};read num
 case ${num} in
@@ -244,10 +245,13 @@ export version=8.9.71
 6|8.9.73)
 export version=8.9.73
 ;;
-7|5.3.1)
+7|8.9.76)
+export version=8.9.76
+;;
+8|5.3.1)
 export version=3.5.1
 ;;
-8|5.3.2)
+9|5.3.2)
 export version=3.5.2
 ;;
 *)
