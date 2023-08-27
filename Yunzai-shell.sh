@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.1.9
+export ver=6.2.0
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -624,7 +624,7 @@ if (whiptail --title "白狐" \
    --yesno "是否部署本地签名服务器?" 10 50)
    then
        export install_QSignServer=true
-       bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2.0.sh)
+       bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer3.0.sh)
 fi
 fi
 fi
@@ -1041,7 +1041,7 @@ bot_path
 main
 ;;
 4)
-bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2.0.sh)
+bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer3.0.sh)
 ;;
 5)
 Number=$(whiptail \
