@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.1.8
+export ver=6.1.9
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -160,7 +160,7 @@ echo -e ${green}=============================${background}
 }
 case "$1" in
 QS)
-bash <(curl https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2.0.sh)
+bash <(curl https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer3.0.sh)
 exit
 ;;
 YZ)
