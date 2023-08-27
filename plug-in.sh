@@ -996,6 +996,10 @@ number=$(${dialog_whiptail} \
 "57" "impart-pro-plugin              牛牛大作战" \
 "58" "Gi-plugin                      群互动插件" \
 "59" "MC-PLUGIN                      MC服务器插件" \
+"60" "mz-plugin                      名字插件" \
+"61" "nsfwjs-plugin                  涩图监听插件" \
+"62" "biscuit-plugin                 饼干插件" \
+"63" "xrk-plugin                     向日葵插件" \
 3>&1 1>&2 2>&3)
 #clear
 _checklist=""
@@ -1065,6 +1069,10 @@ number=$(${dialog_whiptail} \
 "57" "impart-pro-plugin              牛牛大作战" OFF \
 "58" "Gi-plugin                      群互动插件" OFF \
 "59" "MC-PLUGIN                      MC服务器插件" OFF \
+"60" "mz-plugin                      名字插件" OFF \
+"61" "nsfwjs-plugin                  涩图监听插件" OFF \
+"62" "biscuit-plugin                 饼干插件" OFF \
+"63" "xrk-plugin                     向日葵插件" OFF \
 3>&1 1>&2 2>&3)
 clear
 _checklist="_checklist"
@@ -1134,6 +1142,10 @@ echo -e ${green_red}56. ${cyan}BlueArchive-plugin"       "碧蓝档案插件${ba
 echo -e ${green_red}57. ${cyan}impart-pro-plugin"        "牛牛大作战${background}
 echo -e ${green_red}58. ${cyan}Gi-plugin"                "群互动插件${background}
 echo -e ${green_red}59. ${cyan}MC-PLUGIN"                "MC服务器插件${background}
+echo -e ${green_red}60. ${cyan}mz-plugin"                "名字插件${background}
+echo -e ${green_red}61. ${cyan}nsfwjs-plugin"            "涩图监听插件${background}
+echo -e ${green_red}62. ${cyan}biscuit-plugin"           "饼干插件${background}
+echo -e ${green_red}63. ${cyan}xrk-plugin"               "向日葵插件${background}
 echo 
 echo -e ${green}0. ${cyan}返回${background}
 echo "#####################################"
@@ -1638,6 +1650,20 @@ do
      Plugin=nsfwjs-plugin
      Git=https://gitee.com/CikeyQi/nsfwjs-plugin.git
      plugin_number=$(echo ${plugin_number} | sed "s/61//g")
+     install_git_plugin${_checklist}
+     ;;
+   62)
+     Name=饼干插件
+     Plugin=biscuit-plugin
+     Git=https://gitee.com/Yummy-cookie/biscuit-plugin
+     plugin_number=$(echo ${plugin_number} | sed "s/62//g")
+     install_git_plugin${_checklist}
+     ;;
+   63)
+     Name=向日葵插件
+     Plugin=xrk-plugin
+     Git=https://gitee.com/xrk114514/xrk-plugin
+     plugin_number=$(echo ${plugin_number} | sed "s/63//g")
      install_git_plugin${_checklist}
      ;;
    0)

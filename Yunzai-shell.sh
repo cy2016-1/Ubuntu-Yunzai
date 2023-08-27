@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.1.7
+export ver=6.1.8
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -16,12 +16,6 @@ export purple="\033[35m"
 export cyan="\033[36m"
 export white="\033[37m"
 export background="\033[0m"
-if [ ! -e .bashrc ];then
-touch .bashrc
-fi
-if grep -q 'bh help' .bashrc ;then
-sed -i '$a\bh help' .bashrc
-fi
 if [ -d /usr/local/node/bin ];then
 export PATH=$PATH:/usr/local/node/bin
 if [ ! -d $HOME/.local/share/pnpm ];then
@@ -100,8 +94,8 @@ if [ -d $HOME/QSignServer/qsign${QSIGN_VERSION} ];then
     host="$(grep -E host ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
     API="http://"${host}":"${port}"/sign?key="${key}
     API=$(echo ${API})
-    file1="$HOME/.fox@bot/${name}/config/config/bot.yaml"
-    file2="$HOME/.fox@bot/${name}/config/config/qq.yaml"
+    file1="$HOME/.fox@bot/${bot_name}/config/config/bot.yaml"
+    file2="$HOME/.fox@bot/${bot_name}/config/config/qq.yaml"
     equipment="platform: 2"
     if [ -e ${file1} ];then
         if ! grep -q "${API}" ${file1};then
@@ -170,12 +164,15 @@ bash <(curl https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2.0.s
 exit
 ;;
 YZ)
+export bot_name=Yunzai-Bot
 cd $HOME/Yunzai-Bot
 ;;
 MZ)
+export bot_name=Miao-Yunzai
 cd $HOME/Miao-Yunzai
 ;;
 TZ)
+export bot_name=TRSS-Yunzai
 cd $HOME/TRSS-Yunzai
 ;;
 yz)
@@ -595,7 +592,7 @@ fi
 export PUPPETEER_SKIP_DOWNLOAD='true'
 a=0
 echo -e ${yellow}正在使用pnpm安装依赖${background}
-cd ~/.fox@bot/${name}
+cd ~/.fox@bot/${bot_name}
 pnpm config set registry https://registry.npmmirror.com
 pnpm config set registry https://registry.npmmirror.com
 until echo "Y" | pnpm install -P && echo "Y" | pnpm install
@@ -611,8 +608,8 @@ do
 done
 pnpm uninstall puppeteer -w
 pnpm install puppeteer@19.0.0 -w
-if [ ! -e $HOME/.fox@bot/${name}/config/config/bot.yaml ];then
-cd ~/.fox@bot/${name}
+if [ ! -e $HOME/.fox@bot/${bot_name}/config/config/bot.yaml ];then
+cd ~/.fox@bot/${bot_name}
 echo -en ${yellow}正在初始化${background}
 pnpm run start
 sleep 5s
@@ -638,24 +635,24 @@ function install_Bot(){
 if (whiptail --title "白狐" \
    --yes-button "安装" \
    --no-button "返回" \
-   --yesno "${name}未安装，是否开始安装?" 10 50)
+   --yesno "${bot_name}未安装，是否开始安装?" 10 50)
    then
      if (whiptail --title "白狐" \
        --yes-button "Gitee" \
        --no-button "Github" \
-       --yesno "请选择${name}的下载服务器\n国内用户建议选择Gitee" 10 50)
+       --yesno "请选择${bot_name}的下载服务器\n国内用户建议选择Gitee" 10 50)
        then
-         if ! git clone --depth=1 ${Gitee} ~/.fox@bot/${name};then
+         if ! git clone --depth=1 ${Gitee} ~/.fox@bot/${bot_name};then
            echo -e ${red} 克隆失败 ${cyan}试试Github ${background}
            exit
          fi
        else
-         if ! git clone --depth=1 ${Github} ~/.fox@bot/${name};then
+         if ! git clone --depth=1 ${Github} ~/.fox@bot/${bot_name};then
            echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
            exit
          fi
      fi
-     ln -sf ~/.fox@bot/${name} ~/${name}
+     ln -sf ~/.fox@bot/${bot_name} ~/${bot_name}
 fi
 } #install_Yunzai_Bot
 #########################################################
@@ -665,13 +662,13 @@ if (whiptail --title "白狐" \
 --no-button "Github" \
 --yesno "请选择的miao-plugin下载服务器\n国内用户建议选择Gitee" 10 50)
   then
-    if ! git clone --depth=1 https://gitee.com/yoimiya-kokomi/miao-plugin.git ~/.fox@bot/${name}/plugins/miao-plugin
+    if ! git clone --depth=1 https://gitee.com/yoimiya-kokomi/miao-plugin.git ~/.fox@bot/${bot_name}/plugins/miao-plugin
     then
       echo -e ${red} 克隆失败 ${cyan}试试Github ${background}
       exit
     fi
   else
-    if ! git clone --depth=1 https://github.com/yoimiya-kokomi/miao-plugin.git ~/.fox@bot/${name}/plugins/miao-plugin
+    if ! git clone --depth=1 https://github.com/yoimiya-kokomi/miao-plugin.git ~/.fox@bot/${bot_name}/plugins/miao-plugin
     then
       echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
       exit
@@ -685,13 +682,13 @@ if (whiptail --title "白狐" \
 --no-button "Github" \
 --yesno "请选择的miao-plugin下载服务器\n国内用户建议选择Gitee" 10 50)
   then
-    if ! git clone --depth=1 https://gitee.com/TimeRainStarSky/Yunzai-genshin ~/.fox@bot/${name}/plugins/genshin
+    if ! git clone --depth=1 https://gitee.com/TimeRainStarSky/Yunzai-genshin ~/.fox@bot/${bot_name}/plugins/genshin
     then
       echo -e ${red} 克隆失败 ${cyan}试试Github ${background}
       exit
     fi
   else
-    if ! git clone --depth=1 git clone --depth 1 https://github.com/TimeRainStarSky/Yunzai-genshin ~/.fox@bot/${name}/plugins/genshin
+    if ! git clone --depth=1 git clone --depth 1 https://github.com/TimeRainStarSky/Yunzai-genshin ~/.fox@bot/${bot_name}/plugins/genshin
     then
       echo -e ${red} 克隆失败 ${cyan}试试Gitee ${background}
       exit
@@ -710,7 +707,7 @@ ErrorRepair=$(whiptail \
 20 40 10 \
 "1" "修复chromium启动失败" \
 "2" "降级puppeteer版本" \
-"3" "修改${name}主人qq" \
+"3" "修改${bot_name}主人qq" \
 "4" "修改登录设备" \
 "5" "修复redis数据库" \
 "6" "检查各项依赖" \
@@ -734,7 +731,7 @@ aptitude install -y chromium
 rm -rf /etc/apt/trusted.gpg
 mv -f /etc/apt/sources.list.bak /etc/apt/sources.list
 chromium > /dev/null
-cd ~/.fox@bot/${name}
+cd ~/.fox@bot/${bot_name}
 chromium_path=$(grep chromium_path: config/config/bot.yaml)
 sed -i "s/${chromium_path}/chromium_path: \/usr\/bin\/chromium/g" config/config/bot.yaml
 }
@@ -755,7 +752,7 @@ fi
 echo -e ${green}回车返回${background};read
 ;;
 2)
-cd ~/.fox@bot/${name}
+cd ~/.fox@bot/${bot_name}
 echo "Y" | pnpm install
 pnpm uninstall puppeteer
 pnpm install puppeteer@19.0.0 -w
@@ -763,7 +760,7 @@ node ./node_modules/puppeteer/install.js
 echo -e ${green}回车返回${background};read
 ;;
 3)
-cd ~/.fox@bot/${name}
+cd ~/.fox@bot/${bot_name}
 QQ=$(whiptail \
 --title "白狐≧▽≦" \
 --inputbox "请输入您要更改后的主人qq号" \
@@ -775,7 +772,7 @@ fi
 echo -e ${green}回车返回${background};read
 ;;
 4)
-cd ~/.fox@bot/${name}
+cd ~/.fox@bot/${bot_name}
 equipment=$(whiptail \
 --title "白狐≧▽≦" \
 --menu "请选择登录设备" \
@@ -793,11 +790,11 @@ then
 return
 fi
 new="platform: ${equipment}"
-file="~/.fox@bot/${name}/config/config/qq.yaml"
+file="~/.fox@bot/${bot_name}/config/config/qq.yaml"
 old_equipment="platform: [0-5]"
 new_equipment="platform: ${equipment}"
 sed -i "s/${old_equipment}/${new_equipment}/g" ${file}
-rm ~/.fox@bot/${name}/data/device.json
+rm ~/.fox@bot/${bot_name}/data/device.json
 echo -e ${green}回车返回${background};read
 ;;
 5)
@@ -827,16 +824,16 @@ baihu=$(whiptail \
 --title "白狐≧▽≦" \
 --menu "${ver},注意:第一次启动,请使用前台启动" \
 20 45 12 \
-"1" "打开${name}日志" \
-"2" "后台启动${name}" \
-"3" "停止${name}运行" \
-"4" "管理${name}插件" \
-"5" "${name}重新登陆" \
+"1" "打开${bot_name}日志" \
+"2" "后台启动${bot_name}" \
+"3" "停止${bot_name}运行" \
+"4" "管理${bot_name}插件" \
+"5" "${bot_name}重新登陆" \
 "6" "填写签名服务器" \
-"7" "前台启动${name}" \
-"8" "${name}报错修复" \
+"7" "前台启动${bot_name}" \
+"8" "${bot_name}报错修复" \
 "9" "帮助[实时更新]" \
-"10" "卸崽! 删除${name}" \
+"10" "卸崽! 删除${bot_name}" \
 "0" "返回" \
 3>&1 1>&2 2>&3)
 feedback=$?
@@ -846,7 +843,7 @@ return
 fi
 case ${baihu} in 
 1)
-cd ~/${name}
+cd ~/${bot_name}
 pnpm run log
 echo
 echo -en ${cyan}回车返回${background};read
@@ -857,15 +854,15 @@ if ! [ "${Redis}" = "PONG" ]; then
  nohup redis-server &
  echo
 fi
-cd ~/${name}
+cd ~/${bot_name}
 QSIGN
-if [ -e ~/${name}/config/config/qq.yaml ];then
+if [ -e ~/${bot_name}/config/config/qq.yaml ];then
 pnpm run start
-echo -e ${yellow}${name}启动完成 ${green}是否打开日志 ${cyan}[Y/n] ${background}
+echo -e ${yellow}${bot_name}启动完成 ${green}是否打开日志 ${cyan}[Y/n] ${background}
 read -p "" num
       case $num in
      Y|y)
-       cd ~/.fox@bot/${name}
+       cd ~/.fox@bot/${bot_name}
        pnpm run log
        echo
        echo -en ${cyan}回车返回${background};read
@@ -883,7 +880,7 @@ echo -en ${red}请使用前台启动后，在使用后台启动${background};rea
 fi
 ;;
 3)
-cd ~/${name}
+cd ~/${bot_name}
 pnpm stop
 echo
 echo -en ${cyan}回车返回${background};read
@@ -897,21 +894,21 @@ if ! [ "${Redis}" = "PONG" ]; then
  redis-server &
  echo
 fi
-cd ~/${name}
+cd ~/${bot_name}
 pnpm run login
 echo
 echo -en ${cyan}回车返回${background};read
 ;;
 6)
 #bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/version.sh)
-cd ~/${name}
+cd ~/${bot_name}
 git pull
 if (whiptail --title "白狐" \
 --yes-button "第三方签名服务器" \
 --no-button "返回" \
 --yesno "请选择签名服务器类型" 10 50)
   then
-    if [ -e $HOME/${name}/config/config/bot.yaml ]
+    if [ -e $HOME/${bot_name}/config/config/bot.yaml ]
     then
         #http://127.0.0.1:8080/sign
         #sign_api_addr: http://127.0.0.1:8080/sign?key=123456
@@ -934,7 +931,7 @@ if ! [ "${Redis}" = "PONG" ]; then
  redis-server --daemonize yes &
  echo
 fi
-cd ~/${name}
+cd ~/${bot_name}
 QSIGN
 pnpm run stop
 node app
@@ -948,7 +945,7 @@ error
 echo -en ${cyan} 正在咕咕 回车返回${background}
 ;;
 10)
-echo -e ${yellow}是否删除${red}${name}${cyan}[N/y] ${background};read -p "" num
+echo -e ${yellow}是否删除${red}${bot_name}${cyan}[N/y] ${background};read -p "" num
       case $num in
      Y|y)
        echo -e ${red}3${background}
@@ -957,11 +954,11 @@ echo -e ${yellow}是否删除${red}${name}${cyan}[N/y] ${background};read -p "" 
        sleep 1
        echo -e ${red}1${background}
        sleep 1
-       echo -e ${red}正在删除${name}${background}
-       rm -rf ~/${name} > /dev/null
-       rm -rf ~/${name} > /dev/null
-       rm -rf ~/.fox@bot/${name} > /dev/null
-       rm -rf ~/.fox@bot/${name} > /dev/null
+       echo -e ${red}正在删除${bot_name}${background}
+       rm -rf ~/${bot_name} > /dev/null
+       rm -rf ~/${bot_name} > /dev/null
+       rm -rf ~/.fox@bot/${bot_name} > /dev/null
+       rm -rf ~/.fox@bot/${bot_name} > /dev/null
        echo -en ${cyan}删除完成 回车返回${background};read
        ;;
      n|N)
@@ -979,9 +976,9 @@ esac
 }
 #########################################################
 function bot_path(){
-if ! [ -L ~/${name} ];then
-    mv ~/${name} ~/.fox@bot/${name}
-    ln -sf ~/.fox@bot/${name} ~/${name}
+if ! [ -L ~/${bot_name} ];then
+    mv ~/${bot_name} ~/.fox@bot/${bot_name}
+    ln -sf ~/.fox@bot/${bot_name} ~/${bot_name}
 fi
 }
 #########################################################
@@ -1008,10 +1005,10 @@ exit
 fi
 case ${Number} in
 1)
-name=Yunzai-Bot
+bot_name=Yunzai-Bot
 Gitee=https://gitee.com/yoimiya-kokomi/Yunzai-Bot.git
 #GithubYZ=https://github.com/yoimiya-kokomi/Yunzai-Bot.git
-if [ ! -d "/root/.fox@bot/${name}" ];then
+if [ ! -d "/root/.fox@bot/${bot_name}" ];then
 install_Bot
 install
 fi
@@ -1019,10 +1016,10 @@ bot_path
 main
 ;;
 2)
-name=Miao-Yunzai
+bot_name=Miao-Yunzai
 Gitee=https://gitee.com/yoimiya-kokomi/Miao-Yunzai.git
 Github=https://github.com/yoimiya-kokomi/Miao-Yunzai.git
-if [ ! -d "/root/.fox@bot/${name}" ];then
+if [ ! -d "/root/.fox@bot/${bot_name}" ];then
 install_Bot
 install_Miao_Plugin
 install
@@ -1031,10 +1028,10 @@ bot_path
 main
 ;;
 3)
-name=TRSS-Yunzai
+bot_name=TRSS-Yunzai
 Gitee=https://gitee.com/TimeRainStarSky/Yunzai.git
 Github=https://github.com/TimeRainStarSky/Yunzai.git
-if [ ! -d "/root/.fox@bot/${name}" ];then
+if [ ! -d "/root/.fox@bot/${bot_name}" ];then
 install_Bot
 install_Miao_Plugin
 install_Genshin
