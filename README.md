@@ -157,6 +157,7 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 |小白|2.1元|
 |好心人|2元|
 |想白佬的第N天|1.68元|
+|焦糖白茶.很吉利喵~|1.23|
 |承影|1元|
 |百草(白狐准新郎)|0.52元|
 |宵宫|0.4元|
