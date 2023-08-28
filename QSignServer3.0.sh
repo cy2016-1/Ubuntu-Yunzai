@@ -26,17 +26,17 @@ qsign_version="1.1.9"
 txlib="https://gitee.com/baihu433/txlib"
 case $(uname -m) in
 amd64|x86_64)
-JDK_URL="https://mirrors.tuna.tsinghua.edu.cn/Adoptium/11/jdk/x64/linux/OpenJDK11U-jdk_x64_linux_hotspot_11.0.20_8.tar.gz"
+JDK_URL="https://mirrors.tuna.tsinghua.edu.cn/Adoptium/8/jre/x64/linux/OpenJDK8U-jre_x64_linux_hotspot_8u382b05.tar.gz"
 node=x64
 ;;
 arm64|aarch64)
-JDK_URL="https://mirrors.tuna.tsinghua.edu.cn/Adoptium/11/jdk/aarch64/linux/OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.20_8.tar.gz"
+JDK_URL="https://mirrors.tuna.tsinghua.edu.cn/Adoptium/8/jre/aarch64/linux/OpenJDK8U-jre_aarch64_linux_hotspot_8u382b05.tar.gz"
 node=arm64
 ;;
 esac
-if [ -d $HOME/QSignServer/jdk ];then
-export PATH=$PATH:$HOME/QSignServer/jdk/bin
-export JAVA_HOME=$HOME/QSignServer/jdk
+if [ -d $HOME/QSignServer/jre ];then
+export PATH=$PATH:$HOME/QSignServer/jre/bin
+export JAVA_HOME=$HOME/QSignServer/jre
 fi
 if [ -d /usr/local/node/bin ];then
     if [ ! -d $HOME/.local/share/pnpm ];then
@@ -84,24 +84,24 @@ if [ ! $(command -v git) ] || [ ! $(command -v wget) ] || [ ! $(command -v gzip)
     fi
 fi
 JAVA_VERSION=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
-if [[ ! "${JAVA_VERSION}" == "11.*"* ]]; then
-    rm -rf $HOME/QSignServer/jdk > /dev/null
-    until wget -q --show-progress -O jdk.tar.gz -c ${JDK_URL}
+if [[ ! "${JAVA_VERSION}" == "1.8*"* ]]; then
+    rm -rf $HOME/QSignServer/jre > /dev/null
+    until wget -q --show-progress -O jre.tar.gz -c ${JDK_URL}
     do
       echo -e ${red}下载失败 ${green}正在重试${background}
     done
     if [ ! -d $HOME/QSignServer ];then
         mkdir QSignServer
     fi
-    rm -rf QSignServer/jdk 2&> /dev/null
+    rm -rf QSignServer/jre 2&> /dev/null
     echo -e ${yellow}正在解压JDK文件,请耐心等候${background}
-    mkdir jdk
-    pv jdk.tar.gz | tar -zxf - -C jdk
-    mv jdk/$(ls jdk) QSignServer/jdk
-    rm -rf jdk.tar.gz
-    rm -rf jdk
-    PATH=$PATH:$HOME/QSignServer/jdk/bin
-    export JAVA_HOME=$HOME/QSignServer/jdk
+    mkdir jre
+    pv jre.tar.gz | tar -zxf - -C jre
+    mv jre/$(ls jre) QSignServer/jre
+    rm -rf jre.tar.gz
+    rm -rf jre
+    PATH=$PATH:$HOME/QSignServer/jre/bin
+    export JAVA_HOME=$HOME/QSignServer/jre
 fi
 NODEJS_URL16=https://cdn.npmmirror.com/binaries/node/latest-v16.x/node-v16.20.0-linux-${node}.tar.xz
 NODEJS_URL18=https://cdn.npmmirror.com/binaries/node/latest-v18.x/node-v18.17.0-linux-${node}.tar.xz
@@ -306,14 +306,14 @@ echo -e ${yellow}正在更新签名服务器${background}
 rm -rf $HOME/QSignServer/qsign* > /dev/null
 rm -rf $HOME/QSignServer/txlib > /dev/null
 rm -rf qsign.zip txlib
-git clone --depth=1 ${txlib} ./txlib
+git clone --depth=1 ${txlib}
 rm -rf txlib/.git txlib/README.md
 mv -f txlib $HOME/QSignServer/txlib
 until wget -q --show-progress -O qsign.zip -c ${QSIGN_URL}
 do
     echo -e ${red}下载失败 3秒后重试${background}
 done
-unzip -q qsign.zip -d qsign
+pv qsign.zip | unzip -q qsign.zip -d qsign
 rm -rf qsign.zip
 mv qsign/$(ls qsign) $HOME/QSignServer/qsign${QSIGN_VERSION}
 rm -rf qsign
