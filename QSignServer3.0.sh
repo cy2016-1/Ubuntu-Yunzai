@@ -26,17 +26,17 @@ qsign_version="1.1.9"
 txlib="https://gitee.com/baihu433/txlib"
 case $(uname -m) in
 amd64|x86_64)
-JDK_URL="https://mirrors.tuna.tsinghua.edu.cn/Adoptium/8/jre/x64/linux/OpenJDK8U-jre_x64_linux_hotspot_8u382b05.tar.gz"
+JDK_URL="https://mirrors.tuna.tsinghua.edu.cn/Adoptium/8/jdk/x64/linux/OpenJDK8U-jdk_x64_linux_hotspot_8u382b05.tar.gz"
 node=x64
 ;;
 arm64|aarch64)
-JDK_URL="https://mirrors.tuna.tsinghua.edu.cn/Adoptium/8/jre/aarch64/linux/OpenJDK8U-jre_aarch64_linux_hotspot_8u382b05.tar.gz"
+JDK_URL="https://mirrors.tuna.tsinghua.edu.cn/Adoptium/8/jdk/aarch64/linux/OpenJDK8U-jdk_aarch64_linux_hotspot_8u382b05.tar.gz"
 node=arm64
 ;;
 esac
-if [ -d $HOME/QSignServer/jre ];then
-export PATH=$PATH:$HOME/QSignServer/jre/bin
-export JAVA_HOME=$HOME/QSignServer/jre
+if [ -d $HOME/QSignServer/jdk ];then
+export PATH=$PATH:$HOME/QSignServer/jdk/bin
+export JAVA_HOME=$HOME/QSignServer/jdk
 fi
 if [ -d /usr/local/node/bin ];then
     if [ ! -d $HOME/.local/share/pnpm ];then
@@ -85,23 +85,23 @@ if [ ! $(command -v git) ] || [ ! $(command -v wget) ] || [ ! $(command -v gzip)
 fi
 JAVA_VERSION=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
 if [[ ! "${JAVA_VERSION}" == "1.8*"* ]]; then
-    rm -rf $HOME/QSignServer/jre > /dev/null
-    until wget -q --show-progress -O jre.tar.gz -c ${JDK_URL}
+    rm -rf $HOME/QSignServer/jdk > /dev/null
+    until wget -q --show-progress -O jdk.tar.gz -c ${JDK_URL}
     do
       echo -e ${red}下载失败 ${green}正在重试${background}
     done
     if [ ! -d $HOME/QSignServer ];then
         mkdir QSignServer
     fi
-    rm -rf QSignServer/jre 2&> /dev/null
+    rm -rf QSignServer/jdk 2&> /dev/null
     echo -e ${yellow}正在解压JDK文件,请耐心等候${background}
-    mkdir jre
-    pv jre.tar.gz | tar -zxf - -C jre
-    mv jre/$(ls jre) QSignServer/jre
-    rm -rf jre.tar.gz
-    rm -rf jre
-    PATH=$PATH:$HOME/QSignServer/jre/bin
-    export JAVA_HOME=$HOME/QSignServer/jre
+    mkdir jdk
+    pv jdk.tar.gz | tar -zxf - -C jdk
+    mv jdk/$(ls jdk) QSignServer/jdk
+    rm -rf jdk.tar.gz
+    rm -rf jdk
+    PATH=$PATH:$HOME/QSignServer/jdk/bin
+    export JAVA_HOME=$HOME/QSignServer/jdk
 fi
 NODEJS_URL16=https://cdn.npmmirror.com/binaries/node/latest-v16.x/node-v16.20.0-linux-${node}.tar.xz
 NODEJS_URL18=https://cdn.npmmirror.com/binaries/node/latest-v18.x/node-v18.17.0-linux-${node}.tar.xz
@@ -162,7 +162,7 @@ if [[ -d $HOME/QSignServer/qsign* ]];then
 echo -e ${yellow}您已安装过签名服务器 请使用更新${background}
 exit
 fi
-git clone --depth=1 ${txlib} ./txlib
+git clone --depth=1 ${txlib}
 rm -rf txlib/.git txlib/README.md
 rm -rf $HOME/QSignServer/txlib > /dev/null
 mv -f txlib $HOME/QSignServer/txlib
@@ -178,15 +178,15 @@ rm -rf qsign
 API_LINK=["${cyan} ${qsign_version}"]
 port_=6666
 key_=fox
-for folder in $(ls $HOME/QSignServer/txlib)
+for folder in $(ls -d $HOME/QSignServer/txlib/*)
 do
-    file="$HOME/QSignServer/txlib/${folder}/config.json"
+    file="${folder}/config.json"
     port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
     sed -i "s/${port}/${port_}/g" ${file}
 done
-for file in $(ls $HOME/QSignServer/txlib)
+for folder in $(ls -d $HOME/QSignServer/txlib/*)
 do
-    file="$HOME/QSignServer/txlib/${file}/config.json"
+    file="${folder}/config.json"
     key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
     sed -i "s/${key}/${key_}/g" ${file}
 done
@@ -319,15 +319,15 @@ mv qsign/$(ls qsign) $HOME/QSignServer/qsign${QSIGN_VERSION}
 rm -rf qsign
 port_=6666
 key_=fox
-for folder in $(ls $HOME/QSignServer/txlib)
+for folder in $(ls -d $HOME/QSignServer/txlib/*)
 do
-    file="$HOME/QSignServer/txlib/${folder}/config.json"
+    file="${folder}/config.json"
     port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
     sed -i "s/${port}/${port_}/g" ${file}
 done
-for file in $(ls $HOME/QSignServer/txlib)
+for folder in $(ls -d $HOME/QSignServer/txlib/*)
 do
-    file="$HOME/QSignServer/txlib/${file}/config.json"
+    file="${folder}/config.json"
     key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
     sed -i "s/${key}/${key_}/g" ${file}
 done
@@ -350,11 +350,11 @@ if [ -z "${key_}" ]; then
     echo -en ${red}输入错误 回车返回${background};read
     return
 fi
-for file in $(ls $HOME/QSignServer/txlib)
+for folder in $(ls -d $HOME/QSignServer/txlib/*)
 do
-file="$HOME/QSignServer/txlib/${file}/config.json"
-key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
-sed -i "s/${key}/${key_}/g" ${file}
+    file="${folder}/config.json"
+    key="$(grep -E key ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/,//g" )"
+    sed -i "s/${key}/${key_}/g" ${file}
 done
 echo -en ${yellow}更改完成 回车返回${background};read
 }
@@ -365,11 +365,11 @@ if [ -z "${port_}" ]; then
     echo -en ${red}输入错误 回车返回${background};read
     return
 fi
-for folder in $(ls $HOME/QSignServer/txlib)
+for folder in $(ls -d $HOME/QSignServer/txlib/*)
 do
-file="$HOME/QSignServer/txlib/${folder}/config.json"
-port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
-sed -i "s/${port}/${port_}/g" ${file}
+    file="${folder}/config.json"
+    port="$(grep -E port ${file} | awk '{print $2}' | sed "s/\"//g" | sed "s/://g" )"
+    sed -i "s/${port}/${port_}/g" ${file}
 done
 echo -en ${yellow}更改完成 回车返回${background};read
 }
