@@ -176,7 +176,7 @@ rm -rf qsign.zip
 mv qsign/* $HOME/QSignServer/qsign${QSIGN_VERSION}
 rm -rf qsign
 API_LINK=["${cyan} ${qsign_version}"]
-port_=6666
+port_=5200
 key_=fox
 for folder in $(ls -d $HOME/QSignServer/txlib/*)
 do
@@ -317,7 +317,7 @@ pv qsign.zip | unzip -q qsign.zip -d qsign
 rm -rf qsign.zip
 mv qsign/$(ls qsign) $HOME/QSignServer/qsign${QSIGN_VERSION}
 rm -rf qsign
-port_=6666
+port_=5200
 key_=fox
 for folder in $(ls -d $HOME/QSignServer/txlib/*)
 do
