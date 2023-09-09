@@ -591,6 +591,7 @@ choose_page
 }  #main
 #########################################################
 function install_git_plugin(){
+git=$(echo ${Git} | sed 's/-b home//g')
 function dialog_whiptail_page(){
 if [ -d plugins/${Plugin} ]
   then
@@ -614,7 +615,7 @@ if [ -d plugins/${Plugin} ]
     --title "白狐-Bot-Plugin" \
     --yes-button "安装" \
     --no-button "返回" \
-    --yesno "确认要安装这个插件吗？\n插件名: ${Name} \n插件URL: ${Git}" \
+    --yesno "确认要安装这个插件吗？\n插件名: ${Name} \n插件URL: ${git}" \
     10 60)
     then
     #clear
@@ -664,7 +665,7 @@ if [ -d plugins/${Plugin} ]
      esac
   else
     #clear
-    echo -e ${green}插件名: ${yellow}${Name} '\n'${green}插件URL: ${yellow}${Git}'\n'${background}
+    echo -e ${green}插件名: ${yellow}${Name} '\n'${green}插件URL: ${yellow}${git}'\n'${background}
     echo
     echo -en ${cyan}回车继续${background};read
     echo "=================================="
@@ -689,6 +690,7 @@ choose_page
 } #install_git_plugin
 #########################################################
 function install_git_plugin_checklist(){
+git=$(echo ${Git} | sed 's/-b home//g')
 function dialog_whiptail_page(){
 if [ -d plugins/${Plugin} ]
   then
@@ -711,14 +713,8 @@ if [ -d plugins/${Plugin} ]
     fi
   else
     #clear
-    if (${dialog_whiptail} \
-    --title "白狐-Bot-Plugin" \
-    --yes-button "安装" \
-    --no-button "返回" \
-    --yesno "确认要安装这个插件吗？\n插件名: ${Name} \n插件URL: ${Git}" \
-    10 60)
-    then
-    #clear
+    echo -e ${green}插件名: ${yellow}${Name}${background}
+    echo -e ${green}插件URL: ${yellow}${git}${background}
     echo
     echo "=================================="
     echo 正在安装${Name}，稍安勿躁～
@@ -739,7 +735,6 @@ if [ -d plugins/${Plugin} ]
           echo;echo -en ${red}安装被取消${background}
           echo
       fi
-    fi
 fi
 } #dialog_whiptail_page
 function echo_page(){
@@ -774,7 +769,7 @@ if [ -d plugins/${Plugin} ]
     #echo -e ${green}插件名: ${yellow}${Name} '\n'${green}插件URL: ${yellow}${Git}'\n'${background}
     echo
     echo -e ${green}插件名: ${yellow}${Name}${background}
-    echo -e ${green}插件URL: ${yellow}${Git}${background}
+    echo -e ${green}插件URL: ${yellow}${git}${background}
     echo
     echo "=================================="
     echo 正在安装${Name}，稍安勿躁～
@@ -943,7 +938,9 @@ number=$(${dialog_whiptail} \
 "4" "zhi-plugin                     白纸插件" \
 "5" "xitian-plugin                  戏天插件" \
 "6" "Akasha-Terminal-plugin         虚空插件" \
-"7" "xiuxian-emulator-plugin        绝云间修仙插件" \
+"7a" "xiuxian-plugin                 修仙插件" \
+"7b" "xiuxian-association            修仙-宗门" \
+"7c" "xiuxian-home                   修仙-家园" \
 "8" "Yenai-Plugin                   椰奶插件" \
 "9" "xiaofei-plugin                 小飞插件" \
 "10" "earth-k-plugin                 土块插件" \
@@ -1016,7 +1013,9 @@ number=$(${dialog_whiptail} \
 "4" "zhi-plugin                     白纸插件" OFF \
 "5" "xitian-plugin                  戏天插件" OFF \
 "6" "Akasha-Terminal-plugin         虚空插件" OFF \
-"7" "xiuxian-emulator-plugin        绝云间修仙插件" OFF \
+"7a" "xiuxian-plugin                 修仙插件" OFF \
+"7b" "xiuxian-association            修仙-宗门" OFF \
+"7c" "xiuxian-home                   修仙-家园" OFF \
 "8" "Yenai-Plugin                   椰奶插件" OFF \
 "9" "xiaofei-plugin                 小飞插件" OFF \
 "10" "earth-k-plugin                 土块插件" OFF \
@@ -1089,7 +1088,9 @@ echo -e ${green_red}3.  ${cyan}Guoba-Plugin"              "锅巴插件${backgro
 echo -e ${green_red}4.  ${cyan}zhi-plugin"                "白纸插件${background}
 echo -e ${green_red}5.  ${cyan}xitian-plugin"             "戏天插件${background}
 echo -e ${green_red}6.  ${cyan}Akasha-Terminal-plugin"    "虚空插件${background}
-echo -e ${green_red}7.  ${cyan}xiuxian-emulator-plugin"   "绝云间修仙插件${background}
+echo -e ${green_red}7a.  ${cyan}xiuxian-plugin"           "修仙插件${background}
+echo -e ${green_red}7b.  ${cyan}xiuxian-association"      "修仙-宗门${background}
+echo -e ${green_red}7c.  ${cyan}xiuxian-home"             "修仙-家园${background}
 echo -e ${green_red}8.  ${cyan}Yenai-Plugin"              "椰奶插件${background}
 echo -e ${green_red}9.  ${cyan}xiaofei-plugin"            "小飞插件${background}
 echo -e ${green_red}10. ${cyan}earth-k-plugin"           "土块插件${background}
@@ -1217,12 +1218,26 @@ do
      plugin_number=$(echo ${plugin_number} | sed "s/6//g")
      install_git_plugin${_checklist}
      ;;
-   7)
-     Name=绝云间修仙
-     Plugin=xiuxian-emulator-plugin
-     Git=https://gitee.com/xialuo03/xiuxian-emulator-plugin.git
-     plugin_number=$(echo ${plugin_number} | sed "s/7//g")
-     install_git_plugin${_checklist}
+   7a)
+     Name=修仙插件
+     Plugin=xiuxian-2.0
+     Git=https://gitee.com/ningmengchongshui/xiuxian-plugin.git
+     plugin_number=$(echo ${plugin_number} | sed "s/7a//g")
+     install_git_plugin${_checklis}
+     ;;
+   7b)
+     Name=修仙插件-宗门扩展
+     Plugin=xiuxian-association
+     Git=https://gitee.com/mg1105194437/xiuxian-association-plugin.git
+     plugin_number=$(echo ${plugin_number} | sed "s/7b//g")
+     install_git_plugin${_checklis}
+     ;;
+   7c)
+     Name=修仙插件-家园扩展
+     Plugin=xiuxian-home
+     Git="-b home https://gitee.com/ningmengchongshui/xiuxian-plugin.git"
+     plugin_number=$(echo ${plugin_number} | sed "s/7c//g")
+     install_git_plugin${_checklis}
      ;;
    8)
      Name=椰奶插件
