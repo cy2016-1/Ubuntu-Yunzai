@@ -132,9 +132,11 @@ bash <(curl -sL https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/QSignServer2
 |╲ゝ丶瞳少|<strong>20</strong>元|<br>
 |小吉祥草王|<strong>20</strong>元|<br>
 |慕言|<strong>19.05</strong>元|<br>
+|木西|<strong>15</strong>元|<br>
 |摸鱼梦|13.5元|
 |小伟|10元|
 |好耶|10元|
+|千|10元|
 |彭于晏|10元|
 |蛇蛇天下第一|9.99元|
 |鱼|8.66元|
