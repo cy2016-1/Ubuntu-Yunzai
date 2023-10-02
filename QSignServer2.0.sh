@@ -8,6 +8,12 @@ export cyan="\033[36m"
 export white="\033[37m"
 export background="\033[0m"
 cd $HOME
+
+echo -e ${yellow} - ${cyan}此脚本已停止维护${background}
+echo -e ${yellow} - ${cyan}请到 ${green}https://gtiee.com/baihu433/Yunzai-Bot-Shell${cyan}获取新脚本${background}
+echo -e ${yellow} - ${cyan}如有疑问 请添加QQ群聊${green}879718035 ${cyan}获取帮助${background}
+exit
+
 if [ "$(uname -o)" = "Android" ];then
 echo -e ${red}你是大聪明吗?${background}
 exit

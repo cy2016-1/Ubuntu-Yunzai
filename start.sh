@@ -17,10 +17,10 @@ sleep 2s
 termux-wake-lock
 sleep 2s
 echo 'deb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main' > $PREFIX/etc/apt/sources.list
-yes Y | pkg update -y && pkg upgrade -y
+yes Y | apt update -y && apt upgrade -y
 echo 'deb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main' > $PREFIX/etc/apt/sources.list
-pkg update -y
-pkg install git wget proot-distro -y
+yes Y | apt update -y && apt upgrade -y
+apt install git wget proot-distro -y
 echo "proot-distro login ubuntu" > $PREFIX/bin/U
 chmod +x $PREFIX/bin/U
 if ! [ -d "../usr/var/lib/proot-distro/dlcache" ];then
@@ -41,10 +41,7 @@ case $(uname -m) in
     exit
     ;;
 esac
-until wget -O ubuntu-${ubuntu}-pd-v3.10.0.tar.xz -c https://ghproxy.com/https://github.com/termux/proot-distro/releases/download/v3.10.0/ubuntu-${ubuntu}-pd-v3.10.0.tar.xz
-do
-echo -e "\033[31m下载失败 重试中\033[0m"
-done
+wget -O ubuntu-${ubuntu}-pd-v3.10.0.tar.xz -c https://ghproxy.com/https://github.com/termux/proot-distro/releases/download/v3.10.0/ubuntu-${ubuntu}-pd-v3.10.0.tar.xz
 mv -f ubuntu-${ubuntu}-pd-v3.10.0.tar.xz ../usr/var/lib/proot-distro/dlcache
 proot-distro install ubuntu
 wget -O YZ.sh https://gitee.com/baihu433/Ubuntu-Yunzai/raw/master/YZ.sh

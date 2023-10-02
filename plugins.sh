@@ -6,6 +6,10 @@ purple="\033[35m"
 cyan="\033[36m"
 white="\033[37m"
 background="\033[0m"
+echo -e ${yellow} - ${cyan}此脚本已停止维护${background}
+echo -e ${yellow} - ${cyan}请到 ${green}https://gtiee.com/baihu433/Yunzai-Bot-Shell${cyan}获取新脚本${background}
+echo -e ${yellow} - ${cyan}如有疑问 请添加QQ群聊${green}879718035 ${cyan}获取帮助${background}
+exit
 function main(){
 function ghproxy_agency(){
 function dialog_whiptail_page(){

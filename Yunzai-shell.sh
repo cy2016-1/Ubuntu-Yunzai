@@ -7,7 +7,7 @@
 #   Git=github
 #fi
 cd $HOME
-export ver=6.2.0
+export ver=6.2.1
 export red="\033[31m"
 export green="\033[32m"
 export yellow="\033[33m"
@@ -16,8 +16,45 @@ export purple="\033[35m"
 export cyan="\033[36m"
 export white="\033[37m"
 export background="\033[0m"
+echo -e ${yellow} - ${cyan}此脚本已停止维护 正在切换新脚本${background}
+echo
+echo -e ${yellow} - ${green}正在获取版本信息${background}
+URL=https://gitee.com/baihu433/Yunzai-Bot-Shell/raw/master/version
+version_date=$(curl ${URL})
+version="$(echo ${version_date} | grep version | awk '{print $2}' )"
+date="$(echo ${version_date} | grep date | awk '{print $2}' )"
+echo -e ${yellow} - ${green}获取成功${background}
+echo
+echo -e ${white}=========================${background}
+echo -e ${red}" "白狐 ${yellow}BOT ${green}Install ${cyan}Script ${background}
+echo -e "  "————"  "————"  "————"  "————"  "
+echo -e ${green}" "版本:" "v${version} ${cyan}\(${date}\) ${background}
+echo -e ${green}" "作者:" "${cyan}白狐"   "\(baihu433\) ${background}
+echo -e ${white}=========================${background}
+echo
+echo -e ${yellow} - ${cyan}正在安装${background}
+curl -sL https://gitee.com/baihu433/Yunzai-Bot-Shell/raw/master/Manage/Mian.sh > bh
+mv -f bh /usr/local/bin/bh
+chmod +x /usr/local/bin/bh
+echo
+if ! bh help > /dev/null 2>&1;then
+    echo -e ${yellow} - ${red}安装失败${background}
+        echo -e ${yellow} - ${cyan}正在尝试解决${background}
+    old_bh_bash='#!/bin/env bash'
+    new_bh_bash=$(which bash)
+    sed -i "s|${old_bh_bash}|#!${new_bh_bash}|g" /usr/local/bin/bh
+    if ! bh help > /dev/null 2>&1;then
+        echo -e ${yellow} - ${yellow}解决成功${background}
+        echo -e ${yellow} - ${cyan}请使用 ${green}bh ${cyan}命令 打开脚本${background}
+    fi
+fi
+echo -e ${yellow} - ${yellow}安装成功${background}
+echo -e ${yellow} - ${cyan}请使用 ${green}bh ${cyan}命令 打开脚本${background}
+echo -e ${yellow} - ${cyan}如有疑问 请添加QQ群聊${green}879718035 ${cyan}获取帮助${background}
+exit
+
 if [ -d /usr/local/node/bin ];then
-export PATH=$PATH:/usr/local/node/bin
+    export PATH=$PATH:/usr/local/node/bin
 if [ ! -d $HOME/.local/share/pnpm ];then
     mkdir -p $HOME/.local/share/pnpm
 fi
