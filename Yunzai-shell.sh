@@ -33,6 +33,7 @@ echo -e ${green}" "作者:" "${cyan}白狐"   "\(baihu433\) ${background}
 echo -e ${white}=========================${background}
 echo
 echo -e ${yellow} - ${cyan}正在安装${background}
+bash <(curl -sL https://gitee.com/baihu433/Yunzai-Bot-Shell/raw/master/Manage/BOT-PKG.sh)
 curl -sL https://gitee.com/baihu433/Yunzai-Bot-Shell/raw/master/Manage/Mian.sh > bh
 mv -f bh /usr/local/bin/bh
 chmod +x /usr/local/bin/bh
