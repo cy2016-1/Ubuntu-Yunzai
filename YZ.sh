@@ -1,4 +1,8 @@
 #!/bin/bash
+echo -e ${yellow} - ${cyan}此脚本已停止维护${background}
+echo -e ${yellow} - ${cyan}请到 ${green}https://gtiee.com/baihu433/Yunzai-Bot-Shell${cyan}获取新脚本${background}
+echo -e ${yellow} - ${cyan}如有疑问 请添加QQ群聊${green}879718035 ${cyan}获取帮助${background}
+exit
 sed -i "s/bash YZ.sh//g" $HOME/.bashrc
 rm YZ.sh > /dev/null
 sed -i 's/ports.ubuntu.com/mirrors.bfsu.edu.cn/g' /etc/apt/sources.list

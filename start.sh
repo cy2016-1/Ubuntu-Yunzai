@@ -4,6 +4,10 @@ if ! [ "$(uname -o)" = "Android" ]; then
 	echo "看来你是大聪明 加Q群获取帮助吧 596660282"
 	exit
 fi
+echo -e ${yellow} - ${cyan}此脚本已停止维护${background}
+echo -e ${yellow} - ${cyan}请到 ${green}https://gtiee.com/baihu433/Yunzai-Bot-Shell${cyan}获取新脚本${background}
+echo -e ${yellow} - ${cyan}如有疑问 请添加QQ群聊${green}879718035 ${cyan}获取帮助${background}
+exit
 if [ -d "../usr/var/lib/proot-distro/installed-rootfs/ubuntu/root/" ];then
 echo
 echo -e "\033[32m检测到您已经安装ubuntu\033[0m"
